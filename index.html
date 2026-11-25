@@ -1,0 +1,2769 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>つたわるボード / Bảng Giao Tiếp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #f4f7fb;
+      --bg-pattern: radial-gradient(#d8e3f0 1.2px, transparent 1.2px);
+      --surface: #ffffff;
+      --ink: #1e293b;
+      --ink-sub: #475569;
+      --line: #cbd5e1;
+      --primary: #0f766e;
+      --primary-dark: #115e59;
+      --primary-soft: #ccfbf1;
+      --accent: #d97706;
+      --accent-dark: #b45309;
+      --accent-soft: #fef3c7;
+      --danger: #dc2626;
+      --danger-dark: #991b1b;
+      --danger-soft: #fee2e2;
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-soft: #dbeafe;
+      --purple: #7c3aed;
+      --purple-dark: #5b21b6;
+      --purple-soft: #ede9fe;
+      --green: #15803d;
+      --green-dark: #166534;
+      --green-soft: #dcfce7;
+      --radius: 13px;
+      --shadow: 0 3px 0 rgba(30, 41, 59, 0.14);
+      --shadow-sm: 0 2px 0 rgba(30, 41, 59, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      font-family: 'Zen Maru Gothic', sans-serif;
+      color: var(--ink);
+      background-color: var(--bg-base);
+      background-image: var(--bg-pattern);
+      background-size: 20px 20px;
+      user-select: none;
+    }
+
+    input, textarea {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      user-select: text;
+    }
+
+    ruby rt {
+      font-size: 0.55em;
+      font-weight: 700;
+      color: inherit;
+      opacity: 0.92;
+    }
+
+    /* テストモード専用要素（通常時は完全非表示） */
+    .test-only {
+      display: none !important;
+    }
+
+    body.is-test-mode .test-only {
+      display: inline-flex !important;
+    }
+
+    .test-only-flex {
+      display: none !important;
+    }
+
+    body.is-test-mode .test-only-flex {
+      display: flex !important;
+    }
+
+    /* 16:9 Chromebook 1画面完結シェル */
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 6px 12px 8px;
+      gap: 6px;
+    }
+
+    /* ヘッダー */
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      padding: 5px 10px;
+      box-shadow: var(--shadow-sm);
+      flex-shrink: 0;
+      gap: 8px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+    }
+
+    .brand-title {
+      font-size: 0.98rem;
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--primary-dark);
+    }
+
+    .brand-sub {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--ink-sub);
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 6px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 2px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--ink);
+      font-family: 'Zen Maru Gothic', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background-color 0.15s ease;
+      padding: 5px 11px;
+      font-size: 0.88rem;
+      white-space: nowrap;
+      line-height: 1.15;
+    }
+
+    .btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 rgba(30, 41, 59, 0.14);
+    }
+
+    .btn-col {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      line-height: 1.12;
+    }
+
+    .btn-col-center {
+      align-items: center;
+      text-align: center;
+    }
+
+    .sub-vi {
+      font-size: 0.72em;
+      font-weight: 700;
+      opacity: 0.88;
+      display: block;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary-dark);
+      color: #ffffff;
+    }
+
+    .btn-blue {
+      background: var(--blue);
+      border-color: var(--blue-dark);
+      color: #ffffff;
+    }
+
+    .btn-green {
+      background: var(--green);
+      border-color: var(--green-dark);
+      color: #ffffff;
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      border-color: var(--accent-dark);
+      color: #ffffff;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      border-color: var(--danger-dark);
+      color: #ffffff;
+    }
+
+    .btn-purple {
+      background: var(--purple);
+      border-color: var(--purple-dark);
+      color: #ffffff;
+    }
+
+    .nav-tab {
+      padding: 5px 14px;
+      font-size: 0.9rem;
+    }
+
+    .nav-tab.is-active {
+      background: var(--primary);
+      border-color: var(--primary-dark);
+      color: #ffffff;
+    }
+
+    .header-tools {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-test-trigger {
+      padding: 5px 9px;
+      font-size: 0.78rem;
+      color: var(--ink-sub);
+      background: #f8fafc;
+    }
+
+    body.is-test-mode .btn-test-trigger {
+      background: var(--purple);
+      border-color: var(--purple-dark);
+      color: #ffffff;
+    }
+
+    /* 個人情報保護 常時バー */
+    .privacy-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #fff7ed;
+      border: 2px solid #fdba74;
+      border-radius: 9px;
+      padding: 3px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #9a3412;
+      flex-shrink: 0;
+    }
+
+    /* テストモード中バナー */
+    .test-banner {
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: var(--purple-soft);
+      border: 2px solid var(--purple);
+      border-radius: 9px;
+      padding: 3px 12px;
+      font-size: 0.8rem;
+      font-weight: 900;
+      color: var(--purple-dark);
+      flex-shrink: 0;
+    }
+
+    /* メイン領域 */
+    .main-area {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .view-panel {
+      display: none;
+      flex: 1;
+      min-height: 0;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .view-panel.is-visible {
+      display: flex;
+    }
+
+    /* ==================== モード1: きもち・SOSカード ==================== */
+    .stage-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      border: 3px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 8px 14px;
+      box-shadow: var(--shadow);
+      gap: 10px;
+      flex-shrink: 0;
+      min-height: 68px;
+    }
+
+    .stage-texts {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .stage-vi {
+      font-size: 1.42rem;
+      font-weight: 900;
+      color: var(--primary-dark);
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .stage-ja {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .stage-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .cat-bar {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .cat-tab {
+      flex: 1;
+      padding: 6px 8px;
+      font-size: 0.9rem;
+    }
+
+    .cat-tab[data-cat="sos"].is-active { background: var(--danger); border-color: var(--danger-dark); color: #fff; }
+    .cat-tab[data-cat="class"].is-active { background: var(--blue); border-color: var(--blue-dark); color: #fff; }
+    .cat-tab[data-cat="life"].is-active { background: var(--accent); border-color: var(--accent-dark); color: #fff; }
+    .cat-tab[data-cat="friend"].is-active { background: var(--purple); border-color: var(--purple-dark); color: #fff; }
+
+    .cards-container {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+    }
+
+    .card-grid {
+      display: none;
+      width: 100%;
+      height: 100%;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .card-grid.is-visible {
+      display: grid;
+    }
+
+    .sos-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface);
+      border: 2.5px solid var(--line);
+      border-left-width: 8px;
+      border-radius: var(--radius);
+      padding: 8px 12px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      text-align: left;
+      font-family: 'Zen Maru Gothic', sans-serif;
+      transition: transform 0.08s ease, box-shadow 0.08s ease;
+      overflow: hidden;
+    }
+
+    .sos-card:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 rgba(30, 41, 59, 0.14);
+    }
+
+    .sos-card.cat-sos { border-left-color: var(--danger); background: #fffafa; }
+    .sos-card.cat-class { border-left-color: var(--blue); background: #f8fbff; }
+    .sos-card.cat-life { border-left-color: var(--accent); background: #fffdf5; }
+    .sos-card.cat-friend { border-left-color: var(--purple); background: #faf8ff; }
+
+    .sos-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cat-sos .sos-card-icon { background: var(--danger-soft); color: var(--danger-dark); }
+    .cat-class .sos-card-icon { background: var(--blue-soft); color: var(--blue-dark); }
+    .cat-life .sos-card-icon { background: var(--accent-soft); color: var(--accent-dark); }
+    .cat-friend .sos-card-icon { background: var(--purple-soft); color: var(--purple-dark); }
+
+    .sos-card-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .sos-card-vi {
+      font-size: 1.06rem;
+      font-weight: 900;
+      color: var(--primary-dark);
+      line-height: 1.25;
+    }
+
+    .sos-card-ja {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-top: 3px;
+      line-height: 1.25;
+    }
+
+    /* ==================== モード2: 授業連携（ROOM 1〜6 双方向ライブ） ==================== */
+    .room-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      padding: 6px 10px;
+      gap: 8px;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+
+    .role-switch {
+      display: flex;
+      gap: 5px;
+    }
+
+    .role-btn-teacher.is-active {
+      background: var(--blue);
+      border-color: var(--blue-dark);
+      color: #ffffff;
+    }
+
+    .role-btn-student.is-active {
+      background: var(--green);
+      border-color: var(--green-dark);
+      color: #ffffff;
+    }
+
+    .room-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .room-select-group {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .room-btn {
+      padding: 5px 9px;
+      font-size: 0.84rem;
+      font-weight: 900;
+      background: #f8fafc;
+    }
+
+    .room-btn.is-active {
+      background: var(--accent);
+      border-color: var(--accent-dark);
+      color: #ffffff;
+    }
+
+    .room-btn:disabled {
+      opacity: 0.38;
+      cursor: not-allowed;
+    }
+
+    .room-btn.is-active:disabled {
+      opacity: 1;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      border: 1.5px solid var(--line);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #94a3b8;
+    }
+
+    .status-dot.is-online {
+      background: #16a34a;
+      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.25);
+    }
+
+    .role-panel {
+      display: none;
+      flex: 1;
+      min-height: 0;
+      gap: 8px;
+    }
+
+    .role-panel.is-visible {
+      display: flex;
+    }
+
+    /* 教員機レイアウト */
+    .teacher-layout {
+      flex-direction: row;
+    }
+
+    .teacher-left {
+      flex: 1.1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .teacher-right {
+      flex: 0.9;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .teacher-inbox-card {
+      flex: 0.95;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      background: #fffbeb;
+      border: 2.5px solid #f59e0b;
+      border-radius: var(--radius);
+      padding: 8px 10px;
+      gap: 5px;
+    }
+
+    .teacher-inbox-card.has-new {
+      background: var(--danger-soft);
+      border-color: var(--danger);
+    }
+
+    .teacher-inbox-latest {
+      background: #ffffff;
+      border: 2px solid #fcd34d;
+      border-radius: 10px;
+      padding: 7px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .has-new .teacher-inbox-latest {
+      border-color: var(--danger);
+    }
+
+    .teacher-outbox-card {
+      flex: 1.05;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      padding: 8px 10px;
+      gap: 5px;
+    }
+
+    .mic-hero-card {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      gap: 8px;
+    }
+
+    .dir-mini-row {
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .dir-mini-btn {
+      padding: 4px 10px;
+      font-size: 0.8rem;
+    }
+
+    .dir-mini-btn.is-active {
+      background: var(--purple);
+      border-color: var(--purple-dark);
+      color: #ffffff;
+    }
+
+    .mic-big-btn {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.15rem;
+      border-radius: 12px;
+    }
+
+    .mic-big-btn.is-recording {
+      background: var(--danger);
+      border-color: var(--danger-dark);
+      color: #ffffff;
+    }
+
+    .interim-box {
+      flex: 1;
+      min-height: 54px;
+      background: #f8fafc;
+      border: 2px dashed var(--line);
+      border-radius: 11px;
+      padding: 8px 10px;
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--ink-sub);
+      overflow: hidden;
+    }
+
+    .manual-send-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .text-input {
+      flex: 1;
+      min-width: 0;
+      padding: 7px 10px;
+      border: 2px solid var(--line);
+      border-radius: 10px;
+      font-size: 0.94rem;
+      font-weight: 700;
+      background: #ffffff;
+    }
+
+    /* 児童機レイアウト */
+    .student-layout {
+      flex-direction: column;
+    }
+
+    .student-top {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      gap: 8px;
+    }
+
+    .student-main-board {
+      flex: 1.35;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--surface);
+      border: 3px solid var(--green);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+
+    .student-vi-big {
+      font-size: 2.1rem;
+      font-weight: 900;
+      color: var(--primary-dark);
+      line-height: 1.25;
+      word-break: break-word;
+    }
+
+    .student-ja-sub {
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: var(--ink-sub);
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 2px dashed var(--line);
+      word-break: break-word;
+    }
+
+    .student-history-pane {
+      flex: 0.65;
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      padding: 8px 10px;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    /* 子ども→先生 返信ドック */
+    .student-bottom-dock {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      padding: 7px 10px;
+      flex-shrink: 0;
+    }
+
+    .student-reply-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .reply-btn {
+      padding: 6px 8px;
+      flex-direction: column;
+      gap: 1px;
+      font-size: 0.9rem;
+    }
+
+    .reply-btn-vi {
+      font-size: 0.95rem;
+      font-weight: 900;
+    }
+
+    .reply-btn-ja {
+      font-size: 0.74rem;
+      opacity: 0.92;
+    }
+
+    .student-free-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: nowrap;
+    }
+
+    .student-lang-btn {
+      padding: 6px 9px;
+      font-size: 0.78rem;
+      background: #f1f5f9;
+    }
+
+    .student-test-btn {
+      padding: 6px 9px;
+      font-size: 0.78rem;
+      background: var(--purple-soft);
+      border-color: var(--purple);
+      color: var(--purple-dark);
+    }
+
+    /* ログ固定スロット */
+    .log-title {
+      font-size: 0.82rem;
+      font-weight: 900;
+      color: var(--ink-sub);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 3px;
+      border-bottom: 2px solid #e2e8f0;
+      flex-shrink: 0;
+    }
+
+    .log-slots {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .log-slot {
+      display: none;
+      background: #f8fafc;
+      border: 1.5px solid var(--line);
+      border-radius: 9px;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+
+    .log-slot.is-filled {
+      display: block;
+    }
+
+    .log-slot-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--ink-sub);
+    }
+
+    .log-slot-main {
+      font-size: 0.92rem;
+      font-weight: 900;
+      color: var(--primary-dark);
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .log-slot-sub {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--ink);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* ==================== モード3: たいわ翻訳（2ボタン式・子ども同士対応） ==================== */
+    .talk-layout {
+      flex-direction: row;
+      gap: 8px;
+    }
+
+    .talk-left {
+      flex: 1.35;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .talk-right {
+      flex: 0.65;
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      padding: 8px 10px;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .talk-dual-mics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .talk-mic-hero {
+      padding: 12px 14px;
+      font-size: 1.1rem;
+      border-radius: 13px;
+      gap: 10px;
+    }
+
+    .talk-mic-hero.is-listening {
+      background: var(--danger) !important;
+      border-color: var(--danger-dark) !important;
+      color: #ffffff !important;
+    }
+
+    .talk-result-card {
+      flex: 1;
+      min-height: 0;
+      background: var(--surface);
+      border: 3px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+    }
+
+    .talk-res-badge {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 900;
+      padding: 2px 10px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      margin-bottom: 6px;
+    }
+
+    .talk-res-main {
+      font-size: 2.1rem;
+      font-weight: 900;
+      color: var(--primary-dark);
+      line-height: 1.28;
+      word-break: break-word;
+    }
+
+    .talk-res-sub {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink-sub);
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 2px dashed var(--line);
+      word-break: break-word;
+    }
+
+    .talk-keyboard-card {
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      padding: 7px 10px;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    /* モーダル */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.is-open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: var(--surface);
+      border: 3px solid var(--primary);
+      border-radius: 18px;
+      padding: 18px 22px;
+      max-width: 880px;
+      width: 100%;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .zoom-vi-text {
+      font-size: 2.9rem;
+      font-weight: 900;
+      color: var(--primary-dark);
+      line-height: 1.25;
+      text-align: center;
+    }
+
+    .zoom-ja-text {
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--ink);
+      text-align: center;
+      padding-top: 10px;
+      border-top: 2px dashed var(--line);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .field-label {
+      font-size: 0.82rem;
+      font-weight: 900;
+      color: var(--ink-sub);
+    }
+
+    .pin-input {
+      width: 180px;
+      margin: 0 auto;
+      padding: 10px 14px;
+      font-size: 1.6rem;
+      font-weight: 900;
+      letter-spacing: 8px;
+      text-align: center;
+      border: 2.5px solid var(--purple);
+      border-radius: 12px;
+      background: #faf8ff;
+    }
+
+    /* トースト通知 */
+    .toast-box {
+      position: fixed;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e293b;
+      color: #ffffff;
+      padding: 7px 16px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      z-index: 200;
+      display: none;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    }
+
+    .toast-box.is-show {
+      display: block;
+    }
+
+    .svg-ic {
+      width: 19px;
+      height: 19px;
+      flex-shrink: 0;
+    }
+
+    .svg-ic-lg {
+      width: 30px;
+      height: 30px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- ヘッダー（日越バイリンガル） -->
+    <header class="header-bar">
+      <div class="brand">
+        <svg class="svg-ic-lg" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+          <rect x="2" y="4" width="22" height="17" rx="5" fill="#0f766e"/>
+          <path d="M8 21L6 27L14 21" fill="#0f766e"/>
+          <rect x="13" y="13" width="21" height="16" rx="5" fill="#f59e0b" stroke="#ffffff" stroke-width="2"/>
+          <path d="M27 29L30 34L22 29" fill="#f59e0b"/>
+        </svg>
+        <div>
+          <div class="brand-title">つたわるボード</div>
+          <div class="brand-sub">Bảng Giao Tiếp</div>
+        </div>
+      </div>
+
+      <nav class="nav-tabs">
+        <button id="tab-cards" class="btn nav-tab is-active" type="button">
+          <svg class="svg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <rect x="3" y="4" width="18" height="16" rx="3"/>
+            <line x1="7" y1="9" x2="17" y2="9"/>
+            <line x1="7" y1="14" x2="13" y2="14"/>
+          </svg>
+          <span class="btn-col">
+            <span>きもち・SOSカード</span>
+            <span class="sub-vi">Thẻ cảm xúc / SOS</span>
+          </span>
+        </button>
+        <button id="tab-live" class="btn nav-tab" type="button">
+          <svg class="svg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M4 12a8 8 0 0 1 16 0"/>
+            <path d="M7.5 12a4.5 4.5 0 0 1 9 0"/>
+            <circle cx="12" cy="14" r="2.2" fill="currentColor"/>
+          </svg>
+          <span class="btn-col">
+            <span><ruby>授業<rt>じゅぎょう</rt></ruby><ruby>連携<rt>れんけい</rt></ruby>（ライブ）</span>
+            <span class="sub-vi">Kết nối lớp học</span>
+          </span>
+        </button>
+        <button id="tab-talk" class="btn nav-tab" type="button">
+          <svg class="svg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M21 12a8 8 0 0 1-8 8H5l-2 2V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"/>
+          </svg>
+          <span class="btn-col">
+            <span>たいわ<ruby>翻訳<rt>ほんやく</rt></ruby></span>
+            <span class="sub-vi">Dịch hội thoại</span>
+          </span>
+        </button>
+      </nav>
+
+      <div class="header-tools">
+        <button id="btn-speed" class="btn" type="button">
+          <svg class="svg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M15.5 8.5a5 5 0 0 1 0 7"/>
+          </svg>
+          <span class="btn-col">
+            <span id="speed-label">ふつう</span>
+            <span id="speed-label-vi" class="sub-vi">Bình thường</span>
+          </span>
+        </button>
+        <button id="btn-open-gas" class="btn" type="button">
+          <svg class="svg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+          <span>GAS<ruby>設定<rt>せってい</rt></ruby></span>
+        </button>
+        <button id="btn-test-trigger" class="btn btn-test-trigger" type="button" title="教員検証用テストモード">
+          <svg class="svg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <rect x="5" y="11" width="14" height="10" rx="2"/>
+            <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+          </svg>
+          <span id="test-trigger-label">テスト</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 個人情報保護 常時固定バー -->
+    <div class="privacy-bar">
+      <svg class="svg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+        <path d="M12 2L3 7v6c0 5.5 3.8 9.7 9 11 5.2-1.3 9-5.5 9-11V7l-9-5z"/>
+        <line x1="12" y1="8" x2="12" y2="13"/>
+        <circle cx="12" cy="16.5" r="1" fill="currentColor"/>
+      </svg>
+      <span>なまえ・じゅうしょなどの <ruby>個人情報<rt>こじんじょうほう</rt></ruby>は <ruby>入<rt>い</rt></ruby>れない・はなさない ／ Không nhập tên hoặc thông tin cá nhân</span>
+    </div>
+
+    <!-- テストモード中バナー（通常時は非表示） -->
+    <div id="test-banner" class="test-banner test-only-flex">
+      <span>テストモード中（<ruby>英語<rt>えいご</rt></ruby> ⇔ にほんご）：<ruby>翻訳<rt>ほんやく</rt></ruby>・マイク・<ruby>逆<rt>ぎゃく</rt></ruby>ルート<ruby>送信<rt>そうしん</rt></ruby>を<ruby>英語<rt>えいご</rt></ruby>で<ruby>検証<rt>けんしょう</rt></ruby>できます</span>
+      <button id="btn-exit-test" class="btn btn-purple" style="padding:3px 10px;font-size:0.78rem;" type="button">テスト<ruby>終了<rt>しゅうりょう</rt></ruby>（ベトナム語にもどす）</button>
+    </div>
+
+    <!-- メインコンテンツ -->
+    <main class="main-area">
+      <!-- ==================== モード1: きもち・SOSカード ==================== -->
+      <section id="view-cards" class="view-panel is-visible">
+        <div class="stage-box">
+          <div class="stage-texts">
+            <div id="stage-vi" class="stage-vi">Chọn thẻ bên dưới nhé!</div>
+            <div id="stage-ja" class="stage-ja">したの カードを おしてね</div>
+          </div>
+          <div class="stage-actions">
+            <button id="btn-stage-speak-vi" class="btn btn-primary" type="button">
+              <svg class="svg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>
+              <span class="btn-col"><span>ベトナム語</span><span class="sub-vi">Tiếng Việt</span></span>
+            </button>
+            <button id="btn-stage-speak-ja" class="btn btn-blue" type="button">
+              <svg class="svg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>
+              <span class="btn-col"><span>にほんご</span><span class="sub-vi">Tiếng Nhật</span></span>
+            </button>
+            <button id="btn-stage-zoom" class="btn btn-accent" type="button">
+              <svg class="svg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              <span class="btn-col"><span>おおきく</span><span class="sub-vi">Phóng to</span></span>
+            </button>
+            <button id="btn-stage-send-sos" class="btn btn-danger" type="button">
+              <svg class="svg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              <span class="btn-col"><span>先生へ</span><span class="sub-vi">Gửi thầy cô</span></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="cat-bar">
+          <button id="ctab-sos" class="btn cat-tab is-active" data-cat="sos" type="button">
+            <span class="btn-col btn-col-center"><span>たすけて・SOS</span><span class="sub-vi">Cần giúp đỡ / SOS</span></span>
+          </button>
+          <button id="ctab-class" class="btn cat-tab" data-cat="class" type="button">
+            <span class="btn-col btn-col-center"><span><ruby>授業<rt>じゅぎょう</rt></ruby></span><span class="sub-vi">Trong giờ học</span></span>
+          </button>
+          <button id="ctab-life" class="btn cat-tab" data-cat="life" type="button">
+            <span class="btn-col btn-col-center"><span>生活・<ruby>給食<rt>きゅうしょく</rt></ruby></span><span class="sub-vi">Sinh hoạt / Bữa trưa</span></span>
+          </button>
+          <button id="ctab-friend" class="btn cat-tab" data-cat="friend" type="button">
+            <span class="btn-col btn-col-center"><span>ともだち・きもち</span><span class="sub-vi">Bạn bè / Cảm xúc</span></span>
+          </button>
+        </div>
+
+        <div class="cards-container">
+          <!-- カテゴリ1: たすけて・SOS -->
+          <div id="cgrid-sos" class="card-grid is-visible">
+            <button class="sos-card cat-sos" type="button" data-cat="sos" data-ja="トイレに行きたいです" data-vi="Em muốn đi vệ sinh">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="5" r="2.5"/><path d="M9 10h6l1 6h-2v5h-4v-5H8l1-6z"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Em muốn đi vệ sinh</div><div class="sos-card-ja">トイレに行きたい</div></span>
+            </button>
+            <button class="sos-card cat-sos" type="button" data-cat="sos" data-ja="おなかが いたいです" data-vi="Em bị đau bụng">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M9 15c1-1.5 5-1.5 6 0"/><line x1="9" y1="9" x2="10.5" y2="10.5"/><line x1="15" y1="9" x2="13.5" y2="10.5"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Em bị đau bụng</div><div class="sos-card-ja">おなかが いたい</div></span>
+            </button>
+            <button class="sos-card cat-sos" type="button" data-cat="sos" data-ja="あたまが いたいです" data-vi="Em bị đau đầu">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Em bị đau đầu</div><div class="sos-card-ja">あたまが いたい</div></span>
+            </button>
+            <button class="sos-card cat-sos" type="button" data-cat="sos" data-ja="わかりません" data-vi="Em không hiểu">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.8 2.1c-.8.5-1.3 1-1.3 2"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Em không hiểu</div><div class="sos-card-ja">わからない</div></span>
+            </button>
+            <button class="sos-card cat-sos" type="button" data-cat="sos" data-ja="もういちど 言ってください" data-vi="Xin hãy nói lại lần nữa">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="1 4 1 10 7 10"/><path d="M3.5 15a9 9 0 1 0 2.1-9.4L1 10"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Xin hãy nói lại lần nữa</div><div class="sos-card-ja">もういちど 言って</div></span>
+            </button>
+            <button class="sos-card cat-sos" type="button" data-cat="sos" data-ja="たすけてください" data-vi="Xin hãy giúp em">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 11V6a2 2 0 0 0-4 0v4"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8a6 6 0 0 0 12 0v-3a2 2 0 0 0-4 0"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Xin hãy giúp em</div><div class="sos-card-ja"><ruby>助<rt>たす</rt></ruby>けてください</div></span>
+            </button>
+          </div>
+
+          <!-- カテゴリ2: 授業 -->
+          <div id="cgrid-class" class="card-grid">
+            <button class="sos-card cat-class" type="button" data-cat="class" data-ja="わかりました！" data-vi="Em đã hiểu rồi!">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="12" cy="12" r="9"/><polyline points="8 12.5 11 15.5 16.5 9"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Em đã hiểu rồi!</div><div class="sos-card-ja">わかった！</div></span>
+            </button>
+            <button class="sos-card cat-class" type="button" data-cat="class" data-ja="おわりました！" data-vi="Em làm xong rồi!">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 20V4h11l-2 4 2 4H4"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Em làm xong rồi!</div><div class="sos-card-ja"><ruby>終<rt>お</rt></ruby>わったよ！</div></span>
+            </button>
+            <button class="sos-card cat-class" type="button" data-cat="class" data-ja="ゆっくり はなしてください" data-vi="Xin hãy nói chậm lại">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Xin hãy nói chậm lại</div><div class="sos-card-ja">ゆっくり はなして</div></span>
+            </button>
+            <button class="sos-card cat-class" type="button" data-cat="class" data-ja="この かんじが よめません" data-vi="Em không đọc được chữ Kanji này">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 5h16M12 5v14M7 11h10M6 17h12"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Em không đọc được chữ Kanji này</div><div class="sos-card-ja"><ruby>漢字<rt>かんじ</rt></ruby>が よめない</div></span>
+            </button>
+            <button class="sos-card cat-class" type="button" data-cat="class" data-ja="しつもんが あります" data-vi="Em có câu hỏi">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Em có câu hỏi</div><div class="sos-card-ja"><ruby>質問<rt>しつもん</rt></ruby>がある</div></span>
+            </button>
+            <button class="sos-card cat-class" type="button" data-cat="class" data-ja="つぎの じゅぎょうは どこですか？" data-vi="Tiết học tiếp theo ở đâu ạ?">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 21s-6-5.3-6-10a6 6 0 1 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Tiết học tiếp theo ở đâu ạ?</div><div class="sos-card-ja"><ruby>次<rt>つぎ</rt></ruby>の<ruby>授業<rt>じゅぎょう</rt></ruby>はどこ？</div></span>
+            </button>
+          </div>
+
+          <!-- カテゴリ3: 生活・給食 -->
+          <div id="cgrid-life" class="card-grid">
+            <button class="sos-card cat-life" type="button" data-cat="life" data-ja="きゅうしょくを すこし へらしてください" data-vi="Cho em bớt một ít thức ăn ạ">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12h16a8 8 0 0 1-16 0z"/><line x1="8" y1="7" x2="16" y2="7"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Cho em bớt một ít thức ăn ạ</div><div class="sos-card-ja"><ruby>給食<rt>きゅうしょく</rt></ruby>をへらしたい</div></span>
+            </button>
+            <button class="sos-card cat-life" type="button" data-cat="life" data-ja="おかわり しても いいですか？" data-vi="Em lấy thêm được không ạ?">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 13h16a8 8 0 0 1-16 0z"/><line x1="12" y1="4" x2="12" y2="10"/><line x1="9" y1="7" x2="15" y2="7"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Em lấy thêm được không ạ?</div><div class="sos-card-ja">おかわりしたい</div></span>
+            </button>
+            <button class="sos-card cat-life" type="button" data-cat="life" data-ja="お水を のんでも いいですか？" data-vi="Em uống nước được không ạ?">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3s6 7 6 11a6 6 0 1 1-12 0c0-4 6-11 6-11z"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Em uống nước được không ạ?</div><div class="sos-card-ja">お水を<ruby>飲<rt>の</rt></ruby>みたい</div></span>
+            </button>
+            <button class="sos-card cat-life" type="button" data-cat="life" data-ja="ほけんしつに 行きたいです" data-vi="Em muốn đến phòng y tế">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="3" y="3" width="18" height="18" rx="4"/><line x1="12" y1="7" x2="12" y2="17"/><line x1="7" y1="12" x2="17" y2="12"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Em muốn đến phòng y tế</div><div class="sos-card-ja"><ruby>保健室<rt>ほけんしつ</rt></ruby>に行きたい</div></span>
+            </button>
+            <button class="sos-card cat-life" type="button" data-cat="life" data-ja="わすれものを しました" data-vi="Em để quên đồ ở nhà">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="7" width="14" height="13" rx="3"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Em để quên đồ ở nhà</div><div class="sos-card-ja"><ruby>忘<rt>わす</rt></ruby>れものをした</div></span>
+            </button>
+            <button class="sos-card cat-life" type="button" data-cat="life" data-ja="あつい・さむいです" data-vi="Em thấy nóng / lạnh">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 14.8V5a2 2 0 1 0-4 0v9.8a4 4 0 1 0 4 0z"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Em thấy nóng / lạnh</div><div class="sos-card-ja"><ruby>暑<rt>あつ</rt></ruby>い・<ruby>寒<rt>さむ</rt></ruby>い</div></span>
+            </button>
+          </div>
+
+          <!-- カテゴリ4: ともだち・きもち -->
+          <div id="cgrid-friend" class="card-grid">
+            <button class="sos-card cat-friend" type="button" data-cat="friend" data-ja="いっしょに あそぼう！" data-vi="Chơi cùng nhau nhé!">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M4 19c0-3 2.5-5 5-5s5 2 5 5"/><path d="M14 14.5c2.5.4 5 2 5 4.5"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Chơi cùng nhau nhé!</div><div class="sos-card-ja">いっしょに<ruby>遊<rt>あそ</rt></ruby>ぼう！</div></span>
+            </button>
+            <button class="sos-card cat-friend" type="button" data-cat="friend" data-ja="ありがとう！" data-vi="Cảm ơn bạn!">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Cảm ơn bạn!</div><div class="sos-card-ja">ありがとう！</div></span>
+            </button>
+            <button class="sos-card cat-friend" type="button" data-cat="friend" data-ja="ごめんね" data-vi="Xin lỗi nhé">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M9 16c1.5-1 4.5-1 6 0"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Xin lỗi nhé</div><div class="sos-card-ja">ごめんね</div></span>
+            </button>
+            <button class="sos-card cat-friend" type="button" data-cat="friend" data-ja="たのしい！" data-vi="Vui quá!">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M8.5 14c1 2 6 2 7 0"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Vui quá!</div><div class="sos-card-ja">たのしい！</div></span>
+            </button>
+            <button class="sos-card cat-friend" type="button" data-cat="friend" data-ja="ちょっと まってね" data-vi="Đợi một chút nhé">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Đợi một chút nhé</div><div class="sos-card-ja">ちょっと まってね</div></span>
+            </button>
+            <button class="sos-card cat-friend" type="button" data-cat="friend" data-ja="かして ください" data-vi="Cho mình mượn với">
+              <span class="sos-card-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span>
+              <span class="sos-card-body"><div class="sos-card-vi">Cho mình mượn với</div><div class="sos-card-ja"><ruby>貸<rt>か</rt></ruby>して ください</div></span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== モード2: 授業連携（ROOM 1〜6 双方向ライブ） ==================== -->
+      <section id="view-live" class="view-panel">
+        <div class="room-bar">
+          <div class="role-switch">
+            <button id="btn-role-teacher" class="btn role-btn-teacher is-active" type="button">
+              <svg class="svg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="7" r="4"/><path d="M5 21v-2a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v2"/></svg>
+              <span class="btn-col"><span>先生</span><span class="sub-vi">Thầy Cô</span></span>
+            </button>
+            <button id="btn-role-student" class="btn role-btn-student" type="button">
+              <svg class="svg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="3.5"/><path d="M6 20v-1.5a4.5 4.5 0 0 1 4.5-4.5h3a4.5 4.5 0 0 1 4.5 4.5V20"/></svg>
+              <span class="btn-col"><span>子ども</span><span class="sub-vi">Học sinh</span></span>
+            </button>
+          </div>
+
+          <div class="room-controls">
+            <div class="room-select-group" role="group" aria-label="ROOM選択">
+              <button id="btn-room-1" class="btn room-btn is-active" type="button" data-room="ROOM1" data-label="ROOM 1">ROOM 1</button>
+              <button id="btn-room-2" class="btn room-btn" type="button" data-room="ROOM2" data-label="ROOM 2">ROOM 2</button>
+              <button id="btn-room-3" class="btn room-btn" type="button" data-room="ROOM3" data-label="ROOM 3">ROOM 3</button>
+              <button id="btn-room-4" class="btn room-btn" type="button" data-room="ROOM4" data-label="ROOM 4">ROOM 4</button>
+              <button id="btn-room-5" class="btn room-btn" type="button" data-room="ROOM5" data-label="ROOM 5">ROOM 5</button>
+              <button id="btn-room-6" class="btn room-btn" type="button" data-room="ROOM6" data-label="ROOM 6">ROOM 6</button>
+            </div>
+            <button id="btn-room-connect" class="btn btn-primary" type="button">
+              <span class="btn-col btn-col-center">
+                <span id="connect-label-ja"><ruby>接続<rt>せつぞく</rt></ruby></span>
+                <span id="connect-label-vi" class="sub-vi">Kết nối</span>
+              </span>
+            </button>
+            <div class="status-pill">
+              <span id="room-status-dot" class="status-dot"></span>
+              <span id="room-status-text"><ruby>未接続<rt>みせつぞく</rt></ruby> / Chưa kết nối</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 先生パネル（独立コンテナ） -->
+        <div id="role-teacher" class="role-panel teacher-layout is-visible">
+          <div class="teacher-left">
+            <div class="mic-hero-card">
+              <!-- テストモード中のみ表示される配信方向切替 -->
+              <div class="dir-mini-row test-only-flex">
+                <span style="font-size:0.78rem;font-weight:900;color:#5b21b6;">テスト<ruby>配信<rt>はいしん</rt></ruby><ruby>方向<rt>ほうこう</rt></ruby>：</span>
+                <button id="btn-tdir-ja-f" class="btn dir-mini-btn is-active" type="button">にほんご → <ruby>英語<rt>えいご</rt></ruby></button>
+                <button id="btn-tdir-f-ja" class="btn dir-mini-btn" type="button"><ruby>英語<rt>えいご</rt></ruby> → にほんご（<ruby>逆<rt>ぎゃく</rt></ruby>テスト）</button>
+              </div>
+
+              <button id="btn-teacher-mic" class="btn btn-primary mic-big-btn" type="button">
+                <svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <rect x="9" y="2" width="6" height="11" rx="3"/>
+                  <path d="M5 10a7 7 0 0 0 14 0"/>
+                  <line x1="12" y1="17" x2="12" y2="21"/>
+                  <line x1="8" y1="21" x2="16" y2="21"/>
+                </svg>
+                <span id="teacher-mic-label"><ruby>連続<rt>れんぞく</rt></ruby>マイク<ruby>配信<rt>はいしん</rt></ruby>を<ruby>開始<rt>かいし</rt></ruby></span>
+              </button>
+
+              <div class="interim-box">
+                <div style="font-size:0.74rem;color:#64748b;margin-bottom:3px;">ききとっている ことば（はなし<ruby>終<rt>お</rt></ruby>わると <ruby>自動<rt>じどう</rt></ruby>で子どもの画面へ）</div>
+                <div id="teacher-interim-text">ROOMをえらんで「<ruby>接続<rt>せつぞく</rt></ruby>」をおしてから、マイクを<ruby>開始<rt>かいし</rt></ruby>してください。</div>
+              </div>
+
+              <div class="manual-send-row">
+                <input id="input-teacher-manual" class="text-input" type="text" placeholder="キーボードで打っておくる（例：教科書32ページをあけて）">
+                <button id="btn-teacher-send" class="btn btn-blue" type="button"><ruby>送信<rt>そうしん</rt></ruby></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="teacher-right">
+            <!-- 子どもからの返信・SOS -->
+            <div id="teacher-inbox-card" class="teacher-inbox-card">
+              <div class="log-title" style="color:#9a3412;border-bottom-color:#fde68a;">
+                <span>子どもからの <ruby>返信<rt>へんしん</rt></ruby>・SOS</span>
+                <button id="btn-dismiss-sos" class="btn" style="padding:2px 8px;font-size:0.74rem;" type="button"><ruby>確認<rt>かくにん</rt></ruby>ずみ</button>
+              </div>
+
+              <div class="teacher-inbox-latest">
+                <div style="min-width:0;flex:1;">
+                  <div id="teacher-sos-ja" style="font-size:1.12rem;font-weight:900;color:#7f1d1d;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">まだ<ruby>返信<rt>へんしん</rt></ruby>はありません</div>
+                  <div id="teacher-sos-vi" style="font-size:0.84rem;font-weight:700;color:#9a3412;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Chưa có tin nhắn từ học sinh</div>
+                </div>
+                <button id="btn-teacher-speak-inbox" class="btn btn-accent" style="padding:5px 9px;font-size:0.8rem;" type="button">きく</button>
+              </div>
+
+              <div class="log-slots">
+                <div id="inlog-0" class="log-slot"><div class="log-slot-head"><span>子ども</span><span id="inlog-time-0"></span></div><div id="inlog-ja-0" class="log-slot-main" style="color:#991b1b;"></div><div id="inlog-vi-0" class="log-slot-sub"></div></div>
+                <div id="inlog-1" class="log-slot"><div class="log-slot-head"><span>子ども</span><span id="inlog-time-1"></span></div><div id="inlog-ja-1" class="log-slot-main" style="color:#991b1b;"></div><div id="inlog-vi-1" class="log-slot-sub"></div></div>
+              </div>
+            </div>
+
+            <!-- 先生がおくった履歴 -->
+            <div class="teacher-outbox-card">
+              <div class="log-title">
+                <span>先生がおくった <ruby>履歴<rt>りれき</rt></ruby>（<ruby>最新<rt>さいしん</rt></ruby>3けん）</span>
+                <button id="btn-teacher-clear" class="btn" style="padding:2px 8px;font-size:0.74rem;" type="button"><ruby>全消去<rt>ぜんしょうきょ</rt></ruby></button>
+              </div>
+              <div class="log-slots">
+                <div id="tlog-0" class="log-slot"><div class="log-slot-head"><span>1</span><span id="tlog-time-0"></span></div><div id="tlog-vi-0" class="log-slot-main"></div><div id="tlog-ja-0" class="log-slot-sub"></div></div>
+                <div id="tlog-1" class="log-slot"><div class="log-slot-head"><span>2</span><span id="tlog-time-1"></span></div><div id="tlog-vi-1" class="log-slot-main"></div><div id="tlog-ja-1" class="log-slot-sub"></div></div>
+                <div id="tlog-2" class="log-slot"><div class="log-slot-head"><span>3</span><span id="tlog-time-2"></span></div><div id="tlog-vi-2" class="log-slot-main"></div><div id="tlog-ja-2" class="log-slot-sub"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 子どもパネル（独立コンテナ・ベトナム語優先バイリンガルUI） -->
+        <div id="role-student" class="role-panel student-layout">
+          <div class="student-top">
+            <div class="student-main-board">
+              <div>
+                <div id="student-board-head" style="font-size:0.84rem;font-weight:900;color:#15803d;margin-bottom:4px;">Lời thầy cô ／ 先生の おはなし</div>
+                <div id="student-main-vi" class="student-vi-big">Bấm nút "Kết nối" ở góc trên nhé!</div>
+                <div id="student-main-ja" class="student-ja-sub">みぎうえの「<ruby>接続<rt>せつぞく</rt></ruby> / Kết nối」をおしてね</div>
+              </div>
+              <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <button id="btn-student-speak" class="btn btn-primary" type="button">
+                  <svg class="svg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>
+                  <span class="btn-col"><span id="student-speak-label-f">Nghe (Tiếng Việt)</span><span id="student-speak-label-ja" class="sub-vi">ベトナム語できく</span></span>
+                </button>
+                <button id="btn-student-zoom" class="btn btn-accent" type="button">
+                  <span class="btn-col"><span>Phóng to</span><span class="sub-vi">おおきく見る</span></span>
+                </button>
+              </div>
+            </div>
+
+            <div class="student-history-pane">
+              <div class="log-title"><span>Lịch sử ／ さっきの おはなし</span></div>
+              <div class="log-slots">
+                <div id="slog-0" class="log-slot"><div class="log-slot-head"><span>1</span><span id="slog-time-0"></span></div><div id="slog-vi-0" class="log-slot-main"></div><div id="slog-ja-0" class="log-slot-sub"></div></div>
+                <div id="slog-1" class="log-slot"><div class="log-slot-head"><span>2</span><span id="slog-time-1"></span></div><div id="slog-vi-1" class="log-slot-main"></div><div id="slog-ja-1" class="log-slot-sub"></div></div>
+                <div id="slog-2" class="log-slot"><div class="log-slot-head"><span>3</span><span id="slog-time-2"></span></div><div id="slog-vi-2" class="log-slot-main"></div><div id="slog-ja-2" class="log-slot-sub"></div></div>
+                <div id="slog-3" class="log-slot"><div class="log-slot-head"><span>4</span><span id="slog-time-3"></span></div><div id="slog-vi-3" class="log-slot-main"></div><div id="slog-ja-3" class="log-slot-sub"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 子ども → 先生 返信ドック -->
+          <div class="student-bottom-dock">
+            <div class="student-reply-bar">
+              <button class="btn btn-green reply-btn quick-reply-btn" type="button" data-cat="class" data-ja="わかりました！" data-vi="Em đã hiểu rồi!">
+                <span class="reply-btn-vi">Đã hiểu!</span><span class="reply-btn-ja">わかった！</span>
+              </button>
+              <button class="btn btn-danger reply-btn quick-reply-btn" type="button" data-cat="sos" data-ja="わかりません" data-vi="Em không hiểu">
+                <span class="reply-btn-vi">Không hiểu</span><span class="reply-btn-ja">わからない</span>
+              </button>
+              <button class="btn btn-accent reply-btn quick-reply-btn" type="button" data-cat="sos" data-ja="もういちど 言ってください" data-vi="Xin nói lại nhé">
+                <span class="reply-btn-vi">Nói lại nhé</span><span class="reply-btn-ja">もういちど</span>
+              </button>
+              <button class="btn btn-blue reply-btn quick-reply-btn" type="button" data-cat="sos" data-ja="トイレに行きたいです" data-vi="Em muốn đi vệ sinh">
+                <span class="reply-btn-vi">Đi vệ sinh</span><span class="reply-btn-ja">トイレ</span>
+              </button>
+            </div>
+
+            <!-- 子ども自由返信バー（検証用ボタンはテストモード中のみ表示） -->
+            <div class="student-free-row">
+              <button id="btn-student-lang" class="btn student-lang-btn test-only" type="button" title="テスト用：送信言語の切り替え">En → Ja</button>
+              <button id="btn-student-mic" class="btn btn-danger" type="button" style="padding:6px 10px;">
+                <svg class="svg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                <span id="student-mic-label">Nói ／ こえ</span>
+              </button>
+              <input id="input-student-reply" class="text-input" type="text" placeholder="Nhắn cho thầy cô (Tiếng Việt) ／ 先生へおくってみよう">
+              <button id="btn-student-send" class="btn btn-primary" type="button" style="padding:6px 12px;">Gửi ／ おくる</button>
+              <button id="btn-student-test-sample" class="btn student-test-btn test-only" type="button" title="英語例文を先生側へ送信テスト">テスト<ruby>送信<rt>そうしん</rt></ruby>(En)</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== モード3: たいわ翻訳（2ボタン式・子ども同士対応） ==================== -->
+      <section id="view-talk" class="view-panel talk-layout">
+        <div class="talk-left">
+          <div class="talk-dual-mics">
+            <button id="btn-talk-mic-ja" class="btn btn-blue talk-mic-hero" type="button">
+              <svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <rect x="9" y="2" width="6" height="11" rx="3"/>
+                <path d="M5 10a7 7 0 0 0 14 0"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+              <span class="btn-col">
+                <span id="talk-mic-ja-title">にほんごで はなす</span>
+                <span id="talk-mic-ja-sub" class="sub-vi">おして はなしてね（→ ベトナム語）</span>
+              </span>
+            </button>
+
+            <button id="btn-talk-mic-f" class="btn btn-green talk-mic-hero" type="button">
+              <svg class="svg-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <rect x="9" y="2" width="6" height="11" rx="3"/>
+                <path d="M5 10a7 7 0 0 0 14 0"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+              <span class="btn-col">
+                <span id="talk-mic-f-title">Nói tiếng Việt</span>
+                <span id="talk-mic-f-sub" class="sub-vi">ベトナム語で はなす（→ にほんご）</span>
+              </span>
+            </button>
+          </div>
+
+          <div class="talk-result-card">
+            <div>
+              <div id="talk-res-badge" class="talk-res-badge">おして はなしてね ／ Bấm nút để nói</div>
+              <div id="talk-res-main" class="talk-res-main">Kết quả dịch sẽ hiện ở đây</div>
+              <div id="talk-res-sub" class="talk-res-sub">ここに <ruby>翻訳<rt>ほんやく</rt></ruby>が でます</div>
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;">
+              <button id="btn-talk-speak" class="btn btn-primary" type="button">
+                <svg class="svg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>
+                <span>Nghe ／ <ruby>声<rt>こえ</rt></ruby>できく</span>
+              </button>
+              <button id="btn-talk-zoom" class="btn btn-accent" type="button">Phóng to ／ おおきく</button>
+            </div>
+          </div>
+
+          <div class="talk-keyboard-card">
+            <input id="input-talk-text" class="text-input" type="text" placeholder="キーボードでもOK ／ Nhập chữ ở đây">
+            <button id="btn-talk-send-ja" class="btn btn-blue" type="button">日 → 越</button>
+            <button id="btn-talk-send-f" class="btn btn-green" type="button">越 → 日</button>
+          </div>
+        </div>
+
+        <div class="talk-right">
+          <div class="log-title"><span>Lịch sử ／ たいわの <ruby>履歴<rt>りれき</rt></ruby></span></div>
+          <div class="log-slots">
+            <div id="hlog-0" class="log-slot"><div id="hlog-main-0" class="log-slot-main"></div><div id="hlog-sub-0" class="log-slot-sub"></div></div>
+            <div id="hlog-1" class="log-slot"><div id="hlog-main-1" class="log-slot-main"></div><div id="hlog-sub-1" class="log-slot-sub"></div></div>
+            <div id="hlog-2" class="log-slot"><div id="hlog-main-2" class="log-slot-main"></div><div id="hlog-sub-2" class="log-slot-sub"></div></div>
+            <div id="hlog-3" class="log-slot"><div id="hlog-main-3" class="log-slot-main"></div><div id="hlog-sub-3" class="log-slot-sub"></div></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- 拡大表示モーダル -->
+  <div id="modal-zoom" class="modal-backdrop">
+    <div class="modal-card">
+      <div id="zoom-vi" class="zoom-vi-text"></div>
+      <div id="zoom-ja" class="zoom-ja-text"></div>
+      <div class="modal-actions">
+        <button id="btn-zoom-speak" class="btn btn-primary" type="button">Nghe ／ <ruby>声<rt>こえ</rt></ruby>できく</button>
+        <button id="btn-zoom-close" class="btn" type="button">Đóng ／ とじる</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- テストモード パスコードモーダル -->
+  <div id="modal-test-pin" class="modal-backdrop">
+    <div class="modal-card" style="max-width:420px;border-color:#7c3aed;text-align:center;">
+      <div style="font-size:1.15rem;font-weight:900;color:#5b21b6;">テストモード（<ruby>英語<rt>えいご</rt></ruby> ⇔ にほんご）</div>
+      <div style="font-size:0.86rem;color:#475569;">
+        <ruby>教員<rt>きょういん</rt></ruby>の<ruby>動作<rt>どうさ</rt></ruby><ruby>確認<rt>かくにん</rt></ruby>用モードです。<br>パスコードを<ruby>入力<rt>にゅうりょく</rt></ruby>してください。
+      </div>
+      <input id="input-test-pin" class="pin-input" type="password" inputmode="numeric" maxlength="4" placeholder="***">
+      <div id="test-pin-error" style="font-size:0.84rem;font-weight:700;color:#dc2626;min-height:18px;"></div>
+      <div class="modal-actions">
+        <button id="btn-pin-ok" class="btn btn-purple" type="button">テストを<ruby>開始<rt>かいし</rt></ruby></button>
+        <button id="btn-pin-close" class="btn" type="button">とじる</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GAS設定モーダル -->
+  <div id="modal-gas" class="modal-backdrop">
+    <div class="modal-card" style="max-width:660px;">
+      <div style="font-size:1.15rem;font-weight:900;color:#115e59;">GAS ウェブアプリ<ruby>連携<rt>れんけい</rt></ruby><ruby>設定<rt>せってい</rt></ruby></div>
+      <div id="gas-mode-badge" style="font-size:0.86rem;font-weight:700;padding:8px 12px;border-radius:10px;background:#f1f5f9;"></div>
+
+      <div class="field-label">GAS ウェブアプリ URL（末尾が /exec）</div>
+      <input id="input-gas-url" class="text-input" type="url" placeholder="https://script.google.com/macros/s/xxxxx/exec">
+
+      <div class="field-label"><ruby>合言葉<rt>あいことば</rt></ruby>（GAS スクリプトプロパティの APP_TOKEN）</div>
+      <input id="input-gas-token" class="text-input" type="password" placeholder="設定した合言葉（未設定なら空欄）">
+
+      <div id="gas-test-status" style="font-size:0.86rem;font-weight:700;min-height:22px;color:#0f766e;"></div>
+      <div class="modal-actions">
+        <button id="btn-gas-test" class="btn btn-blue" type="button"><ruby>接続<rt>せつぞく</rt></ruby>テスト</button>
+        <button id="btn-gas-save" class="btn btn-primary" type="button"><ruby>保存<rt>ほぞん</rt></ruby></button>
+        <button id="btn-gas-close" class="btn" type="button">とじる</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- トースト -->
+  <div id="toast-box" class="toast-box"><span id="toast-text"></span></div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var TEST_PASSCODE = '086';
+
+      /* ==================== 状態管理 ==================== */
+      var state = {
+        testMode: false, // false: ベトナム語本番 / true: 英語⇔日本語テスト
+        speechRate: 1.0,
+        gasUrl: '',
+        appToken: '',
+        stageJa: 'したの カードを おしてね',
+        stageVi: 'Chọn thẻ bên dưới nhé!',
+        stageCat: 'sos',
+        role: 'teacher',
+        roomConnected: false,
+        roomCode: 'ROOM1',
+        roomLabel: 'ROOM 1',
+        teacherDir: 'ja-f',   // 'ja-f' | 'f-ja'
+        studentDir: 'f-ja',   // 'f-ja' | 'ja-f'
+        testSampleIdx: 0,
+        pollTimer: null,
+        isPolling: false,
+        lastMsgId: 0,
+        lastSosId: 0,
+        latestInboxJa: '',
+        latestInboxForeign: '',
+        teacherMicActive: false,
+        studentMicActive: false,
+        talkMicSide: '',      // '' | 'ja' | 'f'
+        talkLastMain: '',
+        talkLastSub: '',
+        talkLastLang: 'vi-VN',
+        talkHistory: [],
+        zoomMain: '',
+        zoomSub: '',
+        zoomLang: 'vi-VN'
+      };
+
+      /* テストモード用 英語サンプル（子ども→先生 逆ルート検証用） */
+      var TEST_EN_SAMPLES = [
+        'Excuse me, I do not understand this page.',
+        'I finished my assignment!',
+        'How do you read this kanji?',
+        'May I go to the restroom?'
+      ];
+
+      /* オフライン・GAS未設定時の内蔵辞書 */
+      var LOCAL_DICT_VI = {
+        'おはよう': 'Chào buổi sáng',
+        'おはようございます': 'Chào buổi sáng',
+        'こんにちは': 'Xin chào',
+        'ありがとう': 'Cảm ơn',
+        'わかりました': 'Đã hiểu rồi',
+        'わかりません': 'Không hiểu',
+        'トイレに行きたいです': 'Em muốn đi vệ sinh',
+        '教科書をあけてください': 'Hãy mở sách giáo khoa ra nhé',
+        'ノートを出してください': 'Hãy lấy vở ra nhé'
+      };
+
+      var LOCAL_DICT_EN = {
+        'おはよう': 'Good morning',
+        'おはようございます': 'Good morning',
+        'こんにちは': 'Hello',
+        'ありがとう': 'Thank you',
+        'わかりました': 'I understand',
+        'わかりません': 'I do not understand',
+        'トイレに行きたいです': 'I want to go to the restroom'
+      };
+
+      /* ==================== 言語ヘルパー（本番:vi / テスト:en） ==================== */
+      function getForeignApiCode() {
+        return state.testMode ? 'en' : 'vi';
+      }
+
+      function getForeignSpeechCode() {
+        return state.testMode ? 'en-US' : 'vi-VN';
+      }
+
+      function extractPair(item) {
+        if (!item) return { ja: '', foreign: '' };
+        var ja = item.ja || '';
+        var foreign = item.foreign || item.vi || '';
+        if (item.source && item.source !== 'ja' && item.original) {
+          foreign = item.original;
+        } else if (item.source === 'ja' && item.translated) {
+          foreign = item.translated;
+        }
+        return { ja: ja, foreign: foreign };
+      }
+
+      function applyTestModeUi() {
+        document.body.classList.toggle('is-test-mode', state.testMode);
+        document.getElementById('test-trigger-label').textContent = state.testMode ? 'テスト中' : 'テスト';
+
+        if (!state.testMode) {
+          state.teacherDir = 'ja-f';
+          state.studentDir = 'f-ja';
+          document.getElementById('btn-tdir-ja-f').classList.add('is-active');
+          document.getElementById('btn-tdir-f-ja').classList.remove('is-active');
+        }
+
+        document.getElementById('student-board-head').textContent =
+          state.testMode ? 'Teacher Message (EN Test) ／ 先生の おはなし' : 'Lời thầy cô ／ 先生の おはなし';
+        document.getElementById('student-speak-label-f').textContent =
+          state.testMode ? 'Listen (English)' : 'Nghe (Tiếng Việt)';
+        document.getElementById('student-speak-label-ja').textContent =
+          state.testMode ? 'えいごできく' : 'ベトナム語できく';
+        document.getElementById('input-student-reply').placeholder =
+          state.testMode
+            ? 'Type in English (or switch En→Ja) ／ 英語で打って先生へテスト送信'
+            : 'Nhắn cho thầy cô (Tiếng Việt) ／ 先生へおくってみよう';
+        document.getElementById('btn-student-lang').textContent =
+          (state.studentDir === 'f-ja') ? 'En → Ja' : 'Ja → En';
+
+        document.getElementById('talk-mic-ja-sub').textContent =
+          state.testMode ? 'おして はなしてね（→ えいご）' : 'おして はなしてね（→ ベトナム語）';
+        document.getElementById('talk-mic-f-title').textContent =
+          state.testMode ? 'Speak English' : 'Nói tiếng Việt';
+        document.getElementById('talk-mic-f-sub').textContent =
+          state.testMode ? 'えいごで はなす（→ にほんご）' : 'ベトナム語で はなす（→ にほんご）';
+        document.getElementById('btn-talk-send-ja').textContent = state.testMode ? '日 → 英' : '日 → 越';
+        document.getElementById('btn-talk-send-f').textContent = state.testMode ? '英 → 日' : '越 → 日';
+      }
+
+      function enableTestMode() {
+        state.testMode = true;
+        applyTestModeUi();
+        showToast('テストモードON（英語 ⇔ 日本語）');
+        playChime();
+      }
+
+      function disableTestMode() {
+        state.testMode = false;
+        stopTeacherMic();
+        stopTalkMic();
+        applyTestModeUi();
+        showToast('通常モード（ベトナム語 ⇔ 日本語）にもどしました');
+        playTone(520, 0.08, 'sine');
+      }
+
+      /* ==================== Web Audio 効果音 ==================== */
+      var audioCtx = null;
+      function playTone(freq, duration, type) {
+        try {
+          var Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          if (!audioCtx) audioCtx = new Ctx();
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+          var osc = audioCtx.createOscillator();
+          var gain = audioCtx.createGain();
+          osc.type = type || 'sine';
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+          gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + duration);
+        } catch (e) {}
+      }
+
+      function playChime() {
+        playTone(659, 0.14, 'sine');
+        setTimeout(function () { playTone(880, 0.22, 'sine'); }, 130);
+      }
+
+      /* ==================== 音声読み上げ ==================== */
+      function speakText(text, langCode) {
+        if (!text || !('speechSynthesis' in window)) return;
+        try {
+          window.speechSynthesis.cancel();
+          var uttr = new SpeechSynthesisUtterance(text);
+          uttr.lang = langCode;
+          uttr.rate = state.speechRate;
+          window.speechSynthesis.speak(uttr);
+        } catch (e) {}
+      }
+
+      /* ==================== トースト表示 ==================== */
+      var toastTimer = null;
+      function showToast(msg) {
+        var box = document.getElementById('toast-box');
+        var txt = document.getElementById('toast-text');
+        txt.textContent = msg;
+        box.classList.add('is-show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          box.classList.remove('is-show');
+        }, 2800);
+      }
+
+      /* ==================== GASハイブリッド通信 ==================== */
+      function isGasDirect() {
+        return (typeof google !== 'undefined' && google.script && google.script.run);
+      }
+
+      function callBackend(action, params) {
+        return new Promise(function (resolve, reject) {
+          if (isGasDirect()) {
+            var runner = google.script.run
+              .withSuccessHandler(function (res) { resolve(res); })
+              .withFailureHandler(function (err) { reject(new Error(err.message || String(err))); });
+
+            if (action === 'translate') {
+              runner.apiTranslate(params.text, params.source, params.target);
+            } else if (action === 'send') {
+              runner.apiRoomSend(params.roomCode, params.text, params.source, params.target, params.sender || 'teacher');
+            } else if (action === 'poll') {
+              runner.apiRoomPoll(params.roomCode);
+            } else if (action === 'sos') {
+              runner.apiRoomSos(params.roomCode, params.jaText, params.viText, params.category);
+            } else if (action === 'clear') {
+              runner.apiRoomClear(params.roomCode);
+            } else {
+              resolve({ ok: true, status: 'direct_gas' });
+            }
+            return;
+          }
+
+          if (!state.gasUrl) {
+            if (action === 'translate') {
+              var dict = (params.target === 'en') ? LOCAL_DICT_EN : LOCAL_DICT_VI;
+              var hit = dict[params.text] || null;
+              if (hit) {
+                resolve({ ok: true, original: params.text, translatedText: hit, engine: 'offline' });
+              } else {
+                resolve({ ok: false, error: 'GAS設定が未完了です（Classroomの専用URLから開くか、右上のGAS設定を行ってください）' });
+              }
+              return;
+            }
+            resolve({ ok: false, error: '連携にはGAS設定またはClassroom専用URLからの起動が必要です' });
+            return;
+          }
+
+          var payload = Object.assign({
+            action: action,
+            token: state.appToken
+          }, params);
+
+          fetch(state.gasUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+          })
+            .then(function (r) {
+              if (!r.ok) throw new Error('HTTP ' + r.status);
+              return r.json();
+            })
+            .then(function (data) { resolve(data); })
+            .catch(function (err) { reject(err); });
+        });
+      }
+
+      /* ==================== 画面切替（独立コンテナのdisplay切替） ==================== */
+      function switchMainTab(target, silent) {
+        var map = {
+          cards: { tab: 'tab-cards', view: 'view-cards' },
+          live: { tab: 'tab-live', view: 'view-live' },
+          talk: { tab: 'tab-talk', view: 'view-talk' }
+        };
+        if (!map[target]) return;
+        Object.keys(map).forEach(function (key) {
+          document.getElementById(map[key].tab).classList.toggle('is-active', key === target);
+          document.getElementById(map[key].view).classList.toggle('is-visible', key === target);
+        });
+        if (!silent) playTone(520, 0.07, 'sine');
+      }
+
+      function switchCategory(cat) {
+        var cats = ['sos', 'class', 'life', 'friend'];
+        cats.forEach(function (c) {
+          document.getElementById('ctab-' + c).classList.toggle('is-active', c === cat);
+          document.getElementById('cgrid-' + c).classList.toggle('is-visible', c === cat);
+        });
+        playTone(580, 0.06, 'sine');
+      }
+
+      function switchRole(role, silent) {
+        state.role = role;
+        document.getElementById('btn-role-teacher').classList.toggle('is-active', role === 'teacher');
+        document.getElementById('btn-role-student').classList.toggle('is-active', role === 'student');
+        document.getElementById('role-teacher').classList.toggle('is-visible', role === 'teacher');
+        document.getElementById('role-student').classList.toggle('is-visible', role === 'student');
+        try { localStorage.setItem('tsutawaru_role', role); } catch (e) {}
+        if (!silent) playTone(520, 0.07, 'sine');
+      }
+
+      /* ==================== モード1: カード処理 ==================== */
+      function selectCard(ja, vi, cat) {
+        state.stageJa = ja;
+        state.stageVi = vi;
+        state.stageCat = cat;
+        document.getElementById('stage-vi').textContent = vi;
+        document.getElementById('stage-ja').textContent = ja;
+        playTone(620, 0.08, 'sine');
+        speakText(vi, 'vi-VN');
+      }
+
+      /* ==================== モード2: ルーム連携（ROOM 1〜6） ==================== */
+      function selectRoom(roomCode, roomLabel, silent) {
+        if (state.roomConnected) return;
+        state.roomCode = roomCode;
+        state.roomLabel = roomLabel;
+        document.querySelectorAll('.room-btn').forEach(function (btn) {
+          btn.classList.toggle('is-active', btn.getAttribute('data-room') === roomCode);
+        });
+        try { localStorage.setItem('tsutawaru_room_code', roomCode); } catch (e) {}
+        if (!silent) playTone(600, 0.06, 'sine');
+      }
+
+      function setRoomUiConnected(isConnected) {
+        state.roomConnected = isConnected;
+        var dot = document.getElementById('room-status-dot');
+        var text = document.getElementById('room-status-text');
+        var btn = document.getElementById('btn-room-connect');
+        var lblJa = document.getElementById('connect-label-ja');
+        var lblVi = document.getElementById('connect-label-vi');
+
+        dot.classList.toggle('is-online', isConnected);
+        text.textContent = isConnected ? (state.roomLabel + ' (ON)') : '未接続 / Chưa kết nối';
+        lblJa.textContent = isConnected ? 'せつだん' : 'せつぞく';
+        lblVi.textContent = isConnected ? 'Ngắt' : 'Kết nối';
+        btn.classList.toggle('btn-danger', isConnected);
+        btn.classList.toggle('btn-primary', !isConnected);
+
+        document.querySelectorAll('.room-btn').forEach(function (rbtn) {
+          rbtn.disabled = isConnected;
+        });
+
+        if (isConnected) {
+          document.getElementById('student-main-vi').textContent =
+            state.testMode ? 'Connected! Waiting for teacher...' : 'Đã kết nối! Đang chờ lời thầy cô...';
+          document.getElementById('student-main-ja').textContent = 'つながったよ！先生のおはなしを まっています';
+        }
+      }
+
+      function connectRoom(silent) {
+        if (state.roomConnected) {
+          disconnectRoom();
+          return;
+        }
+        state.lastMsgId = 0;
+        state.lastSosId = 0;
+        setRoomUiConnected(true);
+        if (!silent) {
+          showToast(state.roomLabel + ' に接続しました / Đã kết nối!');
+          playChime();
+        }
+
+        pollRoomOnce();
+        state.pollTimer = setInterval(pollRoomOnce, 2000);
+      }
+
+      function disconnectRoom() {
+        clearInterval(state.pollTimer);
+        state.pollTimer = null;
+        stopTeacherMic();
+        setRoomUiConnected(false);
+        showToast('切断しました / Đã ngắt kết nối');
+      }
+
+      function renderTeacherOutboxAndStudentView(messages) {
+        var list = Array.isArray(messages) ? messages : [];
+
+        for (var i = 0; i < 3; i++) {
+          var tSlot = document.getElementById('tlog-' + i);
+          if (i < list.length) {
+            var pT = extractPair(list[i]);
+            tSlot.classList.add('is-filled');
+            document.getElementById('tlog-time-' + i).textContent = list[i].time || '';
+            document.getElementById('tlog-vi-' + i).textContent = pT.foreign;
+            document.getElementById('tlog-ja-' + i).textContent = pT.ja;
+          } else {
+            tSlot.classList.remove('is-filled');
+          }
+        }
+
+        for (var j = 0; j < 4; j++) {
+          var sSlot = document.getElementById('slog-' + j);
+          if (j < list.length) {
+            var pS = extractPair(list[j]);
+            sSlot.classList.add('is-filled');
+            sSlot.setAttribute('data-foreign', pS.foreign);
+            document.getElementById('slog-time-' + j).textContent = list[j].time || '';
+            document.getElementById('slog-vi-' + j).textContent = pS.foreign;
+            document.getElementById('slog-ja-' + j).textContent = pS.ja;
+          } else {
+            sSlot.classList.remove('is-filled');
+          }
+        }
+
+        if (list.length > 0) {
+          var newest = list[0];
+          var pN = extractPair(newest);
+          document.getElementById('student-main-vi').textContent = pN.foreign;
+          document.getElementById('student-main-ja').textContent = pN.ja;
+          if (newest.id && newest.id > state.lastMsgId) {
+            var isFirstLoad = (state.lastMsgId === 0);
+            state.lastMsgId = newest.id;
+            if (!isFirstLoad && state.role === 'student') {
+              playTone(740, 0.12, 'sine');
+            }
+          }
+        } else if (state.roomConnected) {
+          document.getElementById('student-main-vi').textContent =
+            state.testMode ? 'Connected! Waiting for teacher...' : 'Đã kết nối! Đang chờ lời thầy cô...';
+          document.getElementById('student-main-ja').textContent = 'つながったよ！先生のおはなしを まっています';
+        }
+      }
+
+      function renderTeacherInbox(studentMessages, latestSos) {
+        var list = Array.isArray(studentMessages) ? studentMessages : [];
+        var topItem = (list.length > 0) ? list[0] : latestSos;
+
+        if (topItem && topItem.id) {
+          var pTop = extractPair(topItem);
+          state.latestInboxJa = pTop.ja;
+          state.latestInboxForeign = pTop.foreign;
+          document.getElementById('teacher-sos-ja').textContent = pTop.ja + (topItem.time ? ('（' + topItem.time + '）') : '');
+          document.getElementById('teacher-sos-vi').textContent = pTop.foreign;
+
+          if (topItem.id > state.lastSosId) {
+            var isFirst = (state.lastSosId === 0);
+            state.lastSosId = topItem.id;
+            if (!isFirst && state.role === 'teacher') {
+              document.getElementById('teacher-inbox-card').classList.add('has-new');
+              playChime();
+            }
+          }
+        } else {
+          state.latestInboxJa = '';
+          state.latestInboxForeign = '';
+          document.getElementById('teacher-sos-ja').textContent = 'まだ返信はありません';
+          document.getElementById('teacher-sos-vi').textContent = 'Chưa có tin nhắn từ học sinh';
+          document.getElementById('teacher-inbox-card').classList.remove('has-new');
+        }
+
+        for (var i = 0; i < 2; i++) {
+          var slot = document.getElementById('inlog-' + i);
+          var idx = i + 1;
+          if (idx < list.length) {
+            var pSub = extractPair(list[idx]);
+            slot.classList.add('is-filled');
+            document.getElementById('inlog-time-' + i).textContent = list[idx].time || '';
+            document.getElementById('inlog-ja-' + i).textContent = pSub.ja;
+            document.getElementById('inlog-vi-' + i).textContent = pSub.foreign;
+          } else {
+            slot.classList.remove('is-filled');
+          }
+        }
+      }
+
+      function pollRoomOnce() {
+        if (!state.roomConnected || state.isPolling) return;
+        state.isPolling = true;
+        callBackend('poll', { roomCode: state.roomCode })
+          .then(function (res) {
+            if (res && res.ok) {
+              renderTeacherOutboxAndStudentView(res.messages);
+              renderTeacherInbox(res.studentMessages, res.latestSos);
+            } else if (res && res.error) {
+              showToast(res.error);
+              disconnectRoom();
+            }
+          })
+          .catch(function () {})
+          .finally(function () {
+            state.isPolling = false;
+          });
+      }
+
+      function sendTeacherMessage(text) {
+        var trimmed = (text || '').trim();
+        if (!trimmed) return;
+        if (!state.roomConnected) {
+          showToast('さきに「接続 / Kết nối」を押してください');
+          return;
+        }
+        var fCode = getForeignApiCode();
+        var src = (state.teacherDir === 'ja-f') ? 'ja' : fCode;
+        var tgt = (state.teacherDir === 'ja-f') ? fCode : 'ja';
+
+        document.getElementById('teacher-interim-text').textContent = '翻訳して送信中：' + trimmed;
+        callBackend('send', {
+          roomCode: state.roomCode,
+          text: trimmed,
+          source: src,
+          target: tgt,
+          sender: 'teacher'
+        }).then(function (res) {
+          if (res && res.ok) {
+            renderTeacherOutboxAndStudentView(res.messages);
+            document.getElementById('teacher-interim-text').textContent = '送信完了：' + trimmed;
+            playTone(660, 0.08, 'sine');
+          } else {
+            showToast((res && res.error) ? res.error : '送信に失敗しました');
+          }
+        }).catch(function (err) {
+          showToast('通信エラー：' + err.message);
+        });
+      }
+
+      function sendStudentFreeMessage(text, overrideDir) {
+        var trimmed = (text || '').trim();
+        if (!trimmed) return;
+        if (!state.roomConnected) {
+          showToast('さきに「接続 / Kết nối」をおしてね');
+          return;
+        }
+        var fCode = getForeignApiCode();
+        var dir = overrideDir || (state.testMode ? state.studentDir : 'f-ja');
+        var src = (dir === 'f-ja') ? fCode : 'ja';
+        var tgt = (dir === 'f-ja') ? 'ja' : fCode;
+
+        showToast('おくっています... / Đang gửi...');
+        callBackend('send', {
+          roomCode: state.roomCode,
+          text: trimmed,
+          source: src,
+          target: tgt,
+          sender: 'student'
+        }).then(function (res) {
+          if (res && res.ok) {
+            renderTeacherInbox(res.studentMessages, res.latestSos);
+            showToast('先生へ おくりました！ / Đã gửi thầy cô!');
+            playChime();
+          } else {
+            showToast((res && res.error) ? res.error : '送信に失敗しました');
+          }
+        }).catch(function (err) {
+          showToast('通信エラー：' + err.message);
+        });
+      }
+
+      function sendSosToTeacher(ja, vi, cat) {
+        if (!state.roomConnected) {
+          showToast('「授業連携」で「接続 / Kết nối」をおすと先生へおくれます');
+          return;
+        }
+        callBackend('sos', {
+          roomCode: state.roomCode,
+          jaText: ja,
+          viText: vi,
+          category: cat || 'sos'
+        }).then(function (res) {
+          if (res && res.ok) {
+            renderTeacherInbox(res.studentMessages, res.latestSos);
+            showToast('先生へ おくりました！ / Đã gửi thầy cô!');
+            playChime();
+          } else {
+            showToast((res && res.error) ? res.error : '送信できませんでした');
+          }
+        }).catch(function () {
+          showToast('通信エラーが発生しました');
+        });
+      }
+
+      /* 教員機：連続音声認識（自動再起動ループ） */
+      var teacherRec = null;
+      function startTeacherMic() {
+        var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SR) {
+          showToast('このブラウザは音声認識に対応していません（Chromeをご利用ください）');
+          return;
+        }
+        if (!state.roomConnected) {
+          connectRoom(false);
+          if (!state.roomConnected) return;
+        }
+
+        state.teacherMicActive = true;
+        updateTeacherMicUi();
+        spawnTeacherRecognition();
+      }
+
+      function spawnTeacherRecognition() {
+        if (!state.teacherMicActive) return;
+        var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        teacherRec = new SR();
+        teacherRec.lang = (state.teacherDir === 'ja-f') ? 'ja-JP' : getForeignSpeechCode();
+        teacherRec.continuous = true;
+        teacherRec.interimResults = true;
+
+        teacherRec.onresult = function (event) {
+          var interim = '';
+          for (var i = event.resultIndex; i < event.results.length; i++) {
+            var transcript = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+              sendTeacherMessage(transcript);
+            } else {
+              interim += transcript;
+            }
+          }
+          if (interim) {
+            document.getElementById('teacher-interim-text').textContent = interim;
+          }
+        };
+
+        teacherRec.onerror = function (event) {
+          if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+            stopTeacherMic();
+            document.getElementById('teacher-interim-text').textContent =
+              'マイク権限がブロックされました。GitHub Pages（HTTPS）のURLから開き、Chromeのマイク許可を「許可」にしてください。';
+            showToast('マイク権限エラー：アドレスバーのマイク許可を確認してください');
+          }
+        };
+
+        teacherRec.onend = function () {
+          if (state.teacherMicActive) {
+            setTimeout(spawnTeacherRecognition, 250);
+          }
+        };
+
+        try {
+          teacherRec.start();
+        } catch (e) {}
+      }
+
+      function stopTeacherMic() {
+        state.teacherMicActive = false;
+        if (teacherRec) {
+          try { teacherRec.onend = null; teacherRec.stop(); } catch (e) {}
+          teacherRec = null;
+        }
+        updateTeacherMicUi();
+      }
+
+      function updateTeacherMicUi() {
+        var btn = document.getElementById('btn-teacher-mic');
+        var lbl = document.getElementById('teacher-mic-label');
+        btn.classList.toggle('is-recording', state.teacherMicActive);
+        btn.classList.toggle('btn-primary', !state.teacherMicActive);
+        lbl.textContent = state.teacherMicActive ? '連続マイク配信中（タップで停止）' : '連続マイク配信を開始';
+      }
+
+      /* 子ども機：単発マイク返信 */
+      var studentRec = null;
+      function toggleStudentMic() {
+        var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SR) {
+          showToast('音声認識に対応していません / Không hỗ trợ giọng nói');
+          return;
+        }
+        if (state.studentMicActive && studentRec) {
+          try { studentRec.stop(); } catch (e) {}
+          state.studentMicActive = false;
+          document.getElementById('student-mic-label').textContent = 'Nói ／ こえ';
+          return;
+        }
+        var dir = state.testMode ? state.studentDir : 'f-ja';
+        studentRec = new SR();
+        studentRec.lang = (dir === 'f-ja') ? getForeignSpeechCode() : 'ja-JP';
+        studentRec.continuous = false;
+        studentRec.interimResults = false;
+        state.studentMicActive = true;
+        document.getElementById('student-mic-label').textContent = 'Đang nghe...';
+
+        studentRec.onresult = function (e) {
+          var t = e.results[0][0].transcript;
+          document.getElementById('input-student-reply').value = t;
+          sendStudentFreeMessage(t);
+          document.getElementById('input-student-reply').value = '';
+        };
+        studentRec.onerror = function () {
+          showToast('マイクが使えません（文字入力は使えます）');
+        };
+        studentRec.onend = function () {
+          state.studentMicActive = false;
+          document.getElementById('student-mic-label').textContent = 'Nói ／ こえ';
+        };
+        try { studentRec.start(); } catch (e) {}
+      }
+
+      /* ==================== モード3: たいわ翻訳（2ボタン式・1タップ対話） ==================== */
+      function runTalkTranslateDirect(text, direction) {
+        var trimmed = (text || '').trim();
+        if (!trimmed) return;
+
+        var fApi = getForeignApiCode();
+        var fSpeech = getForeignSpeechCode();
+        var src = (direction === 'ja-f') ? 'ja' : fApi;
+        var tgt = (direction === 'ja-f') ? fApi : 'ja';
+        var speakLang = (tgt === 'ja') ? 'ja-JP' : fSpeech;
+        var badgeLabel = (direction === 'ja-f')
+          ? (state.testMode ? 'にほんご → えいご' : 'にほんご → ベトナム語')
+          : (state.testMode ? 'English → にほんご' : 'Tiếng Việt → にほんご');
+
+        document.getElementById('talk-res-badge').textContent = badgeLabel;
+        document.getElementById('talk-res-main').textContent = 'Đang dịch... / 翻訳中...';
+        document.getElementById('talk-res-sub').textContent = trimmed;
+
+        callBackend('translate', { text: trimmed, source: src, target: tgt })
+          .then(function (res) {
+            if (res && res.ok) {
+              state.talkLastMain = res.translatedText;
+              state.talkLastSub = trimmed;
+              state.talkLastLang = speakLang;
+              document.getElementById('talk-res-main').textContent = res.translatedText;
+              document.getElementById('talk-res-sub').textContent = trimmed;
+              speakText(res.translatedText, speakLang);
+
+              state.talkHistory.unshift({
+                main: res.translatedText,
+                sub: trimmed,
+                lang: speakLang
+              });
+              if (state.talkHistory.length > 4) state.talkHistory.pop();
+              renderTalkHistory();
+            } else {
+              document.getElementById('talk-res-main').textContent = (res && res.error) ? res.error : '翻訳できませんでした';
+            }
+          })
+          .catch(function (err) {
+            document.getElementById('talk-res-main').textContent = '通信エラー：' + err.message;
+          });
+      }
+
+      function renderTalkHistory() {
+        for (var i = 0; i < 4; i++) {
+          var slot = document.getElementById('hlog-' + i);
+          if (i < state.talkHistory.length) {
+            slot.classList.add('is-filled');
+            document.getElementById('hlog-main-' + i).textContent = state.talkHistory[i].main;
+            document.getElementById('hlog-sub-' + i).textContent = state.talkHistory[i].sub;
+          } else {
+            slot.classList.remove('is-filled');
+          }
+        }
+      }
+
+      var talkRec = null;
+      function stopTalkMic() {
+        if (talkRec) {
+          try { talkRec.onend = null; talkRec.stop(); } catch (e) {}
+          talkRec = null;
+        }
+        state.talkMicSide = '';
+        updateTalkMicButtons();
+      }
+
+      function updateTalkMicButtons() {
+        var btnJa = document.getElementById('btn-talk-mic-ja');
+        var btnF = document.getElementById('btn-talk-mic-f');
+        var titleJa = document.getElementById('talk-mic-ja-title');
+        var titleF = document.getElementById('talk-mic-f-title');
+
+        btnJa.classList.toggle('is-listening', state.talkMicSide === 'ja');
+        btnF.classList.toggle('is-listening', state.talkMicSide === 'f');
+
+        titleJa.textContent = (state.talkMicSide === 'ja') ? 'きいています...（はなしてね）' : 'にほんごで はなす';
+        if (state.talkMicSide === 'f') {
+          titleF.textContent = state.testMode ? 'Listening...' : 'Đang nghe...';
+        } else {
+          titleF.textContent = state.testMode ? 'Speak English' : 'Nói tiếng Việt';
+        }
+      }
+
+      function startTalkMic(side) {
+        var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SR) {
+          showToast('このブラウザは音声認識に対応していません');
+          return;
+        }
+        if (state.talkMicSide === side) {
+          stopTalkMic();
+          return;
+        }
+        stopTalkMic();
+
+        state.talkMicSide = side;
+        updateTalkMicButtons();
+        playTone(620, 0.06, 'sine');
+
+        talkRec = new SR();
+        talkRec.lang = (side === 'ja') ? 'ja-JP' : getForeignSpeechCode();
+        talkRec.continuous = false;
+        talkRec.interimResults = false;
+
+        talkRec.onresult = function (e) {
+          var t = e.results[0][0].transcript;
+          var dir = (side === 'ja') ? 'ja-f' : 'f-ja';
+          document.getElementById('input-talk-text').value = t;
+          runTalkTranslateDirect(t, dir);
+        };
+        talkRec.onerror = function () {
+          showToast('マイクが使えません（下のキーボード入力が使えます）');
+        };
+        talkRec.onend = function () {
+          state.talkMicSide = '';
+          talkRec = null;
+          updateTalkMicButtons();
+        };
+        try { talkRec.start(); } catch (e) {}
+      }
+
+      /* ==================== モーダル操作 ==================== */
+      function openZoom(mainText, subText, langCode) {
+        state.zoomMain = mainText;
+        state.zoomSub = subText;
+        state.zoomLang = langCode || getForeignSpeechCode();
+        document.getElementById('zoom-vi').textContent = mainText;
+        document.getElementById('zoom-ja').textContent = subText;
+        document.getElementById('modal-zoom').classList.add('is-open');
+      }
+
+      function openGasModal() {
+        var badge = document.getElementById('gas-mode-badge');
+        if (isGasDirect()) {
+          badge.textContent = '現在の状態：GAS直接起動中（そのまま翻訳・連携が使えます）';
+        } else if (state.gasUrl) {
+          badge.textContent = '現在の状態：GitHub/外部HTML起動 ＋ GAS連携設定済み';
+        } else {
+          badge.textContent = '現在の状態：未接続（Classroomの専用URLから開くか、下にURLと合言葉を設定してください）';
+        }
+        document.getElementById('input-gas-url').value = state.gasUrl;
+        document.getElementById('input-gas-token').value = state.appToken;
+        document.getElementById('gas-test-status').textContent = '';
+        document.getElementById('modal-gas').classList.add('is-open');
+      }
+
+      function openTestPinModal() {
+        if (state.testMode) {
+          disableTestMode();
+          return;
+        }
+        var inp = document.getElementById('input-test-pin');
+        inp.value = '';
+        document.getElementById('test-pin-error').textContent = '';
+        document.getElementById('modal-test-pin').classList.add('is-open');
+        setTimeout(function () { inp.focus(); }, 60);
+      }
+
+      function submitTestPin() {
+        var val = document.getElementById('input-test-pin').value.trim();
+        if (val === TEST_PASSCODE) {
+          document.getElementById('modal-test-pin').classList.remove('is-open');
+          enableTestMode();
+        } else {
+          document.getElementById('test-pin-error').textContent = 'パスコードがちがいます';
+          playTone(220, 0.14, 'sawtooth');
+        }
+      }
+
+      /* ==================== URLパラメータ読み込み（Classroom 1タップ起動） ==================== */
+      function applyUrlParams() {
+        var params;
+        try {
+          params = new URLSearchParams(window.location.search);
+        } catch (e) {
+          return { autoConnect: false };
+        }
+
+        // GAS接続先（?gid=デプロイID または ?gas=フルURL）
+        var gid = (params.get('gid') || '').trim();
+        var gasFull = (params.get('gas') || '').trim();
+        if (gid) {
+          state.gasUrl = 'https://script.google.com/macros/s/' + encodeURIComponent(gid) + '/exec';
+          try { localStorage.setItem('tsutawaru_gas_url', state.gasUrl); } catch (e) {}
+        } else if (gasFull) {
+          state.gasUrl = gasFull;
+          try { localStorage.setItem('tsutawaru_gas_url', state.gasUrl); } catch (e) {}
+        }
+
+        // 合言葉トークン（?token=...）
+        var token = (params.get('token') || '').trim();
+        if (token) {
+          state.appToken = token;
+          try { localStorage.setItem('tsutawaru_app_token', state.appToken); } catch (e) {}
+        }
+
+        // 役割（?role=student | teacher）
+        var role = (params.get('role') || '').trim().toLowerCase();
+        if (role === 'student' || role === 'teacher') {
+          switchRole(role, true);
+        }
+
+        // ROOM指定（?room=ROOM1 〜 ROOM6 または 1〜6）
+        var roomParam = (params.get('room') || '').trim().toUpperCase();
+        if (/^[1-6]$/.test(roomParam)) {
+          roomParam = 'ROOM' + roomParam;
+        }
+        if (roomParam) {
+          var rBtn = document.querySelector('.room-btn[data-room="' + roomParam + '"]');
+          if (rBtn) {
+            selectRoom(roomParam, rBtn.getAttribute('data-label'), true);
+          }
+        }
+
+        // 初期タブ（?tab=cards | live | talk）
+        var tab = (params.get('tab') || '').trim().toLowerCase();
+        var autoConnect = (params.get('auto') === '1' || params.get('auto') === 'true');
+        if (tab === 'cards' || tab === 'live' || tab === 'talk') {
+          switchMainTab(tab, true);
+        } else if (autoConnect || role === 'student' || role === 'teacher') {
+          switchMainTab('live', true);
+        }
+
+        return { autoConnect: autoConnect };
+      }
+
+      /* ==================== 初期化・イベント登録（単一リスナー管理） ==================== */
+      function init() {
+        try {
+          state.gasUrl = localStorage.getItem('tsutawaru_gas_url') || '';
+          state.appToken = localStorage.getItem('tsutawaru_app_token') || '';
+          var savedRole = localStorage.getItem('tsutawaru_role') || '';
+          if (savedRole === 'student' || savedRole === 'teacher') {
+            switchRole(savedRole, true);
+          }
+          var savedRoom = localStorage.getItem('tsutawaru_room_code') || '';
+          if (savedRoom) {
+            var matchedBtn = document.querySelector('.room-btn[data-room="' + savedRoom + '"]');
+            if (matchedBtn) {
+              selectRoom(savedRoom, matchedBtn.getAttribute('data-label'), true);
+            }
+          }
+        } catch (e) {}
+
+        var launchFlags = applyUrlParams();
+        applyTestModeUi();
+
+        // ヘッダーナビ
+        document.getElementById('tab-cards').addEventListener('click', function () { switchMainTab('cards', false); });
+        document.getElementById('tab-live').addEventListener('click', function () { switchMainTab('live', false); });
+        document.getElementById('tab-talk').addEventListener('click', function () { switchMainTab('talk', false); });
+
+        // 読み上げ速度
+        document.getElementById('btn-speed').addEventListener('click', function () {
+          state.speechRate = (state.speechRate === 1.0) ? 0.72 : 1.0;
+          document.getElementById('speed-label').textContent = (state.speechRate === 1.0) ? 'ふつう' : 'ゆっくり';
+          document.getElementById('speed-label-vi').textContent = (state.speechRate === 1.0) ? 'Bình thường' : 'Chậm';
+          playTone(580, 0.06, 'sine');
+        });
+
+        // テストモード（パスコード 086）
+        document.getElementById('btn-test-trigger').addEventListener('click', openTestPinModal);
+        document.getElementById('btn-exit-test').addEventListener('click', disableTestMode);
+        document.getElementById('btn-pin-ok').addEventListener('click', submitTestPin);
+        document.getElementById('btn-pin-close').addEventListener('click', function () {
+          document.getElementById('modal-test-pin').classList.remove('is-open');
+        });
+        document.getElementById('input-test-pin').addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') submitTestPin();
+        });
+
+        // GAS設定モーダル
+        document.getElementById('btn-open-gas').addEventListener('click', openGasModal);
+        document.getElementById('btn-gas-close').addEventListener('click', function () {
+          document.getElementById('modal-gas').classList.remove('is-open');
+        });
+        document.getElementById('btn-gas-save').addEventListener('click', function () {
+          var valUrl = document.getElementById('input-gas-url').value.trim();
+          var valTok = document.getElementById('input-gas-token').value.trim();
+          state.gasUrl = valUrl;
+          state.appToken = valTok;
+          try {
+            localStorage.setItem('tsutawaru_gas_url', valUrl);
+            localStorage.setItem('tsutawaru_app_token', valTok);
+          } catch (e) {}
+          document.getElementById('modal-gas').classList.remove('is-open');
+          showToast('GAS設定を保存しました');
+        });
+        document.getElementById('btn-gas-test').addEventListener('click', function () {
+          var valUrl = document.getElementById('input-gas-url').value.trim();
+          var valTok = document.getElementById('input-gas-token').value.trim();
+          var st = document.getElementById('gas-test-status');
+          if (!valUrl && !isGasDirect()) {
+            st.textContent = 'URLを入力してください';
+            return;
+          }
+          state.gasUrl = valUrl;
+          state.appToken = valTok;
+          st.textContent = '接続と翻訳エンジンを確認しています...';
+          callBackend('translate', { text: '教科書をあけてください', source: 'ja', target: getForeignApiCode() })
+            .then(function (res) {
+              if (res && res.ok) {
+                var engLabel = (res.engine === 'gemini')
+                  ? ('Gemini API (' + (res.model || '') + ')')
+                  : (res.engine === 'gas_fallback'
+                    ? ('GAS標準へ自動切替（Gemini理由：' + (res.fallbackReason || '不明') + '）')
+                    : 'GAS標準翻訳（APIキー未設定）');
+                st.textContent = '接続成功！[' + engLabel + '] テスト訳：' + res.translatedText;
+              } else {
+                st.textContent = '失敗：' + ((res && res.error) ? res.error : '応答エラー');
+              }
+            })
+            .catch(function (err) {
+              st.textContent = '接続エラー：' + err.message;
+            });
+        });
+
+        // モード1：カテゴリ＆カード
+        ['sos', 'class', 'life', 'friend'].forEach(function (c) {
+          document.getElementById('ctab-' + c).addEventListener('click', function () { switchCategory(c); });
+        });
+        document.querySelectorAll('.sos-card').forEach(function (card) {
+          card.addEventListener('click', function () {
+            selectCard(card.getAttribute('data-ja'), card.getAttribute('data-vi'), card.getAttribute('data-cat'));
+          });
+        });
+        document.getElementById('btn-stage-speak-vi').addEventListener('click', function () { speakText(state.stageVi, 'vi-VN'); });
+        document.getElementById('btn-stage-speak-ja').addEventListener('click', function () { speakText(state.stageJa, 'ja-JP'); });
+        document.getElementById('btn-stage-zoom').addEventListener('click', function () { openZoom(state.stageVi, state.stageJa, 'vi-VN'); });
+        document.getElementById('btn-stage-send-sos').addEventListener('click', function () {
+          sendSosToTeacher(state.stageJa, state.stageVi, state.stageCat);
+        });
+
+        // モード2：授業連携（役割・ROOM1〜6・接続）
+        document.getElementById('btn-role-teacher').addEventListener('click', function () { switchRole('teacher', false); });
+        document.getElementById('btn-role-student').addEventListener('click', function () { switchRole('student', false); });
+        document.querySelectorAll('.room-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            selectRoom(btn.getAttribute('data-room'), btn.getAttribute('data-label'), false);
+          });
+        });
+        document.getElementById('btn-room-connect').addEventListener('click', function () { connectRoom(false); });
+
+        // 先生配信方向トグル（テストモード中のみ表示）
+        document.getElementById('btn-tdir-ja-f').addEventListener('click', function () {
+          state.teacherDir = 'ja-f';
+          document.getElementById('btn-tdir-ja-f').classList.add('is-active');
+          document.getElementById('btn-tdir-f-ja').classList.remove('is-active');
+          if (state.teacherMicActive) { stopTeacherMic(); startTeacherMic(); }
+        });
+        document.getElementById('btn-tdir-f-ja').addEventListener('click', function () {
+          state.teacherDir = 'f-ja';
+          document.getElementById('btn-tdir-f-ja').classList.add('is-active');
+          document.getElementById('btn-tdir-ja-f').classList.remove('is-active');
+          if (state.teacherMicActive) { stopTeacherMic(); startTeacherMic(); }
+        });
+
+        // 先生マイク・手動送信・受信操作
+        document.getElementById('btn-teacher-mic').addEventListener('click', function () {
+          if (state.teacherMicActive) stopTeacherMic();
+          else startTeacherMic();
+        });
+        document.getElementById('btn-teacher-send').addEventListener('click', function () {
+          var inp = document.getElementById('input-teacher-manual');
+          sendTeacherMessage(inp.value);
+          inp.value = '';
+        });
+        document.getElementById('input-teacher-manual').addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') {
+            sendTeacherMessage(e.target.value);
+            e.target.value = '';
+          }
+        });
+        document.getElementById('btn-teacher-clear').addEventListener('click', function () {
+          if (!state.roomConnected) return;
+          callBackend('clear', { roomCode: state.roomCode }).then(function () {
+            renderTeacherOutboxAndStudentView([]);
+            renderTeacherInbox([], null);
+            showToast('履歴をすべて消しました');
+          });
+        });
+        document.getElementById('btn-dismiss-sos').addEventListener('click', function () {
+          document.getElementById('teacher-inbox-card').classList.remove('has-new');
+        });
+        document.getElementById('btn-teacher-speak-inbox').addEventListener('click', function () {
+          if (state.latestInboxJa) speakText(state.latestInboxJa, 'ja-JP');
+        });
+
+        // 子ども画面：読み上げ・拡大・履歴タップ読み上げ
+        document.getElementById('btn-student-speak').addEventListener('click', function () {
+          speakText(document.getElementById('student-main-vi').textContent, getForeignSpeechCode());
+        });
+        document.getElementById('btn-student-zoom').addEventListener('click', function () {
+          openZoom(
+            document.getElementById('student-main-vi').textContent,
+            document.getElementById('student-main-ja').textContent,
+            getForeignSpeechCode()
+          );
+        });
+        for (var k = 0; k < 4; k++) {
+          (function (idx) {
+            document.getElementById('slog-' + idx).addEventListener('click', function () {
+              var txt = document.getElementById('slog-' + idx).getAttribute('data-foreign');
+              if (txt) speakText(txt, getForeignSpeechCode());
+            });
+          })(k);
+        }
+
+        // 子ども画面：ワンタップ返信
+        document.querySelectorAll('.quick-reply-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            sendSosToTeacher(btn.getAttribute('data-ja'), btn.getAttribute('data-vi'), btn.getAttribute('data-cat'));
+          });
+        });
+
+        // 子ども画面：自由返信＆テストモード用ボタン
+        document.getElementById('btn-student-lang').addEventListener('click', function () {
+          state.studentDir = (state.studentDir === 'f-ja') ? 'ja-f' : 'f-ja';
+          document.getElementById('btn-student-lang').textContent = (state.studentDir === 'f-ja') ? 'En → Ja' : 'Ja → En';
+          playTone(560, 0.06, 'sine');
+        });
+        document.getElementById('btn-student-mic').addEventListener('click', toggleStudentMic);
+        document.getElementById('btn-student-send').addEventListener('click', function () {
+          var inp = document.getElementById('input-student-reply');
+          sendStudentFreeMessage(inp.value);
+          inp.value = '';
+        });
+        document.getElementById('input-student-reply').addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') {
+            sendStudentFreeMessage(e.target.value);
+            e.target.value = '';
+          }
+        });
+        document.getElementById('btn-student-test-sample').addEventListener('click', function () {
+          var sample = TEST_EN_SAMPLES[state.testSampleIdx % TEST_EN_SAMPLES.length];
+          state.testSampleIdx += 1;
+          sendStudentFreeMessage(sample, 'f-ja');
+        });
+
+        // モード3：たいわ翻訳（2ボタン式）
+        document.getElementById('btn-talk-mic-ja').addEventListener('click', function () { startTalkMic('ja'); });
+        document.getElementById('btn-talk-mic-f').addEventListener('click', function () { startTalkMic('f'); });
+        document.getElementById('btn-talk-send-ja').addEventListener('click', function () {
+          var inp = document.getElementById('input-talk-text');
+          runTalkTranslateDirect(inp.value, 'ja-f');
+          inp.value = '';
+        });
+        document.getElementById('btn-talk-send-f').addEventListener('click', function () {
+          var inp = document.getElementById('input-talk-text');
+          runTalkTranslateDirect(inp.value, 'f-ja');
+          inp.value = '';
+        });
+        document.getElementById('input-talk-text').addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') {
+            runTalkTranslateDirect(e.target.value, 'ja-f');
+            e.target.value = '';
+          }
+        });
+        document.getElementById('btn-talk-speak').addEventListener('click', function () {
+          speakText(state.talkLastMain, state.talkLastLang);
+        });
+        document.getElementById('btn-talk-zoom').addEventListener('click', function () {
+          openZoom(state.talkLastMain, state.talkLastSub, state.talkLastLang);
+        });
+        for (var h = 0; h < 4; h++) {
+          (function (idx) {
+            document.getElementById('hlog-' + idx).addEventListener('click', function () {
+              if (state.talkHistory[idx]) {
+                speakText(state.talkHistory[idx].main, state.talkHistory[idx].lang);
+              }
+            });
+          })(h);
+        }
+
+        // 拡大モーダル
+        document.getElementById('btn-zoom-speak').addEventListener('click', function () {
+          speakText(state.zoomMain, state.zoomLang);
+        });
+        document.getElementById('btn-zoom-close').addEventListener('click', function () {
+          document.getElementById('modal-zoom').classList.remove('is-open');
+        });
+
+        // URLパラメータで ?auto=1 が指定されている場合は自動接続
+        if (launchFlags.autoConnect && (state.gasUrl || isGasDirect())) {
+          connectRoom(true);
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+    })();
+  </script>
+</body>
+</html>
