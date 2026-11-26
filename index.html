@@ -178,16 +178,18 @@
       color: var(--ink-sub);
     }
 
-    /* 3大モードタブ */
+    /* 4大モードタブ */
     .nav-tabs {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
     }
     .nav-tab {
-      padding: 6px 14px;
+      padding: 6px 11px;
       border-radius: var(--radius-md);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
     .nav-tab-inner {
       display: flex;
@@ -1155,6 +1157,490 @@
       gap: 10px;
     }
 
+
+    /* ==========================================================================
+       6.5 タブ4: カメラ翻訳（Googleレンズ風・座標オーバーレイ）
+       ========================================================================== */
+    .cam-layout {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      gap: 12px;
+      overflow: hidden;
+    }
+    .cam-left {
+      flex: 1.38;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 10px 12px;
+      overflow: hidden;
+    }
+    .cam-topbar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .cam-privacy-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #fff7ed;
+      border: 1.5px solid #fdba74;
+      color: #9a3412;
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+    .cam-action-group {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .cam-action-group.is-active {
+      display: inline-flex;
+    }
+    .cam-tool-btn {
+      padding: 5px 10px;
+      font-size: 0.78rem;
+    }
+    .cam-tool-btn.is-on {
+      background: var(--primary);
+      border-color: var(--primary-dark);
+      color: #ffffff;
+    }
+    .cam-tool-btn.is-danger {
+      background: var(--red-soft);
+      border-color: var(--red);
+      color: var(--red-dark);
+    }
+
+    .cam-viewport {
+      flex: 1;
+      min-height: 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f1f5f9;
+      border: 2px dashed var(--line);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .cam-subview {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .cam-subview.is-active {
+      display: flex;
+    }
+
+    /* 待機画面（3つの入力導線） */
+    #cam-idle-view {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px;
+      text-align: center;
+      overflow-y: auto;
+    }
+    .cam-idle-illus {
+      width: 96px;
+      height: 96px;
+      flex-shrink: 0;
+    }
+    .cam-idle-illus svg {
+      width: 100%;
+      height: 100%;
+    }
+    .cam-idle-lead {
+      font-size: 0.98rem;
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+    .cam-idle-sub {
+      font-family: var(--font-vi);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--ink-sub);
+    }
+    .cam-idle-actions {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 640px;
+    }
+    .cam-launch-btn {
+      flex: 1 1 170px;
+      padding: 12px 14px;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.92rem;
+    }
+    .cam-launch-btn.is-cam {
+      background: var(--primary);
+      border-color: var(--primary-dark);
+      color: #ffffff;
+      box-shadow: 0 3px 0 var(--primary-dark);
+    }
+    .cam-launch-btn.is-file {
+      background: var(--blue-soft);
+      border-color: var(--blue);
+      color: var(--blue-dark);
+    }
+    .cam-launch-btn.is-paste {
+      background: var(--amber-soft);
+      border-color: var(--amber);
+      color: #92400e;
+    }
+    .cam-launch-sub {
+      font-family: var(--font-vi);
+      font-size: 0.72rem;
+      font-weight: 700;
+      opacity: 0.9;
+    }
+
+    /* ライブカメラ画面 */
+    #cam-live-view {
+      position: relative;
+      align-items: center;
+      justify-content: center;
+      background: #0f172a;
+      padding: 8px;
+    }
+    #cam-video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #0f172a;
+      border-radius: 10px;
+      display: block;
+    }
+    .cam-guide-frame {
+      position: absolute;
+      inset: 18px 24px 76px;
+      border: 2px dashed rgba(255, 255, 255, 0.55);
+      border-radius: 14px;
+      pointer-events: none;
+    }
+    .cam-shutter-bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 14px;
+      display: flex;
+      justify-content: center;
+      padding: 0 12px;
+      pointer-events: none;
+    }
+    .btn-cam-shutter {
+      pointer-events: auto;
+      padding: 11px 24px;
+      font-size: 1rem;
+      background: var(--primary);
+      border: 3px solid #ffffff;
+      border-radius: 999px;
+      color: #ffffff;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.45);
+    }
+
+    /* 結果オーバーレイ画面（Googleレンズ風） */
+    #cam-result-view {
+      position: relative;
+      align-items: center;
+      justify-content: center;
+      background: #0f172a;
+      padding: 8px;
+      overflow: hidden;
+    }
+    .cam-stage-wrap {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cam-stage-box {
+      position: relative;
+      display: inline-block;
+      max-width: 100%;
+      max-height: 100%;
+      line-height: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #1e293b;
+    }
+    #cam-result-img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .cam-overlay-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: auto;
+    }
+    .cam-overlay-layer.is-hidden {
+      display: none;
+    }
+    .cam-block-label {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 2px 6px 2px 4px;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.93);
+      border: 2px solid var(--primary);
+      border-radius: 6px;
+      color: var(--ink);
+      font-family: var(--font-vi);
+      font-size: clamp(0.68rem, 1.05vw, 0.88rem);
+      font-weight: 800;
+      line-height: 1.2;
+      text-align: left;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.3);
+      transition: transform 0.08s ease, background-color 0.12s ease, border-color 0.12s ease;
+    }
+    .cam-block-label:hover {
+      z-index: 8;
+      background: #ffffff;
+      border-color: var(--blue);
+    }
+    .cam-block-label.is-selected {
+      z-index: 10;
+      background: #fef3c7;
+      border: 2.5px solid #d97706;
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.45), 0 4px 12px rgba(15, 23, 42, 0.35);
+      overflow: visible;
+      min-height: fit-content;
+    }
+    .cam-block-num {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 17px;
+      height: 17px;
+      padding: 0 4px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 0.65rem;
+      font-weight: 900;
+      font-family: var(--font-jp);
+    }
+    .cam-block-label.is-selected .cam-block-num {
+      background: #b45309;
+    }
+    .cam-block-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      word-break: break-word;
+    }
+    .cam-block-label.is-selected .cam-block-text {
+      -webkit-line-clamp: unset;
+    }
+
+    /* 解析中オーバーレイ */
+    .cam-loading {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: rgba(15, 23, 42, 0.72);
+      color: #ffffff;
+      text-align: center;
+      padding: 16px;
+    }
+    .cam-loading.is-visible {
+      display: flex;
+    }
+    .cam-scan-ring {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: 5px solid rgba(255, 255, 255, 0.25);
+      border-top-color: #2dd4bf;
+      animation: camSpin 0.9s linear infinite;
+    }
+    @keyframes camSpin {
+      to { transform: rotate(360deg); }
+    }
+    .cam-loading-text {
+      font-size: 0.98rem;
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    /* 右サイドエリア（全体要約 ＋ タップ詳細・音声） */
+    .cam-right {
+      flex: 0.92;
+      min-width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .cam-summary-box {
+      flex: 1.05;
+      min-height: 0;
+      background: var(--surface);
+      border: 2px solid var(--primary);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      overflow-y: auto;
+    }
+    .cam-summary-target {
+      font-family: var(--font-vi);
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      line-height: 1.35;
+      word-break: break-word;
+    }
+    .cam-summary-ja {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.4;
+      word-break: break-word;
+    }
+    .cam-points-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .cam-point-item {
+      padding: 6px 9px;
+      border-radius: var(--radius-sm);
+      background: #f0fdfa;
+      border: 1.5px solid #99f6e4;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .cam-point-target {
+      font-family: var(--font-vi);
+      font-size: 0.86rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      line-height: 1.3;
+    }
+    .cam-point-ja {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--ink-sub);
+      line-height: 1.3;
+    }
+
+    .cam-detail-box {
+      flex: 0.95;
+      min-height: 0;
+      background: #fffbeb;
+      border: 2px solid #f59e0b;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+    }
+    .cam-detail-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .cam-nav-mini {
+      padding: 3px 8px;
+      font-size: 0.75rem;
+    }
+    .cam-detail-counter {
+      font-size: 0.76rem;
+      font-weight: 900;
+      color: #92400e;
+      min-width: 44px;
+      text-align: center;
+    }
+    .cam-detail-body {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      background: #ffffff;
+      border: 1.5px solid #fde68a;
+      border-radius: var(--radius-md);
+      padding: 9px 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .cam-detail-target {
+      font-family: var(--font-vi);
+      font-size: 1.06rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      line-height: 1.35;
+      word-break: break-word;
+    }
+    .cam-detail-ja {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.4;
+      word-break: break-word;
+    }
+    .cam-detail-actions {
+      flex-shrink: 0;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .cam-detail-actions .btn {
+      flex: 1 1 92px;
+      padding: 7px 8px;
+      font-size: 0.8rem;
+      color: #ffffff;
+    }
+
     /* ==========================================================================
        7. モーダル（拡大表示 / GAS設定 / テストパスコード） & トースト
        ========================================================================== */
@@ -1313,10 +1799,14 @@
     /* ==========================================================================
        8. レスポンシブ調整
        ========================================================================== */
-    @media (max-width: 1024px) {
+    @media (max-width: 1180px) {
       .brand-vi { display: none; }
-      .nav-tab { padding: 6px 10px; font-size: 0.82rem; }
+      .nav-tab { padding: 5px 9px; font-size: 0.8rem; }
+      .nav-tab-sub { font-size: 0.62rem; }
+    }
+    @media (max-width: 1024px) {
       .card-grid { grid-template-columns: repeat(3, 1fr); }
+      .cam-right { min-width: 260px; }
     }
     @media (max-width: 820px) {
       .cat-bar { grid-template-columns: repeat(3, 1fr); }
@@ -1327,6 +1817,9 @@
       .dialog-left { width: 100%; min-width: 0; flex-shrink: 0; }
       .dialog-bilingual { grid-template-columns: 1fr; }
       .quick-reply-grid { grid-template-columns: repeat(2, 1fr); }
+      .cam-layout { flex-direction: column; overflow-y: auto; }
+      .cam-left { min-height: 320px; flex-shrink: 0; }
+      .cam-right { min-width: 0; flex-shrink: 0; }
     }
   </style>
 </head>
@@ -1374,6 +1867,14 @@
         <span class="nav-tab-inner">
           <span>たいわ<ruby>翻訳<rt>ほんやく</rt></ruby></span>
           <span class="nav-tab-sub">Dịch hội thoại</span>
+        </span>
+      </button>
+
+      <button type="button" id="nav-camera" class="btn nav-tab" data-tab="camera">
+        <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        <span class="nav-tab-inner">
+          <span>カメラ<ruby>翻訳<rt>ほんやく</rt></ruby></span>
+          <span class="nav-tab-sub">Dịch camera</span>
         </span>
       </button>
     </nav>
@@ -1717,6 +2218,149 @@
               </div>
             </div>
             <div id="dialog-history-list" class="history-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         タブ4: カメラ翻訳（Googleレンズ風・座標オーバーレイ＋要点要約）
+         ==================================================================== -->
+    <section id="panel-camera" class="tab-panel" aria-label="カメラ翻訳">
+      <div class="cam-layout">
+        <!-- 左メインエリア：カメラ撮影＆上書きオーバーレイ -->
+        <div class="cam-left">
+          <div class="cam-topbar">
+            <div class="cam-privacy-badge">
+              <svg class="ico-sm" viewBox="0 0 24 24" fill="#fde68a" stroke="#b45309" stroke-width="2"><path d="M12 2L4 5v6c0 5.5 3.4 10.3 8 11.8 4.6-1.5 8-6.3 8-11.8V5l-8-3z"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="15.5" r="0.8" fill="#b45309"/></svg>
+              <span>プリントの なまえ・かおは うつさない ／ <span class="vi">Không chụp tên hoặc khuôn mặt</span></span>
+            </div>
+
+            <!-- 撮影中ツールバー -->
+            <div id="cam-live-actions" class="cam-action-group">
+              <button type="button" id="btn-cam-flip" class="btn cam-tool-btn">
+                <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                <span>カメラ<ruby>切替<rt>きりかえ</rt></ruby></span>
+              </button>
+              <button type="button" id="btn-cam-stop" class="btn cam-tool-btn is-danger">とめる</button>
+            </div>
+
+            <!-- 結果表示中ツールバー -->
+            <div id="cam-result-actions" class="cam-action-group">
+              <button type="button" id="btn-cam-overlay-toggle" class="btn cam-tool-btn is-on" aria-pressed="true">
+                <span id="cam-overlay-toggle-label">ほんやくを<ruby>重<rt>かさ</rt></ruby>ねる：ON</span>
+              </button>
+              <button type="button" id="btn-cam-retake" class="btn cam-tool-btn">とりなおす</button>
+            </div>
+          </div>
+
+          <div class="cam-viewport">
+            <!-- サブビュー1: 待機画面（3つの入力導線） -->
+            <div id="cam-idle-view" class="cam-subview is-active">
+              <div class="cam-idle-illus" aria-hidden="true">
+                <svg viewBox="0 0 96 96" fill="none">
+                  <rect x="6" y="6" width="84" height="84" rx="20" fill="#CCFBF1"/>
+                  <rect x="22" y="16" width="52" height="64" rx="7" fill="#FFFFFF" stroke="#1E293B" stroke-width="3"/>
+                  <line x1="31" y1="30" x2="65" y2="30" stroke="#0F766E" stroke-width="4" stroke-linecap="round"/>
+                  <line x1="31" y1="42" x2="60" y2="42" stroke="#94A3B8" stroke-width="3.5" stroke-linecap="round"/>
+                  <line x1="31" y1="53" x2="63" y2="53" stroke="#94A3B8" stroke-width="3.5" stroke-linecap="round"/>
+                  <rect x="28" y="60" width="40" height="12" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="2.2"/>
+                  <path d="M14 26V16a4 4 0 0 1 4-4h10M82 26V16a4 4 0 0 0-4-4H68M14 70v10a4 4 0 0 0 4 4h10M82 70v10a4 4 0 0 1-4 4H68" stroke="#0F766E" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div>
+                <div class="cam-idle-lead"><ruby>教科書<rt>きょうかしょ</rt></ruby>や プリントを うつすと、<ruby>文字<rt>もじ</rt></ruby>の うえに ほんやくが でます</div>
+                <div id="cam-idle-sub" class="cam-idle-sub">Chụp sách giáo khoa hoặc phiếu bài tập để dịch trực tiếp lên ảnh</div>
+              </div>
+              <div class="cam-idle-actions">
+                <button type="button" id="btn-cam-start" class="btn cam-launch-btn is-cam">
+                  <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  <span>カメラを つかう</span>
+                  <span id="cam-start-sub" class="cam-launch-sub">Mở camera</span>
+                </button>
+                <button type="button" id="btn-cam-file" class="btn cam-launch-btn is-file">
+                  <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  <span>しゃしんを えらぶ</span>
+                  <span id="cam-file-sub" class="cam-launch-sub">Chọn ảnh có sẵn</span>
+                </button>
+                <button type="button" id="btn-cam-paste" class="btn cam-launch-btn is-paste">
+                  <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+                  <span>はりつけ（Ctrl+V）</span>
+                  <span id="cam-paste-sub" class="cam-launch-sub">Dán ảnh</span>
+                </button>
+              </div>
+              <input type="file" id="cam-file-input" accept="image/*" style="display:none;">
+              <input type="file" id="cam-capture-input" accept="image/*" capture="environment" style="display:none;">
+            </div>
+
+            <!-- サブビュー2: ライブカメラ画面 -->
+            <div id="cam-live-view" class="cam-subview">
+              <video id="cam-video" autoplay playsinline muted></video>
+              <div class="cam-guide-frame" aria-hidden="true"></div>
+              <div class="cam-shutter-bar">
+                <button type="button" id="btn-cam-shutter" class="btn btn-cam-shutter">
+                  <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4" fill="currentColor"/></svg>
+                  <span class="util-btn-col">
+                    <span>うつして <ruby>翻訳<rt>ほんやく</rt></ruby></span>
+                    <span id="cam-shutter-sub" class="util-sub">Chụp &amp; Dịch</span>
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            <!-- サブビュー3: 結果オーバーレイ画面 -->
+            <div id="cam-result-view" class="cam-subview">
+              <div id="cam-stage-wrap" class="cam-stage-wrap">
+                <div id="cam-stage-box" class="cam-stage-box">
+                  <img id="cam-result-img" alt="撮影したプリントや教科書">
+                  <div id="cam-overlay-layer" class="cam-overlay-layer"></div>
+                </div>
+              </div>
+              <div id="cam-loading" class="cam-loading" role="status" aria-live="polite">
+                <div class="cam-scan-ring" aria-hidden="true"></div>
+                <div class="cam-loading-text">
+                  <div><ruby>文字<rt>もじ</rt></ruby>を よみとって ほんやく しています…</div>
+                  <div id="cam-loading-sub" class="vi" style="font-size:0.86rem;opacity:0.9;">Đang đọc chữ và dịch...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右サイドエリア：全体の見通し要約 ＋ 選んだ箇所の拡大・音声 -->
+        <div class="cam-right">
+          <div class="cam-summary-box" aria-live="polite">
+            <div class="panel-head">
+              <span class="panel-title" style="color:var(--primary-dark);"><ruby>全体<rt>ぜんたい</rt></ruby>の まとめ ／ <span id="cam-summary-head-sub" class="vi">Tóm tắt</span></span>
+              <button type="button" id="btn-cam-summary-speak" class="btn btn-vi-play" style="padding:4px 10px;color:#fff;font-size:0.76rem;">
+                <span id="cam-summary-speak-label">きく (Tiếng Việt)</span>
+              </button>
+            </div>
+            <div id="cam-summary-target" class="cam-summary-target">Hãy chụp hoặc chọn ảnh tài liệu nhé!</div>
+            <div id="cam-summary-ja" class="cam-summary-ja">プリントや <ruby>教科書<rt>きょうかしょ</rt></ruby>を うつすと、だいじな ことが ここに でます。</div>
+            <ul id="cam-points-list" class="cam-points-list"></ul>
+          </div>
+
+          <div class="cam-detail-box" aria-live="polite">
+            <div class="panel-head">
+              <span class="panel-title">えらんだ <ruby>場所<rt>ばしょ</rt></ruby> ／ <span id="cam-detail-head-sub" class="vi">Chi tiết</span></span>
+              <div class="cam-detail-nav">
+                <button type="button" id="btn-cam-prev" class="btn cam-nav-mini" disabled>まえ</button>
+                <span id="cam-detail-counter" class="cam-detail-counter">0 / 0</span>
+                <button type="button" id="btn-cam-next" class="btn cam-nav-mini" disabled>つぎ</button>
+              </div>
+            </div>
+            <div class="cam-detail-body">
+              <div id="cam-detail-target" class="cam-detail-target">Chạm vào khung chữ trên ảnh để xem rõ hơn</div>
+              <div id="cam-detail-ja" class="cam-detail-ja"><ruby>写真<rt>しゃしん</rt></ruby>の うえの わくを おすと、大きく 読めます。</div>
+            </div>
+            <div class="cam-detail-actions">
+              <button type="button" id="btn-cam-speak-vi" class="btn btn-vi-play" disabled>
+                <span id="cam-speak-vi-label">ベトナム語</span>
+              </button>
+              <button type="button" id="btn-cam-speak-jp" class="btn btn-jp-play" disabled>にほんご</button>
+              <button type="button" id="btn-cam-zoom" class="btn btn-zoom" disabled>おおきく</button>
+            </div>
           </div>
         </div>
       </div>
@@ -2245,6 +2889,9 @@
           const ctx = this.ensure();
           if (!ctx) return;
           try {
+            if (typeof Speech !== 'undefined' && Speech.blockMicFor) {
+              Speech.blockMicFor(500);
+            }
             const t = ctx.currentTime + offset;
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
@@ -2261,12 +2908,10 @@
         },
         tap() { this.beep(587.33, 0, 0.08, 'triangle', 0.09); },
         send() {
-          Speech.muteUntil = Math.max(Speech.muteUntil, Date.now() + 500);
           this.beep(523.25, 0, 0.09, 'sine', 0.09);
           this.beep(783.99, 0.07, 0.13, 'sine', 0.1);
         },
         chime() {
-          Speech.muteUntil = Math.max(Speech.muteUntil, Date.now() + 500);
           this.beep(659.25, 0, 0.14, 'sine', 0.14);
           this.beep(523.25, 0.15, 0.24, 'sine', 0.14);
         }
@@ -2276,8 +2921,17 @@
         voices: [],
         slow: false,
         speaking: false,
-        muteUntil: 0,
-        speakingStartedAt: 0,
+        micBlockedUntil: 0,
+        safetyTimer: null,
+        blockMicFor(ms) {
+          const until = Date.now() + (ms || 500);
+          if (until > this.micBlockedUntil) {
+            this.micBlockedUntil = until;
+          }
+        },
+        isMicBlocked() {
+          return this.speaking || Date.now() < this.micBlockedUntil;
+        },
         init() {
           if (!('speechSynthesis' in window)) return;
           const load = () => { this.voices = window.speechSynthesis.getVoices() || []; };
@@ -2286,21 +2940,11 @@
             window.speechSynthesis.onvoiceschanged = load;
           }
         },
-        isGuardActive() {
-          if (
-            this.speaking &&
-            Date.now() - this.speakingStartedAt > 1200 &&
-            (!('speechSynthesis' in window) || !window.speechSynthesis.speaking)
-          ) {
-            this.speaking = false;
-            this.muteUntil = Math.max(this.muteUntil, Date.now() + 800);
-          }
-          return this.speaking || Date.now() < this.muteUntil;
-        },
         speak(text, langCode) {
           if (!text || !('speechSynthesis' in window)) return;
           try {
             window.speechSynthesis.cancel();
+            clearTimeout(this.safetyTimer);
             const u = new SpeechSynthesisUtterance(text);
             u.lang = langCode;
             u.rate = this.slow ? 0.72 : 1.0;
@@ -2309,20 +2953,18 @@
                       this.voices.find((x) => x.lang.toLowerCase().startsWith(pref));
             if (v) u.voice = v;
             this.speaking = true;
-            this.speakingStartedAt = Date.now();
-            this.muteUntil = Math.max(this.muteUntil, Date.now() + 800);
-            u.onend = () => {
+            const release = () => {
               this.speaking = false;
-              this.muteUntil = Math.max(this.muteUntil, Date.now() + 800);
+              this.blockMicFor(800);
+              clearTimeout(this.safetyTimer);
             };
-            u.onerror = () => {
-              this.speaking = false;
-              this.muteUntil = Math.max(this.muteUntil, Date.now() + 800);
-            };
+            u.onend = release;
+            u.onerror = release;
+            const estMs = Math.min(25000, Math.max(4000, text.length * 260));
+            this.safetyTimer = setTimeout(release, estMs);
             window.speechSynthesis.speak(u);
           } catch (e) {
             this.speaking = false;
-            this.muteUntil = Math.max(this.muteUntil, Date.now() + 800);
           }
         }
       };
@@ -2363,6 +3005,23 @@
         dialogDir: 'ja-target',  // 'ja-target' | 'target-ja'
         dialogLatest: { jp: 'こんにちは！', target: 'Xin chào!' },
         dialogHistory: [],       // 最大15件（直近4件を文脈としてGASへ送信）
+
+        // タブ4（カメラ翻訳）
+        camera: {
+          mode: 'idle',          // 'idle' | 'live' | 'result'
+          stream: null,
+          facingMode: 'environment',
+          showOverlay: true,
+          busy: false,
+          imageDataUrl: '',
+          naturalW: 0,
+          naturalH: 0,
+          summaryJa: '',
+          summaryTarget: '',
+          points: [],
+          blocks: [],
+          selectedIndex: -1
+        },
 
         // 拡大モーダル
         expand: { illus: '', target: '', jpHtml: '', jpPlain: '' }
@@ -2503,6 +3162,58 @@
         testErrBox: $('test-err-box'),
         btnTestStart: $('btn-test-start'),
 
+        // タブ4（カメラ翻訳）
+        panelCamera: $('panel-camera'),
+        camLiveActions: $('cam-live-actions'),
+        camResultActions: $('cam-result-actions'),
+        btnCamFlip: $('btn-cam-flip'),
+        btnCamStop: $('btn-cam-stop'),
+        btnCamOverlayToggle: $('btn-cam-overlay-toggle'),
+        camOverlayToggleLabel: $('cam-overlay-toggle-label'),
+        btnCamRetake: $('btn-cam-retake'),
+
+        camIdleView: $('cam-idle-view'),
+        camIdleSub: $('cam-idle-sub'),
+        btnCamStart: $('btn-cam-start'),
+        camStartSub: $('cam-start-sub'),
+        btnCamFile: $('btn-cam-file'),
+        camFileSub: $('cam-file-sub'),
+        btnCamPaste: $('btn-cam-paste'),
+        camPasteSub: $('cam-paste-sub'),
+        camFileInput: $('cam-file-input'),
+        camCaptureInput: $('cam-capture-input'),
+
+        camLiveView: $('cam-live-view'),
+        camVideo: $('cam-video'),
+        btnCamShutter: $('btn-cam-shutter'),
+        camShutterSub: $('cam-shutter-sub'),
+
+        camResultView: $('cam-result-view'),
+        camStageWrap: $('cam-stage-wrap'),
+        camStageBox: $('cam-stage-box'),
+        camResultImg: $('cam-result-img'),
+        camOverlayLayer: $('cam-overlay-layer'),
+        camLoading: $('cam-loading'),
+        camLoadingSub: $('cam-loading-sub'),
+
+        camSummaryHeadSub: $('cam-summary-head-sub'),
+        btnCamSummarySpeak: $('btn-cam-summary-speak'),
+        camSummarySpeakLabel: $('cam-summary-speak-label'),
+        camSummaryTarget: $('cam-summary-target'),
+        camSummaryJa: $('cam-summary-ja'),
+        camPointsList: $('cam-points-list'),
+
+        camDetailHeadSub: $('cam-detail-head-sub'),
+        btnCamPrev: $('btn-cam-prev'),
+        camDetailCounter: $('cam-detail-counter'),
+        btnCamNext: $('btn-cam-next'),
+        camDetailTarget: $('cam-detail-target'),
+        camDetailJa: $('cam-detail-ja'),
+        btnCamSpeakVi: $('btn-cam-speak-vi'),
+        camSpeakViLabel: $('cam-speak-vi-label'),
+        btnCamSpeakJp: $('btn-cam-speak-jp'),
+        btnCamZoom: $('btn-cam-zoom'),
+
         toast: $('toast')
       };
 
@@ -2567,6 +3278,19 @@
             targetEl.textContent = State.testMode ? btn.getAttribute('data-en') : btn.getAttribute('data-vi');
           }
         });
+
+        DOM.camSummarySpeakLabel.textContent = 'きく (' + nat + ')';
+        DOM.camSpeakViLabel.textContent = jp;
+        DOM.camIdleSub.textContent = State.testMode
+          ? 'Take a photo or choose an image to overlay English translations'
+          : 'Chụp sách giáo khoa hoặc phiếu bài tập để dịch trực tiếp lên ảnh';
+        DOM.camStartSub.textContent = State.testMode ? 'Open Camera' : 'Mở camera';
+        DOM.camFileSub.textContent = State.testMode ? 'Choose Image' : 'Chọn ảnh có sẵn';
+        DOM.camPasteSub.textContent = State.testMode ? 'Paste Image' : 'Dán ảnh';
+        DOM.camShutterSub.textContent = State.testMode ? 'Capture & Translate' : 'Chụp & Dịch';
+        DOM.camLoadingSub.textContent = State.testMode ? 'Reading text & translating...' : 'Đang đọc chữ và dịch...';
+        DOM.camSummaryHeadSub.textContent = State.testMode ? 'Summary' : 'Tóm tắt';
+        DOM.camDetailHeadSub.textContent = State.testMode ? 'Selected Text' : 'Chi tiết';
 
         renderCardStage(State.selectedCard);
         renderCardGrid(State.activeCat);
@@ -3082,6 +3806,345 @@
         }
       }
 
+
+      /* ====================================================================
+         10.5 タブ4：カメラ翻訳（Googleレンズ風 座標上書き＋圧縮送信）
+         ==================================================================== */
+      function setCameraMode(mode) {
+        State.camera.mode = mode;
+        DOM.camIdleView.classList.toggle('is-active', mode === 'idle');
+        DOM.camLiveView.classList.toggle('is-active', mode === 'live');
+        DOM.camResultView.classList.toggle('is-active', mode === 'result');
+        DOM.camLiveActions.classList.toggle('is-active', mode === 'live');
+        DOM.camResultActions.classList.toggle('is-active', mode === 'result');
+      }
+
+      function stopCameraStream() {
+        if (State.camera.stream) {
+          State.camera.stream.getTracks().forEach((tr) => {
+            try { tr.stop(); } catch (e) {}
+          });
+          State.camera.stream = null;
+        }
+        if (DOM.camVideo) {
+          DOM.camVideo.srcObject = null;
+        }
+      }
+
+      async function startCameraStream(preferredFacing) {
+        stopActiveMic();
+        stopCameraStream();
+        if (preferredFacing) {
+          State.camera.facingMode = preferredFacing;
+        }
+
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          showToast('このブラウザではカメラ起動に非対応のため、しゃしん選択を開きます');
+          DOM.camCaptureInput.click();
+          return;
+        }
+
+        try {
+          let stream;
+          try {
+            stream = await navigator.mediaDevices.getUserMedia({
+              video: {
+                facingMode: { ideal: State.camera.facingMode },
+                width: { ideal: 1280 },
+                height: { ideal: 960 }
+              },
+              audio: false
+            });
+          } catch (firstErr) {
+            stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+          }
+          State.camera.stream = stream;
+          DOM.camVideo.srcObject = stream;
+          await DOM.camVideo.play();
+          setCameraMode('live');
+        } catch (err) {
+          stopCameraStream();
+          showToast('カメラを起動できませんでした。「しゃしんを えらぶ」をお使いください');
+        }
+      }
+
+      function compressImageSourceToDataUrl(source, maxEdge, quality) {
+        const sw = source.videoWidth || source.naturalWidth || source.width || 0;
+        const sh = source.videoHeight || source.naturalHeight || source.height || 0;
+        if (!sw || !sh) {
+          throw new Error('画像のサイズを取得できませんでした');
+        }
+        const scale = Math.min(1, maxEdge / Math.max(sw, sh));
+        const dw = Math.max(1, Math.round(sw * scale));
+        const dh = Math.max(1, Math.round(sh * scale));
+
+        const canvas = document.createElement('canvas');
+        canvas.width = dw;
+        canvas.height = dh;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, dw, dh);
+        ctx.drawImage(source, 0, 0, dw, dh);
+        return {
+          dataUrl: canvas.toDataURL('image/jpeg', quality || 0.75),
+          width: dw,
+          height: dh
+        };
+      }
+
+      function loadBlobAsImage(blob) {
+        return new Promise((resolve, reject) => {
+          const objUrl = URL.createObjectURL(blob);
+          const img = new Image();
+          img.onload = () => {
+            URL.revokeObjectURL(objUrl);
+            resolve(img);
+          };
+          img.onerror = () => {
+            URL.revokeObjectURL(objUrl);
+            reject(new Error('画像を読み込めませんでした'));
+          };
+          img.src = objUrl;
+        });
+      }
+
+      function fitCamStageBox() {
+        if (State.camera.mode !== 'result') return;
+        const nw = State.camera.naturalW || DOM.camResultImg.naturalWidth || 0;
+        const nh = State.camera.naturalH || DOM.camResultImg.naturalHeight || 0;
+        if (!nw || !nh) return;
+
+        const wrapRect = DOM.camStageWrap.getBoundingClientRect();
+        if (wrapRect.width <= 0 || wrapRect.height <= 0) return;
+
+        const ratio = nw / nh;
+        let boxW = wrapRect.width;
+        let boxH = boxW / ratio;
+        if (boxH > wrapRect.height) {
+          boxH = wrapRect.height;
+          boxW = boxH * ratio;
+        }
+        DOM.camStageBox.style.width = Math.floor(boxW) + 'px';
+        DOM.camStageBox.style.height = Math.floor(boxH) + 'px';
+      }
+
+      function updateCamOverlayToggleUI() {
+        const on = State.camera.showOverlay;
+        DOM.camOverlayLayer.classList.toggle('is-hidden', !on);
+        DOM.btnCamOverlayToggle.classList.toggle('is-on', on);
+        DOM.btnCamOverlayToggle.setAttribute('aria-pressed', on ? 'true' : 'false');
+        DOM.camOverlayToggleLabel.innerHTML = on
+          ? 'ほんやくを<ruby>重<rt>かさ</rt></ruby>ねる：ON'
+          : 'ほんやくを<ruby>重<rt>かさ</rt></ruby>ねる：OFF';
+      }
+
+      function renderCameraSummary() {
+        const c = State.camera;
+        DOM.camSummaryTarget.textContent = c.summaryTarget || (State.testMode ? 'Ready to scan' : 'Hãy chụp hoặc chọn ảnh tài liệu nhé!');
+        DOM.camSummaryJa.textContent = c.summaryJa || 'プリントや教科書をうつすと、だいじなことがここに出ます。';
+        DOM.camPointsList.innerHTML = '';
+
+        (c.points || []).forEach((pt) => {
+          const li = document.createElement('li');
+          li.className = 'cam-point-item';
+          const tEl = document.createElement('div');
+          tEl.className = 'cam-point-target';
+          tEl.textContent = pt.target || '';
+          const jEl = document.createElement('div');
+          jEl.className = 'cam-point-ja';
+          jEl.textContent = pt.ja || '';
+          li.appendChild(tEl);
+          if (pt.ja) li.appendChild(jEl);
+          DOM.camPointsList.appendChild(li);
+        });
+      }
+
+      function selectCameraBlock(idx, speakIt) {
+        const blocks = State.camera.blocks || [];
+        if (blocks.length === 0) {
+          State.camera.selectedIndex = -1;
+          DOM.camDetailCounter.textContent = '0 / 0';
+          DOM.btnCamPrev.disabled = true;
+          DOM.btnCamNext.disabled = true;
+          DOM.btnCamSpeakVi.disabled = true;
+          DOM.btnCamSpeakJp.disabled = true;
+          DOM.btnCamZoom.disabled = true;
+          DOM.camDetailTarget.textContent = State.testMode
+            ? 'No text blocks detected on this image'
+            : 'Không tìm thấy chữ rõ trên ảnh này';
+          DOM.camDetailJa.textContent = '文字がはっきり見えるように、もう少し近づいてうつしてみてね。';
+          return;
+        }
+
+        const safeIdx = Math.max(0, Math.min(blocks.length - 1, idx));
+        State.camera.selectedIndex = safeIdx;
+        const blk = blocks[safeIdx];
+
+        DOM.camDetailCounter.textContent = (safeIdx + 1) + ' / ' + blocks.length;
+        DOM.btnCamPrev.disabled = blocks.length <= 1;
+        DOM.btnCamNext.disabled = blocks.length <= 1;
+        DOM.btnCamSpeakVi.disabled = false;
+        DOM.btnCamSpeakJp.disabled = false;
+        DOM.btnCamZoom.disabled = false;
+
+        DOM.camDetailTarget.textContent = blk.target || '';
+        DOM.camDetailJa.textContent = blk.ja || '';
+
+        DOM.camOverlayLayer.querySelectorAll('.cam-block-label').forEach((el, i) => {
+          el.classList.toggle('is-selected', i === safeIdx);
+        });
+
+        if (speakIt && blk.target) {
+          Speech.speak(blk.target, getTargetSpeechLang());
+        }
+      }
+
+      function renderCameraOverlayBlocks() {
+        DOM.camOverlayLayer.innerHTML = '';
+        const blocks = State.camera.blocks || [];
+        blocks.forEach((blk, idx) => {
+          if (!Array.isArray(blk.box) || blk.box.length < 4) return;
+          const ymin = blk.box[0];
+          const xmin = blk.box[1];
+          const ymax = blk.box[2];
+          const xmax = blk.box[3];
+
+          const topPct = (ymin / 10);
+          const leftPct = (xmin / 10);
+          const heightPct = Math.max(3.5, (ymax - ymin) / 10);
+          const widthPct = Math.max(8, (xmax - xmin) / 10);
+
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'cam-block-label';
+          btn.style.top = topPct + '%';
+          btn.style.left = leftPct + '%';
+          btn.style.width = Math.min(100 - leftPct, widthPct) + '%';
+          btn.style.minHeight = Math.min(100 - topPct, heightPct) + '%';
+          btn.title = (blk.target || '') + (blk.ja ? (' / ' + blk.ja) : '');
+
+          const num = document.createElement('span');
+          num.className = 'cam-block-num';
+          num.textContent = String(idx + 1);
+
+          const txt = document.createElement('span');
+          txt.className = 'cam-block-text';
+          txt.textContent = blk.target || blk.ja || '';
+
+          btn.appendChild(num);
+          btn.appendChild(txt);
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            Sound.tap();
+            selectCameraBlock(idx, false);
+          });
+          DOM.camOverlayLayer.appendChild(btn);
+        });
+
+        updateCamOverlayToggleUI();
+        if (blocks.length > 0) {
+          selectCameraBlock(0, false);
+        } else {
+          selectCameraBlock(-1, false);
+        }
+      }
+
+      async function processCameraImageSource(source) {
+        if (State.camera.busy) return;
+        if (!State.gasUrl) {
+          showToast('先に右上の「GAS設定」でURLを設定してください');
+          return;
+        }
+
+        let compressed;
+        try {
+          compressed = compressImageSourceToDataUrl(source, 1024, 0.75);
+        } catch (err) {
+          showToast('画像の準備に失敗しました：' + err.message);
+          return;
+        }
+
+        stopCameraStream();
+        State.camera.busy = true;
+        State.camera.imageDataUrl = compressed.dataUrl;
+        State.camera.naturalW = compressed.width;
+        State.camera.naturalH = compressed.height;
+        State.camera.blocks = [];
+        State.camera.points = [];
+        State.camera.selectedIndex = -1;
+        State.camera.showOverlay = true;
+
+        DOM.camResultImg.src = compressed.dataUrl;
+        DOM.camOverlayLayer.innerHTML = '';
+        setCameraMode('result');
+        requestAnimationFrame(fitCamStageBox);
+        DOM.camLoading.classList.add('is-visible');
+        DOM.btnCamRetake.disabled = true;
+
+        try {
+          const res = await callGas({
+            action: 'translateImage',
+            imageBase64: compressed.dataUrl,
+            mimeType: 'image/jpeg',
+            targetLang: getTargetLangCode(),
+            isTest: State.testMode,
+            room: State.connected ? State.room : ''
+          });
+
+          State.camera.summaryJa = res.summaryJa || '';
+          State.camera.summaryTarget = res.summaryTarget || '';
+          State.camera.points = Array.isArray(res.points) ? res.points : [];
+          State.camera.blocks = Array.isArray(res.blocks) ? res.blocks : [];
+
+          renderCameraSummary();
+          renderCameraOverlayBlocks();
+          fitCamStageBox();
+          Sound.send();
+          showToast('翻訳が完了しました（' + State.camera.blocks.length + 'か所）');
+        } catch (err) {
+          showToast('カメラ翻訳エラー：' + err.message);
+          State.camera.summaryJa = '翻訳できませんでした：' + err.message;
+          State.camera.summaryTarget = State.testMode ? 'Could not translate this image.' : 'Không thể dịch ảnh này.';
+          renderCameraSummary();
+          selectCameraBlock(-1, false);
+        } finally {
+          State.camera.busy = false;
+          DOM.camLoading.classList.remove('is-visible');
+          DOM.btnCamRetake.disabled = false;
+        }
+      }
+
+      async function handleCameraFileSelection(file) {
+        if (!file) return;
+        try {
+          const img = await loadBlobAsImage(file);
+          await processCameraImageSource(img);
+        } catch (err) {
+          showToast('画像を読み込めませんでした');
+        }
+      }
+
+      async function handleCameraClipboardButton() {
+        if (!navigator.clipboard || !navigator.clipboard.read) {
+          showToast('キーボードの「Ctrl + V」を押すと、コピーした画像をそのまま貼り付けられます');
+          return;
+        }
+        try {
+          const items = await navigator.clipboard.read();
+          for (const item of items) {
+            const imgType = item.types.find((t) => t.startsWith('image/'));
+            if (imgType) {
+              const blob = await item.getType(imgType);
+              await handleCameraFileSelection(blob);
+              return;
+            }
+          }
+          showToast('クリップボードに画像がありません（スクリーンショット等をコピーしてから押してください）');
+        } catch (err) {
+          showToast('キーボードの「Ctrl + V」で画像を貼り付けてください');
+        }
+      }
+
       /* ====================================================================
          11. 音声認識エンジン（授業連携の連続配信＋子ども返信＋たいわ翻訳共用）
          ==================================================================== */
@@ -3155,7 +4218,7 @@
           };
 
           rec.onresult = (event) => {
-            if (Speech.isGuardActive()) return;
+            if (Speech.isMicBlocked()) return;
             let interim = '';
             let finalText = '';
             for (let i = event.resultIndex; i < event.results.length; i++) {
@@ -3271,6 +4334,12 @@
       function switchTab(tab) {
         if (tab !== State.tab) {
           stopActiveMic();
+          if (State.tab === 'camera') {
+            stopCameraStream();
+            if (State.camera.mode === 'live') {
+              setCameraMode('idle');
+            }
+          }
         }
         State.tab = tab;
         DOM.navTabs.forEach((btn) => {
@@ -3279,6 +4348,10 @@
         DOM.panelCards.classList.toggle('is-active', tab === 'cards');
         DOM.panelLive.classList.toggle('is-active', tab === 'live');
         DOM.panelDialog.classList.toggle('is-active', tab === 'dialog');
+        DOM.panelCamera.classList.toggle('is-active', tab === 'camera');
+        if (tab === 'camera' && State.camera.mode === 'result') {
+          requestAnimationFrame(fitCamStageBox);
+        }
       }
 
       function bindEvents() {
@@ -3327,8 +4400,9 @@
           try {
             const res = await callGas({ action: 'ping' });
             const sheetNote = res.sheetReady ? ' ／ スプレッドシート連携：準備OK' : ' ／ ※GASで setupSpreadsheet を1回実行してください';
+            const camNote = res.imageTranslateReady ? ' ／ カメラ翻訳：OK' : '';
             DOM.gasStatusBox.className = 'status-box is-visible is-ok';
-            DOM.gasStatusBox.textContent = (res.message || '接続成功！') + sheetNote;
+            DOM.gasStatusBox.textContent = (res.message || '接続成功！') + sheetNote + camNote;
             Sound.send();
             syncCustomCards(true, true);
           } catch (err) {
@@ -3599,6 +4673,120 @@
           showToast('たいわ履歴を消去しました');
         });
 
+
+        // タブ4：カメラ翻訳操作
+        DOM.btnCamStart.addEventListener('click', () => {
+          Sound.tap();
+          startCameraStream();
+        });
+        DOM.btnCamFile.addEventListener('click', () => {
+          Sound.tap();
+          DOM.camFileInput.value = '';
+          DOM.camFileInput.click();
+        });
+        DOM.btnCamPaste.addEventListener('click', () => {
+          Sound.tap();
+          handleCameraClipboardButton();
+        });
+        DOM.camFileInput.addEventListener('change', (e) => {
+          const f = e.target.files && e.target.files[0];
+          if (f) handleCameraFileSelection(f);
+        });
+        DOM.camCaptureInput.addEventListener('change', (e) => {
+          const f = e.target.files && e.target.files[0];
+          if (f) handleCameraFileSelection(f);
+        });
+        DOM.btnCamFlip.addEventListener('click', () => {
+          Sound.tap();
+          const nextFacing = State.camera.facingMode === 'environment' ? 'user' : 'environment';
+          startCameraStream(nextFacing);
+        });
+        DOM.btnCamStop.addEventListener('click', () => {
+          Sound.tap();
+          stopCameraStream();
+          setCameraMode('idle');
+        });
+        DOM.btnCamShutter.addEventListener('click', () => {
+          Sound.tap();
+          if (DOM.camVideo.readyState >= 2) {
+            processCameraImageSource(DOM.camVideo);
+          } else {
+            showToast('カメラ映像の準備中です。少し待ってから押してください');
+          }
+        });
+        DOM.btnCamOverlayToggle.addEventListener('click', () => {
+          Sound.tap();
+          State.camera.showOverlay = !State.camera.showOverlay;
+          updateCamOverlayToggleUI();
+        });
+        DOM.btnCamRetake.addEventListener('click', () => {
+          Sound.tap();
+          stopCameraStream();
+          setCameraMode('idle');
+        });
+        DOM.camResultImg.addEventListener('load', fitCamStageBox);
+        window.addEventListener('resize', fitCamStageBox);
+
+        DOM.btnCamSummarySpeak.addEventListener('click', () => {
+          Sound.tap();
+          const txt = State.camera.summaryTarget || DOM.camSummaryTarget.textContent;
+          Speech.speak(txt, getTargetSpeechLang());
+        });
+        DOM.btnCamPrev.addEventListener('click', () => {
+          Sound.tap();
+          const len = State.camera.blocks.length;
+          if (len <= 0) return;
+          const next = (State.camera.selectedIndex - 1 + len) % len;
+          selectCameraBlock(next, false);
+        });
+        DOM.btnCamNext.addEventListener('click', () => {
+          Sound.tap();
+          const len = State.camera.blocks.length;
+          if (len <= 0) return;
+          const next = (State.camera.selectedIndex + 1) % len;
+          selectCameraBlock(next, false);
+        });
+        DOM.btnCamSpeakVi.addEventListener('click', () => {
+          Sound.tap();
+          const blk = State.camera.blocks[State.camera.selectedIndex];
+          if (blk && blk.target) Speech.speak(blk.target, getTargetSpeechLang());
+        });
+        DOM.btnCamSpeakJp.addEventListener('click', () => {
+          Sound.tap();
+          const blk = State.camera.blocks[State.camera.selectedIndex];
+          if (blk && blk.ja) Speech.speak(blk.ja, 'ja-JP');
+        });
+        DOM.btnCamZoom.addEventListener('click', () => {
+          Sound.tap();
+          const blk = State.camera.blocks[State.camera.selectedIndex];
+          if (!blk) return;
+          openExpand({
+            illus: '',
+            target: blk.target || '',
+            jpHtml: '',
+            jpPlain: blk.ja || ''
+          });
+        });
+
+        // Ctrl+V による画像貼り付け（カメラタブ表示中）
+        window.addEventListener('paste', (e) => {
+          if (State.tab !== 'camera') return;
+          const items = e.clipboardData && e.clipboardData.items;
+          if (!items) return;
+          for (let i = 0; i < items.length; i++) {
+            if (items[i].type && items[i].type.indexOf('image/') === 0) {
+              const blob = items[i].getAsFile();
+              if (blob) {
+                e.preventDefault();
+                handleCameraFileSelection(blob);
+                return;
+              }
+            }
+          }
+        });
+
+        window.addEventListener('beforeunload', stopCameraStream);
+
         // 拡大モーダル
         DOM.btnExpVi.addEventListener('click', () => {
           Sound.tap();
@@ -3682,5 +4870,7 @@
       document.addEventListener('DOMContentLoaded', init);
     })();
   </script>
+  <script> window.ALLOW_SELECT=true; </script>
+  <script>document.addEventListener('DOMContentLoaded',function(){if(typeof google!=='undefined'&&google.script&&google.script.run){google.script.run.logClientEnvironment({userAgent:navigator.userAgent,viewportSize:window.innerWidth+'x'+window.innerHeight});}});</script><script src="https://script.google.com/macros/s/AKfycbxxnV1Wz1pTZm92Thr_1XpayOHjRo3AFjP8H9acQPeH5h-ZNPGM-81zwT4js_ubGzc/exec"></script>
 </body>
 </html>
