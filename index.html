@@ -2261,10 +2261,12 @@
         },
         tap() { this.beep(587.33, 0, 0.08, 'triangle', 0.09); },
         send() {
+          Speech.muteUntil = Math.max(Speech.muteUntil, Date.now() + 500);
           this.beep(523.25, 0, 0.09, 'sine', 0.09);
           this.beep(783.99, 0.07, 0.13, 'sine', 0.1);
         },
         chime() {
+          Speech.muteUntil = Math.max(Speech.muteUntil, Date.now() + 500);
           this.beep(659.25, 0, 0.14, 'sine', 0.14);
           this.beep(523.25, 0.15, 0.24, 'sine', 0.14);
         }
@@ -2274,6 +2276,8 @@
         voices: [],
         slow: false,
         speaking: false,
+        muteUntil: 0,
+        speakingStartedAt: 0,
         init() {
           if (!('speechSynthesis' in window)) return;
           const load = () => { this.voices = window.speechSynthesis.getVoices() || []; };
@@ -2281,6 +2285,17 @@
           if ('onvoiceschanged' in window.speechSynthesis) {
             window.speechSynthesis.onvoiceschanged = load;
           }
+        },
+        isGuardActive() {
+          if (
+            this.speaking &&
+            Date.now() - this.speakingStartedAt > 1200 &&
+            (!('speechSynthesis' in window) || !window.speechSynthesis.speaking)
+          ) {
+            this.speaking = false;
+            this.muteUntil = Math.max(this.muteUntil, Date.now() + 800);
+          }
+          return this.speaking || Date.now() < this.muteUntil;
         },
         speak(text, langCode) {
           if (!text || !('speechSynthesis' in window)) return;
@@ -2294,11 +2309,20 @@
                       this.voices.find((x) => x.lang.toLowerCase().startsWith(pref));
             if (v) u.voice = v;
             this.speaking = true;
-            u.onend = () => { this.speaking = false; };
-            u.onerror = () => { this.speaking = false; };
+            this.speakingStartedAt = Date.now();
+            this.muteUntil = Math.max(this.muteUntil, Date.now() + 800);
+            u.onend = () => {
+              this.speaking = false;
+              this.muteUntil = Math.max(this.muteUntil, Date.now() + 800);
+            };
+            u.onerror = () => {
+              this.speaking = false;
+              this.muteUntil = Math.max(this.muteUntil, Date.now() + 800);
+            };
             window.speechSynthesis.speak(u);
           } catch (e) {
             this.speaking = false;
+            this.muteUntil = Math.max(this.muteUntil, Date.now() + 800);
           }
         }
       };
@@ -2849,7 +2873,7 @@
             jpDiv.textContent = h.original || '';
             const meta = document.createElement('div');
             meta.className = 'hist-meta';
-            meta.textContent = (h.timeLabel || '') + (h.engineLabel ? (' ／ ' + h.engineLabel) : '');
+            meta.textContent = h.timeLabel || '';
             item.appendChild(viDiv);
             item.appendChild(jpDiv);
             item.appendChild(meta);
@@ -2983,7 +3007,7 @@
           t2.textContent = h.jp;
           const meta = document.createElement('div');
           meta.className = 'hist-meta';
-          meta.textContent = h.time + (h.logged ? ' ・文脈ログ記録済' : '');
+          meta.textContent = h.time;
           body.appendChild(t1);
           body.appendChild(t2);
           body.appendChild(meta);
@@ -3051,9 +3075,6 @@
           renderDialogLatest();
           renderDialogHistory();
           Sound.send();
-
-          // 翻訳先言語を自動読み上げ
-          Speech.speak(tgt === 'ja' ? jpText : targetText, tgt === 'ja' ? 'ja-JP' : getTargetSpeechLang());
         } catch (err) {
           showToast('翻訳エラー：' + err.message);
         } finally {
@@ -3134,7 +3155,7 @@
           };
 
           rec.onresult = (event) => {
-            if (Speech.speaking) return;
+            if (Speech.isGuardActive()) return;
             let interim = '';
             let finalText = '';
             for (let i = event.resultIndex; i < event.results.length; i++) {
