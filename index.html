@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
   <title>つたわるボード / Bảng Giao Tiếp</title>
 
   <!-- Webフォント: 日本語(Zen Maru Gothic) と ベトナム語声調対応(Noto Sans) -->
@@ -2923,6 +2924,11 @@
         speaking: false,
         micBlockedUntil: 0,
         safetyTimer: null,
+        speakTimer: null,
+        voiceWaitTimer: null,
+        currentUtterance: null,
+        currentAudio: null,
+        playSeq: 0,
         blockMicFor(ms) {
           const until = Date.now() + (ms || 500);
           if (until > this.micBlockedUntil) {
@@ -2932,39 +2938,291 @@
         isMicBlocked() {
           return this.speaking || Date.now() < this.micBlockedUntil;
         },
+        refreshVoices() {
+          if (!('speechSynthesis' in window)) return [];
+          try {
+            const list = window.speechSynthesis.getVoices() || [];
+            if (list.length > 0) {
+              this.voices = list;
+            }
+          } catch (e) {}
+          return this.voices;
+        },
         init() {
           if (!('speechSynthesis' in window)) return;
-          const load = () => { this.voices = window.speechSynthesis.getVoices() || []; };
+          const load = () => { this.refreshVoices(); };
           load();
-          if ('onvoiceschanged' in window.speechSynthesis) {
+          if (typeof window.speechSynthesis.addEventListener === 'function') {
+            window.speechSynthesis.addEventListener('voiceschanged', load);
+          } else if ('onvoiceschanged' in window.speechSynthesis) {
             window.speechSynthesis.onvoiceschanged = load;
           }
+          setTimeout(load, 300);
         },
-        speak(text, langCode) {
-          if (!text || !('speechSynthesis' in window)) return;
+        findVoice(langCode) {
+          const list = this.refreshVoices();
+          if (!list || list.length === 0) return null;
+          const normTarget = String(langCode || 'ja-JP').toLowerCase().replace('_', '-');
+          const pref = normTarget.slice(0, 2);
+
+          const candidates = list.filter((v) => {
+            const vLang = String(v.lang || '').toLowerCase().replace('_', '-');
+            if (vLang === normTarget || vLang === pref || vLang.startsWith(pref + '-')) {
+              return true;
+            }
+            if (pref === 'vi' && /vietnam|tiếng việt|tieng viet|hoaimy|namminh/i.test(String(v.name || ''))) {
+              return true;
+            }
+            return false;
+          });
+          if (candidates.length === 0) return null;
+
+          const scoreVoice = (v) => {
+            let score = 0;
+            const vLang = String(v.lang || '').toLowerCase().replace('_', '-');
+            const name = String(v.name || '');
+            if (vLang === normTarget) score += 10;
+            if (/google/i.test(name)) score += 6;
+            if (/natural|neural|online/i.test(name)) score += 5;
+            if (v.default) score += 1;
+            return score;
+          };
+          candidates.sort((a, b) => scoreVoice(b) - scoreVoice(a));
+          return candidates[0];
+        },
+        stop() {
+          this.playSeq += 1;
+          clearTimeout(this.speakTimer);
+          clearTimeout(this.safetyTimer);
+          clearTimeout(this.voiceWaitTimer);
+          this.currentUtterance = null;
+          if (this.currentAudio) {
+            try {
+              this.currentAudio.onended = null;
+              this.currentAudio.onerror = null;
+              this.currentAudio.pause();
+              this.currentAudio.removeAttribute('src');
+              this.currentAudio.load();
+            } catch (e) {}
+            this.currentAudio = null;
+          }
+          if ('speechSynthesis' in window) {
+            try { window.speechSynthesis.cancel(); } catch (e) {}
+          }
+          this.speaking = false;
+        },
+        splitTextForTts(text, maxLen) {
+          const clean = String(text || '').replace(/\s+/g, ' ').trim();
+          if (!clean) return [];
+          const limit = maxLen || 160;
+          if (clean.length <= limit) return [clean];
+
+          const parts = clean.match(/[^。！？.!?\n、,]+[。！？.!?\n、,]*/g) || [clean];
+          const chunks = [];
+          let buf = '';
+
+          const pushSlice = (str) => {
+            let rest = str.trim();
+            while (rest.length > limit) {
+              let cut = rest.lastIndexOf(' ', limit);
+              if (cut < Math.floor(limit * 0.4)) cut = limit;
+              chunks.push(rest.slice(0, cut).trim());
+              rest = rest.slice(cut).trim();
+            }
+            if (rest) chunks.push(rest);
+          };
+
+          for (const part of parts) {
+            if (!part) continue;
+            if (buf && (buf.length + 1 + part.length) > limit) {
+              chunks.push(buf.trim());
+              buf = '';
+            }
+            if (part.length > limit) {
+              if (buf) {
+                chunks.push(buf.trim());
+                buf = '';
+              }
+              pushSlice(part);
+            } else {
+              buf = buf ? (buf + ' ' + part) : part;
+            }
+          }
+          if (buf.trim()) chunks.push(buf.trim());
+          return chunks;
+        },
+        speakWithSynth(text, langCode, voice, seq) {
+          if (seq !== this.playSeq || !('speechSynthesis' in window)) return;
           try {
-            window.speechSynthesis.cancel();
-            clearTimeout(this.safetyTimer);
             const u = new SpeechSynthesisUtterance(text);
-            u.lang = langCode;
+            u.lang = (voice && voice.lang) ? voice.lang : langCode;
             u.rate = this.slow ? 0.72 : 1.0;
-            const pref = langCode.toLowerCase().slice(0, 2);
-            const v = this.voices.find((x) => x.lang.toLowerCase() === langCode.toLowerCase()) ||
-                      this.voices.find((x) => x.lang.toLowerCase().startsWith(pref));
-            if (v) u.voice = v;
+            if (voice) u.voice = voice;
+            this.currentUtterance = u;
             this.speaking = true;
+
             const release = () => {
+              if (seq !== this.playSeq) return;
               this.speaking = false;
+              this.currentUtterance = null;
               this.blockMicFor(800);
               clearTimeout(this.safetyTimer);
             };
             u.onend = release;
             u.onerror = release;
-            const estMs = Math.min(25000, Math.max(4000, text.length * 260));
+
+            const estMs = Math.min(30000, Math.max(4500, text.length * 280));
+            clearTimeout(this.safetyTimer);
             this.safetyTimer = setTimeout(release, estMs);
+
+            if (window.speechSynthesis.paused) {
+              try { window.speechSynthesis.resume(); } catch (e) {}
+            }
             window.speechSynthesis.speak(u);
           } catch (e) {
+            if (seq === this.playSeq) {
+              this.speaking = false;
+              this.currentUtterance = null;
+            }
+          }
+        },
+        speakWithAudioFallback(text, langCode, seq) {
+          if (seq !== this.playSeq) return;
+          const chunks = this.splitTextForTts(text, 160);
+          if (chunks.length === 0) {
             this.speaking = false;
+            return;
+          }
+          const tl = String(langCode || 'vi-VN').toLowerCase().slice(0, 2);
+          let idx = 0;
+
+          const finish = () => {
+            if (seq !== this.playSeq) return;
+            this.speaking = false;
+            this.currentAudio = null;
+            this.blockMicFor(800);
+            clearTimeout(this.safetyTimer);
+          };
+
+          const playNext = () => {
+            if (seq !== this.playSeq) return;
+            if (idx >= chunks.length) {
+              finish();
+              return;
+            }
+            const chunk = chunks[idx++];
+            const url = 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=' +
+              encodeURIComponent(tl) + '&q=' + encodeURIComponent(chunk);
+
+            const audio = new Audio();
+            audio.preload = 'auto';
+            audio.playbackRate = this.slow ? 0.78 : 1.0;
+            audio.src = url;
+            this.currentAudio = audio;
+            this.speaking = true;
+            this.blockMicFor(1200);
+
+            clearTimeout(this.safetyTimer);
+            this.safetyTimer = setTimeout(finish, 20000);
+
+            audio.onended = () => {
+              if (seq !== this.playSeq) return;
+              this.blockMicFor(800);
+              playNext();
+            };
+            audio.onerror = () => {
+              if (seq !== this.playSeq) return;
+              finish();
+              if (tl === 'ja') {
+                this.speakWithSynth(text, langCode, null, seq);
+              } else if (typeof showToast === 'function') {
+                showToast('この端末に音声がなく、オンライン音声も再生できませんでした');
+              }
+            };
+
+            const p = audio.play();
+            if (p && typeof p.catch === 'function') {
+              p.catch(() => {
+                if (seq !== this.playSeq) return;
+                finish();
+                if (tl === 'ja') {
+                  this.speakWithSynth(text, langCode, null, seq);
+                } else if (typeof showToast === 'function') {
+                  showToast('音声を再生できませんでした。もう一度ボタンを押してください');
+                }
+              });
+            }
+          };
+
+          playNext();
+        },
+        speak(text, langCode) {
+          const clean = String(text || '').trim();
+          if (!clean) return;
+
+          this.stop();
+          const seq = this.playSeq;
+          const pref = String(langCode || 'ja-JP').toLowerCase().slice(0, 2);
+          const hasSynth = ('speechSynthesis' in window);
+
+          this.speaking = true;
+          this.blockMicFor(800);
+
+          if (!hasSynth) {
+            this.speakWithAudioFallback(clean, langCode, seq);
+            return;
+          }
+
+          const dispatch = (delayForCancelMs) => {
+            if (seq !== this.playSeq) return;
+            const voice = this.findVoice(langCode);
+
+            if (voice) {
+              this.speakTimer = setTimeout(() => {
+                this.speakWithSynth(clean, langCode, voice, seq);
+              }, delayForCancelMs);
+              return;
+            }
+
+            // 端末に該当言語の音声がない場合：ベトナム語等は日本語誤読させずネイティブ音声へフォールバック
+            if (pref !== 'ja') {
+              this.speakWithAudioFallback(clean, langCode, seq);
+              return;
+            }
+
+            this.speakTimer = setTimeout(() => {
+              this.speakWithSynth(clean, langCode, null, seq);
+            }, delayForCancelMs);
+          };
+
+          const list = this.refreshVoices();
+          if (list.length > 0) {
+            dispatch(60);
+          } else {
+            // リロード直後等で getVoices() が空の場合は短時間待機して再取得
+            let handled = false;
+            const onReady = () => {
+              if (handled || seq !== this.playSeq) return;
+              if (this.refreshVoices().length > 0) {
+                handled = true;
+                clearTimeout(this.voiceWaitTimer);
+                if (typeof window.speechSynthesis.removeEventListener === 'function') {
+                  window.speechSynthesis.removeEventListener('voiceschanged', onReady);
+                }
+                dispatch(50);
+              }
+            };
+            if (typeof window.speechSynthesis.addEventListener === 'function') {
+              window.speechSynthesis.addEventListener('voiceschanged', onReady);
+            }
+            this.voiceWaitTimer = setTimeout(() => {
+              if (handled || seq !== this.playSeq) return;
+              handled = true;
+              if (typeof window.speechSynthesis.removeEventListener === 'function') {
+                window.speechSynthesis.removeEventListener('voiceschanged', onReady);
+              }
+              dispatch(50);
+            }, 240);
           }
         }
       };
