@@ -1,0 +1,4064 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <title>にほんご・ベトナムご 学習ラボ / Phòng Học Nhật - Việt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@500;700;800&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #f1f5f9;
+      --bg-dot: #cbd5e1;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --ink: #0f172a;
+      --ink-sub: #475569;
+      --ink-muted: #64748b;
+      --line: #cbd5e1;
+      --line-strong: #334155;
+
+      /* モードA: ティール系ラボカラー */
+      --teal: #0f766e;
+      --teal-dark: #115e59;
+      --teal-soft: #ccfbf1;
+      --teal-tint: #f0fdfa;
+
+      /* モードB: インディゴ・オレンジ系交流カラー */
+      --indigo: #4338ca;
+      --indigo-dark: #3730a3;
+      --indigo-soft: #e0e7ff;
+      --indigo-tint: #eef2ff;
+
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-soft: #dbeafe;
+
+      --amber: #d97706;
+      --amber-dark: #b45309;
+      --amber-soft: #fef3c7;
+
+      --green: #15803d;
+      --green-dark: #166534;
+      --green-soft: #dcfce7;
+
+      --rose: #e11d48;
+      --rose-dark: #be123c;
+      --rose-soft: #ffe4e6;
+
+      --radius-sm: 10px;
+      --radius-md: 14px;
+      --radius-lg: 18px;
+      --shadow: 0 3px 0 rgba(15, 23, 42, 0.14);
+      --shadow-sm: 0 2px 0 rgba(15, 23, 42, 0.12);
+
+      --font-jp: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', sans-serif;
+      --font-vi: 'Noto Sans', sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100dvh;
+      width: 100%;
+      overflow: hidden;
+      font-family: var(--font-jp);
+      color: var(--ink);
+      background-color: var(--bg-base);
+      background-image:
+        radial-gradient(var(--bg-dot) 1.25px, transparent 1.25px),
+        linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(241,245,249,0.2) 100%);
+      background-size: 20px 20px, 100% 100%;
+      display: flex;
+      flex-direction: column;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .vi {
+      font-family: var(--font-vi);
+      letter-spacing: 0.01em;
+    }
+
+    ruby { ruby-position: over; }
+    rt {
+      font-size: 0.56em;
+      font-weight: 700;
+      color: inherit;
+      opacity: 0.88;
+      user-select: none;
+    }
+
+    button {
+      font-family: var(--font-jp);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      color: var(--ink);
+      font-weight: 700;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background-color 0.15s ease, border-color 0.15s ease;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+    .btn:hover:not(:disabled) { filter: brightness(0.97); }
+    .btn:active:not(:disabled) {
+      transform: translateY(2px);
+      box-shadow: none;
+    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn:focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }
+
+    .btn-teal { background: var(--teal); border-color: var(--teal-dark); color: #fff; box-shadow: 0 3px 0 var(--teal-dark); }
+    .btn-blue { background: var(--blue); border-color: var(--blue-dark); color: #fff; box-shadow: 0 3px 0 var(--blue-dark); }
+    .btn-indigo { background: var(--indigo); border-color: var(--indigo-dark); color: #fff; box-shadow: 0 3px 0 var(--indigo-dark); }
+    .btn-amber { background: var(--amber); border-color: var(--amber-dark); color: #fff; box-shadow: 0 3px 0 var(--amber-dark); }
+    .btn-green { background: var(--green); border-color: var(--green-dark); color: #fff; box-shadow: 0 3px 0 var(--green-dark); }
+    .btn-rose { background: var(--rose); border-color: var(--rose-dark); color: #fff; box-shadow: 0 3px 0 var(--rose-dark); }
+    .btn-soft-teal { background: var(--teal-soft); border-color: var(--teal); color: var(--teal-dark); }
+    .btn-soft-indigo { background: var(--indigo-soft); border-color: var(--indigo); color: var(--indigo-dark); }
+
+    .ico-xs { width: 15px; height: 15px; flex-shrink: 0; }
+    .ico-sm { width: 18px; height: 18px; flex-shrink: 0; }
+    .ico-md { width: 21px; height: 21px; flex-shrink: 0; }
+
+    /* ========================================================================
+       ヘッダー & 2大モード切替
+       ======================================================================== */
+    .app-header {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 7px 14px;
+      background: var(--surface);
+      border-bottom: 2px solid var(--line);
+      z-index: 30;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+    }
+    .brand-logo { width: 36px; height: 36px; flex-shrink: 0; }
+    .brand-title { display: flex; flex-direction: column; line-height: 1.15; }
+    .brand-jp { font-size: 1rem; font-weight: 900; color: var(--ink); }
+    .brand-vi { font-family: var(--font-vi); font-size: 0.7rem; font-weight: 700; color: var(--ink-sub); }
+
+    .mode-switch {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px;
+      background: #e2e8f0;
+      border-radius: 16px;
+      border: 2px solid var(--line);
+    }
+    .mode-btn {
+      padding: 6px 14px;
+      border-radius: 12px;
+      border: 2px solid transparent;
+      background: transparent;
+      box-shadow: none;
+      color: var(--ink-sub);
+      font-size: 0.88rem;
+    }
+    .mode-btn-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.15;
+    }
+    .mode-btn-sub {
+      font-family: var(--font-vi);
+      font-size: 0.67rem;
+      font-weight: 700;
+      opacity: 0.88;
+    }
+    .mode-btn.is-active-a {
+      background: var(--teal);
+      border-color: var(--teal-dark);
+      color: #ffffff;
+      box-shadow: 0 3px 0 var(--teal-dark);
+    }
+    .mode-btn.is-active-b {
+      background: var(--indigo);
+      border-color: var(--indigo-dark);
+      color: #ffffff;
+      box-shadow: 0 3px 0 var(--indigo-dark);
+    }
+
+    .header-utils {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .util-btn { padding: 6px 10px; font-size: 0.8rem; }
+    .util-col { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
+    .util-sub { font-family: var(--font-vi); font-size: 0.63rem; opacity: 0.85; }
+    .util-btn.is-slow { background: var(--amber-soft); border-color: var(--amber); color: #78350f; }
+
+    /* 個人情報保護バー */
+    .privacy-bar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      margin: 5px 14px 0;
+      padding: 4px 12px;
+      background: #fff7ed;
+      border: 1.5px solid #fdba74;
+      border-radius: 999px;
+      color: #9a3412;
+      font-size: 0.77rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    /* ========================================================================
+       メイン領域 & 独立モード/タブコンテナ
+       ======================================================================== */
+    .app-main {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 7px 14px 10px;
+      overflow: hidden;
+    }
+
+    .mode-container {
+      display: none;
+      flex: 1;
+      min-height: 0;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+    }
+    .mode-container.is-active { display: flex; }
+
+    /* サブナビゲーション */
+    .sub-nav {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+    .sub-tab {
+      flex: 1 1 0;
+      min-width: 145px;
+      padding: 7px 10px;
+      font-size: 0.86rem;
+      justify-content: flex-start;
+    }
+    .sub-tab-col { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.15; }
+    .sub-tab-vi { font-family: var(--font-vi); font-size: 0.66rem; font-weight: 700; opacity: 0.85; }
+
+    .mode-a-nav .sub-tab.is-active {
+      background: var(--teal);
+      border-color: var(--teal-dark);
+      color: #ffffff;
+      box-shadow: 0 3px 0 var(--teal-dark);
+    }
+    .mode-b-nav .sub-tab.is-active {
+      background: var(--indigo);
+      border-color: var(--indigo-dark);
+      color: #ffffff;
+      box-shadow: 0 3px 0 var(--indigo-dark);
+    }
+
+    .tab-panel {
+      display: none;
+      flex: 1;
+      min-height: 0;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+    }
+    .tab-panel.is-active { display: flex; }
+
+    .subview {
+      display: none;
+      flex: 1;
+      min-height: 0;
+      gap: 10px;
+      overflow: hidden;
+    }
+    .subview.is-active { display: flex; }
+
+    /* 共通パネル・カード・ヒント */
+    .lab-card {
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 0;
+    }
+    .hint-strip {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 6px 12px;
+      background: var(--teal-tint);
+      border: 1.5px solid #99f6e4;
+      border-radius: var(--radius-md);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--teal-dark);
+    }
+    .hint-strip.is-indigo {
+      background: var(--indigo-tint);
+      border-color: #c7d2fe;
+      color: var(--indigo-dark);
+    }
+
+    /* 進捗ビジュアルバー */
+    .progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .progress-track {
+      flex: 1;
+      height: 12px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      border: 1.5px solid var(--line);
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #14b8a6, #0f766e);
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+    .progress-fill.is-indigo {
+      background: linear-gradient(90deg, #6366f1, #4338ca);
+    }
+    .progress-label {
+      font-size: 0.8rem;
+      font-weight: 900;
+      color: var(--ink-sub);
+      min-width: 48px;
+      text-align: right;
+    }
+
+    /* サブ切替ピル */
+    .seg-bar {
+      display: inline-flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .seg-btn { padding: 6px 12px; font-size: 0.82rem; }
+    .seg-btn.is-active { background: var(--teal); border-color: var(--teal-dark); color: #fff; }
+    .seg-btn.is-active-indigo { background: var(--indigo); border-color: var(--indigo-dark); color: #fff; }
+
+    /* ========================================================================
+       モードA ① ひらがな道場
+       ======================================================================== */
+    .hira-top-bar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .mission-strip {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      overflow-x: auto;
+      flex: 1;
+      min-width: 0;
+      padding: 2px 0;
+    }
+    .mission-chip {
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      border-radius: 10px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .mission-chip.is-active {
+      background: var(--teal);
+      border-color: var(--teal-dark);
+      color: #ffffff;
+    }
+    .mission-chip.is-cleared {
+      border-color: var(--green);
+      background: var(--green-soft);
+      color: var(--green-dark);
+    }
+    .mission-chip.is-active.is-cleared {
+      background: var(--green);
+      border-color: var(--green-dark);
+      color: #ffffff;
+    }
+    .cleared-dot {
+      display: inline-flex;
+      width: 14px;
+      height: 14px;
+      margin-left: 2px;
+    }
+
+    .hira-write-layout {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      gap: 12px;
+      width: 100%;
+    }
+    .hira-char-col {
+      width: 245px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .hira-char-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 7px;
+      overflow-y: auto;
+      padding: 2px;
+    }
+    .hira-char-btn {
+      padding: 10px 6px;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 1.5rem;
+      font-weight: 900;
+      border-radius: var(--radius-md);
+    }
+    .hira-char-btn .romaji {
+      font-family: var(--font-vi);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--ink-sub);
+    }
+    .hira-char-btn.is-active {
+      background: var(--teal-soft);
+      border-color: var(--teal);
+      color: var(--teal-dark);
+    }
+    .hira-char-btn.is-done {
+      border-color: var(--green);
+      background: var(--green-soft);
+    }
+
+    .hira-canvas-col {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      gap: 12px;
+    }
+    .canvas-stage-card {
+      flex: 1.15;
+      min-width: 0;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 10px;
+    }
+    .canvas-frame {
+      position: relative;
+      width: min(100%, 340px);
+      aspect-ratio: 1 / 1;
+      max-height: calc(100dvh - 285px);
+      background: #ffffff;
+      border: 3px solid var(--teal);
+      border-radius: 18px;
+      overflow: hidden;
+      touch-action: none;
+      box-shadow: inset 0 0 0 2px #e2e8f0;
+    }
+    .canvas-frame canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    #hira-guide-canvas { pointer-events: none; z-index: 1; }
+    #hira-draw-canvas { z-index: 2; cursor: crosshair; }
+
+    .canvas-tools {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+    .canvas-tools .btn { padding: 7px 11px; font-size: 0.82rem; }
+
+    .hira-info-card {
+      flex: 0.85;
+      min-width: 240px;
+      justify-content: space-between;
+    }
+    .hira-big-preview {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      background: var(--surface-soft);
+      border: 2px solid var(--line);
+      border-radius: var(--radius-md);
+    }
+    .hira-big-glyph {
+      width: 72px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.7rem;
+      font-weight: 900;
+      background: var(--teal-soft);
+      color: var(--teal-dark);
+      border: 2px solid var(--teal);
+      border-radius: 14px;
+      flex-shrink: 0;
+    }
+    .hira-note-box {
+      padding: 10px 12px;
+      background: #fffbeb;
+      border: 1.5px solid #fcd34d;
+      border-radius: var(--radius-md);
+      font-size: 0.84rem;
+      line-height: 1.5;
+      color: #78350f;
+    }
+
+    /* クイズ共通（UD発光フィードバック） */
+    .quiz-center {
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+    }
+    .quiz-prompt-box {
+      padding: 14px 18px;
+      background: var(--surface);
+      border: 2.5px solid var(--teal);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .quiz-prompt-box.is-indigo { border-color: var(--indigo); }
+    .quiz-options-4 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .quiz-opt-btn {
+      min-height: 82px;
+      padding: 12px 14px;
+      font-size: 1.1rem;
+      border-radius: var(--radius-lg);
+      flex-direction: column;
+      gap: 4px;
+      white-space: normal;
+      text-align: center;
+    }
+    .quiz-opt-btn.is-huge { font-size: 2.2rem; min-height: 104px; }
+    .quiz-opt-btn.is-correct {
+      background: var(--green-soft);
+      border-color: var(--green);
+      color: var(--green-dark);
+      box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.25);
+    }
+    .quiz-opt-btn.is-hint-glow {
+      background: #fef9c3;
+      border-color: #d97706;
+      color: #78350f;
+      animation: softGlow 0.9s ease-in-out infinite;
+    }
+    .quiz-opt-btn.is-try-again {
+      background: #f8fafc;
+      border-style: dashed;
+      opacity: 0.72;
+    }
+    @keyframes softGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.45); }
+      50% { box-shadow: 0 0 0 7px rgba(217, 119, 6, 0.2); }
+    }
+    .quiz-feedback {
+      min-height: 44px;
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      background: var(--surface-soft);
+      border: 1.5px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+    .quiz-feedback.is-ok {
+      background: var(--green-soft);
+      border-color: var(--green);
+      color: var(--green-dark);
+    }
+    .quiz-feedback.is-guide {
+      background: var(--amber-soft);
+      border-color: var(--amber);
+      color: #92400e;
+    }
+
+    /* ========================================================================
+       モードA ② がっこう図鑑＆かるたクイズ（32語）
+       ======================================================================== */
+    .dict-bar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .cat-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .cat-pill {
+      padding: 6px 11px;
+      font-size: 0.82rem;
+    }
+    .cat-pill.is-active {
+      background: var(--teal);
+      border-color: var(--teal-dark);
+      color: #ffffff;
+    }
+    .cat-pill.is-active-indigo {
+      background: var(--indigo);
+      border-color: var(--indigo-dark);
+      color: #ffffff;
+    }
+
+    .dict-view-col {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+    .dict-stage {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 14px;
+      background: var(--surface);
+      border: 2.5px solid var(--teal);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+    .dict-stage-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      flex: 1;
+    }
+    .dict-stage-svg {
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      border: 1.5px solid var(--line);
+      background: var(--surface-soft);
+      padding: 3px;
+    }
+    .dict-stage-svg svg { width: 100%; height: 100%; }
+    .dict-stage-jp { font-size: clamp(1.05rem, 1.8vw, 1.35rem); font-weight: 900; color: var(--ink); }
+    .dict-stage-vi { font-family: var(--font-vi); font-size: clamp(0.95rem, 1.5vw, 1.18rem); font-weight: 800; color: var(--teal-dark); }
+    .dict-stage-btns { display: flex; gap: 7px; flex-wrap: wrap; }
+    .dict-stage-btns .btn { padding: 7px 12px; font-size: 0.84rem; }
+
+    .dict-grid-wrap {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 2px;
+    }
+    .dict-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 9px;
+      min-height: 100%;
+    }
+    .dict-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 9px 8px;
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-left: 5px solid var(--teal);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+      white-space: normal;
+    }
+    .dict-card.is-selected {
+      background: var(--teal-tint);
+      border-color: var(--teal);
+      outline: 2.5px solid #f59e0b;
+    }
+    .dict-card-svg { width: 58px; height: 58px; flex-shrink: 0; }
+    .dict-card-svg svg { width: 100%; height: 100%; }
+    .dict-card-jp { font-size: 0.92rem; font-weight: 800; color: var(--ink); line-height: 1.25; }
+    .dict-card-vi { font-family: var(--font-vi); font-size: 0.78rem; font-weight: 700; color: var(--teal-dark); line-height: 1.2; }
+
+    /* かるたクイズカード */
+    .karuta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .karuta-card-btn {
+      padding: 12px;
+      min-height: 124px;
+      flex-direction: column;
+      gap: 6px;
+      border-radius: var(--radius-lg);
+      white-space: normal;
+    }
+    .karuta-card-svg { width: 68px; height: 68px; }
+    .karuta-card-svg svg { width: 100%; height: 100%; }
+
+    /* ========================================================================
+       モードA ③ ならべて文パズル
+       ======================================================================== */
+    .puzzle-layout {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      max-width: 920px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .puzzle-prompt-card {
+      padding: 12px 16px;
+      background: var(--surface);
+      border: 2.5px solid var(--teal);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .puzzle-vi-main {
+      font-family: var(--font-vi);
+      font-size: clamp(1.15rem, 2.2vw, 1.55rem);
+      font-weight: 800;
+      color: var(--teal-dark);
+    }
+    .puzzle-grammar-badge {
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--amber-soft);
+      border: 1.5px solid var(--amber);
+      color: #78350f;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+    .puzzle-zone {
+      padding: 12px;
+      background: var(--surface);
+      border: 2px dashed var(--teal);
+      border-radius: var(--radius-lg);
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .puzzle-pool {
+      padding: 12px;
+      background: var(--surface-soft);
+      border: 2px solid var(--line);
+      border-radius: var(--radius-lg);
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .word-tile {
+      padding: 10px 16px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      border-radius: 12px;
+      border: 2px solid var(--blue);
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+      box-shadow: 0 3px 0 var(--blue-dark);
+      touch-action: none;
+    }
+    .word-tile.is-particle {
+      border-color: var(--amber);
+      background: var(--amber-soft);
+      color: #92400e;
+      box-shadow: 0 3px 0 var(--amber-dark);
+    }
+    .word-tile.is-placed {
+      border-color: var(--teal);
+      background: var(--teal-soft);
+      color: var(--teal-dark);
+      box-shadow: 0 3px 0 var(--teal-dark);
+    }
+    .word-tile.is-dragging {
+      opacity: 0.55;
+      transform: scale(1.05);
+    }
+    .puzzle-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .puzzle-actions .btn { padding: 8px 14px; font-size: 0.88rem; }
+
+    /* ========================================================================
+       モードA ④ わたしの復習帳（GAS連携）
+       ======================================================================== */
+    .flashcard-stage {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      max-width: 760px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .flashcard-box {
+      width: 100%;
+      min-height: 210px;
+      padding: 20px 24px;
+      background: var(--surface);
+      border: 3px solid var(--teal);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+      cursor: pointer;
+    }
+    .flashcard-face-tag {
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--teal-soft);
+      color: var(--teal-dark);
+      font-size: 0.76rem;
+      font-weight: 800;
+    }
+    .flashcard-main-text {
+      font-size: clamp(1.3rem, 2.8vw, 2rem);
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1.35;
+      word-break: break-word;
+    }
+    .flashcard-sub-text {
+      font-family: var(--font-vi);
+      font-size: clamp(1.05rem, 2vw, 1.45rem);
+      font-weight: 800;
+      color: var(--teal-dark);
+      line-height: 1.35;
+    }
+    .flashcard-sub-text.is-masked {
+      background: #e2e8f0;
+      color: var(--ink-sub);
+      padding: 6px 18px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+    }
+
+    /* ========================================================================
+       モードA ⑤ きょうのがんばり記録
+       ======================================================================== */
+    .record-layout {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 12px;
+      overflow-y: auto;
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 9px;
+    }
+    .kpi-box {
+      padding: 12px;
+      border-radius: var(--radius-md);
+      background: var(--surface-soft);
+      border: 2px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .kpi-num { font-size: 1.75rem; font-weight: 900; color: var(--teal-dark); }
+    .kpi-label { font-size: 0.8rem; font-weight: 700; color: var(--ink-sub); }
+    .stamp-sheet {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+      overflow-y: auto;
+    }
+    .stamp-cell {
+      padding: 8px 6px;
+      border-radius: 12px;
+      border: 2px dashed var(--line);
+      background: var(--surface-soft);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--ink-muted);
+    }
+    .stamp-cell.is-earned {
+      border-style: solid;
+      border-color: var(--green);
+      background: var(--green-soft);
+      color: var(--green-dark);
+    }
+    .medal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      overflow-y: auto;
+    }
+    .medal-card {
+      padding: 10px;
+      border-radius: 14px;
+      border: 2px solid var(--line);
+      background: var(--surface-soft);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      opacity: 0.55;
+    }
+    .medal-card.is-earned {
+      opacity: 1;
+      border-color: var(--amber);
+      background: var(--amber-soft);
+    }
+    .medal-svg { width: 42px; height: 42px; flex-shrink: 0; }
+
+    /* ========================================================================
+       モードB ベトナムご交流チャレンジ
+       ======================================================================== */
+    .phrase-stage {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 16px;
+      background: var(--surface);
+      border: 2.5px solid var(--indigo);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+    .phrase-stage-texts { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1; }
+    .phrase-jp { font-size: clamp(1rem, 1.6vw, 1.25rem); font-weight: 900; color: var(--ink); }
+    .phrase-vi { font-family: var(--font-vi); font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 800; color: var(--indigo-dark); }
+    .phrase-kana {
+      display: inline-block;
+      align-self: flex-start;
+      padding: 2px 10px;
+      border-radius: 999px;
+      background: var(--indigo-soft);
+      color: var(--indigo-dark);
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+    .phrase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+    }
+    .phrase-item-card {
+      padding: 11px 12px;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 4px;
+      border-left: 5px solid var(--indigo);
+      text-align: left;
+      white-space: normal;
+      min-height: 102px;
+    }
+    .phrase-item-card.is-selected {
+      background: var(--indigo-tint);
+      border-color: var(--indigo);
+      outline: 2.5px solid #f59e0b;
+    }
+
+    /* 2人用「ベトナム語の先生」判定モード */
+    .sensei-stage {
+      flex: 1;
+      min-height: 0;
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .sensei-card {
+      flex: 1;
+      min-height: 0;
+      padding: 16px 20px;
+      background: var(--surface);
+      border: 3px solid var(--indigo);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-align: center;
+    }
+    .sensei-role-badge {
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: var(--amber-soft);
+      border: 1.5px solid var(--amber);
+      color: #78350f;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+    .sensei-judge-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .btn-judge-big {
+      padding: 16px 14px;
+      font-size: 1.15rem;
+      border-radius: 18px;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .sensei-stamps-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 14px;
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-radius: var(--radius-md);
+    }
+    .sensei-stamp-slots { display: flex; gap: 8px; align-items: center; }
+    .sensei-slot {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 2px dashed var(--line);
+      background: var(--surface-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sensei-slot.is-filled {
+      border-style: solid;
+      border-color: var(--amber);
+      background: var(--amber-soft);
+    }
+
+    /* ========================================================================
+       モーダル & トースト
+       ======================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 100;
+    }
+    .modal-backdrop.is-open { display: flex; }
+    .dialog-modal {
+      width: min(94vw, 540px);
+      max-height: 90dvh;
+      background: #ffffff;
+      border: 3px solid var(--line-strong);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .dialog-modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: var(--surface-soft);
+      border-bottom: 2px solid var(--line);
+      font-weight: 900;
+    }
+    .dialog-modal-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+      font-size: 0.88rem;
+    }
+    .field-group { display: flex; flex-direction: column; gap: 5px; }
+    .field-label { font-size: 0.82rem; font-weight: 800; color: var(--ink-sub); }
+    .text-input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-vi);
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .status-box {
+      display: none;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--line);
+      background: var(--surface-soft);
+      font-size: 0.84rem;
+      font-weight: 700;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+    .status-box.is-visible { display: block; }
+    .status-box.is-ok { background: var(--green-soft); border-color: var(--green); color: var(--green-dark); }
+    .status-box.is-err { background: var(--rose-soft); border-color: var(--rose); color: var(--rose-dark); }
+
+    .toast {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%) translateY(18px);
+      background: #0f172a;
+      color: #ffffff;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 300;
+      max-width: 92vw;
+      text-align: center;
+    }
+    .toast.is-show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 1060px) {
+      .brand-vi { display: none; }
+      .dict-grid { grid-template-columns: repeat(3, 1fr); }
+      .phrase-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 820px) {
+      .hira-write-layout { flex-direction: column; overflow-y: auto; }
+      .hira-char-col { width: 100%; }
+      .hira-char-grid { grid-template-columns: repeat(5, 1fr); }
+      .hira-canvas-col { flex-direction: column; }
+      .dict-grid { grid-template-columns: repeat(2, 1fr); }
+      .record-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======================================================================
+       ヘッダー：ロゴ ＋ 2大モード切替 ＋ 読み上げ速度 ＋ GAS設定
+       ====================================================================== -->
+  <header class="app-header">
+    <div class="brand">
+      <svg class="brand-logo" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <rect x="3" y="4" width="42" height="40" rx="11" fill="#ccfbf1" stroke="#0f766e" stroke-width="2.6"/>
+        <path d="M16 12v10l-7 13a3 3 0 0 0 2.6 4.5h24.8a3 3 0 0 0 2.6-4.5l-7-13V12" fill="#ffffff" stroke="#0f766e" stroke-width="2.6" stroke-linejoin="round"/>
+        <path d="M13 31h22l3 6H10l3-6z" fill="#5eead4"/>
+        <line x1="14" y1="12" x2="34" y2="12" stroke="#0f766e" stroke-width="2.8" stroke-linecap="round"/>
+        <circle cx="21" cy="27" r="2.2" fill="#0f766e"/>
+        <circle cx="27" cy="23" r="1.7" fill="#4338ca"/>
+      </svg>
+      <div class="brand-title">
+        <span class="brand-jp">にほんご・ベトナムご<ruby>学習<rt>がくしゅう</rt></ruby>ラボ</span>
+        <span class="brand-vi">Phòng Học Nhật - Việt</span>
+      </div>
+    </div>
+
+    <div class="mode-switch" role="tablist" aria-label="モード切替">
+      <button type="button" id="btn-mode-a" class="btn mode-btn is-active-a" role="tab" aria-selected="true">
+        <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <span class="mode-btn-col">
+          <span>にほんご<ruby>自習<rt>じしゅう</rt></ruby>ラボ</span>
+          <span class="mode-btn-sub">Học tiếng Nhật</span>
+        </span>
+      </button>
+
+      <button type="button" id="btn-mode-b" class="btn mode-btn" role="tab" aria-selected="false">
+        <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span class="mode-btn-col">
+          <span>ベトナムご<ruby>交流<rt>こうりゅう</rt></ruby></span>
+          <span class="mode-btn-sub">Giao lưu tiếng Việt</span>
+        </span>
+      </button>
+    </div>
+
+    <div class="header-utils">
+      <button type="button" id="btn-speed" class="btn util-btn" title="読み上げ速度の切り替え">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        <span class="util-col">
+          <span id="speed-jp">ふつう</span>
+          <span id="speed-vi" class="util-sub">Bình thường</span>
+        </span>
+      </button>
+
+      <button type="button" id="btn-open-gas" class="btn util-btn" title="教員用GAS設定">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 1 1 0 4h-.09c-.66 0-1.25.4-1.51 1z"/></svg>
+        <span>GAS<ruby>設定<rt>せってい</rt></ruby></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 個人情報保護 固定バー -->
+  <div class="privacy-bar" role="note">
+    <svg class="ico-xs" viewBox="0 0 24 24" fill="#fde68a" stroke="#b45309" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 5v6c0 5.5 3.4 10.3 8 11.8 4.6-1.5 8-6.3 8-11.8V5l-8-3z"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="15.5" r="0.8" fill="#b45309"/></svg>
+    <span>なまえ・じゅうしょなどの <ruby>個人情報<rt>こじんじょうほう</rt></ruby>は いれない ／ <span class="vi">Không nhập tên hoặc thông tin cá nhân</span></span>
+  </div>
+
+  <!-- ======================================================================
+       メインエリア
+       ====================================================================== -->
+  <main class="app-main">
+
+    <!-- ====================================================================
+         モードA：にほんご自習ラボ（転校生向け・独立コンテナ）
+         ==================================================================== -->
+    <section id="mode-a-container" class="mode-container is-active" aria-label="にほんご自習ラボ">
+      <nav class="sub-nav mode-a-nav" id="mode-a-nav" aria-label="自習ラボメニュー">
+        <button type="button" class="btn sub-tab is-active" data-atab="hiragana">
+          <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/></svg>
+          <span class="sub-tab-col"><span>① ひらがな道場</span><span class="sub-tab-vi">Luyện Hiragana</span></span>
+        </button>
+
+        <button type="button" class="btn sub-tab" data-atab="dict">
+          <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span class="sub-tab-col"><span>② がっこう<ruby>図鑑<rt>ずかん</rt></ruby></span><span class="sub-tab-vi">Từ điển trường học</span></span>
+        </button>
+
+        <button type="button" class="btn sub-tab" data-atab="puzzle">
+          <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="7" height="7" rx="1.5"/><rect x="14" y="4" width="7" height="7" rx="1.5"/><rect x="8.5" y="13" width="7" height="7" rx="1.5"/></svg>
+          <span class="sub-tab-col"><span>③ ならべて文パズル</span><span class="sub-tab-vi">Ghép câu</span></span>
+        </button>
+
+        <button type="button" class="btn sub-tab" data-atab="review">
+          <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          <span class="sub-tab-col"><span>④ わたしの<ruby>復習帳<rt>ふくしゅうちょう</rt></ruby></span><span class="sub-tab-vi">Ôn tập của em</span></span>
+        </button>
+
+        <button type="button" class="btn sub-tab" data-atab="record">
+          <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="6"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>
+          <span class="sub-tab-col"><span>⑤ がんばり<ruby>記録<rt>きろく</rt></ruby></span><span class="sub-tab-vi">Thành tích hôm nay</span></span>
+        </button>
+      </nav>
+
+      <!-- ==================================================================
+           モードA ① ひらがな道場
+           ================================================================== -->
+      <div id="panel-a-hiragana" class="tab-panel is-active">
+        <div class="hira-top-bar">
+          <div id="hira-mission-strip" class="mission-strip" role="tablist" aria-label="行ミッション"></div>
+          <div class="seg-bar">
+            <button type="button" id="btn-hira-mode-write" class="btn seg-btn is-active">なぞり<ruby>練習<rt>れんしゅう</rt></ruby> / <span class="vi">Tập viết</span></button>
+            <button type="button" id="btn-hira-mode-quiz" class="btn seg-btn">ききとりクイズ / <span class="vi">Nghe &amp; Chọn</span></button>
+          </div>
+        </div>
+
+        <!-- サブビューA1-1：手書きなぞり -->
+        <div id="subview-hira-write" class="subview is-active">
+          <div class="hira-write-layout">
+            <div class="lab-card hira-char-col">
+              <div style="font-size:0.82rem;font-weight:900;color:var(--teal-dark);">
+                <span id="hira-mission-title">あ行ミッション</span>
+                <div class="vi" style="font-size:0.72rem;color:var(--ink-sub);" id="hira-mission-vi">Nhiệm vụ hàng A (5 chữ)</div>
+              </div>
+              <div id="hira-char-grid" class="hira-char-grid"></div>
+              <div style="margin-top:auto;font-size:0.75rem;color:var(--ink-sub);line-height:1.4;">
+                もじを えらんで なぞろう。<br><span class="vi">Chọn chữ và tập tô theo nét số 1, 2, 3.</span>
+              </div>
+            </div>
+
+            <div class="hira-canvas-col">
+              <div class="lab-card canvas-stage-card">
+                <div class="canvas-frame" id="hira-canvas-frame">
+                  <canvas id="hira-guide-canvas" width="360" height="360"></canvas>
+                  <canvas id="hira-draw-canvas" width="360" height="360"></canvas>
+                </div>
+                <div class="canvas-tools">
+                  <button type="button" id="btn-hira-play-stroke" class="btn btn-teal">
+                    <svg class="ico-xs" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+                    <span><ruby>書<rt>か</rt></ruby>き<ruby>順<rt>じゅん</rt></ruby><ruby>再生<rt>さいせい</rt></ruby> / <span class="vi">Xem nét</span></span>
+                  </button>
+                  <button type="button" id="btn-hira-toggle-guide" class="btn btn-soft-teal">
+                    <span id="hira-guide-label">おてほん：ON</span>
+                  </button>
+                  <button type="button" id="btn-hira-clear" class="btn">けす / <span class="vi">Xóa</span></button>
+                  <button type="button" id="btn-hira-done" class="btn btn-green">かけた！ / <span class="vi">Xong!</span></button>
+                </div>
+              </div>
+
+              <div class="lab-card hira-info-card">
+                <div class="hira-big-preview">
+                  <div id="hira-big-glyph" class="hira-big-glyph">あ</div>
+                  <div style="display:flex;flex-direction:column;gap:4px;">
+                    <div id="hira-big-romaji" class="vi" style="font-size:1.25rem;font-weight:900;color:var(--teal-dark);">a</div>
+                    <div id="hira-big-word" style="font-size:0.9rem;font-weight:800;color:var(--ink);">あさ (buổi sáng)</div>
+                    <button type="button" id="btn-hira-speak" class="btn btn-blue" style="padding:6px 12px;font-size:0.82rem;">
+                      <svg class="ico-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                      <span>おとを きく / <span class="vi">Nghe</span></span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="hira-note-box">
+                  <div style="font-weight:900;margin-bottom:3px;">ワンポイント / <span class="vi">Mẹo phát âm</span></div>
+                  <div id="hira-tip-ja">くちを おおきく あけて「あ」と いおう。</div>
+                  <div id="hira-tip-vi" class="vi" style="margin-top:3px;font-weight:700;">Mở miệng rộng và đọc rõ âm "a".</div>
+                </div>
+
+                <div style="display:flex;flex-direction:column;gap:6px;">
+                  <div class="progress-wrap">
+                    <div class="progress-track"><div id="hira-mission-progress-fill" class="progress-fill"></div></div>
+                    <span id="hira-mission-progress-text" class="progress-label">0 / 5</span>
+                  </div>
+                  <button type="button" id="btn-hira-go-quiz" class="btn btn-amber" style="padding:9px 12px;font-size:0.86rem;">
+                    <span>この行の ききとりクイズへ / <span class="vi">Làm bài nghe</span></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- サブビューA1-2：ひらがな聞き取りクイズ -->
+        <div id="subview-hira-quiz" class="subview">
+          <div class="quiz-center">
+            <div class="progress-wrap">
+              <div class="progress-track"><div id="hq-progress-fill" class="progress-fill"></div></div>
+              <span id="hq-progress-text" class="progress-label">1 / 5</span>
+            </div>
+
+            <div class="quiz-prompt-box">
+              <div>
+                <div style="font-size:1.05rem;font-weight:900;color:var(--ink);">おとを きいて ただしい もじを えらぼう</div>
+                <div class="vi" style="font-size:0.86rem;font-weight:700;color:var(--teal-dark);">Nghe âm thanh và chọn đúng chữ cái</div>
+              </div>
+              <button type="button" id="btn-hq-listen" class="btn btn-teal" style="padding:11px 18px;font-size:1rem;">
+                <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <span>もういちど きく / <span class="vi">Nghe lại</span></span>
+              </button>
+            </div>
+
+            <div class="quiz-options-4">
+              <button type="button" id="hq-opt-0" class="btn quiz-opt-btn is-huge"></button>
+              <button type="button" id="hq-opt-1" class="btn quiz-opt-btn is-huge"></button>
+              <button type="button" id="hq-opt-2" class="btn quiz-opt-btn is-huge"></button>
+              <button type="button" id="hq-opt-3" class="btn quiz-opt-btn is-huge"></button>
+            </div>
+
+            <div id="hq-feedback" class="quiz-feedback">
+              <span id="hq-feedback-text">スピーカーを おして きいてみよう / <span class="vi">Nhấn loa để nghe nhé</span></span>
+              <button type="button" id="btn-hq-next" class="btn btn-teal" style="padding:6px 14px;display:none;">つぎへ / <span class="vi">Tiếp</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================================================================
+           モードA ② がっこう図鑑＆かるたクイズ（32語）
+           ================================================================== -->
+      <div id="panel-a-dict" class="tab-panel">
+        <div class="dict-bar">
+          <div class="cat-tabs" id="dict-cat-tabs" role="tablist">
+            <button type="button" class="btn cat-pill is-active" data-dcat="items"><ruby>持<rt>も</rt></ruby>ち<ruby>物<rt>もの</rt></ruby> / <span class="vi">Đồ dùng</span></button>
+            <button type="button" class="btn cat-pill" data-dcat="places"><ruby>教室<rt>きょうしつ</rt></ruby>の<ruby>場所<rt>ばしょ</rt></ruby> / <span class="vi">Địa điểm</span></button>
+            <button type="button" class="btn cat-pill" data-dcat="life"><ruby>給食<rt>きゅうしょく</rt></ruby>・<ruby>生活<rt>せいかつ</rt></ruby> / <span class="vi">Sinh hoạt</span></button>
+            <button type="button" class="btn cat-pill" data-dcat="study">3・5年の<ruby>教科<rt>きょうか</rt></ruby> / <span class="vi">Môn học</span></button>
+          </div>
+          <div class="seg-bar">
+            <button type="button" id="btn-dict-mode-view" class="btn seg-btn is-active"><ruby>図鑑<rt>ずかん</rt></ruby> / <span class="vi">Từ điển</span></button>
+            <button type="button" id="btn-dict-mode-karuta" class="btn seg-btn">かるたクイズ / <span class="vi">Karuta</span></button>
+          </div>
+        </div>
+
+        <!-- サブビューA2-1：図鑑ビュー -->
+        <div id="subview-dict-view" class="subview is-active">
+          <div class="dict-view-col">
+            <div class="dict-stage">
+              <div class="dict-stage-left">
+                <div id="dict-stage-svg" class="dict-stage-svg" aria-hidden="true"></div>
+                <div style="min-width:0;">
+                  <div id="dict-stage-jp" class="dict-stage-jp">ランドセル</div>
+                  <div id="dict-stage-vi" class="dict-stage-vi">Cặp sách Randoseru</div>
+                </div>
+              </div>
+              <div class="dict-stage-btns">
+                <button type="button" id="btn-dict-speak-ja" class="btn btn-blue">にほんご / <span class="vi">Tiếng Nhật</span></button>
+                <button type="button" id="btn-dict-speak-vi" class="btn btn-teal">ベトナムご / <span class="vi">Tiếng Việt</span></button>
+              </div>
+            </div>
+
+            <div class="dict-grid-wrap">
+              <div id="dict-grid" class="dict-grid"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- サブビューA2-2：かるた風リスニングクイズ -->
+        <div id="subview-dict-karuta" class="subview">
+          <div class="quiz-center">
+            <div class="progress-wrap">
+              <div class="progress-track"><div id="karuta-progress-fill" class="progress-fill"></div></div>
+              <span id="karuta-progress-text" class="progress-label">1 / 5</span>
+            </div>
+
+            <div class="quiz-prompt-box">
+              <div>
+                <div style="font-size:1.05rem;font-weight:900;">にほんごの おとを きいて ただしい カードを えらぼう</div>
+                <div class="vi" style="font-size:0.84rem;font-weight:700;color:var(--teal-dark);">Nghe tiếng Nhật và chọn đúng thẻ hình</div>
+              </div>
+              <button type="button" id="btn-karuta-listen" class="btn btn-teal" style="padding:10px 16px;font-size:0.96rem;">
+                <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <span>おとを きく / <span class="vi">Nghe lại</span></span>
+              </button>
+            </div>
+
+            <div class="karuta-grid">
+              <button type="button" id="karuta-opt-0" class="btn karuta-card-btn"></button>
+              <button type="button" id="karuta-opt-1" class="btn karuta-card-btn"></button>
+              <button type="button" id="karuta-opt-2" class="btn karuta-card-btn"></button>
+              <button type="button" id="karuta-opt-3" class="btn karuta-card-btn"></button>
+            </div>
+
+            <div id="karuta-feedback" class="quiz-feedback">
+              <span id="karuta-feedback-text">カードを タップして えらぼう / <span class="vi">Chạm vào thẻ đúng nhé</span></span>
+              <button type="button" id="btn-karuta-next" class="btn btn-teal" style="padding:6px 14px;display:none;">つぎへ / <span class="vi">Tiếp</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================================================================
+           モードA ③ ならべて文パズル
+           ================================================================== -->
+      <div id="panel-a-puzzle" class="tab-panel">
+        <div class="puzzle-layout">
+          <div class="hint-strip">
+            <span>ルール：ブロックを タップ（または ドラッグ）して <ruby>順番<rt>じゅんばん</rt></ruby>に ならべよう ／ <span class="vi">Chạm hoặc kéo các khối để xếp đúng thứ tự tiếng Nhật (SOV)</span></span>
+            <span id="puzzle-counter" style="font-weight:900;">1 / 18</span>
+          </div>
+
+          <div class="progress-wrap">
+            <div class="progress-track"><div id="puzzle-progress-fill" class="progress-fill"></div></div>
+            <span id="puzzle-progress-label" class="progress-label">0 / 18</span>
+          </div>
+
+          <div class="puzzle-prompt-card">
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <div style="font-size:0.78rem;font-weight:800;color:var(--ink-sub);">ベトナムごの <ruby>意味<rt>いみ</rt></ruby>ヒント / <span class="vi">Gợi ý nghĩa tiếng Việt</span></div>
+              <div id="puzzle-vi-main" class="puzzle-vi-main">Viết vào vở.</div>
+              <div id="puzzle-order-hint" style="font-size:0.82rem;font-weight:700;color:var(--ink-sub);">ヒント：なにに → どうする</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+              <span id="puzzle-grammar-badge" class="puzzle-grammar-badge">じょし「に」</span>
+              <button type="button" id="btn-puzzle-listen-vi" class="btn btn-soft-teal" style="padding:6px 11px;font-size:0.8rem;">ベトナムごを きく / <span class="vi">Nghe</span></button>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:0.78rem;font-weight:800;color:var(--teal-dark);margin-bottom:4px;">こたえの わく（タップで もどせるよ） / <span class="vi">Khung trả lời (chạm để bỏ ra)</span></div>
+            <div id="puzzle-answer-zone" class="puzzle-zone" aria-label="答えを並べる枠"></div>
+          </div>
+
+          <div>
+            <div style="font-size:0.78rem;font-weight:800;color:var(--ink-sub);margin-bottom:4px;">ことばブロック（タップして ならべよう） / <span class="vi">Chọn các khối từ</span></div>
+            <div id="puzzle-pool-zone" class="puzzle-pool" aria-label="単語ブロック一覧"></div>
+          </div>
+
+          <div class="puzzle-actions">
+            <div style="display:flex;gap:7px;flex-wrap:wrap;">
+              <button type="button" id="btn-puzzle-undo" class="btn">1つもどす / <span class="vi">Lùi 1</span></button>
+              <button type="button" id="btn-puzzle-reset" class="btn">やりなおす / <span class="vi">Làm lại</span></button>
+              <button type="button" id="btn-puzzle-hint" class="btn btn-amber">ヒント / <span class="vi">Gợi ý</span></button>
+            </div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap;">
+              <button type="button" id="btn-puzzle-check" class="btn btn-teal">こたえあわせ / <span class="vi">Kiểm tra</span></button>
+              <button type="button" id="btn-puzzle-next" class="btn btn-green" style="display:none;">つぎの<ruby>問題<rt>もんだい</rt></ruby> / <span class="vi">Câu tiếp</span></button>
+            </div>
+          </div>
+
+          <div id="puzzle-feedback" class="quiz-feedback">
+            <span id="puzzle-feedback-text">ブロックを ならべて「こたえあわせ」を おそう / <span class="vi">Xếp xong hãy nhấn Kiểm tra</span></span>
+            <button type="button" id="btn-puzzle-speak-ja" class="btn btn-blue" style="padding:5px 11px;font-size:0.8rem;display:none;">にほんごを きく</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================================================================
+           モードA ④ わたしの復習帳（GAS連携）
+           ================================================================== -->
+      <div id="panel-a-review" class="tab-panel">
+        <div class="dict-bar">
+          <div class="hint-strip" style="flex:1;">
+            <span id="review-status-text">「つたわるボード」と おなじ URL<ruby>設定<rt>せってい</rt></ruby>で <ruby>教室<rt>きょうしつ</rt></ruby>のことばが <ruby>自動<rt>じどう</rt></ruby>で ならびます</span>
+            <button type="button" id="btn-review-sync" class="btn btn-soft-teal" style="padding:5px 11px;font-size:0.78rem;">
+              <span><ruby>最新<rt>さいしん</rt></ruby>に<ruby>更新<rt>こうしん</rt></ruby> / <span class="vi">Cập nhật</span></span>
+            </button>
+          </div>
+          <div class="seg-bar">
+            <button type="button" id="btn-review-mode-card" class="btn seg-btn is-active">フラッシュカード / <span class="vi">Thẻ học</span></button>
+            <button type="button" id="btn-review-mode-quiz" class="btn seg-btn">4たく<ruby>復習<rt>ふくしゅう</rt></ruby>クイズ / <span class="vi">Trắc nghiệm</span></button>
+          </div>
+        </div>
+
+        <!-- サブビューA4-1：フラッシュカード -->
+        <div id="subview-review-card" class="subview is-active">
+          <div class="flashcard-stage">
+            <div style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+              <span id="fc-source-badge" class="puzzle-grammar-badge">デモ用サンプル</span>
+              <span id="fc-counter" style="font-weight:900;color:var(--ink-sub);">1 / 6</span>
+            </div>
+
+            <div id="fc-card-box" class="flashcard-box" role="button" tabindex="0">
+              <span id="fc-cat-tag" class="flashcard-face-tag"><ruby>指示理解<rt>しじりかい</rt></ruby>・見通し</span>
+              <div id="fc-ja-text" class="flashcard-main-text">きょうかしょの 32ページを あけて</div>
+              <div id="fc-vi-text" class="flashcard-sub-text is-masked">タップして ベトナムごを みる / Chạm để xem nghĩa</div>
+            </div>
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+              <button type="button" id="btn-fc-prev" class="btn" style="padding:9px 16px;">まえへ / <span class="vi">Trước</span></button>
+              <button type="button" id="btn-fc-speak-ja" class="btn btn-blue" style="padding:9px 16px;">にほんご / <span class="vi">Nghe Nhật</span></button>
+              <button type="button" id="btn-fc-speak-vi" class="btn btn-teal" style="padding:9px 16px;">ベトナムご / <span class="vi">Nghe Việt</span></button>
+              <button type="button" id="btn-fc-flip" class="btn btn-amber" style="padding:9px 16px;">こたえをみる / <span class="vi">Lật thẻ</span></button>
+              <button type="button" id="btn-fc-next" class="btn" style="padding:9px 16px;">つぎへ / <span class="vi">Sau</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- サブビューA4-2：復習4択クイズ -->
+        <div id="subview-review-quiz" class="subview">
+          <div class="quiz-center">
+            <div class="progress-wrap">
+              <div class="progress-track"><div id="rq-progress-fill" class="progress-fill"></div></div>
+              <span id="rq-progress-text" class="progress-label">1 / 5</span>
+            </div>
+
+            <div class="quiz-prompt-box">
+              <div>
+                <div style="font-size:0.8rem;font-weight:800;color:var(--ink-sub);">この にほんごの <ruby>意味<rt>いみ</rt></ruby>は どれ？ / <span class="vi">Câu tiếng Nhật này nghĩa là gì?</span></div>
+                <div id="rq-question-ja" style="font-size:1.3rem;font-weight:900;margin-top:3px;">きょうかしょを ひらいて</div>
+              </div>
+              <button type="button" id="btn-rq-listen" class="btn btn-blue" style="padding:9px 14px;">おとを きく / <span class="vi">Nghe</span></button>
+            </div>
+
+            <div class="quiz-options-4">
+              <button type="button" id="rq-opt-0" class="btn quiz-opt-btn vi"></button>
+              <button type="button" id="rq-opt-1" class="btn quiz-opt-btn vi"></button>
+              <button type="button" id="rq-opt-2" class="btn quiz-opt-btn vi"></button>
+              <button type="button" id="rq-opt-3" class="btn quiz-opt-btn vi"></button>
+            </div>
+
+            <div id="rq-feedback" class="quiz-feedback">
+              <span id="rq-feedback-text">ただしい ベトナムごを えらぼう / <span class="vi">Chọn nghĩa đúng nhé</span></span>
+              <button type="button" id="btn-rq-next" class="btn btn-teal" style="padding:6px 14px;display:none;">つぎへ / <span class="vi">Tiếp</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================================================================
+           モードA ⑤ きょうのがんばり記録（先生に見せる画面）
+           ================================================================== -->
+      <div id="panel-a-record" class="tab-panel">
+        <div class="hint-strip">
+          <span><ruby>授業<rt>じゅぎょう</rt></ruby>が おわったら この がめんを 先生に みせよう！ ／ <span class="vi">Cuối giờ hãy cho thầy cô xem màn hình này nhé!</span></span>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <button type="button" id="btn-record-reset-ask" class="btn" style="padding:4px 10px;font-size:0.76rem;"><ruby>記録<rt>きろく</rt></ruby>リセット</button>
+            <span id="record-reset-confirm" style="display:none;gap:5px;align-items:center;">
+              <button type="button" id="btn-record-reset-yes" class="btn btn-rose" style="padding:4px 9px;font-size:0.74rem;"><ruby>消<rt>け</rt></ruby>す</button>
+              <button type="button" id="btn-record-reset-no" class="btn" style="padding:4px 9px;font-size:0.74rem;">やめる</button>
+            </span>
+          </div>
+        </div>
+
+        <div class="record-layout">
+          <div class="lab-card">
+            <div style="font-size:0.95rem;font-weight:900;color:var(--teal-dark);">ひらがなスタンプシート / <span class="vi">Bảng tem Hiragana</span></div>
+            <div id="record-stamp-sheet" class="stamp-sheet"></div>
+
+            <div style="font-size:0.92rem;font-weight:900;color:var(--ink);margin-top:4px;">がんばりスコア / <span class="vi">Điểm nỗ lực</span></div>
+            <div class="kpi-grid">
+              <div class="kpi-box">
+                <span id="kpi-hira" class="kpi-num">0 / 12</span>
+                <span class="kpi-label">ひらがなクリア / <span class="vi">Hàng Hiragana</span></span>
+              </div>
+              <div class="kpi-box">
+                <span id="kpi-karuta" class="kpi-num">0</span>
+                <span class="kpi-label">かるたクリア回数 / <span class="vi">Lần thắng Karuta</span></span>
+              </div>
+              <div class="kpi-box">
+                <span id="kpi-puzzle" class="kpi-num">0 / 18</span>
+                <span class="kpi-label">文パズルクリア / <span class="vi">Câu đã ghép</span></span>
+              </div>
+              <div class="kpi-box">
+                <span id="kpi-exchange" class="kpi-num">0</span>
+                <span class="kpi-label"><ruby>交流<rt>こうりゅう</rt></ruby>スタンプ / <span class="vi">Tem giao lưu</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="lab-card">
+            <div style="font-size:0.95rem;font-weight:900;color:var(--amber-dark);">もらったメダル / <span class="vi">Huy chương đạt được</span></div>
+            <div id="record-medal-grid" class="medal-grid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         モードB：ベトナムご交流チャレンジ（クラスの日本人児童向け・独立コンテナ）
+         ==================================================================== -->
+    <section id="mode-b-container" class="mode-container" aria-label="ベトナムご交流チャレンジ">
+      <nav class="sub-nav mode-b-nav" id="mode-b-nav" aria-label="ベトナムご交流メニュー">
+        <button type="button" class="btn sub-tab is-active" data-btab="phrases">
+          <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span class="sub-tab-col"><span>① まいにち声かけフレーズ<ruby>帳<rt>ちょう</rt></ruby></span><span class="sub-tab-vi">Mẫu câu giao tiếp hằng ngày</span></span>
+        </button>
+
+        <button type="button" class="btn sub-tab" data-btab="sensei">
+          <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="5"/><path d="M3 21v-2a7 7 0 0 1 14 0v2"/><polyline points="17 11 19 13 23 9"/></svg>
+          <span class="sub-tab-col"><span>② クイズ＆ベトナム語の先生</span><span class="sub-tab-vi">Đố vui &amp; Thầy cô tiếng Việt</span></span>
+        </button>
+
+        <button type="button" class="btn sub-tab" data-btab="reverse">
+          <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+          <span class="sub-tab-col"><span>③ <ruby>教室<rt>きょうしつ</rt></ruby>のことば<ruby>逆引<rt>ぎゃくび</rt></ruby>きチャレンジ</span><span class="sub-tab-vi">Thử thách từ vựng lớp học</span></span>
+        </button>
+      </nav>
+
+      <!-- ==================================================================
+           モードB ① まいにち声かけフレーズ帳
+           ================================================================== -->
+      <div id="panel-b-phrases" class="tab-panel is-active">
+        <div class="dict-bar">
+          <div class="cat-tabs" id="phrase-cat-tabs" role="tablist">
+            <button type="button" class="btn cat-pill is-active-indigo" data-pcat="greet">あいさつ</button>
+            <button type="button" class="btn cat-pill" data-pcat="play">休み時間・<ruby>遊<rt>あそ</rt></ruby>び</button>
+            <button type="button" class="btn cat-pill" data-pcat="care">きづかい</button>
+            <button type="button" class="btn cat-pill" data-pcat="help"><ruby>授業<rt>じゅぎょう</rt></ruby>の<ruby>助<rt>たす</rt></ruby>け合い</button>
+          </div>
+          <span style="font-size:0.8rem;font-weight:700;color:var(--indigo-dark);">カードを おすと ベトナムごの おとが でるよ！</span>
+        </div>
+
+        <div class="phrase-stage">
+          <div class="phrase-stage-texts">
+            <div id="pstage-jp" class="phrase-jp">こんにちは！</div>
+            <div id="pstage-vi" class="phrase-vi">Xin chào!</div>
+            <div id="pstage-kana" class="phrase-kana">シン チャオ！</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button type="button" id="btn-pstage-speak-vi" class="btn btn-indigo" style="padding:10px 16px;font-size:0.92rem;">
+              <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              <span>ベトナムごを きく</span>
+            </button>
+            <button type="button" id="btn-pstage-speak-ja" class="btn btn-soft-indigo" style="padding:10px 14px;font-size:0.86rem;">にほんご</button>
+          </div>
+        </div>
+
+        <div class="dict-grid-wrap">
+          <div id="phrase-grid" class="phrase-grid"></div>
+        </div>
+      </div>
+
+      <!-- ==================================================================
+           モードB ② ベトナムごクイズ ＆「ベトナム語の先生」判定モード
+           ================================================================== -->
+      <div id="panel-b-sensei" class="tab-panel">
+        <div class="dict-bar">
+          <div class="seg-bar">
+            <button type="button" id="btn-b2-mode-sensei" class="btn seg-btn is-active-indigo">2人<ruby>交流<rt>こうりゅう</rt></ruby>：「ベトナム語の先生」モード</button>
+            <button type="button" id="btn-b2-mode-solo" class="btn seg-btn">1人用：ききとり4たくクイズ</button>
+          </div>
+          <span style="font-size:0.8rem;font-weight:700;color:var(--indigo-dark);">Chromebookを 2人で みて つかおう / <span class="vi">Cùng xem 1 máy tính nhé</span></span>
+        </div>
+
+        <!-- サブビューB2-1：2人交流「ベトナム語の先生」判定モード -->
+        <div id="subview-b2-sensei" class="subview is-active">
+          <div class="sensei-stage">
+            <div class="sensei-stamps-bar">
+              <div style="font-size:0.86rem;font-weight:900;color:var(--indigo-dark);">
+                なかよしスタンプ（5こで メダル！） / <span class="vi">Tem tình bạn</span>
+              </div>
+              <div id="sensei-stamp-slots" class="sensei-stamp-slots"></div>
+              <button type="button" id="btn-sensei-next" class="btn btn-soft-indigo" style="padding:6px 12px;font-size:0.82rem;">つぎのおだい / <span class="vi">Câu khác</span></button>
+            </div>
+
+            <div class="sensei-card">
+              <span class="sensei-role-badge">おだい：にほんごの ともだちが <ruby>発音<rt>はつおん</rt></ruby>して、ベトナム語の先生が <ruby>判定<rt>はんてい</rt></ruby>しよう！</span>
+              <div id="sensei-jp" style="font-size:clamp(1.2rem, 2.2vw, 1.6rem);font-weight:900;color:var(--ink);">いっしょに あそぼう！</div>
+              <div id="sensei-vi" class="vi" style="font-size:clamp(1.5rem, 3vw, 2.2rem);font-weight:900;color:var(--indigo-dark);">Cùng chơi nhé!</div>
+              <div id="sensei-kana" class="phrase-kana" style="align-self:center;font-size:1rem;">クン チョイ ニェ！</div>
+              <button type="button" id="btn-sensei-listen" class="btn btn-indigo" style="padding:8px 18px;margin-top:4px;">
+                <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <span>おてほんを きく / <span class="vi">Nghe mẫu</span></span>
+              </button>
+              <div id="sensei-msg" style="min-height:24px;font-size:0.95rem;font-weight:900;color:var(--green-dark);"></div>
+            </div>
+
+            <div class="sensei-judge-row">
+              <button type="button" id="btn-judge-good" class="btn btn-green btn-judge-big">
+                <span>じょうず！</span>
+                <span class="vi" style="font-size:0.9rem;">Giỏi quá!（スタンプをおくる）</span>
+              </button>
+              <button type="button" id="btn-judge-retry" class="btn btn-amber btn-judge-big">
+                <span>もう1回！</span>
+                <span class="vi" style="font-size:0.9rem;">Lần nữa!（もういちどきく）</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- サブビューB2-2：1人用ベトナム語リスニングクイズ -->
+        <div id="subview-b2-solo" class="subview">
+          <div class="quiz-center">
+            <div class="progress-wrap">
+              <div class="progress-track"><div id="bq-progress-fill" class="progress-fill is-indigo"></div></div>
+              <span id="bq-progress-text" class="progress-label">1 / 5</span>
+            </div>
+
+            <div class="quiz-prompt-box is-indigo">
+              <div>
+                <div style="font-size:1.05rem;font-weight:900;">ベトナムごの おとを きいて <ruby>意味<rt>いみ</rt></ruby>を あてよう！</div>
+                <div id="bq-prompt-vi" class="vi" style="font-size:0.95rem;font-weight:800;color:var(--indigo-dark);margin-top:3px;">???</div>
+              </div>
+              <button type="button" id="btn-bq-listen" class="btn btn-indigo" style="padding:10px 16px;">おとを きく</button>
+            </div>
+
+            <div class="quiz-options-4">
+              <button type="button" id="bq-opt-0" class="btn quiz-opt-btn"></button>
+              <button type="button" id="bq-opt-1" class="btn quiz-opt-btn"></button>
+              <button type="button" id="bq-opt-2" class="btn quiz-opt-btn"></button>
+              <button type="button" id="bq-opt-3" class="btn quiz-opt-btn"></button>
+            </div>
+
+            <div id="bq-feedback" class="quiz-feedback">
+              <span id="bq-feedback-text">おとを きいて ただしい にほんごを えらぼう</span>
+              <button type="button" id="btn-bq-next" class="btn btn-indigo" style="padding:6px 14px;display:none;">つぎへ</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================================================================
+           モードB ③ 教室のことば逆引きチャレンジ（GAS連携）
+           ================================================================== -->
+      <div id="panel-b-reverse" class="tab-panel">
+        <div class="hint-strip is-indigo">
+          <span id="rev-status-text"><ruby>教室<rt>きょうしつ</rt></ruby>で つかっている ことばを ベトナムごで 言えるかな？（「つたわるボード」と<ruby>連動<rt>れんどう</rt></ruby>）</span>
+          <button type="button" id="btn-rev-sync" class="btn btn-soft-indigo" style="padding:5px 11px;font-size:0.78rem;"><ruby>最新<rt>さいしん</rt></ruby>に<ruby>更新<rt>こうしん</rt></ruby></button>
+        </div>
+
+        <div class="quiz-center">
+          <div class="progress-wrap">
+            <div class="progress-track"><div id="rev-progress-fill" class="progress-fill is-indigo"></div></div>
+            <span id="rev-progress-text" class="progress-label">1 / 5</span>
+          </div>
+
+          <div class="quiz-prompt-box is-indigo">
+            <div>
+              <div style="font-size:0.82rem;font-weight:800;color:var(--indigo-dark);">この にほんご、ベトナムごで なんて 言う？</div>
+              <div id="rev-question-ja" style="font-size:1.35rem;font-weight:900;margin-top:3px;">きょうかしょを ひらいて</div>
+            </div>
+            <button type="button" id="btn-rev-listen-ans" class="btn btn-soft-indigo" style="padding:9px 14px;">ヒント音声をきく</button>
+          </div>
+
+          <div class="quiz-options-4">
+            <button type="button" id="rev-opt-0" class="btn quiz-opt-btn vi"></button>
+            <button type="button" id="rev-opt-1" class="btn quiz-opt-btn vi"></button>
+            <button type="button" id="rev-opt-2" class="btn quiz-opt-btn vi"></button>
+            <button type="button" id="rev-opt-3" class="btn quiz-opt-btn vi"></button>
+          </div>
+
+          <div id="rev-feedback" class="quiz-feedback">
+            <span id="rev-feedback-text">ただしい ベトナムごを えらんで <ruby>発音<rt>はつおん</rt></ruby>してみよう</span>
+            <button type="button" id="btn-rev-next" class="btn btn-indigo" style="padding:6px 14px;display:none;">つぎへ</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================================
+       教員用 GAS設定モーダル
+       ====================================================================== -->
+  <div id="modal-gas" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="gas-modal-title">
+    <div class="dialog-modal">
+      <div class="dialog-modal-head">
+        <span id="gas-modal-title">GAS 接続設定（教員用）</span>
+        <button type="button" id="btn-gas-close" class="btn" style="padding:4px 10px;font-size:0.8rem;">とじる</button>
+      </div>
+      <div class="dialog-modal-body">
+        <div class="field-group">
+          <label for="input-gas-url" class="field-label">GAS ウェブアプリ URL（末尾が /exec）</label>
+          <input type="url" id="input-gas-url" class="text-input" placeholder="https://script.google.com/macros/s/xxxxx/exec">
+        </div>
+        <div class="field-group">
+          <label for="input-gas-token" class="field-label">合言葉（GAS スクリプトプロパティの APP_TOKEN）</label>
+          <input type="text" id="input-gas-token" class="text-input" placeholder="例：piyochan">
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button type="button" id="btn-gas-save" class="btn btn-blue" style="padding:8px 16px;">保存する</button>
+          <button type="button" id="btn-gas-ping" class="btn btn-teal" style="padding:8px 16px;">接続テスト</button>
+        </div>
+        <div id="gas-status-box" class="status-box"></div>
+        <p style="font-size:0.78rem;color:var(--ink-sub);line-height:1.5;">
+          ※ URL末尾に <code>?gid=...&amp;token=...</code> を付けて開くと自動設定されます。「つたわるボード」と同じブラウザ・同一GitHub Pages上では保存済みの設定が自動引き継ぎされます。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- トースト通知 -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script>
+    (function () {
+      'use strict';
+
+      /* ====================================================================
+         1. 多色インラインSVG（がっこう図鑑32語 ＋ メダル・スタンプ）
+         ==================================================================== */
+      const DICT_SVGS = {
+        /* --- 持ち物 (8) --- */
+        randoseru: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#CCFBF1"/><path d="M23 17v-4a9 9 0 0 1 18 0v4" stroke="#0F172A" stroke-width="3"/><rect x="14" y="17" width="36" height="37" rx="7" fill="#DC2626" stroke="#0F172A" stroke-width="2.4"/><path d="M14 36c0 4 3 6 7 6h22c4 0 7-2 7-6V17H14v19z" fill="#EF4444" stroke="#0F172A" stroke-width="2.4"/><rect x="28" y="38" width="8" height="8" rx="2" fill="#FDE68A" stroke="#0F172A" stroke-width="2"/></svg>`,
+        pencilcase: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#CCFBF1"/><rect x="10" y="21" width="44" height="24" rx="7" fill="#3B82F6" stroke="#0F172A" stroke-width="2.4"/><line x1="10" y1="30" x2="54" y2="30" stroke="#0F172A" stroke-width="2.2"/><rect x="26" y="27" width="12" height="6" rx="2" fill="#FDE68A" stroke="#0F172A" stroke-width="1.8"/><path d="M18 37h28" stroke="#DBEAFE" stroke-width="3" stroke-linecap="round"/></svg>`,
+        pencil: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#CCFBF1"/><path d="M15 44L41 18l9 9-26 26-11 2 2-11z" fill="#FBBF24" stroke="#0F172A" stroke-width="2.4" stroke-linejoin="round"/><path d="M41 18l4-4a3 3 0 0 1 4.2 0l4.8 4.8a3 3 0 0 1 0 4.2l-4 4-9-9z" fill="#FDA4AF" stroke="#0F172A" stroke-width="2.2"/><path d="M15 44l9 9-11 2 2-11z" fill="#FEF3C7" stroke="#0F172A" stroke-width="2"/><polygon points="13,55 15,49 19,53" fill="#0F172A"/></svg>`,
+        eraser: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#CCFBF1"/><rect x="11" y="22" width="42" height="22" rx="4" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.4"/><rect x="25" y="22" width="28" height="22" rx="3" fill="#2563EB" stroke="#0F172A" stroke-width="2.4"/><rect x="25" y="31" width="28" height="5" fill="#1E293B"/><rect x="25" y="26" width="28" height="5" fill="#FFFFFF"/></svg>`,
+        ruler: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#CCFBF1"/><rect x="9" y="23" width="46" height="18" rx="3" fill="#FDE68A" stroke="#0F172A" stroke-width="2.4"/><path d="M16 23v7M22 23v5M28 23v8M34 23v5M40 23v8M46 23v5M52 23v7" stroke="#0F172A" stroke-width="2.2" stroke-linecap="round"/></svg>`,
+        notebook: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#CCFBF1"/><rect x="14" y="10" width="36" height="44" rx="4" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.4"/><rect x="14" y="10" width="8" height="44" rx="2" fill="#0F766E" stroke="#0F172A" stroke-width="2.2"/><line x1="27" y1="21" x2="44" y2="21" stroke="#94A3B8" stroke-width="2.6" stroke-linecap="round"/><line x1="27" y1="30" x2="44" y2="30" stroke="#94A3B8" stroke-width="2.6" stroke-linecap="round"/><line x1="27" y1="39" x2="40" y2="39" stroke="#94A3B8" stroke-width="2.6" stroke-linecap="round"/></svg>`,
+        bottle: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#CCFBF1"/><rect x="25" y="10" width="14" height="8" rx="3" fill="#0F766E" stroke="#0F172A" stroke-width="2.2"/><rect x="21" y="18" width="22" height="35" rx="6" fill="#38BDF8" stroke="#0F172A" stroke-width="2.4"/><rect x="21" y="30" width="22" height="10" fill="#FFFFFF" stroke="#0F172A" stroke-width="2"/><path d="M43 22h5a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4h-5" stroke="#0F766E" stroke-width="2.5"/></svg>`,
+        uwabaki: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#CCFBF1"/><path d="M12 42c0-7 5-13 13-13h10l6-7h8c4 0 6 4 6 9v11H12z" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.4" stroke-linejoin="round"/><path d="M12 42h43v5H12z" fill="#E2E8F0" stroke="#0F172A" stroke-width="2.2"/><path d="M16 32c3-2 7-2 10 0" stroke="#2563EB" stroke-width="4" stroke-linecap="round"/><path d="M29 29l4 9" stroke="#2563EB" stroke-width="3.5" stroke-linecap="round"/></svg>`,
+
+        /* --- 教室の場所 (8) --- */
+        classroom: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#DBEAFE"/><rect x="11" y="11" width="42" height="22" rx="3" fill="#14532D" stroke="#92400E" stroke-width="3"/><line x1="17" y1="20" x2="36" y2="20" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/><rect x="14" y="40" width="16" height="5" rx="1.5" fill="#FBBF24" stroke="#0F172A" stroke-width="2"/><path d="M17 45v8M27 45v8" stroke="#0F172A" stroke-width="2.2"/><rect x="35" y="40" width="16" height="5" rx="1.5" fill="#FBBF24" stroke="#0F172A" stroke-width="2"/><path d="M38 45v8M48 45v8" stroke="#0F172A" stroke-width="2.2"/></svg>`,
+        gym: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#DBEAFE"/><path d="M10 28L32 13l22 15v23H10V28z" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.4" stroke-linejoin="round"/><rect x="18" y="34" width="28" height="17" fill="#FDE68A" stroke="#0F172A" stroke-width="2"/><circle cx="32" cy="42" r="5" fill="#FB923C" stroke="#0F172A" stroke-width="2"/><rect x="24" y="21" width="16" height="9" rx="1.5" fill="#DBEAFE" stroke="#0F172A" stroke-width="2"/></svg>`,
+        sciencelab: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#DBEAFE"/><path d="M25 12h14v11l11 22a4 4 0 0 1-3.6 6H17.6A4 4 0 0 1 14 45l11-22V12z" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.4" stroke-linejoin="round"/><path d="M19 37h26l4 10a2 2 0 0 1-1.8 3H16.8a2 2 0 0 1-1.8-3l4-10z" fill="#34D399"/><line x1="22" y1="12" x2="42" y2="12" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/><circle cx="29" cy="43" r="2.2" fill="#FFFFFF"/><circle cx="36" cy="39" r="1.8" fill="#FFFFFF"/></svg>`,
+        library: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#DBEAFE"/><rect x="12" y="13" width="40" height="39" rx="3" fill="#FEF3C7" stroke="#0F172A" stroke-width="2.4"/><line x1="12" y1="32" x2="52" y2="32" stroke="#0F172A" stroke-width="2.4"/><rect x="17" y="17" width="7" height="14" fill="#EF4444" stroke="#0F172A" stroke-width="1.8"/><rect x="25" y="19" width="7" height="12" fill="#3B82F6" stroke="#0F172A" stroke-width="1.8"/><rect x="33" y="16" width="7" height="15" fill="#22C55E" stroke="#0F172A" stroke-width="1.8"/><rect x="19" y="36" width="8" height="14" fill="#A855F7" stroke="#0F172A" stroke-width="1.8"/><rect x="29" y="38" width="8" height="12" fill="#F59E0B" stroke="#0F172A" stroke-width="1.8"/></svg>`,
+        nurseroom: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#DBEAFE"/><rect x="10" y="35" width="44" height="11" rx="3" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.3"/><path d="M10 46v7M54 46v7M10 27v26" stroke="#0F172A" stroke-width="2.6" stroke-linecap="round"/><rect x="24" y="35" width="26" height="11" fill="#FCA5A5" stroke="#0F172A" stroke-width="2"/><rect x="33" y="11" width="19" height="17" rx="4" fill="#FFFFFF" stroke="#DC2626" stroke-width="2.2"/><rect x="40.5" y="14" width="4" height="11" fill="#DC2626"/><rect x="37" y="17.5" width="11" height="4" fill="#DC2626"/></svg>`,
+        musicroom: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#DBEAFE"/><rect x="12" y="33" width="40" height="19" rx="3" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.4"/><line x1="22" y1="33" x2="22" y2="52" stroke="#0F172A" stroke-width="2"/><line x1="32" y1="33" x2="32" y2="52" stroke="#0F172A" stroke-width="2"/><line x1="42" y1="33" x2="42" y2="52" stroke="#0F172A" stroke-width="2"/><rect x="19" y="33" width="6" height="11" fill="#0F172A"/><rect x="29" y="33" width="6" height="11" fill="#0F172A"/><rect x="39" y="33" width="6" height="11" fill="#0F172A"/><path d="M26 25V13l18-3v12" stroke="#4338CA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="23" cy="25" r="3.5" fill="#4338CA"/><circle cx="41" cy="22" r="3.5" fill="#4338CA"/></svg>`,
+        ground: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#DBEAFE"/><rect x="6" y="36" width="52" height="22" rx="8" fill="#FDE68A"/><ellipse cx="32" cy="46" rx="20" ry="7" fill="none" stroke="#FFFFFF" stroke-width="3"/><circle cx="48" cy="17" r="6" fill="#FBBF24" stroke="#EA580C" stroke-width="2"/><path d="M16 36V19h16v17" stroke="#0F172A" stroke-width="2.5" stroke-linejoin="round"/><line x1="24" y1="19" x2="24" y2="36" stroke="#94A3B8" stroke-width="1.8"/></svg>`,
+        toilet: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#DBEAFE"/><rect x="19" y="12" width="16" height="17" rx="3" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.3"/><path d="M17 30h28c0 9-5 15-14 15s-14-6-14-15z" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.3"/><path d="M22 44h18l2 9H20l2-9z" fill="#E2E8F0" stroke="#0F172A" stroke-width="2.2"/><rect x="39" y="10" width="16" height="12" rx="4" fill="#2563EB"/><text x="47" y="18.5" text-anchor="middle" fill="#FFFFFF" font-size="8" font-weight="900" font-family="sans-serif">WC</text></svg>`,
+
+        /* --- 給食・生活 (8) --- */
+        lunch: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#DCFCE7"/><rect x="9" y="18" width="46" height="32" rx="5" fill="#E2E8F0" stroke="#0F172A" stroke-width="2.4"/><circle cx="23" cy="36" r="9" fill="#FFFFFF" stroke="#0F172A" stroke-width="2"/><circle cx="23" cy="36" r="5" fill="#FDE68A"/><rect x="38" y="23" width="11" height="14" rx="2" fill="#FFFFFF" stroke="#2563EB" stroke-width="2"/><circle cx="43" cy="43" r="5" fill="#FB923C" stroke="#0F172A" stroke-width="2"/></svg>`,
+        renrakucho: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#DCFCE7"/><rect x="13" y="10" width="38" height="44" rx="5" fill="#FEF3C7" stroke="#0F172A" stroke-width="2.4"/><rect x="19" y="16" width="26" height="8" rx="2" fill="#FFFFFF" stroke="#D97706" stroke-width="2"/><line x1="19" y1="31" x2="45" y2="31" stroke="#0F172A" stroke-width="2.2" stroke-linecap="round"/><line x1="19" y1="38" x2="41" y2="38" stroke="#0F172A" stroke-width="2.2" stroke-linecap="round"/><circle cx="43" cy="46" r="4" fill="#EF4444"/></svg>`,
+        cleaning: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#DCFCE7"/><line x1="46" y1="11" x2="25" y2="35" stroke="#92400E" stroke-width="4.5" stroke-linecap="round"/><path d="M21 32l12 9-10 14-14-10 12-13z" fill="#FDE68A" stroke="#0F172A" stroke-width="2.3" stroke-linejoin="round"/><path d="M47 36l2.5-5 2.5 5 5 2.5-5 2.5-2.5 5-2.5-5-5-2.5 5-2.5z" fill="#15803D"/></svg>`,
+        lunchduty: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#DCFCE7"/><path d="M20 20c0-7 24-7 24 0v5H20v-5z" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.2"/><circle cx="32" cy="29" r="9" fill="#FDE68A" stroke="#0F172A" stroke-width="2.2"/><rect x="26" y="30" width="12" height="6" rx="2" fill="#FFFFFF" stroke="#0F172A" stroke-width="1.8"/><path d="M17 54c1-10 6-14 15-14s14 4 15 14H17z" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.4"/></svg>`,
+        recess: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#DCFCE7"/><circle cx="24" cy="36" r="14" fill="#FB923C" stroke="#0F172A" stroke-width="2.4"/><line x1="10" y1="36" x2="38" y2="36" stroke="#0F172A" stroke-width="2"/><line x1="24" y1="22" x2="24" y2="50" stroke="#0F172A" stroke-width="2"/><circle cx="47" cy="21" r="10" fill="#FFFFFF" stroke="#15803D" stroke-width="2.4"/><path d="M47 16v5l4 2" stroke="#15803D" stroke-width="2.4" stroke-linecap="round"/></svg>`,
+        nicchoku: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#DCFCE7"/><circle cx="32" cy="24" r="10" fill="#FDE68A" stroke="#0F172A" stroke-width="2.3"/><path d="M16 53c1-10 7-15 16-15s15 5 16 15H16z" fill="#60A5FA" stroke="#0F172A" stroke-width="2.3"/><circle cx="44" cy="44" r="9" fill="#FBBF24" stroke="#0F172A" stroke-width="2.2"/><polygon points="44,39 45.6,42.3 49,42.8 46.5,45.2 47.1,48.6 44,47 40.9,48.6 41.5,45.2 39,42.8 42.4,42.3" fill="#FFFFFF"/></svg>`,
+        morning: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#DCFCE7"/><path d="M10 44h44" stroke="#0F172A" stroke-width="2.8" stroke-linecap="round"/><path d="M18 44a14 14 0 0 1 28 0" fill="#FBBF24" stroke="#0F172A" stroke-width="2.4"/><path d="M32 13v7M17 20l5 5M47 20l-5 5M11 34h6M47 34h6" stroke="#EA580C" stroke-width="3" stroke-linecap="round"/></svg>`,
+        gohome: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#DCFCE7"/><path d="M13 31L32 15l19 16v21H13V31z" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.4" stroke-linejoin="round"/><path d="M10 32L32 13l22 19" stroke="#DC2626" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><rect x="26" y="36" width="12" height="16" fill="#FBBF24" stroke="#0F172A" stroke-width="2.2"/></svg>`,
+
+        /* --- 3・5年生の教科用語 (8) --- */
+        compass: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#FEF3C7"/><circle cx="32" cy="18" r="5" fill="#2563EB" stroke="#0F172A" stroke-width="2.4"/><line x1="32" y1="10" x2="32" y2="13" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/><line x1="30" y1="22" x2="18" y2="51" stroke="#0F172A" stroke-width="3.5" stroke-linecap="round"/><line x1="34" y1="22" x2="46" y2="51" stroke="#0F172A" stroke-width="3.5" stroke-linecap="round"/><path d="M21 40c6 4 16 4 22 0" stroke="#D97706" stroke-width="2.6" stroke-dasharray="4 3"/></svg>`,
+        fraction: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#FEF3C7"/><circle cx="23" cy="32" r="14" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.4"/><path d="M23 32V18a14 14 0 0 1 14 14H23z" fill="#3B82F6" stroke="#0F172A" stroke-width="2"/><line x1="9" y1="32" x2="37" y2="32" stroke="#0F172A" stroke-width="2"/><line x1="23" y1="18" x2="23" y2="46" stroke="#0F172A" stroke-width="2"/><text x="48" y="27" text-anchor="middle" fill="#0F172A" font-size="15" font-weight="900" font-family="sans-serif">1</text><line x1="41" y1="32" x2="55" y2="32" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/><text x="48" y="48" text-anchor="middle" fill="#0F172A" font-size="15" font-weight="900" font-family="sans-serif">4</text></svg>`,
+        hissan: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#FEF3C7"/><rect x="12" y="10" width="40" height="44" rx="5" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.4"/><text x="36" y="24" text-anchor="middle" fill="#0F172A" font-size="12" font-weight="900" font-family="sans-serif">24</text><text x="32" y="37" text-anchor="middle" fill="#2563EB" font-size="12" font-weight="900" font-family="sans-serif">+18</text><line x1="18" y1="41" x2="46" y2="41" stroke="#0F172A" stroke-width="2.5"/><text x="36" y="51" text-anchor="middle" fill="#DC2626" font-size="12" font-weight="900" font-family="sans-serif">42</text></svg>`,
+        set_square: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#FEF3C7"/><polygon points="14,50 14,14 50,50" fill="#93C5FD" stroke="#0F172A" stroke-width="2.5" stroke-linejoin="round"/><polygon points="21,43 21,28 36,43" fill="#FEF3C7" stroke="#0F172A" stroke-width="2" stroke-linejoin="round"/><rect x="14" y="44" width="6" height="6" fill="none" stroke="#DC2626" stroke-width="2"/></svg>`,
+        ondoku: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#FEF3C7"/><path d="M10 22c7-3 14-2 20 3 6-5 13-6 20-3v25c-7-3-14-2-20 3-6-5-13-6-20-3V22z" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.4" stroke-linejoin="round"/><line x1="30" y1="25" x2="30" y2="50" stroke="#0F172A" stroke-width="2"/><path d="M46 13c4 3 4 9 0 12M51 10c6 5 6 13 0 18" stroke="#D97706" stroke-width="2.8" stroke-linecap="round"/></svg>`,
+        meate: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#FEF3C7"/><circle cx="32" cy="32" r="20" fill="#FFFFFF" stroke="#DC2626" stroke-width="4"/><circle cx="32" cy="32" r="12" fill="#FFFFFF" stroke="#DC2626" stroke-width="4"/><circle cx="32" cy="32" r="5" fill="#DC2626"/><path d="M49 15L34 30" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/></svg>`,
+        experiment: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#FEF3C7"/><rect x="15" y="13" width="12" height="36" rx="6" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.4"/><rect x="16" y="30" width="10" height="18" rx="5" fill="#38BDF8"/><rect x="37" y="13" width="12" height="36" rx="6" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.4"/><rect x="38" y="26" width="10" height="22" rx="5" fill="#FB7185"/><circle cx="43" cy="20" r="2.2" fill="#FB7185"/></svg>`,
+        kanji: `<svg viewBox="0 0 64 64" fill="none"><rect x="4" y="4" width="56" height="56" rx="14" fill="#FEF3C7"/><rect x="11" y="11" width="42" height="42" rx="6" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.4"/><line x1="32" y1="11" x2="32" y2="53" stroke="#CBD5E1" stroke-width="1.8" stroke-dasharray="4 3"/><line x1="11" y1="32" x2="53" y2="32" stroke="#CBD5E1" stroke-width="1.8" stroke-dasharray="4 3"/><text x="32" y="42" text-anchor="middle" fill="#0F766E" font-size="28" font-weight="900" font-family="sans-serif">山</text></svg>`,
+
+        /* --- スタンプ・メダル共通 --- */
+        star: `<svg viewBox="0 0 36 36" fill="none"><polygon points="18,3 22.6,12.4 33,13.9 25.5,21.2 27.3,31.5 18,26.6 8.7,31.5 10.5,21.2 3,13.9 13.4,12.4" fill="#FBBF24" stroke="#B45309" stroke-width="2" stroke-linejoin="round"/></svg>`,
+        medal: `<svg viewBox="0 0 48 48" fill="none"><path d="M16 4h6l4 13h-6L16 4z" fill="#3B82F6"/><path d="M32 4h-6l-4 13h6L32 4z" fill="#EF4444"/><circle cx="24" cy="29" r="14" fill="#FBBF24" stroke="#B45309" stroke-width="2.6"/><polygon points="24,20 26.8,25.7 33,26.6 28.5,31 29.6,37.2 24,34.2 18.4,37.2 19.5,31 15,26.6 21.2,25.7" fill="#FEF3C7"/></svg>`
+      };
+
+      /* ====================================================================
+         2. ひらがな道場データ（12ミッション：50音46字＋濁音半濁音＋特訓）
+            ストローク座標は 0〜100 の正規化空間 [ [x,y, x,y, ...], ... ]
+         ==================================================================== */
+      const BASE_STROKES = {
+        'あ': [[22,30, 74,28], [46,16, 44,50, 48,78], [62,40, 46,66, 26,70, 22,56, 38,44, 68,46, 78,64, 62,82]],
+        'い': [[26,26, 28,60, 38,74], [66,30, 74,48, 72,66]],
+        'う': [[36,20, 56,26], [28,44, 54,36, 70,48, 64,70, 42,84]],
+        'え': [[36,20, 58,25], [24,42, 64,38, 24,78, 46,64, 60,76, 76,76]],
+        'お': [[20,34, 52,32], [38,18, 38,78, 24,74, 24,58, 52,48, 72,58, 66,78], [66,24, 78,34]],
+        'か': [[22,38, 56,34, 54,68, 44,76], [42,18, 30,78], [68,28, 78,48]],
+        'き': [[24,30, 68,26], [26,48, 70,44], [42,16, 56,58], [28,70, 46,80, 68,78]],
+        'く': [[60,18, 30,50, 62,82]],
+        'け': [[26,22, 24,54, 28,76], [46,36, 76,34], [62,18, 62,62, 52,82]],
+        'こ': [[28,28, 68,30, 58,38], [24,66, 44,78, 74,74]],
+        'さ': [[24,34, 72,30], [42,16, 58,56], [28,68, 46,80, 68,78]],
+        'し': [[34,18, 34,64, 46,78, 70,70]],
+        'す': [[20,30, 76,28], [52,16, 52,58, 40,62, 34,50, 48,44, 54,64, 40,84]],
+        'せ': [[18,44, 78,40], [60,20, 60,54, 50,58], [34,24, 34,68, 52,78, 72,76]],
+        'そ': [[30,22, 62,22, 26,48, 72,44, 44,62, 46,78, 66,82]],
+        'た': [[20,32, 54,28], [38,16, 26,80], [50,48, 74,46], [50,70, 64,78, 78,76]],
+        'ち': [[22,32, 68,28], [42,16, 36,56, 58,48, 74,60, 62,78, 40,82]],
+        'つ': [[20,44, 56,30, 78,44, 70,68, 44,80]],
+        'て': [[22,30, 72,26, 46,48, 44,68, 66,80]],
+        'と': [[36,18, 44,48], [68,36, 38,54, 34,72, 54,80, 76,78]],
+        'な': [[18,32, 48,30], [34,16, 22,68], [58,24, 74,34], [58,48, 58,74, 42,78, 38,68, 58,66, 76,74]],
+        'に': [[24,22, 22,56, 26,76], [46,32, 74,32], [44,64, 58,76, 78,74]],
+        'ぬ': [[28,22, 36,56, 48,74], [54,22, 44,68, 26,72, 24,52, 52,38, 74,48, 74,72, 60,76, 58,66, 78,76]],
+        'ね': [[30,18, 30,82], [18,36, 42,34, 18,66, 56,36, 72,46, 72,72, 58,78, 56,66, 76,74]],
+        'の': [[50,30, 44,62, 28,68, 22,48, 44,28, 72,38, 74,66, 54,82]],
+        'は': [[24,22, 22,56, 26,76], [44,36, 74,34], [60,20, 60,72, 44,76, 42,64, 62,64, 76,74]],
+        'ひ': [[20,30, 38,26, 26,56, 34,76, 54,74, 68,48, 76,28, 78,56]],
+        'ふ': [[42,18, 56,24], [44,38, 56,58, 44,74], [20,56, 26,72], [68,52, 80,68]],
+        'へ': [[18,56, 36,34, 56,54, 82,70]],
+        'ほ': [[22,22, 20,56, 24,76], [44,28, 74,26], [44,46, 74,44], [60,28, 60,72, 44,76, 42,64, 62,64, 78,74]],
+        'ま': [[24,30, 72,28], [26,48, 70,46], [50,16, 50,72, 34,78, 32,66, 54,66, 74,74]],
+        'み': [[26,28, 50,24, 34,70, 22,68, 34,54, 64,56, 78,66], [68,40, 66,64, 56,80]],
+        'む': [[20,34, 52,32], [36,18, 36,64, 24,62, 26,50, 38,56, 38,76, 62,78, 74,68], [66,26, 78,38]],
+        'め': [[28,24, 36,58, 48,74], [56,22, 44,68, 26,72, 24,50, 54,36, 76,48, 70,74, 52,82]],
+        'も': [[46,16, 36,60, 44,78, 68,74, 72,58], [26,34, 64,32], [26,52, 62,50]],
+        'や': [[20,44, 56,30, 78,42, 68,58, 54,60], [46,18, 56,28], [32,26, 48,80]],
+        'ゆ': [[26,24, 24,66, 48,34, 74,42, 74,66, 52,76], [54,18, 54,58, 44,82]],
+        'よ': [[48,34, 74,32], [46,18, 46,72, 30,78, 28,66, 50,66, 76,74]],
+        'ら': [[38,18, 58,24], [32,34, 30,58, 54,46, 74,56, 64,76, 40,84]],
+        'り': [[30,22, 28,54, 34,62], [64,20, 68,54, 52,82]],
+        'る': [[28,22, 62,20, 30,52, 60,44, 74,60, 62,78, 40,78, 38,68, 54,68, 62,76]],
+        'れ': [[32,18, 32,82], [18,36, 42,34, 20,66, 60,36, 72,48, 68,74, 80,74]],
+        'ろ': [[28,22, 64,20, 30,52, 60,44, 74,60, 62,78, 38,82]],
+        'わ': [[32,18, 32,82], [18,36, 42,34, 20,66, 58,36, 76,50, 72,72, 54,82]],
+        'を': [[24,30, 66,28], [44,16, 32,52, 54,48, 66,64], [74,44, 42,60, 38,76, 66,80]],
+        'ん': [[50,18, 24,78, 50,54, 62,76, 78,72]],
+        'っ': [[30,56, 56,46, 72,56, 66,72, 46,80]],
+        'ー': [[16,50, 84,50]]
+      };
+
+      const DAKUTEN = [[74,16, 82,24], [84,12, 92,20]];
+      const HANDAKUTEN = [[82,14, 88,18, 84,24, 78,20, 82,14]];
+
+      function getStrokes(ch) {
+        if (BASE_STROKES[ch]) return BASE_STROKES[ch];
+        const mapDaku = {'が':'か','ぎ':'き','ぐ':'く','げ':'け','ご':'こ','ざ':'さ','じ':'し','ず':'す','ぜ':'せ','ぞ':'そ','だ':'た','ぢ':'ち','づ':'つ','で':'て','ど':'と','ば':'は','び':'ひ','ぶ':'ふ','べ':'へ','ぼ':'ほ'};
+        const mapHandaku = {'ぱ':'は','ぴ':'ひ','ぷ':'ふ','ぺ':'へ','ぽ':'ほ'};
+        if (mapDaku[ch] && BASE_STROKES[mapDaku[ch]]) return BASE_STROKES[mapDaku[ch]].concat(DAKUTEN);
+        if (mapHandaku[ch] && BASE_STROKES[mapHandaku[ch]]) return BASE_STROKES[mapHandaku[ch]].concat(HANDAKUTEN);
+        return [[25,30, 75,30], [50,20, 50,80]];
+      }
+
+      const HIRA_MISSIONS = [
+        { id:'a', label:'あ行', title:'あ行ミッション', vi:'Hàng A (5 chữ)', chars:[
+          { c:'あ', r:'a', w:'あさ (buổi sáng)', tJa:'くちを おおきく あけて「あ」', tVi:'Mở miệng rộng đọc "a".' },
+          { c:'い', r:'i', w:'いぬ (con chó)', tJa:'くちを よこに ひいて「い」', tVi:'Kéo nhẹ khóe miệng sang ngang.' },
+          { c:'う', r:'u', w:'うみ (biển)', tJa:'くちびるを まえに ださず「う」', tVi:'Không chu môi quá nhiều như tiếng Việt.' },
+          { c:'え', r:'e', w:'えんぴつ (bút chì)', tJa:'かるく あけて「え」', tVi:'Giống âm "ê" nhưng mở miệng rộng hơn chút.' },
+          { c:'お', r:'o', w:'おちゃ (trà)', tJa:'くちを まるく して「お」', tVi:'Tròn môi nhẹ đọc "ô".' }
+        ]},
+        { id:'ka', label:'か行', title:'か行ミッション', vi:'Hàng KA (5 chữ)', chars:[
+          { c:'か', r:'ka', w:'かさ (cái ô)', tJa:'「か」は いきを かるく だすよ', tVi:'Giống "ca" nhưng bật hơi nhẹ.' },
+          { c:'き', r:'ki', w:'き (cây)', tJa:'はっきり「き」と いおう', tVi:'Đọc như "ki".' },
+          { c:'く', r:'ku', w:'くつ (giày)', tJa:'くちを まるめすぎず「く」', tVi:'Đọc nhẹ "kư / cu".' },
+          { c:'け', r:'ke', w:'けしごむ (tẩy)', tJa:'「け」はっきり よもう', tVi:'Đọc như "kê".' },
+          { c:'こ', r:'ko', w:'こくばん (bảng đen)', tJa:'まるい おとで「こ」', tVi:'Đọc như "cô".' }
+        ]},
+        { id:'sa', label:'さ行', title:'さ行ミッション', vi:'Hàng SA (5 chữ)', chars:[
+          { c:'さ', r:'sa', w:'さかな (cá)', tJa:'はの すきまから「さ」', tVi:'Âm "xa / sa" nhẹ.' },
+          { c:'し', r:'shi', w:'しゅくだい (bài tập)', tJa:'「し」は やわらかい し の おと', tVi:'Đọc như "si" nhẹ, không cong lưỡi mạnh.' },
+          { c:'す', r:'su', w:'すいとう (bình nước)', tJa:'「つ」と ちがうよ！「す」は いきが つづく', tVi:'Khác "つ"! Âm "sư" kéo hơi nhẹ, không bật "t".' },
+          { c:'せ', r:'se', w:'せんせい (thầy cô)', tJa:'せんせいの「せ」', tVi:'Đọc như "sê".' },
+          { c:'そ', r:'so', w:'そら (bầu trời)', tJa:'そらの「そ」', tVi:'Đọc như "sô".' }
+        ]},
+        { id:'ta', label:'た行', title:'た行ミッション', vi:'Hàng TA (5 chữ)', chars:[
+          { c:'た', r:'ta', w:'たいいくかん (nhà thể chất)', tJa:'したを はの うらに つけて「た」', tVi:'Đọc như "ta" bật hơi nhẹ.' },
+          { c:'ち', r:'chi', w:'ちず (bản đồ)', tJa:'「ち」は「チ」の おと', tVi:'Đọc gần giống "chi" tiếng Việt.' },
+          { c:'つ', r:'tsu', w:'つくえ (cái bàn)', tJa:'「す」と ちがうよ！さいしょに「ツ」と はじく', tVi:'Khác "す"! Bật âm "tsư" dứt khoát.' },
+          { c:'て', r:'te', w:'て (bàn tay)', tJa:'ての「て」', tVi:'Đọc như "tê".' },
+          { c:'と', r:'to', w:'ともだち (bạn bè)', tJa:'ともだちの「と」', tVi:'Đọc như "tô".' }
+        ]},
+        { id:'na', label:'な行', title:'な行ミッション', vi:'Hàng NA (5 chữ)', chars:[
+          { c:'な', r:'na', w:'なまえ (tên)', tJa:'はなから いきを だして「な」', tVi:'Đọc như "na".' },
+          { c:'に', r:'ni', w:'にほんご (tiếng Nhật)', tJa:'にほんごの「に」', tVi:'Đọc như "ni".' },
+          { c:'ぬ', r:'nu', w:'ぬいぐるみ (thú bông)', tJa:'くるっと むすぶ「ぬ」', tVi:'Đọc như "nư / nu".' },
+          { c:'ね', r:'ne', w:'ねこ (con mèo)', tJa:'ねこの「ね」', tVi:'Đọc như "nê".' },
+          { c:'の', r:'no', w:'ノート (vở)', tJa:'1かくで まるく かく「の」', tVi:'Viết 1 nét tròn, đọc như "nô".' }
+        ]},
+        { id:'ha', label:'は行', title:'は行ミッション', vi:'Hàng HA (5 chữ)', chars:[
+          { c:'は', r:'ha', w:'はさみ (cái kéo)', tJa:'いきを だして「は」', tVi:'Đọc như "ha".' },
+          { c:'ひ', r:'hi', w:'ひっさん (đặt tính)', tJa:'「ひ」は ほそく いきを だす', tVi:'Đọc như "hi".' },
+          { c:'ふ', r:'fu', w:'ふでばこ (hộp bút)', tJa:'くちびるを かまずに「ふ」と ふく', tVi:'Thổi hơi nhẹ qua 2 môi (không cắn môi như "ph").' },
+          { c:'へ', r:'he', w:'へや (căn phòng)', tJa:'やまの かたちの「へ」', tVi:'Đọc như "hê".' },
+          { c:'ほ', r:'ho', w:'ほん (sách)', tJa:'ほんの「ほ」', tVi:'Đọc như "hô".' }
+        ]},
+        { id:'ma', label:'ま行', title:'ま行ミッション', vi:'Hàng MA (5 chữ)', chars:[
+          { c:'ま', r:'ma', w:'まど (cửa sổ)', tJa:'くちびるを とじて「ま」', tVi:'Đọc như "ma".' },
+          { c:'み', r:'mi', w:'みず (nước)', tJa:'みずの「み」', tVi:'Đọc như "mi".' },
+          { c:'む', r:'mu', w:'むし (côn trùng)', tJa:'てんを わすれずに「む」', tVi:'Đọc như "mư / mu".' },
+          { c:'め', r:'me', w:'めあて (mục tiêu)', tJa:'めあての「め」', tVi:'Đọc như "mê".' },
+          { c:'も', r:'mo', w:'もちもの (đồ mang theo)', tJa:'たてから さきに かく「も」', tVi:'Viết nét dọc trước, đọc "mô".' }
+        ]},
+        { id:'ya', label:'や行', title:'や行ミッション', vi:'Hàng YA (3 chữ)', chars:[
+          { c:'や', r:'ya', w:'やすみじかん (giờ ra chơi)', tJa:'やすみの「や」', tVi:'Đọc như "da / ya" (kiểu miền Nam).' },
+          { c:'ゆ', r:'yu', w:'ゆき (tuyết)', tJa:'ゆきの「ゆ」', tVi:'Đọc như "du / yu".' },
+          { c:'よ', r:'よ (yo)', w:'よむ (đọc)', tJa:'よむの「よ」', tVi:'Đọc như "dô / yo".' }
+        ]},
+        { id:'ra', label:'ら行', title:'ら行ミッション', vi:'Hàng RA (5 chữ)', chars:[
+          { c:'ら', r:'ra', w:'ランドセル (cặp sách)', tJa:'したを 1かい かるく はじく「ら」', tVi:'Chạm nhẹ đầu lưỡi (giữa âm "l" và "r").' },
+          { c:'り', r:'ri', w:'りかしつ (phòng khoa học)', tJa:'りかの「り」', tVi:'Đọc nhẹ giữa "li" và "ri".' },
+          { c:'る', r:'ru', w:'るすばん (trông nhà)', tJa:'さいごに くるっと「る」', tVi:'Có vòng tròn nhỏ ở cuối.' },
+          { c:'れ', r:'re', w:'れんらくちょう (sổ liên lạc)', tJa:'れんらくちょうの「れ」', tVi:'Đọc nhẹ giữa "lê" và "rê".' },
+          { c:'ろ', r:'ro', w:'ろうか (hành lang)', tJa:'「る」と ちがって まるめない', tVi:'Khác "る", không có vòng tròn ở cuối.' }
+        ]},
+        { id:'wa', label:'わ行', title:'わ行ミッション', vi:'Hàng WA (3 chữ)', chars:[
+          { c:'わ', r:'wa', w:'わかる (hiểu)', tJa:'わかるの「わ」', tVi:'Đọc như "oa / wa".' },
+          { c:'を', r:'wo / o', w:'ほんを よむ (đọc sách)', tJa:'ぶんの なかで つかう「を」', tVi:'Trợ từ nối tân ngữ, đọc là "ô".' },
+          { c:'ん', r:'n', w:'ぶんすう (phân số)', tJa:'はなを つかって「ん」', tVi:'Âm mũi "n / ng" đứng cuối âm tiết.' }
+        ]},
+        { id:'daku', label:'だくおん', title:'だくおん・はんだくおん', vi:'Âm đục & Bán đục (7 chữ)', chars:[
+          { c:'が', r:'ga', w:'がっこう (trường học)', tJa:'「か」に てんてん(゛)で「が」', tVi:'Thêm 2 dấu (゛) vào か thành "ga".' },
+          { c:'ざ', r:'za', w:'ざっし (tạp chí)', tJa:'のどを ふるわせて「ざ」', tVi:'Rung cổ họng mạnh hơn "さ" (giống "da/za").' },
+          { c:'じ', r:'ji', w:'じょうぎ (thước kẻ)', tJa:'「し」に てんてんで「じ」', tVi:'Đọc như "ji / gi" rung cổ họng.' },
+          { c:'ず', r:'zu', w:'ずこう (mỹ thuật)', tJa:'「す」に てんてんで「ず」', tVi:'Rung cổ họng khi đọc "zư".' },
+          { c:'だ', r:'da', w:'だいじょうぶ (không sao)', tJa:'「た」に てんてんで「だ」', tVi:'Đọc như "đa".' },
+          { c:'ば', r:'ba', w:'ばしょ (địa điểm)', tJa:'「は」に てんてんで「ば」', tVi:'Đọc như "ba".' },
+          { c:'ぱ', r:'pa', w:'ぱん (bánh mì)', tJa:'「は」に まる(゜)で「ぱ」', tVi:'Thêm vòng tròn nhỏ (゜) thành "pa".' }
+        ]},
+        { id:'tokkun', label:'とっくん', title:'とくべつとっくん（っ・ー・つ/す・ざ行）', vi:'Luyện đặc biệt: っ / ー / つ・す / ざ', chars:[
+          { c:'っ', r:'っ (âm ngắt)', w:'きって (tem) / ひっさん (đặt tính)', tJa:'ちいさい「っ」は 1ぱく やすむ！', tVi:'Âm ngắt: dừng lại 1 nhịp ngắn rồi bật phụ âm sau.' },
+          { c:'ー', r:'ー (trường âm)', w:'ノート (vở) / グループ (nhóm)', tJa:'「ー」は まえの おとを のばす！', tVi:'Trường âm: kéo dài nguyên âm ngay trước nó gấp đôi.' },
+          { c:'つ', r:'tsu', w:'つくえ (bàn học)', tJa:'「つ」は ツ！と はじく おと', tVi:'Phân biệt つ (tsư bật hơi) với す (sư êm).' },
+          { c:'す', r:'su', w:'すいとう (bình nước)', tJa:'「す」は スーと やさしい おと', tVi:'Phân biệt す (sư êm) với つ (tsư bật hơi).' },
+          { c:'ざ', r:'za', w:'ざせき (chỗ ngồi)', tJa:'「さ」と ちがって のどが ぶるぶる！', tVi:'Chạm tay vào cổ: ざ rung cổ, さ không rung.' },
+          { c:'ぞ', r:'zo', w:'ぞうきん (khăn lau)', tJa:'「そ」と ちがって のどが ぶるぶる！', tVi:'Chạm tay vào cổ: ぞ rung cổ, そ không rung.' }
+        ]}
+      ];
+
+      /* ====================================================================
+         3. がっこう図鑑データ（4カテゴリ × 8語 = 計32語）
+         ==================================================================== */
+      const DICT_WORDS = {
+        items: [
+          { id:'d1', svg:'randoseru', jpHtml:'ランドセル', jpPlain:'ランドセル', vi:'Cặp sách Randoseru' },
+          { id:'d2', svg:'pencilcase', jpHtml:'<ruby>筆箱<rt>ふでばこ</rt></ruby>', jpPlain:'ふでばこ', vi:'Hộp bút' },
+          { id:'d3', svg:'pencil', jpHtml:'えんぴつ', jpPlain:'えんぴつ', vi:'Bút chì' },
+          { id:'d4', svg:'eraser', jpHtml:'<ruby>消<rt>け</rt></ruby>しゴム', jpPlain:'けしごむ', vi:'Cục tẩy / Gôm' },
+          { id:'d5', svg:'ruler', jpHtml:'<ruby>定規<rt>じょうぎ</rt></ruby>', jpPlain:'じょうぎ', vi:'Thước kẻ' },
+          { id:'d6', svg:'notebook', jpHtml:'ノート', jpPlain:'ノート', vi:'Quyển vở' },
+          { id:'d7', svg:'bottle', jpHtml:'すいとう', jpPlain:'すいとう', vi:'Bình nước' },
+          { id:'d8', svg:'uwabaki', jpHtml:'うわばき', jpPlain:'うわばき', vi:'Giày đi trong trường' }
+        ],
+        places: [
+          { id:'d9', svg:'classroom', jpHtml:'<ruby>教室<rt>きょうしつ</rt></ruby>', jpPlain:'きょうしつ', vi:'Phòng học / Lớp học' },
+          { id:'d10', svg:'gym', jpHtml:'<ruby>体育館<rt>たいいくかん</rt></ruby>', jpPlain:'たいいくかん', vi:'Nhà thể chất' },
+          { id:'d11', svg:'sciencelab', jpHtml:'<ruby>理科室<rt>りかしつ</rt></ruby>', jpPlain:'りかしつ', vi:'Phòng khoa học' },
+          { id:'d12', svg:'library', jpHtml:'<ruby>図書室<rt>としょしつ</rt></ruby>', jpPlain:'としょしつ', vi:'Thư viện trường' },
+          { id:'d13', svg:'nurseroom', jpHtml:'<ruby>保健室<rt>ほけんしつ</rt></ruby>', jpPlain:'ほけんしつ', vi:'Phòng y tế' },
+          { id:'d14', svg:'musicroom', jpHtml:'<ruby>音楽室<rt>おんがくしつ</rt></ruby>', jpPlain:'おんがくしつ', vi:'Phòng âm nhạc' },
+          { id:'d15', svg:'ground', jpHtml:'<ruby>運動場<rt>うんどうじょう</rt></ruby>', jpPlain:'うんどうじょう', vi:'Sân trường / Sân thể dục' },
+          { id:'d16', svg:'toilet', jpHtml:'トイレ', jpPlain:'トイレ', vi:'Nhà vệ sinh' }
+        ],
+        life: [
+          { id:'d17', svg:'lunch', jpHtml:'<ruby>給食<rt>きゅうしょく</rt></ruby>', jpPlain:'きゅうしょく', vi:'Bữa trưa ở trường' },
+          { id:'d18', svg:'renrakucho', jpHtml:'<ruby>連絡帳<rt>れんらくちょう</rt></ruby>', jpPlain:'れんらくちょう', vi:'Sổ liên lạc' },
+          { id:'d19', svg:'cleaning', jpHtml:'<ruby>掃除<rt>そうじ</rt></ruby>', jpPlain:'そうじ', vi:'Giờ dọn vệ sinh' },
+          { id:'d20', svg:'lunchduty', jpHtml:'<ruby>給食当番<rt>きゅうしょくとうばん</rt></ruby>', jpPlain:'きゅうしょくとうばん', vi:'Trực nhật chia cơm' },
+          { id:'d21', svg:'recess', jpHtml:'休み時間', jpPlain:'やすみじかん', vi:'Giờ ra chơi' },
+          { id:'d22', svg:'nicchoku', jpHtml:'日直', jpPlain:'にっちょく', vi:'Trực nhật lớp' },
+          { id:'d23', svg:'morning', jpHtml:'朝の会', jpPlain:'あさのかい', vi:'Sinh hoạt buổi sáng' },
+          { id:'d24', svg:'gohome', jpHtml:'下校', jpPlain:'げこう', vi:'Tan học / Ra về' }
+        ],
+        study: [
+          { id:'d25', svg:'compass', jpHtml:'コンパス', jpPlain:'コンパス', vi:'Com-pa vẽ hình tròn' },
+          { id:'d26', svg:'fraction', jpHtml:'分数', jpPlain:'ぶんすう', vi:'Phân số (1/4)' },
+          { id:'d27', svg:'hissan', jpHtml:'<ruby>筆算<rt>ひっさん</rt></ruby>', jpPlain:'ひっさん', vi:'Đặt tính rồi tính' },
+          { id:'d28', svg:'set_square', jpHtml:'三角<ruby>定規<rt>じょうぎ</rt></ruby>', jpPlain:'さんかくじょうぎ', vi:'Thước ê-ke (tam giác)' },
+          { id:'d29', svg:'ondoku', jpHtml:'音読', jpPlain:'おんどく', vi:'Đọc thành tiếng' },
+          { id:'d30', svg:'meate', jpHtml:'めあて', jpPlain:'めあて', vi:'Mục tiêu bài học' },
+          { id:'d31', svg:'experiment', jpHtml:'<ruby>実験<rt>じっけん</rt></ruby>', jpPlain:'じっけん', vi:'Thí nghiệm khoa học' },
+          { id:'d32', svg:'kanji', jpHtml:'<ruby>漢字<rt>かんじ</rt></ruby>', jpPlain:'かんじ', vi:'Chữ Hán (Kanji)' }
+        ]
+      };
+      const ALL_DICT_WORDS = [].concat(DICT_WORDS.items, DICT_WORDS.places, DICT_WORDS.life, DICT_WORDS.study);
+
+      /* ====================================================================
+         4. ならべて文パズル（18問：ベトナム語SVO vs 日本語SOV体感）
+         ==================================================================== */
+      const PUZZLES = [
+        { id:'p1', vi:'Viết vào vở.', orderHint:'どこに → どうする (Vở + に + viết)', badge:'じょし「に」', tokens:['ノート','に','かきます'], ja:'ノートにかきます' },
+        { id:'p2', vi:'Em muốn đi vệ sinh.', orderHint:'どこに → いきたい', badge:'じょし「に」', tokens:['トイレ','に','いきたい'], ja:'トイレにいきたい' },
+        { id:'p3', vi:'Hãy mở trang 32 sách giáo khoa.', orderHint:'なにの → なにを → どうする', badge:'「の」「を」', tokens:['きょうかしょ','の','32ページ','を','あけて'], ja:'きょうかしょの32ページをあけて' },
+        { id:'p4', vi:'Em muốn uống nước.', orderHint:'なにを → のみたい', badge:'じょし「を」', tokens:['みず','を','のみたい'], ja:'みずをのみたい' },
+        { id:'p5', vi:'Hãy cho em mượn bút chì.', orderHint:'なにを → かして', badge:'じょし「を」', tokens:['えんぴつ','を','かして'], ja:'えんぴつをかして' },
+        { id:'p6', vi:'Em làm xong bài rồi.', orderHint:'なにが → おわりました', badge:'じょし「が」', tokens:['プリント','が','おわりました'], ja:'プリントがおわりました' },
+        { id:'p7', vi:'Em không nhìn thấy bảng.', orderHint:'なにが → みえません', badge:'じょし「が」', tokens:['こくばん','が','みえません'], ja:'こくばんがみえません' },
+        { id:'p8', vi:'Em bị đau bụng.', orderHint:'どこが → いたい', badge:'じょし「が」', tokens:['おなか','が','いたい'], ja:'おなかがいたい' },
+        { id:'p9', vi:'Em muốn đi phòng y tế.', orderHint:'どこに → いきたい', badge:'じょし「に」', tokens:['ほけんしつ','に','いきたい'], ja:'ほけんしつにいきたい' },
+        { id:'p10', vi:'Hãy thảo luận theo nhóm.', orderHint:'なにで → どうする', badge:'じょし「で」', tokens:['グループ','で','はなします'], ja:'グループではなします' },
+        { id:'p11', vi:'Chúng ta đi đến nhà thể chất.', orderHint:'どこへ → いきます', badge:'じょし「へ」', tokens:['たいいくかん','へ','いきます'], ja:'たいいくかんへいきます' },
+        { id:'p12', vi:'Cùng chơi với bạn nhé.', orderHint:'だれと → どうする', badge:'じょし「と」', tokens:['ともだち','と','あそびます'], ja:'ともだちとあそびます' },
+        { id:'p13', vi:'Đọc sách ở thư viện.', orderHint:'どこで → なにを → よみます', badge:'「で」「を」', tokens:['としょしつ','で','ほん','を','よみます'], ja:'としょしつでほんをよみます' },
+        { id:'p14', vi:'Làm thí nghiệm ở phòng khoa học.', orderHint:'どこで → なにを → します', badge:'「で」「を」', tokens:['りかしつ','で','じっけん','を','します'], ja:'りかしつでじっけんをします' },
+        { id:'p15', vi:'Viết mục tiêu bài học vào vở.', orderHint:'どこに → なにを → かきます', badge:'「に」「を」', tokens:['ノート','に','めあて','を','かきます'], ja:'ノートにめあてをかきます' },
+        { id:'p16', vi:'Vẽ hình tròn bằng com-pa.', orderHint:'なにで → なにを → かきます', badge:'「で」「を」', tokens:['コンパス','で','えん','を','かきます'], ja:'コンパスでえんをかきます' },
+        { id:'p17', vi:'Em xin giảm bớt phần ăn trưa.', orderHint:'なにを → へらして', badge:'じょし「を」', tokens:['きゅうしょく','を','へらして'], ja:'きゅうしょくをへらして' },
+        { id:'p18', vi:'Em có câu hỏi cho thầy cô.', orderHint:'だれに → なにが → あります', badge:'「に」「が」', tokens:['せんせい','に','しつもん','が','あります'], ja:'せんせいにしつもんがあります' }
+      ];
+      const PARTICLES = ['に','を','が','で','へ','と','の','は','も'];
+
+      /* ====================================================================
+         5. GAS未接続時のデモ用復習カード（6枚）
+         ==================================================================== */
+      const DEMO_REVIEW_CARDS = [
+        { id:'demo1', ja:'きょうかしょの 32ページを あけて', vi:'Hãy mở sách giáo khoa trang 32', category:'指示理解・見通し' },
+        { id:'demo2', ja:'「めあて」を ノートに かきます', vi:'Viết "mục tiêu bài học" vào vở', category:'学習用語・教科' },
+        { id:'demo3', ja:'となりの ともだちと はなしてね', vi:'Hãy thảo luận với bạn ngồi bên cạnh nhé', category:'指示理解・見通し' },
+        { id:'demo4', ja:'おわったら まえに だしてください', vi:'Làm xong thì nộp lên phía trên nhé', category:'指示理解・見通し' },
+        { id:'demo5', ja:'つぎは たいいくかんに いきます', vi:'Tiết sau chúng ta đi đến nhà thể chất', category:'日常連絡・その他' },
+        { id:'demo6', ja:'わからない ところは きいてね', vi:'Chỗ nào chưa hiểu thì cứ hỏi nhé', category:'友達関係・気持ち' }
+      ];
+
+      /* ====================================================================
+         6. モードB：まいにち声かけフレーズ帳（4カテゴリ × 6 = 24フレーズ）
+         ==================================================================== */
+      const EXCHANGE_PHRASES = {
+        greet: [
+          { id:'b1', jp:'おはよう！', vi:'Chào buổi sáng!', kana:'チャオ ブオイ サン！' },
+          { id:'b2', jp:'こんにちは！', vi:'Xin chào!', kana:'シン チャオ！' },
+          { id:'b3', jp:'ありがとう！', vi:'Cảm ơn bạn!', kana:'カム オン バン！' },
+          { id:'b4', jp:'どういたしまして', vi:'Không có gì!', kana:'ホン コー ジー！' },
+          { id:'b5', jp:'ごめんね', vi:'Xin lỗi nhé!', kana:'シン ロイ ニェ！' },
+          { id:'b6', jp:'また あしたね！', vi:'Hẹn gặp lại ngày mai!', kana:'ヘン ガップ ライ ガイ マイ！' }
+        ],
+        play: [
+          { id:'b7', jp:'いっしょに あそぼう！', vi:'Cùng chơi nhé!', kana:'クン チョイ ニェ！' },
+          { id:'b8', jp:'おにごっこ しよう！', vi:'Chơi đuổi bắt nhé!', kana:'チョイ ドゥオイ バット ニェ！' },
+          { id:'b9', jp:'ドッジボール しよう！', vi:'Chơi bóng né nhé!', kana:'チョイ ボン ネー ニェ！' },
+          { id:'b10', jp:'いれて！', vi:'Cho mình chơi với!', kana:'チョ ミン チョイ ヴォイ！' },
+          { id:'b11', jp:'たのしいね！', vi:'Vui quá nhỉ!', kana:'ヴイ クアー ニィ！' },
+          { id:'b12', jp:'すごい！じょうずだね！', vi:'Giỏi quá!', kana:'ゾイ クアー！' }
+        ],
+        care: [
+          { id:'b13', jp:'だいじょうぶ？', vi:'Bạn có ổn không?', kana:'バン コー オン ホン？' },
+          { id:'b14', jp:'しんぱい しないでね', vi:'Đừng lo lắng nhé!', kana:'ドゥン ロー ラン ニェ！' },
+          { id:'b15', jp:'ゆっくりで いいよ', vi:'Từ từ thôi cũng được!', kana:'トゥ トゥ トイ クン ドゥオック！' },
+          { id:'b16', jp:'おいしいね！', vi:'Ngon quá!', kana:'ゴン クアー！' },
+          { id:'b17', jp:'ちょっと まってね', vi:'Đợi mình một chút nhé!', kana:'ドイ ミン モット チュット ニェ！' },
+          { id:'b18', jp:'いっしょに いこう！', vi:'Cùng đi nhé!', kana:'クン ディー ニェ！' }
+        ],
+        help: [
+          { id:'b19', jp:'ここだよ！', vi:'Ở đây này!', kana:'オ ダイ ナイ！' },
+          { id:'b20', jp:'この ページだよ', vi:'Trang này nhé!', kana:'チャン ナイ ニェ！' },
+          { id:'b21', jp:'これ つかっていいよ', vi:'Bạn dùng cái này đi!', kana:'バン ズン カイ ナイ ディー！' },
+          { id:'b22', jp:'いっしょに やろう！', vi:'Cùng làm nhé!', kana:'クン ラム ニェ！' },
+          { id:'b23', jp:'できたね！バッチリ！', vi:'Làm được rồi! Tuyệt quá!', kana:'ラム ドゥオック ゾイ！トゥイエット クアー！' },
+          { id:'b24', jp:'つぎは ここを かくよ', vi:'Tiếp theo viết ở đây nhé!', kana:'ティエップ テオ ヴィエット オ ダイ ニェ！' }
+        ]
+      };
+      const ALL_EXCHANGE_PHRASES = [].concat(EXCHANGE_PHRASES.greet, EXCHANGE_PHRASES.play, EXCHANGE_PHRASES.care, EXCHANGE_PHRASES.help);
+
+      /* ====================================================================
+         7. Web Audio 効果音 & 高耐久 Speech 音声エンジン（既存仕様完全準拠）
+         ==================================================================== */
+      const Sound = {
+        ctx: null,
+        ensure() {
+          if (!this.ctx) {
+            const Ctor = window.AudioContext || window.webkitAudioContext;
+            if (Ctor) this.ctx = new Ctor();
+          }
+          if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume().catch(function () {});
+          }
+          return this.ctx;
+        },
+        beep(freq, offset, dur, type, vol) {
+          const ctx = this.ensure();
+          if (!ctx) return;
+          try {
+            const t = ctx.currentTime + offset;
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = type || 'sine';
+            osc.frequency.setValueAtTime(freq, t);
+            gain.gain.setValueAtTime(0.001, t);
+            gain.gain.exponentialRampToValueAtTime(vol || 0.1, t + 0.015);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + dur);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(t);
+            osc.stop(t + dur + 0.02);
+          } catch (e) {}
+        },
+        tap() { this.beep(587.33, 0, 0.07, 'triangle', 0.09); },
+        ok() {
+          this.beep(523.25, 0, 0.09, 'sine', 0.1);
+          this.beep(659.25, 0.08, 0.1, 'sine', 0.1);
+          this.beep(783.99, 0.16, 0.16, 'sine', 0.12);
+        },
+        guide() {
+          this.beep(392.00, 0, 0.12, 'triangle', 0.08);
+          this.beep(440.00, 0.11, 0.14, 'triangle', 0.08);
+        },
+        fanfare() {
+          this.beep(523.25, 0, 0.1, 'triangle', 0.11);
+          this.beep(659.25, 0.1, 0.1, 'triangle', 0.11);
+          this.beep(783.99, 0.2, 0.1, 'triangle', 0.11);
+          this.beep(1046.5, 0.3, 0.26, 'triangle', 0.13);
+        }
+      };
+
+      const Speech = {
+        voices: [],
+        slow: false,
+        speaking: false,
+        safetyTimer: null,
+        speakTimer: null,
+        voiceWaitTimer: null,
+        currentUtterance: null,
+        currentAudio: null,
+        playSeq: 0,
+
+        refreshVoices() {
+          if (!('speechSynthesis' in window)) return [];
+          try {
+            const list = window.speechSynthesis.getVoices() || [];
+            if (list.length > 0) this.voices = list;
+          } catch (e) {}
+          return this.voices;
+        },
+        init() {
+          if (!('speechSynthesis' in window)) return;
+          const load = () => { this.refreshVoices(); };
+          load();
+          if (typeof window.speechSynthesis.addEventListener === 'function') {
+            window.speechSynthesis.addEventListener('voiceschanged', load);
+          } else if ('onvoiceschanged' in window.speechSynthesis) {
+            window.speechSynthesis.onvoiceschanged = load;
+          }
+          setTimeout(load, 300);
+        },
+        findVoice(langCode) {
+          const list = this.refreshVoices();
+          if (!list || list.length === 0) return null;
+          const normTarget = String(langCode || 'ja-JP').toLowerCase().replace('_', '-');
+          const pref = normTarget.slice(0, 2);
+
+          const candidates = list.filter((v) => {
+            const vLang = String(v.lang || '').toLowerCase().replace('_', '-');
+            if (vLang === normTarget || vLang === pref || vLang.startsWith(pref + '-')) return true;
+            if (pref === 'vi' && /vietnam|tiếng việt|tieng viet|hoaimy|namminh/i.test(String(v.name || ''))) return true;
+            return false;
+          });
+          if (candidates.length === 0) return null;
+
+          const scoreVoice = (v) => {
+            let s = 0;
+            const vLang = String(v.lang || '').toLowerCase().replace('_', '-');
+            const name = String(v.name || '');
+            if (vLang === normTarget) s += 10;
+            if (/google/i.test(name)) s += 6;
+            if (/natural|neural|online/i.test(name)) s += 5;
+            if (v.default) s += 1;
+            return s;
+          };
+          candidates.sort((a, b) => scoreVoice(b) - scoreVoice(a));
+          return candidates[0];
+        },
+        stop() {
+          this.playSeq += 1;
+          clearTimeout(this.speakTimer);
+          clearTimeout(this.safetyTimer);
+          clearTimeout(this.voiceWaitTimer);
+          this.currentUtterance = null;
+          if (this.currentAudio) {
+            try {
+              this.currentAudio.onended = null;
+              this.currentAudio.onerror = null;
+              this.currentAudio.pause();
+              this.currentAudio.removeAttribute('src');
+              this.currentAudio.load();
+            } catch (e) {}
+            this.currentAudio = null;
+          }
+          if ('speechSynthesis' in window) {
+            try { window.speechSynthesis.cancel(); } catch (e) {}
+          }
+          this.speaking = false;
+        },
+        splitTextForTts(text, maxLen) {
+          const clean = String(text || '').replace(/\s+/g, ' ').trim();
+          if (!clean) return [];
+          const limit = maxLen || 160;
+          if (clean.length <= limit) return [clean];
+          const parts = clean.match(/[^。！？.!?\n、,]+[。！？.!?\n、,]*/g) || [clean];
+          const chunks = [];
+          let buf = '';
+          const pushSlice = (str) => {
+            let rest = str.trim();
+            while (rest.length > limit) {
+              let cut = rest.lastIndexOf(' ', limit);
+              if (cut < Math.floor(limit * 0.4)) cut = limit;
+              chunks.push(rest.slice(0, cut).trim());
+              rest = rest.slice(cut).trim();
+            }
+            if (rest) chunks.push(rest);
+          };
+          for (const part of parts) {
+            if (!part) continue;
+            if (buf && (buf.length + 1 + part.length) > limit) {
+              chunks.push(buf.trim());
+              buf = '';
+            }
+            if (part.length > limit) {
+              if (buf) { chunks.push(buf.trim()); buf = ''; }
+              pushSlice(part);
+            } else {
+              buf = buf ? (buf + ' ' + part) : part;
+            }
+          }
+          if (buf.trim()) chunks.push(buf.trim());
+          return chunks;
+        },
+        speakWithSynth(text, langCode, voice, seq) {
+          if (seq !== this.playSeq || !('speechSynthesis' in window)) return;
+          try {
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = (voice && voice.lang) ? voice.lang : langCode;
+            u.rate = this.slow ? 0.72 : 1.0;
+            if (voice) u.voice = voice;
+            this.currentUtterance = u;
+            this.speaking = true;
+
+            const release = () => {
+              if (seq !== this.playSeq) return;
+              this.speaking = false;
+              this.currentUtterance = null;
+              clearTimeout(this.safetyTimer);
+            };
+            u.onend = release;
+            u.onerror = release;
+
+            clearTimeout(this.safetyTimer);
+            this.safetyTimer = setTimeout(release, Math.min(30000, Math.max(4500, text.length * 280)));
+
+            if (window.speechSynthesis.paused) {
+              try { window.speechSynthesis.resume(); } catch (e) {}
+            }
+            window.speechSynthesis.speak(u);
+          } catch (e) {
+            if (seq === this.playSeq) { this.speaking = false; this.currentUtterance = null; }
+          }
+        },
+        speakWithAudioFallback(text, langCode, seq) {
+          if (seq !== this.playSeq) return;
+          const chunks = this.splitTextForTts(text, 160);
+          if (chunks.length === 0) { this.speaking = false; return; }
+          const tl = String(langCode || 'vi-VN').toLowerCase().slice(0, 2);
+          let idx = 0;
+
+          const finish = () => {
+            if (seq !== this.playSeq) return;
+            this.speaking = false;
+            this.currentAudio = null;
+            clearTimeout(this.safetyTimer);
+          };
+
+          const playNext = () => {
+            if (seq !== this.playSeq) return;
+            if (idx >= chunks.length) { finish(); return; }
+            const chunk = chunks[idx++];
+            const url = 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=' +
+              encodeURIComponent(tl) + '&q=' + encodeURIComponent(chunk);
+
+            const audio = new Audio();
+            audio.preload = 'auto';
+            audio.playbackRate = this.slow ? 0.78 : 1.0;
+            audio.src = url;
+            this.currentAudio = audio;
+            this.speaking = true;
+
+            clearTimeout(this.safetyTimer);
+            this.safetyTimer = setTimeout(finish, 20000);
+
+            audio.onended = () => { if (seq === this.playSeq) playNext(); };
+            audio.onerror = () => {
+              if (seq !== this.playSeq) return;
+              finish();
+              if (tl === 'ja') this.speakWithSynth(text, langCode, null, seq);
+              else showToast('この端末に音声がなく、オンライン音声も再生できませんでした');
+            };
+            const p = audio.play();
+            if (p && typeof p.catch === 'function') {
+              p.catch(() => {
+                if (seq !== this.playSeq) return;
+                finish();
+                if (tl === 'ja') this.speakWithSynth(text, langCode, null, seq);
+                else showToast('音声を再生できませんでした。もう一度押してください');
+              });
+            }
+          };
+          playNext();
+        },
+        speak(text, langCode) {
+          const clean = String(text || '').trim();
+          if (!clean) return;
+          this.stop();
+          const seq = this.playSeq;
+          const pref = String(langCode || 'ja-JP').toLowerCase().slice(0, 2);
+          const hasSynth = ('speechSynthesis' in window);
+          this.speaking = true;
+
+          if (!hasSynth) {
+            this.speakWithAudioFallback(clean, langCode, seq);
+            return;
+          }
+
+          const dispatch = (delayMs) => {
+            if (seq !== this.playSeq) return;
+            const voice = this.findVoice(langCode);
+            if (voice) {
+              this.speakTimer = setTimeout(() => { this.speakWithSynth(clean, langCode, voice, seq); }, delayMs);
+              return;
+            }
+            if (pref !== 'ja') {
+              this.speakWithAudioFallback(clean, langCode, seq);
+              return;
+            }
+            this.speakTimer = setTimeout(() => { this.speakWithSynth(clean, langCode, null, seq); }, delayMs);
+          };
+
+          const list = this.refreshVoices();
+          if (list.length > 0) {
+            dispatch(60);
+          } else {
+            let handled = false;
+            const onReady = () => {
+              if (handled || seq !== this.playSeq) return;
+              if (this.refreshVoices().length > 0) {
+                handled = true;
+                clearTimeout(this.voiceWaitTimer);
+                if (typeof window.speechSynthesis.removeEventListener === 'function') {
+                  window.speechSynthesis.removeEventListener('voiceschanged', onReady);
+                }
+                dispatch(55);
+              }
+            };
+            if (typeof window.speechSynthesis.addEventListener === 'function') {
+              window.speechSynthesis.addEventListener('voiceschanged', onReady);
+            }
+            this.voiceWaitTimer = setTimeout(() => {
+              if (handled || seq !== this.playSeq) return;
+              handled = true;
+              if (typeof window.speechSynthesis.removeEventListener === 'function') {
+                window.speechSynthesis.removeEventListener('voiceschanged', onReady);
+              }
+              dispatch(55);
+            }, 240);
+          }
+        }
+      };
+
+      /* ====================================================================
+         8. 状態管理・GAS通信・localStorage永続化（個人情報ゼロ）
+         ==================================================================== */
+      const STORE_URL = 'tsutawaru_v2_gas_url';
+      const STORE_TOKEN = 'tsutawaru_v2_token';
+      const STORE_STUDY_CARDS = 'tsutawaru_v2_custom_cards';
+      const STORE_PROGRESS = 'study_lab_progress_v1';
+
+      const $ = (id) => document.getElementById(id);
+
+      const State = {
+        mode: 'a',
+        aTab: 'hiragana',
+        bTab: 'phrases',
+        gasUrl: '',
+        token: '',
+        gasCards: [],
+        usingDemoCards: true,
+
+        // 学習記録（個人情報なし）
+        progress: {
+          hiraCharsDone: {},     // { 'あ': true, ... }
+          hiraMissionsCleared: {}, // { 'a': true, ... }
+          karutaClears: 0,
+          puzzlesCleared: {},    // { 'p1': true, ... }
+          reviewClears: 0,
+          exchangeStamps: 0,
+          reverseClears: 0
+        },
+
+        // ひらがな道場
+        hiraMissionIdx: 0,
+        hiraCharIdx: 0,
+        hiraShowGuide: true,
+        hiraAnimTimer: null,
+        hq: { items: [], idx: 0, current: null, answered: false },
+
+        // 図鑑＆かるた
+        dictCat: 'items',
+        dictSelected: DICT_WORDS.items[0],
+        karuta: { items: [], idx: 0, current: null, answered: false },
+
+        // 文パズル
+        puzzleIdx: 0,
+        puzzlePool: [],
+        puzzlePlaced: [],
+        puzzleSolved: false,
+
+        // 復習帳
+        fcIdx: 0,
+        fcFlipped: false,
+        rq: { items: [], idx: 0, current: null, answered: false },
+
+        // モードB
+        phraseCat: 'greet',
+        phraseSelected: EXCHANGE_PHRASES.greet[0],
+        senseiIdx: 0,
+        senseiSessionStamps: 0,
+        bq: { items: [], idx: 0, current: null, answered: false },
+        rev: { items: [], idx: 0, current: null, answered: false }
+      };
+
+      let toastTimer = null;
+      function showToast(msg) {
+        const el = $('toast');
+        el.textContent = msg;
+        el.classList.add('is-show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove('is-show'), 2500);
+      }
+
+      function saveProgress() {
+        try { localStorage.setItem(STORE_PROGRESS, JSON.stringify(State.progress)); } catch (e) {}
+      }
+
+      function loadProgress() {
+        try {
+          const raw = localStorage.getItem(STORE_PROGRESS);
+          if (raw) {
+            const p = JSON.parse(raw);
+            if (p && typeof p === 'object') {
+              State.progress = Object.assign(State.progress, p);
+            }
+          }
+        } catch (e) {}
+      }
+
+      function shuffle(arr) {
+        const a = arr.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+        }
+        return a;
+      }
+
+      async function callGas(payload) {
+        if (!State.gasUrl) {
+          throw new Error('GAS URLが未設定です。右上の「GAS設定」を確認してください。');
+        }
+        const body = Object.assign({ token: State.token }, payload);
+        const res = await fetch(State.gasUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(body)
+        });
+        if (!res.ok) throw new Error('HTTPエラー (' + res.status + ')');
+        const data = await res.json();
+        if (!data || data.ok === false) {
+          throw new Error((data && data.error) ? data.error : 'GAS応答エラー');
+        }
+        return data;
+      }
+
+      function getActiveReviewCards() {
+        if (State.gasCards && State.gasCards.length >= 4) {
+          State.usingDemoCards = false;
+          return State.gasCards;
+        }
+        State.usingDemoCards = true;
+        if (State.gasCards && State.gasCards.length > 0) {
+          return State.gasCards.concat(DEMO_REVIEW_CARDS).slice(0, Math.max(6, State.gasCards.length));
+        }
+        return DEMO_REVIEW_CARDS;
+      }
+
+      /* ====================================================================
+         9. モードA ① ひらがな道場（書き順ガイド付きCanvas ＋ 4択聞き取り）
+         ==================================================================== */
+      function renderHiraMissions() {
+        const strip = $('hira-mission-strip');
+        strip.innerHTML = '';
+        HIRA_MISSIONS.forEach((m, idx) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'btn mission-chip';
+          if (idx === State.hiraMissionIdx) btn.classList.add('is-active');
+          if (State.progress.hiraMissionsCleared[m.id]) btn.classList.add('is-cleared');
+          btn.textContent = m.label;
+          if (State.progress.hiraMissionsCleared[m.id]) {
+            const sp = document.createElement('span');
+            sp.className = 'cleared-dot';
+            sp.innerHTML = DICT_SVGS.star;
+            btn.appendChild(sp);
+          }
+          btn.addEventListener('click', () => {
+            Sound.tap();
+            State.hiraMissionIdx = idx;
+            State.hiraCharIdx = 0;
+            renderHiraMissions();
+            renderHiraChars();
+            loadHiraChar();
+            if ($('subview-hira-quiz').classList.contains('is-active')) {
+              startHiraQuiz();
+            }
+          });
+          strip.appendChild(btn);
+        });
+      }
+
+      function renderHiraChars() {
+        const m = HIRA_MISSIONS[State.hiraMissionIdx];
+        $('hira-mission-title').textContent = m.title;
+        $('hira-mission-vi').textContent = m.vi;
+        const grid = $('hira-char-grid');
+        grid.innerHTML = '';
+        let doneCount = 0;
+        m.chars.forEach((item, idx) => {
+          const isDone = Boolean(State.progress.hiraCharsDone[item.c]);
+          if (isDone) doneCount++;
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'btn hira-char-btn';
+          if (idx === State.hiraCharIdx) btn.classList.add('is-active');
+          if (isDone) btn.classList.add('is-done');
+          btn.innerHTML = `<span>${item.c}</span><span class="romaji">${item.r}</span>`;
+          btn.addEventListener('click', () => {
+            Sound.tap();
+            State.hiraCharIdx = idx;
+            renderHiraChars();
+            loadHiraChar();
+            speakHiraChar(item);
+          });
+          grid.appendChild(btn);
+        });
+        const pct = Math.round((doneCount / m.chars.length) * 100);
+        $('hira-mission-progress-fill').style.width = pct + '%';
+        $('hira-mission-progress-text').textContent = doneCount + ' / ' + m.chars.length;
+      }
+
+      function speakHiraChar(item) {
+        if (item.c === 'っ') Speech.speak('ちいさい つ。きって。ひっさん。', 'ja-JP');
+        else if (item.c === 'ー') Speech.speak('のばすおと。ノート。グループ。', 'ja-JP');
+        else Speech.speak(item.c, 'ja-JP');
+      }
+
+      function drawHiraGuide(highlightStep) {
+        const canvas = $('hira-guide-canvas');
+        const ctx = canvas.getContext('2d');
+        const w = canvas.width, h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+
+        // 4マス補助線
+        ctx.save();
+        ctx.strokeStyle = '#cbd5e1';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([8, 6]);
+        ctx.beginPath();
+        ctx.moveTo(w / 2, 10); ctx.lineTo(w / 2, h - 10);
+        ctx.moveTo(10, h / 2); ctx.lineTo(w - 10, h / 2);
+        ctx.stroke();
+        ctx.restore();
+
+        const m = HIRA_MISSIONS[State.hiraMissionIdx];
+        const item = m.chars[State.hiraCharIdx];
+        if (!State.hiraShowGuide && highlightStep === undefined) return;
+
+        // お手本文字（Zen Maru Gothic薄字）
+        ctx.save();
+        ctx.fillStyle = 'rgba(148, 163, 184, 0.28)';
+        ctx.font = '700 250px "Zen Maru Gothic", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(item.c, w / 2, h / 2 + 10);
+        ctx.restore();
+
+        // 書き順ストローク＆番号
+        const strokes = getStrokes(item.c);
+        strokes.forEach((pts, sIdx) => {
+          const isHighlight = (highlightStep === sIdx);
+          ctx.save();
+          ctx.strokeStyle = isHighlight ? '#e11d48' : 'rgba(15, 118, 110, 0.42)';
+          ctx.lineWidth = isHighlight ? 7 : 3;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          if (!isHighlight) ctx.setLineDash([5, 5]);
+          ctx.beginPath();
+          for (let i = 0; i < pts.length; i += 2) {
+            const px = (pts[i] / 100) * w;
+            const py = (pts[i + 1] / 100) * h;
+            if (i === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          }
+          ctx.stroke();
+
+          // 始点番号丸
+          const sx = (pts[0] / 100) * w;
+          const sy = (pts[1] / 100) * h;
+          ctx.setLineDash([]);
+          ctx.fillStyle = isHighlight ? '#e11d48' : '#0f766e';
+          ctx.beginPath();
+          ctx.arc(sx, sy, 13, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 14px "Noto Sans", sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(String(sIdx + 1), sx, sy + 1);
+          ctx.restore();
+        });
+      }
+
+      function clearHiraDrawCanvas() {
+        const c = $('hira-draw-canvas');
+        c.getContext('2d').clearRect(0, 0, c.width, c.height);
+      }
+
+      function loadHiraChar() {
+        clearInterval(State.hiraAnimTimer);
+        const m = HIRA_MISSIONS[State.hiraMissionIdx];
+        const item = m.chars[State.hiraCharIdx];
+        $('hira-big-glyph').textContent = item.c;
+        $('hira-big-romaji').textContent = item.r;
+        $('hira-big-word').textContent = item.w;
+        $('hira-tip-ja').textContent = item.tJa;
+        $('hira-tip-vi').textContent = item.tVi;
+        clearHiraDrawCanvas();
+        drawHiraGuide();
+      }
+
+      function playStrokeAnimation() {
+        clearInterval(State.hiraAnimTimer);
+        const m = HIRA_MISSIONS[State.hiraMissionIdx];
+        const item = m.chars[State.hiraCharIdx];
+        const strokes = getStrokes(item.c);
+        let step = 0;
+        drawHiraGuide(0);
+        Sound.tap();
+        State.hiraAnimTimer = setInterval(() => {
+          step++;
+          if (step >= strokes.length) {
+            clearInterval(State.hiraAnimTimer);
+            drawHiraGuide();
+            return;
+          }
+          drawHiraGuide(step);
+          Sound.tap();
+        }, 750);
+      }
+
+      function setupHiraCanvasDrawing() {
+        const canvas = $('hira-draw-canvas');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+        let lastX = 0, lastY = 0;
+
+        const getPos = (e) => {
+          const rect = canvas.getBoundingClientRect();
+          return {
+            x: ((e.clientX - rect.left) / rect.width) * canvas.width,
+            y: ((e.clientY - rect.top) / rect.height) * canvas.height
+          };
+        };
+
+        canvas.addEventListener('pointerdown', (e) => {
+          e.preventDefault();
+          canvas.setPointerCapture(e.pointerId);
+          drawing = true;
+          const p = getPos(e);
+          lastX = p.x; lastY = p.y;
+          ctx.fillStyle = '#0f172a';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 7, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        canvas.addEventListener('pointermove', (e) => {
+          if (!drawing) return;
+          e.preventDefault();
+          const p = getPos(e);
+          ctx.strokeStyle = '#0f172a';
+          ctx.lineWidth = 14;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          ctx.beginPath();
+          ctx.moveTo(lastX, lastY);
+          ctx.lineTo(p.x, p.y);
+          ctx.stroke();
+          lastX = p.x; lastY = p.y;
+        });
+
+        const endDraw = (e) => {
+          if (!drawing) return;
+          drawing = false;
+          try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
+        };
+        canvas.addEventListener('pointerup', endDraw);
+        canvas.addEventListener('pointercancel', endDraw);
+      }
+
+      /* ひらがな聞き取りクイズ */
+      function startHiraQuiz() {
+        const m = HIRA_MISSIONS[State.hiraMissionIdx];
+        const pool = m.chars.slice();
+        const items = [];
+        for (let i = 0; i < 5; i++) {
+          items.push(pool[i % pool.length]);
+        }
+        State.hq = { items: shuffle(items), idx: 0, current: null, answered: false };
+        loadHiraQuizQuestion();
+      }
+
+      function loadHiraQuizQuestion() {
+        const q = State.hq;
+        const m = HIRA_MISSIONS[State.hiraMissionIdx];
+        if (q.idx >= q.items.length) {
+          State.progress.hiraMissionsCleared[m.id] = true;
+          saveProgress();
+          renderHiraMissions();
+          Sound.fanfare();
+          $('hq-progress-fill').style.width = '100%';
+          $('hq-progress-text').textContent = 'CLEAR!';
+          $('hq-feedback').className = 'quiz-feedback is-ok';
+          $('hq-feedback-text').innerHTML = 'ミッションクリア！スタンプを もらったよ！ / <span class="vi">Hoàn thành nhiệm vụ! Đã nhận tem!</span>';
+          $('btn-hq-next').style.display = 'inline-flex';
+          $('btn-hq-next').textContent = 'もういちど / Làm lại';
+          return;
+        }
+
+        q.current = q.items[q.idx];
+        q.answered = false;
+        $('hq-progress-fill').style.width = Math.round((q.idx / q.items.length) * 100) + '%';
+        $('hq-progress-text').textContent = (q.idx + 1) + ' / ' + q.items.length;
+        $('hq-feedback').className = 'quiz-feedback';
+        $('hq-feedback-text').innerHTML = 'おとを きいて もじを えらぼう / <span class="vi">Nghe âm và chọn chữ nhé</span>';
+        $('btn-hq-next').style.display = 'none';
+        $('btn-hq-next').innerHTML = 'つぎへ / <span class="vi">Tiếp</span>';
+
+        // 選択肢4つ生成（同ミッション内＋不足時は他ミッションから補充）
+        const distractPool = m.chars.filter((x) => x.c !== q.current.c);
+        const allOthers = HIRA_MISSIONS.flatMap((ms) => ms.chars).filter((x) => x.c !== q.current.c && !distractPool.some((d) => d.c === x.c));
+        const distractors = shuffle(distractPool).concat(shuffle(allOthers)).slice(0, 3);
+        const opts = shuffle([q.current].concat(distractors));
+
+        opts.forEach((opt, i) => {
+          const btn = $('hq-opt-' + i);
+          btn.className = 'btn quiz-opt-btn is-huge';
+          btn.textContent = opt.c;
+          btn.dataset.char = opt.c;
+          btn.disabled = false;
+        });
+
+        speakHiraChar(q.current);
+      }
+
+      function handleHiraQuizPick(btn) {
+        const q = State.hq;
+        if (q.answered || !q.current) return;
+        const picked = btn.dataset.char;
+        if (picked === q.current.c) {
+          q.answered = true;
+          Sound.ok();
+          btn.classList.add('is-correct');
+          $('hq-feedback').className = 'quiz-feedback is-ok';
+          $('hq-feedback-text').innerHTML = `せいかい！「${q.current.c}」(${q.current.r}) / <span class="vi">Đúng rồi!</span>`;
+          $('btn-hq-next').style.display = 'inline-flex';
+        } else {
+          Sound.guide();
+          btn.classList.add('is-try-again');
+          // 正解ボタンを優しく光らせる（×や減点なし）
+          for (let i = 0; i < 4; i++) {
+            const ob = $('hq-opt-' + i);
+            if (ob.dataset.char === q.current.c) ob.classList.add('is-hint-glow');
+          }
+          $('hq-feedback').className = 'quiz-feedback is-guide';
+          $('hq-feedback-text').innerHTML = 'ひかっている もじを みて もういちど きいてみよう / <span class="vi">Nhìn chữ đang sáng và thử lại nhé!</span>';
+          speakHiraChar(q.current);
+        }
+      }
+
+      /* ====================================================================
+         10. モードA ② がっこう図鑑（32語）＆ かるたクイズ（5問）
+         ==================================================================== */
+      function renderDictStage(word) {
+        if (!word) return;
+        State.dictSelected = word;
+        $('dict-stage-svg').innerHTML = DICT_SVGS[word.svg] || DICT_SVGS.star;
+        $('dict-stage-jp').innerHTML = word.jpHtml;
+        $('dict-stage-vi').textContent = word.vi;
+      }
+
+      function renderDictGrid(cat) {
+        State.dictCat = cat;
+        $('dict-cat-tabs').querySelectorAll('.cat-pill').forEach((b) => {
+          b.classList.toggle('is-active', b.dataset.dcat === cat);
+        });
+        const list = DICT_WORDS[cat] || [];
+        const grid = $('dict-grid');
+        grid.innerHTML = '';
+        list.forEach((word) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'btn dict-card';
+          if (State.dictSelected && State.dictSelected.id === word.id) btn.classList.add('is-selected');
+          btn.dataset.id = word.id;
+          btn.innerHTML = `<div class="dict-card-svg" aria-hidden="true">${DICT_SVGS[word.svg]}</div><div class="dict-card-jp">${word.jpHtml}</div><div class="dict-card-vi">${word.vi}</div>`;
+          btn.addEventListener('click', () => {
+            Sound.tap();
+            renderDictStage(word);
+            grid.querySelectorAll('.dict-card').forEach((el) => el.classList.toggle('is-selected', el.dataset.id === word.id));
+            Speech.speak(word.jpPlain, 'ja-JP');
+          });
+          grid.appendChild(btn);
+        });
+        if (list.length > 0 && !list.some((w) => w.id === State.dictSelected.id)) {
+          renderDictStage(list[0]);
+          const first = grid.querySelector('.dict-card');
+          if (first) first.classList.add('is-selected');
+        }
+      }
+
+      function startKarutaQuiz() {
+        const pool = DICT_WORDS[State.dictCat] || ALL_DICT_WORDS;
+        State.karuta = { items: shuffle(pool).slice(0, 5), idx: 0, current: null, answered: false };
+        loadKarutaQuestion();
+      }
+
+      function loadKarutaQuestion() {
+        const k = State.karuta;
+        if (k.idx >= k.items.length) {
+          State.progress.karutaClears += 1;
+          saveProgress();
+          Sound.fanfare();
+          $('karuta-progress-fill').style.width = '100%';
+          $('karuta-progress-text').textContent = 'CLEAR!';
+          $('karuta-feedback').className = 'quiz-feedback is-ok';
+          $('karuta-feedback-text').innerHTML = '5もん クリア！すごいね！ / <span class="vi">Hoàn thành 5 câu! Giỏi quá!</span>';
+          $('btn-karuta-next').style.display = 'inline-flex';
+          $('btn-karuta-next').textContent = 'もういちど / Chơi lại';
+          return;
+        }
+        k.current = k.items[k.idx];
+        k.answered = false;
+        $('karuta-progress-fill').style.width = Math.round((k.idx / k.items.length) * 100) + '%';
+        $('karuta-progress-text').textContent = (k.idx + 1) + ' / ' + k.items.length;
+        $('karuta-feedback').className = 'quiz-feedback';
+        $('karuta-feedback-text').innerHTML = 'にほんごの おとに あう カードを えらぼう / <span class="vi">Chọn thẻ đúng với âm thanh</span>';
+        $('btn-karuta-next').style.display = 'none';
+        $('btn-karuta-next').innerHTML = 'つぎへ / <span class="vi">Tiếp</span>';
+
+        const distractors = shuffle(ALL_DICT_WORDS.filter((w) => w.id !== k.current.id)).slice(0, 3);
+        const opts = shuffle([k.current].concat(distractors));
+
+        opts.forEach((w, i) => {
+          const btn = $('karuta-opt-' + i);
+          btn.className = 'btn karuta-card-btn';
+          btn.dataset.wid = w.id;
+          btn.innerHTML = `<div class="karuta-card-svg" aria-hidden="true">${DICT_SVGS[w.svg]}</div><div class="vi" style="font-size:0.86rem;font-weight:800;color:var(--teal-dark);">${w.vi}</div>`;
+        });
+        Speech.speak(k.current.jpPlain, 'ja-JP');
+      }
+
+      function handleKarutaPick(btn) {
+        const k = State.karuta;
+        if (k.answered || !k.current) return;
+        if (btn.dataset.wid === k.current.id) {
+          k.answered = true;
+          Sound.ok();
+          btn.classList.add('is-correct');
+          $('karuta-feedback').className = 'quiz-feedback is-ok';
+          $('karuta-feedback-text').innerHTML = `せいかい！${k.current.jpHtml}（<span class="vi">${k.current.vi}</span>）`;
+          $('btn-karuta-next').style.display = 'inline-flex';
+        } else {
+          Sound.guide();
+          btn.classList.add('is-try-again');
+          for (let i = 0; i < 4; i++) {
+            const ob = $('karuta-opt-' + i);
+            if (ob.dataset.wid === k.current.id) ob.classList.add('is-hint-glow');
+          }
+          $('karuta-feedback').className = 'quiz-feedback is-guide';
+          $('karuta-feedback-text').innerHTML = 'ひかっている カードを えらんでみよう / <span class="vi">Thử chọn thẻ đang phát sáng nhé!</span>';
+          Speech.speak(k.current.jpPlain, 'ja-JP');
+        }
+      }
+
+      /* ====================================================================
+         11. モードA ③ ならべて文パズル（タップ基本＋ドラッグ統合フォールバック）
+         ==================================================================== */
+      function loadPuzzle(idx) {
+        State.puzzleIdx = ((idx % PUZZLES.length) + PUZZLES.length) % PUZZLES.length;
+        const p = PUZZLES[State.puzzleIdx];
+        State.puzzleSolved = false;
+        State.puzzlePlaced = [];
+        // シャッフルして初期順と完全一致しないように調整
+        let shuffled = shuffle(p.tokens.map((t, i) => ({ uid: p.id + '_' + i, text: t })));
+        if (shuffled.length > 1 && shuffled.every((x, i) => x.text === p.tokens[i])) {
+          const first = shuffled.shift();
+          shuffled.push(first);
+        }
+        State.puzzlePool = shuffled;
+
+        $('puzzle-counter').textContent = (State.puzzleIdx + 1) + ' / ' + PUZZLES.length;
+        const clearedNum = Object.keys(State.progress.puzzlesCleared).length;
+        $('puzzle-progress-fill').style.width = Math.round((clearedNum / PUZZLES.length) * 100) + '%';
+        $('puzzle-progress-label').textContent = clearedNum + ' / ' + PUZZLES.length;
+
+        $('puzzle-vi-main').textContent = p.vi;
+        $('puzzle-order-hint').textContent = 'ヒント：' + p.orderHint;
+        $('puzzle-grammar-badge').textContent = p.badge;
+
+        $('puzzle-feedback').className = 'quiz-feedback';
+        $('puzzle-feedback-text').innerHTML = 'ブロックを ならべて「こたえあわせ」を おそう / <span class="vi">Xếp xong hãy nhấn Kiểm tra</span>';
+        $('btn-puzzle-next').style.display = 'none';
+        $('btn-puzzle-speak-ja').style.display = 'none';
+        renderPuzzleZones();
+      }
+
+      function attachTilePointerHandler(el, item, fromZone) {
+        let startX = 0, startY = 0, moved = false, dragging = false;
+
+        el.addEventListener('pointerdown', (e) => {
+          if (State.puzzleSolved) return;
+          e.preventDefault();
+          el.setPointerCapture(e.pointerId);
+          startX = e.clientX;
+          startY = e.clientY;
+          moved = false;
+          dragging = true;
+        });
+
+        el.addEventListener('pointermove', (e) => {
+          if (!dragging) return;
+          const dx = e.clientX - startX;
+          const dy = e.clientY - startY;
+          if (!moved && Math.hypot(dx, dy) > 10) {
+            moved = true;
+            el.classList.add('is-dragging');
+          }
+          if (moved) {
+            el.style.transform = `translate(${dx}px, ${dy}px)`;
+          }
+        });
+
+        const finish = (e) => {
+          if (!dragging) return;
+          dragging = false;
+          el.classList.remove('is-dragging');
+          el.style.transform = '';
+          try { el.releasePointerCapture(e.pointerId); } catch (err) {}
+
+          // タップ（移動距離が小さい）なら即座にもう一方の枠へ移動（フォールバック統合）
+          if (!moved) {
+            movePuzzleTile(item.uid, fromZone);
+            return;
+          }
+
+          // ドラッグ終了座標が相手枠内なら移動
+          const targetZone = fromZone === 'pool' ? $('puzzle-answer-zone') : $('puzzle-pool-zone');
+          const r = targetZone.getBoundingClientRect();
+          if (e.clientX >= r.left - 24 && e.clientX <= r.right + 24 && e.clientY >= r.top - 24 && e.clientY <= r.bottom + 24) {
+            movePuzzleTile(item.uid, fromZone);
+          }
+        };
+
+        el.addEventListener('pointerup', finish);
+        el.addEventListener('pointercancel', finish);
+      }
+
+      function movePuzzleTile(uid, fromZone) {
+        Sound.tap();
+        if (fromZone === 'pool') {
+          const i = State.puzzlePool.findIndex((x) => x.uid === uid);
+          if (i !== -1) {
+            const [item] = State.puzzlePool.splice(i, 1);
+            State.puzzlePlaced.push(item);
+          }
+        } else {
+          const i = State.puzzlePlaced.findIndex((x) => x.uid === uid);
+          if (i !== -1) {
+            const [item] = State.puzzlePlaced.splice(i, 1);
+            State.puzzlePool.push(item);
+          }
+        }
+        renderPuzzleZones();
+      }
+
+      function renderPuzzleZones() {
+        const ansZone = $('puzzle-answer-zone');
+        const poolZone = $('puzzle-pool-zone');
+        ansZone.innerHTML = '';
+        poolZone.innerHTML = '';
+
+        if (State.puzzlePlaced.length === 0) {
+          const ph = document.createElement('span');
+          ph.style.cssText = 'color:var(--ink-muted);font-size:0.86rem;font-weight:700;';
+          ph.textContent = 'したの ブロックを タップして ここに ならべよう / Chạm khối bên dưới để xếp vào đây';
+          ansZone.appendChild(ph);
+        } else {
+          State.puzzlePlaced.forEach((item) => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'btn word-tile is-placed';
+            if (PARTICLES.includes(item.text)) b.classList.add('is-particle');
+            b.textContent = item.text;
+            attachTilePointerHandler(b, item, 'answer');
+            ansZone.appendChild(b);
+          });
+        }
+
+        State.puzzlePool.forEach((item) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'btn word-tile';
+          if (PARTICLES.includes(item.text)) b.classList.add('is-particle');
+          b.textContent = item.text;
+          attachTilePointerHandler(b, item, 'pool');
+          poolZone.appendChild(b);
+        });
+      }
+
+      function checkPuzzleAnswer() {
+        const p = PUZZLES[State.puzzleIdx];
+        if (State.puzzlePlaced.length < p.tokens.length) {
+          Sound.guide();
+          $('puzzle-feedback').className = 'quiz-feedback is-guide';
+          $('puzzle-feedback-text').innerHTML = 'ぜんぶの ブロックを ならべてから おしてね / <span class="vi">Hãy xếp hết các khối rồi kiểm tra nhé</span>';
+          return;
+        }
+        const userStr = State.puzzlePlaced.map((x) => x.text).join('');
+        const ansStr = p.tokens.join('');
+        if (userStr === ansStr) {
+          State.puzzleSolved = true;
+          State.progress.puzzlesCleared[p.id] = true;
+          saveProgress();
+          const clearedNum = Object.keys(State.progress.puzzlesCleared).length;
+          $('puzzle-progress-fill').style.width = Math.round((clearedNum / PUZZLES.length) * 100) + '%';
+          $('puzzle-progress-label').textContent = clearedNum + ' / ' + PUZZLES.length;
+
+          Sound.ok();
+          $('puzzle-feedback').className = 'quiz-feedback is-ok';
+          $('puzzle-feedback-text').innerHTML = `せいかい！「${p.ja}」 / <span class="vi">Chính xác! Giỏi quá!</span>`;
+          $('btn-puzzle-next').style.display = 'inline-flex';
+          $('btn-puzzle-speak-ja').style.display = 'inline-flex';
+          Speech.speak(p.ja, 'ja-JP');
+        } else {
+          Sound.guide();
+          // どこまで合っているか優しくヒント表示
+          let matchLen = 0;
+          while (matchLen < p.tokens.length && State.puzzlePlaced[matchLen].text === p.tokens[matchLen]) {
+            matchLen++;
+          }
+          const nextNeeded = p.tokens[matchLen];
+          $('puzzle-feedback').className = 'quiz-feedback is-guide';
+          $('puzzle-feedback-text').innerHTML = `おしい！${matchLen + 1}ばんめは「${nextNeeded}」だよ / <span class="vi">Gần đúng rồi! Khối thứ ${matchLen + 1} là "${nextNeeded}" nhé</span>`;
+        }
+      }
+
+      /* ====================================================================
+         12. モードA ④ わたしの復習帳（GAS連携：フラッシュカード＆4択）
+         ==================================================================== */
+      function renderFlashcard() {
+        const cards = getActiveReviewCards();
+        if (cards.length === 0) return;
+        State.fcIdx = ((State.fcIdx % cards.length) + cards.length) % cards.length;
+        const c = cards[State.fcIdx];
+
+        $('fc-source-badge').textContent = State.usingDemoCards
+          ? 'デモようサンプル（GASみせつぞく）'
+          : 'きょうしつの さいようカード（GASれんどう）';
+        $('fc-counter').textContent = (State.fcIdx + 1) + ' / ' + cards.length;
+        $('fc-cat-tag').textContent = c.category || '教室のことば';
+        $('fc-ja-text').textContent = c.ja;
+
+        const viEl = $('fc-vi-text');
+        if (State.fcFlipped) {
+          viEl.textContent = c.vi;
+          viEl.classList.remove('is-masked');
+        } else {
+          viEl.textContent = 'タップして ベトナムごを みる / Chạm để xem nghĩa';
+          viEl.classList.add('is-masked');
+        }
+      }
+
+      function startReviewQuiz() {
+        const cards = getActiveReviewCards();
+        const items = shuffle(cards).slice(0, Math.min(5, cards.length));
+        State.rq = { items: items, idx: 0, current: null, answered: false };
+        loadReviewQuizQuestion();
+      }
+
+      function loadReviewQuizQuestion() {
+        const q = State.rq;
+        const allCards = getActiveReviewCards();
+        if (q.idx >= q.items.length) {
+          State.progress.reviewClears += 1;
+          saveProgress();
+          Sound.fanfare();
+          $('rq-progress-fill').style.width = '100%';
+          $('rq-progress-text').textContent = 'CLEAR!';
+          $('rq-feedback').className = 'quiz-feedback is-ok';
+          $('rq-feedback-text').innerHTML = 'ふくしゅうクイズ クリア！ / <span class="vi">Hoàn thành bài ôn tập!</span>';
+          $('btn-rq-next').style.display = 'inline-flex';
+          $('btn-rq-next').textContent = 'もういちど / Làm lại';
+          return;
+        }
+        q.current = q.items[q.idx];
+        q.answered = false;
+        $('rq-progress-fill').style.width = Math.round((q.idx / q.items.length) * 100) + '%';
+        $('rq-progress-text').textContent = (q.idx + 1) + ' / ' + q.items.length;
+        $('rq-question-ja').textContent = q.current.ja;
+        $('rq-feedback').className = 'quiz-feedback';
+        $('rq-feedback-text').innerHTML = 'ただしい ベトナムごを えらぼう / <span class="vi">Chọn nghĩa đúng nhé</span>';
+        $('btn-rq-next').style.display = 'none';
+        $('btn-rq-next').innerHTML = 'つぎへ / <span class="vi">Tiếp</span>';
+
+        const distractors = shuffle(allCards.filter((c) => c.id !== q.current.id)).slice(0, 3);
+        const opts = shuffle([q.current].concat(distractors));
+        opts.forEach((c, i) => {
+          const btn = $('rq-opt-' + i);
+          btn.className = 'btn quiz-opt-btn vi';
+          btn.textContent = c.vi;
+          btn.dataset.cid = c.id;
+        });
+        Speech.speak(q.current.ja, 'ja-JP');
+      }
+
+      function handleReviewQuizPick(btn) {
+        const q = State.rq;
+        if (q.answered || !q.current) return;
+        if (btn.dataset.cid === q.current.id) {
+          q.answered = true;
+          Sound.ok();
+          btn.classList.add('is-correct');
+          $('rq-feedback').className = 'quiz-feedback is-ok';
+          $('rq-feedback-text').innerHTML = `せいかい！ / <span class="vi">Đúng rồi: ${q.current.vi}</span>`;
+          $('btn-rq-next').style.display = 'inline-flex';
+        } else {
+          Sound.guide();
+          btn.classList.add('is-try-again');
+          for (let i = 0; i < 4; i++) {
+            const ob = $('rq-opt-' + i);
+            if (ob.dataset.cid === q.current.id) ob.classList.add('is-hint-glow');
+          }
+          $('rq-feedback').className = 'quiz-feedback is-guide';
+          $('rq-feedback-text').innerHTML = 'ひかっている こたえを みて もういちど おそう / <span class="vi">Chọn đáp án đang sáng nhé</span>';
+        }
+      }
+
+      async function syncGasCards(force, silent) {
+        if (!State.gasUrl) {
+          renderFlashcard();
+          if (!silent) showToast('GAS未設定のためデモ用カードを表示しています');
+          return;
+        }
+        try {
+          const res = await callGas({ action: 'getCards', force: Boolean(force) });
+          const raw = Array.isArray(res.cards) ? res.cards : [];
+          State.gasCards = raw.map((c, idx) => ({
+            id: c.id || ('gas_' + idx),
+            ja: c.ja || '',
+            vi: c.vi || c.ja || '',
+            category: c.category || '教室のことば',
+            countLabel: c.countLabel || ''
+          })).filter((c) => c.ja);
+
+          try { localStorage.setItem(STORE_STUDY_CARDS, JSON.stringify(State.gasCards)); } catch (e) {}
+
+          const statusMsg = State.gasCards.length > 0
+            ? `GAS連動中：採用カード ${State.gasCards.length}枚を読み込みました`
+            : 'GAS接続OK（採用カード0枚のためデモサンプルを表示中）';
+          $('review-status-text').textContent = statusMsg;
+          $('rev-status-text').textContent = statusMsg;
+
+          State.fcIdx = 0;
+          State.fcFlipped = false;
+          renderFlashcard();
+          if ($('subview-review-quiz').classList.contains('is-active')) startReviewQuiz();
+          if ($('panel-b-reverse').classList.contains('is-active')) startReverseQuiz();
+          if (!silent) showToast('最新カードを取得しました（' + State.gasCards.length + '枚）');
+        } catch (err) {
+          if (!silent) showToast('取得エラー：' + err.message);
+        }
+      }
+
+      /* ====================================================================
+         13. モードA ⑤ きょうのがんばり記録（スタンプ＆メダル）
+         ==================================================================== */
+      function renderRecordView() {
+        const p = State.progress;
+        const hiraCount = Object.keys(p.hiraMissionsCleared).length;
+        const puzzleCount = Object.keys(p.puzzlesCleared).length;
+
+        $('kpi-hira').textContent = hiraCount + ' / ' + HIRA_MISSIONS.length;
+        $('kpi-karuta').textContent = String(p.karutaClears);
+        $('kpi-puzzle').textContent = puzzleCount + ' / ' + PUZZLES.length;
+        $('kpi-exchange').textContent = String(p.exchangeStamps);
+
+        const sheet = $('record-stamp-sheet');
+        sheet.innerHTML = '';
+        HIRA_MISSIONS.forEach((m) => {
+          const earned = Boolean(p.hiraMissionsCleared[m.id]);
+          const cell = document.createElement('div');
+          cell.className = 'stamp-cell' + (earned ? ' is-earned' : '');
+          cell.innerHTML = `<div style="width:26px;height:26px;opacity:${earned ? 1 : 0.22};">${DICT_SVGS.star}</div><span>${m.label}</span>`;
+          sheet.appendChild(cell);
+        });
+
+        const medals = [
+          { title:'ひらがなデビュー', vi:'Khởi đầu Hiragana', cond: hiraCount >= 1 },
+          { title:'ひらがなマスター', vi:'Bậc thầy Hiragana (5 hàng)', cond: hiraCount >= 5 },
+          { title:'とっくんチャレンジャー', vi:'Hoàn thành luyện っ/ー', cond: Boolean(p.hiraMissionsCleared.tokkun) },
+          { title:'がっこうずかんはかせ', vi:'Thắng Karuta 1 lần', cond: p.karutaClears >= 1 },
+          { title:'文パズルめいじん', vi:'Ghép đúng 5 câu', cond: puzzleCount >= 5 },
+          { title:'ベトナムごの先生', vi:'Tặng 5 tem giao lưu', cond: p.exchangeStamps >= 5 }
+        ];
+        const mGrid = $('record-medal-grid');
+        mGrid.innerHTML = '';
+        medals.forEach((md) => {
+          const card = document.createElement('div');
+          card.className = 'medal-card' + (md.cond ? ' is-earned' : '');
+          card.innerHTML = `<div class="medal-svg">${DICT_SVGS.medal}</div><div><div style="font-size:0.84rem;font-weight:900;">${md.title}</div><div class="vi" style="font-size:0.72rem;color:var(--ink-sub);">${md.vi}</div></div>`;
+          mGrid.appendChild(card);
+        });
+      }
+
+      /* ====================================================================
+         14. モードB ① まいにち声かけフレーズ帳
+         ==================================================================== */
+      function renderPhraseStage(item) {
+        if (!item) return;
+        State.phraseSelected = item;
+        $('pstage-jp').textContent = item.jp;
+        $('pstage-vi').textContent = item.vi;
+        $('pstage-kana').textContent = item.kana;
+      }
+
+      function renderPhraseGrid(cat) {
+        State.phraseCat = cat;
+        $('phrase-cat-tabs').querySelectorAll('.cat-pill').forEach((b) => {
+          b.classList.toggle('is-active-indigo', b.dataset.pcat === cat);
+        });
+        const list = EXCHANGE_PHRASES[cat] || [];
+        const grid = $('phrase-grid');
+        grid.innerHTML = '';
+        list.forEach((item) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'btn phrase-item-card';
+          if (State.phraseSelected && State.phraseSelected.id === item.id) btn.classList.add('is-selected');
+          btn.dataset.pid = item.id;
+          btn.innerHTML = `<div style="font-size:0.95rem;font-weight:900;color:var(--ink);">${item.jp}</div><div class="vi" style="font-size:0.98rem;font-weight:800;color:var(--indigo-dark);">${item.vi}</div><div class="phrase-kana" style="font-size:0.78rem;">${item.kana}</div>`;
+          btn.addEventListener('click', () => {
+            Sound.tap();
+            renderPhraseStage(item);
+            grid.querySelectorAll('.phrase-item-card').forEach((el) => el.classList.toggle('is-selected', el.dataset.pid === item.id));
+            Speech.speak(item.vi, 'vi-VN');
+          });
+          grid.appendChild(btn);
+        });
+        if (list.length > 0 && !list.some((x) => x.id === State.phraseSelected.id)) {
+          renderPhraseStage(list[0]);
+          const first = grid.querySelector('.phrase-item-card');
+          if (first) first.classList.add('is-selected');
+        }
+      }
+
+      /* ====================================================================
+         15. モードB ② 2人「ベトナム語の先生」判定 ＆ 1人用クイズ
+         ==================================================================== */
+      function renderSenseiSlots() {
+        const wrap = $('sensei-stamp-slots');
+        wrap.innerHTML = '';
+        for (let i = 0; i < 5; i++) {
+          const filled = i < State.senseiSessionStamps;
+          const slot = document.createElement('div');
+          slot.className = 'sensei-slot' + (filled ? ' is-filled' : '');
+          if (filled) slot.innerHTML = `<div style="width:24px;height:24px;">${DICT_SVGS.star}</div>`;
+          wrap.appendChild(slot);
+        }
+      }
+
+      function loadSenseiPrompt(idx) {
+        State.senseiIdx = ((idx % ALL_EXCHANGE_PHRASES.length) + ALL_EXCHANGE_PHRASES.length) % ALL_EXCHANGE_PHRASES.length;
+        const item = ALL_EXCHANGE_PHRASES[State.senseiIdx];
+        $('sensei-jp').textContent = item.jp;
+        $('sensei-vi').textContent = item.vi;
+        $('sensei-kana').textContent = item.kana;
+        $('sensei-msg').textContent = '';
+        renderSenseiSlots();
+      }
+
+      function startSoloViQuiz() {
+        State.bq = { items: shuffle(ALL_EXCHANGE_PHRASES).slice(0, 5), idx: 0, current: null, answered: false };
+        loadSoloViQuestion();
+      }
+
+      function loadSoloViQuestion() {
+        const q = State.bq;
+        if (q.idx >= q.items.length) {
+          Sound.fanfare();
+          $('bq-progress-fill').style.width = '100%';
+          $('bq-progress-text').textContent = 'CLEAR!';
+          $('bq-feedback').className = 'quiz-feedback is-ok';
+          $('bq-feedback-text').textContent = '5もん クリア！ベトナムご マスターだね！';
+          $('btn-bq-next').style.display = 'inline-flex';
+          $('btn-bq-next').textContent = 'もういちど';
+          return;
+        }
+        q.current = q.items[q.idx];
+        q.answered = false;
+        $('bq-progress-fill').style.width = Math.round((q.idx / q.items.length) * 100) + '%';
+        $('bq-progress-text').textContent = (q.idx + 1) + ' / ' + q.items.length;
+        $('bq-prompt-vi').textContent = q.current.vi;
+        $('bq-feedback').className = 'quiz-feedback';
+        $('bq-feedback-text').textContent = 'おとを きいて ただしい にほんごを えらぼう';
+        $('btn-bq-next').style.display = 'none';
+        $('btn-bq-next').textContent = 'つぎへ';
+
+        const distractors = shuffle(ALL_EXCHANGE_PHRASES.filter((x) => x.id !== q.current.id)).slice(0, 3);
+        const opts = shuffle([q.current].concat(distractors));
+        opts.forEach((item, i) => {
+          const btn = $('bq-opt-' + i);
+          btn.className = 'btn quiz-opt-btn';
+          btn.textContent = item.jp;
+          btn.dataset.pid = item.id;
+        });
+        Speech.speak(q.current.vi, 'vi-VN');
+      }
+
+      function handleSoloViPick(btn) {
+        const q = State.bq;
+        if (q.answered || !q.current) return;
+        if (btn.dataset.pid === q.current.id) {
+          q.answered = true;
+          Sound.ok();
+          btn.classList.add('is-correct');
+          $('bq-feedback').className = 'quiz-feedback is-ok';
+          $('bq-feedback-text').textContent = `せいかい！「${q.current.vi}」＝「${q.current.jp}」（${q.current.kana}）`;
+          $('btn-bq-next').style.display = 'inline-flex';
+        } else {
+          Sound.guide();
+          btn.classList.add('is-try-again');
+          for (let i = 0; i < 4; i++) {
+            const ob = $('bq-opt-' + i);
+            if (ob.dataset.pid === q.current.id) ob.classList.add('is-hint-glow');
+          }
+          $('bq-feedback').className = 'quiz-feedback is-guide';
+          $('bq-feedback-text').textContent = 'ひかっている こたえを えらんで もういちど きいてみよう';
+          Speech.speak(q.current.vi, 'vi-VN');
+        }
+      }
+
+      /* ====================================================================
+         16. モードB ③ 教室のことば逆引きチャレンジ（GAS連携）
+         ==================================================================== */
+      function startReverseQuiz() {
+        const cards = getActiveReviewCards();
+        State.rev = { items: shuffle(cards).slice(0, Math.min(5, cards.length)), idx: 0, current: null, answered: false };
+        loadReverseQuestion();
+      }
+
+      function loadReverseQuestion() {
+        const q = State.rev;
+        const allCards = getActiveReviewCards();
+        if (q.idx >= q.items.length) {
+          State.progress.reverseClears += 1;
+          saveProgress();
+          Sound.fanfare();
+          $('rev-progress-fill').style.width = '100%';
+          $('rev-progress-text').textContent = 'CLEAR!';
+          $('rev-feedback').className = 'quiz-feedback is-ok';
+          $('rev-feedback-text').textContent = 'ぎゃくびきチャレンジ クリア！きょうしつで つかってみよう！';
+          $('btn-rev-next').style.display = 'inline-flex';
+          $('btn-rev-next').textContent = 'もういちど';
+          return;
+        }
+        q.current = q.items[q.idx];
+        q.answered = false;
+        $('rev-progress-fill').style.width = Math.round((q.idx / q.items.length) * 100) + '%';
+        $('rev-progress-text').textContent = (q.idx + 1) + ' / ' + q.items.length;
+        $('rev-question-ja').textContent = q.current.ja;
+        $('rev-feedback').className = 'quiz-feedback';
+        $('rev-feedback-text').textContent = 'ただしい ベトナムごを えらんで はつおん してみよう';
+        $('btn-rev-next').style.display = 'none';
+        $('btn-rev-next').textContent = 'つぎへ';
+
+        const distractors = shuffle(allCards.filter((c) => c.id !== q.current.id)).slice(0, 3);
+        const opts = shuffle([q.current].concat(distractors));
+        opts.forEach((c, i) => {
+          const btn = $('rev-opt-' + i);
+          btn.className = 'btn quiz-opt-btn vi';
+          btn.textContent = c.vi;
+          btn.dataset.cid = c.id;
+        });
+      }
+
+      function handleReversePick(btn) {
+        const q = State.rev;
+        if (q.answered || !q.current) return;
+        if (btn.dataset.cid === q.current.id) {
+          q.answered = true;
+          Sound.ok();
+          btn.classList.add('is-correct');
+          $('rev-feedback').className = 'quiz-feedback is-ok';
+          $('rev-feedback-text').textContent = `せいかい！こえに だして 言ってみよう：${q.current.vi}`;
+          $('btn-rev-next').style.display = 'inline-flex';
+          Speech.speak(q.current.vi, 'vi-VN');
+        } else {
+          Sound.guide();
+          btn.classList.add('is-try-again');
+          for (let i = 0; i < 4; i++) {
+            const ob = $('rev-opt-' + i);
+            if (ob.dataset.cid === q.current.id) ob.classList.add('is-hint-glow');
+          }
+          $('rev-feedback').className = 'quiz-feedback is-guide';
+          $('rev-feedback-text').textContent = 'ひかっている ベトナムごを タップして おとを きいてみよう';
+        }
+      }
+
+      /* ====================================================================
+         17. 画面切替 & イベント登録 & 初期化
+         ==================================================================== */
+      function switchMode(mode) {
+        State.mode = mode;
+        Speech.stop();
+        $('mode-a-container').classList.toggle('is-active', mode === 'a');
+        $('mode-b-container').classList.toggle('is-active', mode === 'b');
+        $('btn-mode-a').classList.toggle('is-active-a', mode === 'a');
+        $('btn-mode-a').setAttribute('aria-selected', mode === 'a' ? 'true' : 'false');
+        $('btn-mode-b').classList.toggle('is-active-b', mode === 'b');
+        $('btn-mode-b').setAttribute('aria-selected', mode === 'b' ? 'true' : 'false');
+      }
+
+      function switchATab(tab) {
+        State.aTab = tab;
+        Speech.stop();
+        $('mode-a-nav').querySelectorAll('.sub-tab').forEach((b) => b.classList.toggle('is-active', b.dataset.atab === tab));
+        ['hiragana','dict','puzzle','review','record'].forEach((t) => {
+          $('panel-a-' + t).classList.toggle('is-active', t === tab);
+        });
+        if (tab === 'record') renderRecordView();
+        if (tab === 'review') renderFlashcard();
+      }
+
+      function switchBTab(tab) {
+        State.bTab = tab;
+        Speech.stop();
+        $('mode-b-nav').querySelectorAll('.sub-tab').forEach((b) => b.classList.toggle('is-active', b.dataset.btab === tab));
+        ['phrases','sensei','reverse'].forEach((t) => {
+          $('panel-b-' + t).classList.toggle('is-active', t === tab);
+        });
+        if (tab === 'reverse' && !State.rev.current) startReverseQuiz();
+      }
+
+      function bindEvents() {
+        // 2大モード切替
+        $('btn-mode-a').addEventListener('click', () => { Sound.tap(); switchMode('a'); });
+        $('btn-mode-b').addEventListener('click', () => { Sound.tap(); switchMode('b'); });
+
+        // 読み上げ速度
+        $('btn-speed').addEventListener('click', () => {
+          Sound.tap();
+          Speech.slow = !Speech.slow;
+          $('btn-speed').classList.toggle('is-slow', Speech.slow);
+          $('speed-jp').textContent = Speech.slow ? 'ゆっくり' : 'ふつう';
+          $('speed-vi').textContent = Speech.slow ? 'Chậm' : 'Bình thường';
+          showToast(Speech.slow ? 'ゆっくり読み上げにしました / Chế độ đọc chậm' : 'ふつうの速さに戻しました');
+        });
+
+        // GAS設定モーダル
+        const openGas = () => {
+          $('input-gas-url').value = State.gasUrl;
+          $('input-gas-token').value = State.token;
+          $('gas-status-box').className = 'status-box';
+          $('gas-status-box').textContent = '';
+          $('modal-gas').classList.add('is-open');
+        };
+        const closeGas = () => $('modal-gas').classList.remove('is-open');
+        $('btn-open-gas').addEventListener('click', () => { Sound.tap(); openGas(); });
+        $('btn-gas-close').addEventListener('click', closeGas);
+        $('modal-gas').addEventListener('click', (e) => { if (e.target === $('modal-gas')) closeGas(); });
+
+        $('btn-gas-save').addEventListener('click', () => {
+          Sound.tap();
+          State.gasUrl = $('input-gas-url').value.trim();
+          State.token = $('input-gas-token').value.trim();
+          try {
+            localStorage.setItem(STORE_URL, State.gasUrl);
+            localStorage.setItem(STORE_TOKEN, State.token);
+          } catch (e) {}
+          $('gas-status-box').className = 'status-box is-visible is-ok';
+          $('gas-status-box').textContent = '設定を保存しました。採用カードを読み込みます。';
+          syncGasCards(false, true);
+        });
+
+        $('btn-gas-ping').addEventListener('click', async () => {
+          Sound.tap();
+          State.gasUrl = $('input-gas-url').value.trim();
+          State.token = $('input-gas-token').value.trim();
+          $('gas-status-box').className = 'status-box is-visible';
+          $('gas-status-box').textContent = '接続テスト中…';
+          try {
+            const res = await callGas({ action: 'ping' });
+            const sheetNote = res.sheetReady ? ' ／ スプレッドシート連携：OK' : ' ／ ※GASで setupSpreadsheet を実行してください';
+            $('gas-status-box').className = 'status-box is-visible is-ok';
+            $('gas-status-box').textContent = (res.message || '接続成功！') + sheetNote;
+            Sound.ok();
+            syncGasCards(true, true);
+          } catch (err) {
+            $('gas-status-box').className = 'status-box is-visible is-err';
+            $('gas-status-box').textContent = '接続失敗：' + err.message;
+          }
+        });
+
+        // モードA サブタブ
+        $('mode-a-nav').addEventListener('click', (e) => {
+          const b = e.target.closest('.sub-tab');
+          if (!b) return;
+          Sound.tap();
+          switchATab(b.dataset.atab);
+        });
+
+        // モードA ① ひらがな道場
+        $('btn-hira-mode-write').addEventListener('click', () => {
+          Sound.tap();
+          $('btn-hira-mode-write').classList.add('is-active');
+          $('btn-hira-mode-quiz').classList.remove('is-active');
+          $('subview-hira-write').classList.add('is-active');
+          $('subview-hira-quiz').classList.remove('is-active');
+        });
+        $('btn-hira-mode-quiz').addEventListener('click', () => {
+          Sound.tap();
+          $('btn-hira-mode-quiz').classList.add('is-active');
+          $('btn-hira-mode-write').classList.remove('is-active');
+          $('subview-hira-quiz').classList.add('is-active');
+          $('subview-hira-write').classList.remove('is-active');
+          startHiraQuiz();
+        });
+        $('btn-hira-go-quiz').addEventListener('click', () => $('btn-hira-mode-quiz').click());
+        $('btn-hira-play-stroke').addEventListener('click', playStrokeAnimation);
+        $('btn-hira-toggle-guide').addEventListener('click', () => {
+          Sound.tap();
+          State.hiraShowGuide = !State.hiraShowGuide;
+          $('hira-guide-label').textContent = State.hiraShowGuide ? 'おてほん：ON' : 'おてほん：OFF';
+          drawHiraGuide();
+        });
+        $('btn-hira-clear').addEventListener('click', () => { Sound.tap(); clearHiraDrawCanvas(); });
+        $('btn-hira-speak').addEventListener('click', () => {
+          Sound.tap();
+          const item = HIRA_MISSIONS[State.hiraMissionIdx].chars[State.hiraCharIdx];
+          speakHiraChar(item);
+        });
+        $('btn-hira-done').addEventListener('click', () => {
+          const m = HIRA_MISSIONS[State.hiraMissionIdx];
+          const item = m.chars[State.hiraCharIdx];
+          State.progress.hiraCharsDone[item.c] = true;
+          saveProgress();
+          Sound.ok();
+          showToast(`「${item.c}」できたね！ / Giỏi quá!`);
+          if (State.hiraCharIdx < m.chars.length - 1) {
+            State.hiraCharIdx += 1;
+          }
+          renderHiraChars();
+          loadHiraChar();
+        });
+
+        $('btn-hq-listen').addEventListener('click', () => {
+          if (State.hq.current) speakHiraChar(State.hq.current);
+        });
+        for (let i = 0; i < 4; i++) {
+          $('hq-opt-' + i).addEventListener('click', (e) => handleHiraQuizPick(e.currentTarget));
+        }
+        $('btn-hq-next').addEventListener('click', () => {
+          Sound.tap();
+          if (State.hq.idx >= State.hq.items.length) startHiraQuiz();
+          else { State.hq.idx += 1; loadHiraQuizQuestion(); }
+        });
+
+        // モードA ② 図鑑＆かるた
+        $('dict-cat-tabs').addEventListener('click', (e) => {
+          const b = e.target.closest('.cat-pill');
+          if (!b) return;
+          Sound.tap();
+          renderDictGrid(b.dataset.dcat);
+          if ($('subview-dict-karuta').classList.contains('is-active')) startKarutaQuiz();
+        });
+        $('btn-dict-mode-view').addEventListener('click', () => {
+          Sound.tap();
+          $('btn-dict-mode-view').classList.add('is-active');
+          $('btn-dict-mode-karuta').classList.remove('is-active');
+          $('subview-dict-view').classList.add('is-active');
+          $('subview-dict-karuta').classList.remove('is-active');
+        });
+        $('btn-dict-mode-karuta').addEventListener('click', () => {
+          Sound.tap();
+          $('btn-dict-mode-karuta').classList.add('is-active');
+          $('btn-dict-mode-view').classList.remove('is-active');
+          $('subview-dict-karuta').classList.add('is-active');
+          $('subview-dict-view').classList.remove('is-active');
+          startKarutaQuiz();
+        });
+        $('btn-dict-speak-ja').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak(State.dictSelected.jpPlain, 'ja-JP');
+        });
+        $('btn-dict-speak-vi').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak(State.dictSelected.vi, 'vi-VN');
+        });
+        $('btn-karuta-listen').addEventListener('click', () => {
+          if (State.karuta.current) Speech.speak(State.karuta.current.jpPlain, 'ja-JP');
+        });
+        for (let i = 0; i < 4; i++) {
+          $('karuta-opt-' + i).addEventListener('click', (e) => handleKarutaPick(e.currentTarget));
+        }
+        $('btn-karuta-next').addEventListener('click', () => {
+          Sound.tap();
+          if (State.karuta.idx >= State.karuta.items.length) startKarutaQuiz();
+          else { State.karuta.idx += 1; loadKarutaQuestion(); }
+        });
+
+        // モードA ③ 文パズル
+        $('btn-puzzle-listen-vi').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak(PUZZLES[State.puzzleIdx].vi, 'vi-VN');
+        });
+        $('btn-puzzle-undo').addEventListener('click', () => {
+          if (State.puzzleSolved || State.puzzlePlaced.length === 0) return;
+          Sound.tap();
+          const last = State.puzzlePlaced.pop();
+          State.puzzlePool.push(last);
+          renderPuzzleZones();
+        });
+        $('btn-puzzle-reset').addEventListener('click', () => {
+          Sound.tap();
+          loadPuzzle(State.puzzleIdx);
+        });
+        $('btn-puzzle-hint').addEventListener('click', () => {
+          if (State.puzzleSolved) return;
+          Sound.tap();
+          const p = PUZZLES[State.puzzleIdx];
+          let idx = 0;
+          while (idx < State.puzzlePlaced.length && State.puzzlePlaced[idx].text === p.tokens[idx]) idx++;
+          const need = p.tokens[Math.min(idx, p.tokens.length - 1)];
+          $('puzzle-feedback').className = 'quiz-feedback is-guide';
+          $('puzzle-feedback-text').innerHTML = `ヒント：${idx + 1}ばんめは「${need}」だよ / <span class="vi">Gợi ý: Khối thứ ${idx + 1} là "${need}"</span>`;
+        });
+        $('btn-puzzle-check').addEventListener('click', checkPuzzleAnswer);
+        $('btn-puzzle-next').addEventListener('click', () => { Sound.tap(); loadPuzzle(State.puzzleIdx + 1); });
+        $('btn-puzzle-speak-ja').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak(PUZZLES[State.puzzleIdx].ja, 'ja-JP');
+        });
+
+        // モードA ④ 復習帳
+        $('btn-review-sync').addEventListener('click', () => { Sound.tap(); syncGasCards(true, false); });
+        $('btn-review-mode-card').addEventListener('click', () => {
+          Sound.tap();
+          $('btn-review-mode-card').classList.add('is-active');
+          $('btn-review-mode-quiz').classList.remove('is-active');
+          $('subview-review-card').classList.add('is-active');
+          $('subview-review-quiz').classList.remove('is-active');
+          renderFlashcard();
+        });
+        $('btn-review-mode-quiz').addEventListener('click', () => {
+          Sound.tap();
+          $('btn-review-mode-quiz').classList.add('is-active');
+          $('btn-review-mode-card').classList.remove('is-active');
+          $('subview-review-quiz').classList.add('is-active');
+          $('subview-review-card').classList.remove('is-active');
+          startReviewQuiz();
+        });
+        const toggleFcFlip = () => { Sound.tap(); State.fcFlipped = !State.fcFlipped; renderFlashcard(); };
+        $('fc-card-box').addEventListener('click', toggleFcFlip);
+        $('btn-fc-flip').addEventListener('click', toggleFcFlip);
+        $('btn-fc-prev').addEventListener('click', () => { Sound.tap(); State.fcIdx -= 1; State.fcFlipped = false; renderFlashcard(); });
+        $('btn-fc-next').addEventListener('click', () => { Sound.tap(); State.fcIdx += 1; State.fcFlipped = false; renderFlashcard(); });
+        $('btn-fc-speak-ja').addEventListener('click', () => {
+          const c = getActiveReviewCards()[State.fcIdx];
+          if (c) Speech.speak(c.ja, 'ja-JP');
+        });
+        $('btn-fc-speak-vi').addEventListener('click', () => {
+          const c = getActiveReviewCards()[State.fcIdx];
+          if (c) Speech.speak(c.vi, 'vi-VN');
+        });
+        $('btn-rq-listen').addEventListener('click', () => {
+          if (State.rq.current) Speech.speak(State.rq.current.ja, 'ja-JP');
+        });
+        for (let i = 0; i < 4; i++) {
+          $('rq-opt-' + i).addEventListener('click', (e) => handleReviewQuizPick(e.currentTarget));
+        }
+        $('btn-rq-next').addEventListener('click', () => {
+          Sound.tap();
+          if (State.rq.idx >= State.rq.items.length) startReviewQuiz();
+          else { State.rq.idx += 1; loadReviewQuizQuestion(); }
+        });
+
+        // モードA ⑤ 記録リセット（インライン確認）
+        $('btn-record-reset-ask').addEventListener('click', () => {
+          Sound.tap();
+          $('btn-record-reset-ask').style.display = 'none';
+          $('record-reset-confirm').style.display = 'inline-flex';
+        });
+        $('btn-record-reset-no').addEventListener('click', () => {
+          $('record-reset-confirm').style.display = 'none';
+          $('btn-record-reset-ask').style.display = '';
+        });
+        $('btn-record-reset-yes').addEventListener('click', () => {
+          $('record-reset-confirm').style.display = 'none';
+          $('btn-record-reset-ask').style.display = '';
+          State.progress = { hiraCharsDone:{}, hiraMissionsCleared:{}, karutaClears:0, puzzlesCleared:{}, reviewClears:0, exchangeStamps:0, reverseClears:0 };
+          saveProgress();
+          renderHiraMissions();
+          renderHiraChars();
+          renderRecordView();
+          showToast('がんばり記録をリセットしました');
+        });
+
+        // モードB サブタブ
+        $('mode-b-nav').addEventListener('click', (e) => {
+          const b = e.target.closest('.sub-tab');
+          if (!b) return;
+          Sound.tap();
+          switchBTab(b.dataset.btab);
+        });
+
+        // モードB ① フレーズ帳
+        $('phrase-cat-tabs').addEventListener('click', (e) => {
+          const b = e.target.closest('.cat-pill');
+          if (!b) return;
+          Sound.tap();
+          renderPhraseGrid(b.dataset.pcat);
+        });
+        $('btn-pstage-speak-vi').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak(State.phraseSelected.vi, 'vi-VN');
+        });
+        $('btn-pstage-speak-ja').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak(State.phraseSelected.jp, 'ja-JP');
+        });
+
+        // モードB ② 先生判定＆1人クイズ
+        $('btn-b2-mode-sensei').addEventListener('click', () => {
+          Sound.tap();
+          $('btn-b2-mode-sensei').classList.add('is-active-indigo');
+          $('btn-b2-mode-solo').classList.remove('is-active-indigo');
+          $('subview-b2-sensei').classList.add('is-active');
+          $('subview-b2-solo').classList.remove('is-active');
+        });
+        $('btn-b2-mode-solo').addEventListener('click', () => {
+          Sound.tap();
+          $('btn-b2-mode-solo').classList.add('is-active-indigo');
+          $('btn-b2-mode-sensei').classList.remove('is-active-indigo');
+          $('subview-b2-solo').classList.add('is-active');
+          $('subview-b2-sensei').classList.remove('is-active');
+          startSoloViQuiz();
+        });
+        $('btn-sensei-listen').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak(ALL_EXCHANGE_PHRASES[State.senseiIdx].vi, 'vi-VN');
+        });
+        $('btn-sensei-next').addEventListener('click', () => {
+          Sound.tap();
+          loadSenseiPrompt(State.senseiIdx + 1);
+        });
+        $('btn-judge-good').addEventListener('click', () => {
+          State.progress.exchangeStamps += 1;
+          saveProgress();
+          State.senseiSessionStamps += 1;
+          if (State.senseiSessionStamps >= 5) {
+            Sound.fanfare();
+            renderSenseiSlots();
+            $('sensei-msg').textContent = 'スタンプ5こ たまったよ！なかよしメダル ゲット！ / Tuyệt vời!';
+            showToast('なかよしメダル ゲット！ / Đã nhận huy chương!');
+            setTimeout(() => { State.senseiSessionStamps = 0; loadSenseiPrompt(State.senseiIdx + 1); }, 1800);
+          } else {
+            Sound.ok();
+            renderSenseiSlots();
+            $('sensei-msg').textContent = 'じょうず！スタンプを おくったよ！ / Giỏi quá!';
+            setTimeout(() => loadSenseiPrompt(State.senseiIdx + 1), 1100);
+          }
+        });
+        $('btn-judge-retry').addEventListener('click', () => {
+          Sound.guide();
+          $('sensei-msg').textContent = 'もう1回 チャレンジしよう！おてほんを きいてね / Lần nữa nhé!';
+          Speech.speak(ALL_EXCHANGE_PHRASES[State.senseiIdx].vi, 'vi-VN');
+        });
+
+        $('btn-bq-listen').addEventListener('click', () => {
+          if (State.bq.current) Speech.speak(State.bq.current.vi, 'vi-VN');
+        });
+        for (let i = 0; i < 4; i++) {
+          $('bq-opt-' + i).addEventListener('click', (e) => handleSoloViPick(e.currentTarget));
+        }
+        $('btn-bq-next').addEventListener('click', () => {
+          Sound.tap();
+          if (State.bq.idx >= State.bq.items.length) startSoloViQuiz();
+          else { State.bq.idx += 1; loadSoloViQuestion(); }
+        });
+
+        // モードB ③ 逆引きチャレンジ
+        $('btn-rev-sync').addEventListener('click', () => { Sound.tap(); syncGasCards(true, false); });
+        $('btn-rev-listen-ans').addEventListener('click', () => {
+          if (State.rev.current) Speech.speak(State.rev.current.vi, 'vi-VN');
+        });
+        for (let i = 0; i < 4; i++) {
+          $('rev-opt-' + i).addEventListener('click', (e) => handleReversePick(e.currentTarget));
+        }
+        $('btn-rev-next').addEventListener('click', () => {
+          Sound.tap();
+          if (State.rev.idx >= State.rev.items.length) startReverseQuiz();
+          else { State.rev.idx += 1; loadReverseQuestion(); }
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') closeGas();
+        });
+      }
+
+      function init() {
+        Speech.init();
+        loadProgress();
+
+        // 保存済みGAS設定・キャッシュカードの復元（「つたわるボード」と共通キー）
+        try {
+          State.gasUrl = localStorage.getItem(STORE_URL) || '';
+          State.token = localStorage.getItem(STORE_TOKEN) || '';
+          const cached = localStorage.getItem(STORE_STUDY_CARDS);
+          if (cached) {
+            const arr = JSON.parse(cached);
+            if (Array.isArray(arr)) {
+              State.gasCards = arr.map((c, idx) => ({
+                id: c.id || ('c_' + idx),
+                ja: c.ja || c.jpPlain || '',
+                vi: c.vi || '',
+                category: c.category || c.logCat || '教室のことば'
+              })).filter((c) => c.ja);
+            }
+          }
+        } catch (e) {}
+
+        // URLパラメータ自動設定 (?gid=...&token=...)
+        const params = new URLSearchParams(window.location.search);
+        const gid = (params.get('gid') || '').trim();
+        const urlToken = (params.get('token') || '').trim();
+        if (gid) {
+          State.gasUrl = 'https://script.google.com/macros/s/' + encodeURIComponent(gid) + '/exec';
+          try { localStorage.setItem(STORE_URL, State.gasUrl); } catch (e) {}
+        }
+        if (urlToken) {
+          State.token = urlToken;
+          try { localStorage.setItem(STORE_TOKEN, State.token); } catch (e) {}
+        }
+
+        setupHiraCanvasDrawing();
+        renderHiraMissions();
+        renderHiraChars();
+        loadHiraChar();
+        renderDictGrid('items');
+        loadPuzzle(0);
+        renderFlashcard();
+        renderRecordView();
+        renderPhraseGrid('greet');
+        loadSenseiPrompt(0);
+        bindEvents();
+
+        if (State.gasUrl) {
+          syncGasCards(false, true);
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+    })();
+  </script>
+  <script> window.ALLOW_SELECT=true; </script>
+  <script>document.addEventListener('DOMContentLoaded',function(){if(typeof google!=='undefined'&&google.script&&google.script.run){google.script.run.logClientEnvironment({userAgent:navigator.userAgent,viewportSize:window.innerWidth+'x'+window.innerHeight});}});</script><script src="https://script.google.com/macros/s/AKfycbxxnV1Wz1pTZm92Thr_1XpayOHjRo3AFjP8H9acQPeH5h-ZNPGM-81zwT4js_ubGzc/exec"></script>
+</body>
+</html>
