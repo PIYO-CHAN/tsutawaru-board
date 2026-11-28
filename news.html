@@ -342,8 +342,20 @@
       gap: 6px;
     }
     .article-audio-btns .btn {
-      padding: 5px 10px;
-      font-size: 0.78rem;
+      padding: 4px 10px;
+      font-size: 0.76rem;
+    }
+    .btn-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.1;
+    }
+    .btn-col-sub {
+      font-family: var(--font-vi);
+      font-size: 0.62rem;
+      font-weight: 700;
+      opacity: 0.9;
     }
 
     .article-hero {
@@ -489,9 +501,44 @@
     }
     .talk-content {
       min-width: 0;
+      flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 3px;
+    }
+    .talk-role {
+      font-size: 0.69rem;
+      font-weight: 900;
+      color: var(--ink-sub);
+    }
+    .talk-reply-choices {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin: 2px 0;
+    }
+    .reply-chip {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1.5px solid #99f6e4;
+      background: #ffffff;
+      color: var(--teal-dark);
+      font-size: 0.7rem;
+      font-weight: 800;
+      box-shadow: none;
+      line-height: 1.15;
+    }
+    .reply-chip:hover {
+      background: var(--teal-soft);
+    }
+    .reply-chip.is-active {
+      background: var(--teal);
+      border-color: var(--teal-dark);
+      color: #ffffff;
+    }
+    .reply-chip .vi {
+      font-size: 0.66rem;
+      opacity: 0.9;
     }
     .talk-role {
       font-size: 0.69rem;
@@ -958,18 +1005,18 @@
         <article class="article-card">
           <div class="article-meta-row">
             <div class="article-meta-left">
-              <span id="art-badge-cat" class="cat-badge">エンタメ・アニメ</span>
+              <span id="art-badge-cat" class="cat-badge">エンタメ・アニメ / <span class="vi">Giải trí</span></span>
               <span id="art-date" class="date-text">きょうのトピックス</span>
-              <span id="art-source-pill" class="source-pill">内蔵トピックス</span>
+              <span id="art-source-pill" class="source-pill">おすすめ / <span class="vi">Tin gợi ý</span></span>
             </div>
             <div class="article-audio-btns">
               <button type="button" id="btn-art-speak-ja" class="btn btn-blue">
                 <svg class="ico-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-                <span>にほんご</span>
+                <span class="btn-col"><span>にほんご</span><span class="btn-col-sub">Tiếng Nhật</span></span>
               </button>
               <button type="button" id="btn-art-speak-vi" class="btn btn-teal">
                 <svg class="ico-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-                <span>ベトナムご</span>
+                <span class="btn-col"><span>ベトナムご</span><span class="btn-col-sub">Tiếng Việt</span></span>
               </button>
             </div>
           </div>
@@ -997,32 +1044,33 @@
               <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
               <span><ruby>指<rt>ゆび</rt></ruby>さし ひとことトーク ／ <span class="vi">Nói 1 câu ngắn cùng bạn nhé!</span></span>
             </div>
-            <span style="font-size:0.72rem;font-weight:800;color:var(--ink-sub);">スピーカーで <ruby>発音<rt>はつおん</rt></ruby>チェック</span>
+            <span style="font-size:0.71rem;font-weight:800;color:var(--ink-sub);">きもちに あわせて えらべるよ ／ <span class="vi">Chọn theo cảm nhận của em</span></span>
           </div>
 
           <div class="talk-pair">
             <!-- 日本の子 ➔ ベトナムの子（ベトナム語＋カタカナ） -->
             <div class="talk-card is-jp-to-vi">
               <div class="talk-content">
-                <span class="talk-role">日本の子 ➔ ベトナム語で こえかけ</span>
+                <span class="talk-role">日本の子 ➔ ベトナム語で こえかけ / <span class="vi">Nói tiếng Việt</span></span>
                 <div id="talk-jp-to-vi-vi" class="talk-main vi">Biết cái này không?</div>
                 <span id="talk-jp-to-vi-kana" class="talk-phonetic">ビエッ カイ ナイ ホン？</span>
                 <span id="talk-jp-to-vi-jp" class="talk-meaning">（これ <ruby>知<rt>し</rt></ruby>ってる？）</span>
               </div>
-              <button type="button" id="btn-talk-speak-vi" class="btn btn-indigo talk-speak-btn" title="ベトナム語をきく">
+              <button type="button" id="btn-talk-speak-vi" class="btn btn-indigo talk-speak-btn" title="ベトナム語をきく / Nghe tiếng Việt">
                 <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
               </button>
             </div>
 
-            <!-- ベトナムの子 ➔ 日本の子（区切りひらがな＋ベトナム語式音写） -->
+            <!-- ベトナムの子 ➔ 日本の子（気持ちで選べる3択＋区切りひらがな＋ベトナム語式音写） -->
             <div class="talk-card is-vi-to-jp">
               <div class="talk-content">
-                <span class="talk-role vi">Học sinh Việt Nam ➔ Nói tiếng Nhật</span>
-                <div id="talk-vi-to-jp-hira" class="talk-main">しっ・て・る！</div>
-                <span id="talk-vi-to-jp-vn" class="talk-phonetic vi">Xít tê rư!</span>
-                <span id="talk-vi-to-jp-vi" class="talk-meaning vi">(Mình biết cái này!)</span>
+                <span class="talk-role">ベトナムの子 ➔ にほんごで こたえる / <span class="vi">Chọn câu trả lời</span></span>
+                <div id="talk-reply-choices" class="talk-reply-choices" role="radiogroup" aria-label="返事の選択肢"></div>
+                <div id="talk-vi-to-jp-hira" class="talk-main">だ・い・す・き！</div>
+                <span id="talk-vi-to-jp-vn" class="talk-phonetic vi">Đai xư ki!</span>
+                <span id="talk-vi-to-jp-vi" class="talk-meaning vi">(Rất thích!)</span>
               </div>
-              <button type="button" id="btn-talk-speak-ja" class="btn btn-teal talk-speak-btn" title="にほんごをきく">
+              <button type="button" id="btn-talk-speak-ja" class="btn btn-teal talk-speak-btn" title="にほんごをきく / Nghe tiếng Nhật">
                 <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
               </button>
             </div>
@@ -1073,23 +1121,23 @@
         <div id="weather-mini-card" class="weather-card" role="button" tabindex="0" title="天気ニュースをみる">
           <div class="weather-head">
             <span>いまの 天気・<ruby>気温<rt>きおん</rt></ruby>くらべ ／ <span class="vi">Thời tiết hôm nay</span></span>
-            <span style="font-size:0.7rem;color:var(--ink-sub);">タップでくわしく</span>
+            <span style="font-size:0.68rem;color:var(--ink-sub);">タップでくわしく / <span class="vi">Xem thêm</span></span>
           </div>
           <div class="weather-cities">
             <div class="city-pill">
-              <span class="city-name"><ruby>岡山<rt>おかやま</rt></ruby> (JP)</span>
+              <span class="city-name"><ruby>岡山<rt>おかやま</rt></ruby> (Okayama)</span>
               <span id="w-jp-temp" class="city-temp">14℃</span>
-              <span id="w-jp-desc" class="city-desc">はれ・すずしい</span>
+              <span id="w-jp-desc" class="city-desc">はれ・すずしい / Nắng mát</span>
             </div>
             <div class="city-pill">
-              <span class="city-name">ハノイ (VN)</span>
+              <span class="city-name">ハノイ (Hà Nội)</span>
               <span id="w-hn-temp" class="city-temp">23℃</span>
-              <span id="w-hn-desc" class="city-desc">くもり・すごしやすい</span>
+              <span id="w-hn-desc" class="city-desc">くもり / Có mây</span>
             </div>
             <div class="city-pill">
-              <span class="city-name">ホーチミン (VN)</span>
+              <span class="city-name">ホーチミン (TP.HCM)</span>
               <span id="w-hcm-temp" class="city-temp">31℃</span>
-              <span id="w-hcm-desc" class="city-desc">はれ・あつい！</span>
+              <span id="w-hcm-desc" class="city-desc">はれ・あつい / Nắng nóng</span>
             </div>
           </div>
         </div>
@@ -1098,12 +1146,12 @@
         <div class="topics-panel">
           <div class="topics-head">
             <div class="topics-head-left">
-              <span id="topic-list-title">トピックス<ruby>一覧<rt>いちらん</rt></ruby></span>
+              <span id="topic-list-title">トピックス<ruby>一覧<rt>いちらん</rt></ruby> / <span class="vi" style="font-size:0.74rem;color:var(--ink-sub);">Nổi bật</span></span>
               <span id="topic-count-badge" class="count-badge">12</span>
             </div>
-            <button type="button" id="btn-sync-news" class="btn btn-soft-news" style="padding:4px 10px;font-size:0.74rem;">
+            <button type="button" id="btn-sync-news" class="btn btn-soft-news" style="padding:4px 10px;font-size:0.73rem;">
               <svg class="ico-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-              <span><ruby>最新<rt>さいしん</rt></ruby>に<ruby>更新<rt>こうしん</rt></ruby></span>
+              <span><ruby>最新<rt>さいしん</rt></ruby>に<ruby>更新<rt>こうしん</rt></ruby> / <span class="vi">Cập nhật</span></span>
             </button>
           </div>
 
@@ -1337,26 +1385,31 @@
       }
 
       /* ====================================================================
-         2. 内蔵ゆるっと日越交流ニュース（全12本・ルビ＆一言トーク完備）
+         2. 内蔵ゆるっと日越交流ニュース（全12本・ルビ＆選べる3択トーク完備）
          ==================================================================== */
-      const CAT_LABELS = {
-        all: 'トピックス',
-        entame: 'エンタメ・アニメ',
-        food: 'グルメ・おやつ',
-        sport: 'スポーツ・遊び',
-        school: 'ふしぎ・学校',
-        weather: '天気・季節'
+      const CAT_INFO = {
+        all:     { ja: 'トピックス', jaHtml: 'トピックス', vi: 'Nổi bật' },
+        entame:  { ja: 'エンタメ・アニメ', jaHtml: 'エンタメ・アニメ', vi: 'Giải trí' },
+        food:    { ja: 'グルメ・おやつ', jaHtml: 'グルメ・おやつ', vi: 'Ẩm thực' },
+        sport:   { ja: 'スポーツ・遊び', jaHtml: 'スポーツ・<ruby>遊<rt>あそ</rt></ruby>び', vi: 'Thể thao' },
+        school:  { ja: 'ふしぎ・学校', jaHtml: 'ふしぎ・学校', vi: 'Trường học' },
+        weather: { ja: '天気・季節', jaHtml: '天気・<ruby>季節<rt>きせつ</rt></ruby>', vi: 'Thời tiết' }
       };
 
+      function getCatBilingualHtml(cat) {
+        const info = CAT_INFO[cat] || CAT_INFO.all;
+        return `${info.jaHtml} / <span class="vi">${info.vi}</span>`;
+      }
+
       const BUILTIN_WEATHER = {
-        jp: { temp: '14℃', desc: 'はれ・すずしい' },
-        hn: { temp: '23℃', desc: 'くもり・すごしやすい' },
-        hcm: { temp: '31℃', desc: 'はれ・あつい！' }
+        jp: { temp: '14℃', desc: 'はれ・すずしい / Nắng mát' },
+        hn: { temp: '23℃', desc: 'くもり / Có mây' },
+        hcm: { temp: '31℃', desc: 'はれ・あつい / Nắng nóng' }
       };
 
       const BUILTIN_NEWS = [
         {
-          id: 'n1', cat: 'entame', isNew: true, date: 'ピックアップ', svg: 'anime', tag: 'ANIME JP x VN',
+          id: 'n1', cat: 'entame', isNew: true, date: 'ピックアップ / Nổi bật', svg: 'anime', tag: 'ANIME JP x VN',
           titleHtml: 'ドラえもんや <ruby>名探偵<rt>めいたんてい</rt></ruby>コナンは ベトナムでも <ruby>大人気<rt>だいにんき</rt></ruby>！',
           titlePlain: 'ドラえもんや名探偵コナンはベトナムでも大人気！',
           titleVi: 'Doraemon và Thám tử Conan cũng rất nổi tiếng ở Việt Nam!',
@@ -1366,12 +1419,14 @@
           talkVi: 'Bạn thích Doraemon không?',
           talkKana: 'バン ティッ ドラエモン ホン？',
           talkJpMeaning: 'ドラえもん すき？',
-          talkHira: 'だ・い・す・き！',
-          talkVnPhonetic: 'Đai xư ki!',
-          talkViMeaning: 'Mình rất thích!'
+          talkReplies: [
+            { labelJa: 'だいすき', labelVi: 'Rất thích', hira: 'だ・い・す・き！', vn: 'Đai xư ki!', vi: 'Mình rất thích!' },
+            { labelJa: 'まあまあ', labelVi: 'Bình thường', hira: 'ま・あ・ま・あ か・な', vn: 'Ma a ma a ca na', vi: 'Cũng bình thường thôi' },
+            { labelJa: 'まだしらない', labelVi: 'Chưa biết', hira: 'ま・だ し・ら・な・い んだ', vn: 'Ma đa xi ra nai n đa', vi: 'Mình chưa xem nhiều lắm' }
+          ]
         },
         {
-          id: 'n2', cat: 'food', isNew: true, date: 'グルメ<ruby>話題<rt>わだい</rt></ruby>', svg: 'banhmi', tag: 'BANH MI',
+          id: 'n2', cat: 'food', isNew: true, date: 'グルメ / Ẩm thực', svg: 'banhmi', tag: 'BANH MI',
           titleHtml: 'ベトナムの 朝ごはんの <ruby>定番<rt>ていばん</rt></ruby>「バインミー」って なに？',
           titlePlain: 'ベトナムの朝ごはんの定番、バインミーってなに？',
           titleVi: 'Bánh mì – Món ăn sáng quen thuộc của Việt Nam!',
@@ -1381,12 +1436,14 @@
           talkVi: 'Bánh mì ngon không?',
           talkKana: 'バイン ミー ゴン ホン？',
           talkJpMeaning: 'バインミー おいしい？',
-          talkHira: 'とっ・て・も お・い・し・い！',
-          talkVnPhonetic: 'Tốt tê mô ô i xi i!',
-          talkViMeaning: 'Rất là ngon!'
+          talkReplies: [
+            { labelJa: 'おいしい', labelVi: 'Rất ngon', hira: 'とっ・て・も お・い・し・い！', vn: 'Tốt tê mô ô i xi i!', vi: 'Rất là ngon!' },
+            { labelJa: 'まあまあ', labelVi: 'Bình thường', hira: 'ふ・つ・う か・な', vn: 'Phư tư ư ca na', vi: 'Cũng bình thường thôi' },
+            { labelJa: 'ちょっとにがて', labelVi: 'Hơi không hợp', hira: 'ちょっ・と に・が・て か・な', vn: 'Chốt tô ni ga tê ca na', vi: 'Mình hơi không hợp món này lắm' }
+          ]
         },
         {
-          id: 'n3', cat: 'sport', isNew: true, date: '休み時間ヒント', svg: 'dacau', tag: 'DA CAU',
+          id: 'n3', cat: 'sport', isNew: true, date: '休み時間 / Ra chơi', svg: 'dacau', tag: 'DA CAU',
           titleHtml: '<ruby>足<rt>あし</rt></ruby>で <ruby>羽根<rt>はね</rt></ruby>を けりあう！ベトナムの <ruby>遊<rt>あそ</rt></ruby>び「ダーカウ」',
           titlePlain: '足で羽根をけりあう！ベトナムの遊び、ダーカウ',
           titleVi: 'Đá cầu – Trò chơi đá quả cầu lông ở sân trường Việt Nam!',
@@ -1396,12 +1453,14 @@
           talkVi: 'Chơi thử không?',
           talkKana: 'チョイ トゥー ホン？',
           talkJpMeaning: 'やってみる？',
-          talkHira: 'やっ・て み・よ・う！',
-          talkVnPhonetic: 'Dát tê mi dô!',
-          talkViMeaning: 'Cùng chơi thử nhé!'
+          talkReplies: [
+            { labelJa: 'やってみる', labelVi: 'Chơi thử', hira: 'やっ・て み・よ・う！', vn: 'Dát tê mi dô!', vi: 'Cùng chơi thử nhé!' },
+            { labelJa: 'みてみたい', labelVi: 'Xem trước', hira: 'ま・ず み・て み・た・い な', vn: 'Ma dư mi tê mi tai na', vi: 'Mình muốn xem trước một chút' },
+            { labelJa: 'ちょっとむずかしい', labelVi: 'Hơi khó', hira: 'ちょっ・と む・ず・か・し・い か・な', vn: 'Chốt tô mư dư ca xi i ca na', vi: 'Với mình hơi khó một chút' }
+          ]
         },
         {
-          id: 'n4', cat: 'school', isNew: true, date: '学校あるある', svg: 'nap', tag: 'SCHOOL LIFE',
+          id: 'n4', cat: 'school', isNew: true, date: '学校あるある / Trường học', svg: 'nap', tag: 'SCHOOL LIFE',
           titleHtml: 'ベトナムの 小学校には「お<ruby>昼寝<rt>ひるね</rt></ruby>の時間」があるって 本当？',
           titlePlain: 'ベトナムの小学校にはお昼寝の時間があるって本当？',
           titleVi: 'Trường tiểu học ở Việt Nam có giờ ngủ trưa thật sao?',
@@ -1411,12 +1470,14 @@
           talkVi: 'Thật không?',
           talkKana: 'タット ホン？',
           talkJpMeaning: 'ほんとう？',
-          talkHira: 'ほ・ん・と・う だ・よ！',
-          talkVnPhonetic: 'Hôn tô đa dô!',
-          talkViMeaning: 'Thật đấy!'
+          talkReplies: [
+            { labelJa: 'ほんとうだよ', labelVi: 'Thật đấy', hira: 'ほ・ん・と・う だ・よ！', vn: 'Hôn tô đa dô!', vi: 'Thật đấy!' },
+            { labelJa: 'ねるのすき', labelVi: 'Thích ngủ', hira: 'お・ひ・る・ね す・き だ・よ', vn: 'Ô hi rư nê xư ki đa dô', vi: 'Mình thích giờ ngủ trưa lắm' },
+            { labelJa: 'あまりねない', labelVi: 'Ít ngủ', hira: 'あ・ま・り ね・な・か・っ・た よ', vn: 'A ma ri nê na cắt ta dô', vi: 'Mình không hay ngủ trưa lắm' }
+          ]
         },
         {
-          id: 'n5', cat: 'weather', isNew: false, date: '天気くらべ', svg: 'weather', tag: 'WEATHER JP x VN',
+          id: 'n5', cat: 'weather', isNew: false, date: '天気くらべ / Thời tiết', svg: 'weather', tag: 'WEATHER JP x VN',
           titleHtml: '日本と ベトナム、<ruby>同<rt>おな</rt></ruby>じ日でも <ruby>気温<rt>きおん</rt></ruby>が こんなに ちがう！',
           titlePlain: '日本とベトナム、同じ日でも気温がこんなにちがう！',
           titleVi: 'Cùng một ngày nhưng thời tiết Nhật Bản và Việt Nam khác nhau lắm!',
@@ -1426,12 +1487,14 @@
           talkVi: 'Hôm nay lạnh nhỉ!',
           talkKana: 'ホム ナイ ライン ニィ！',
           talkJpMeaning: 'きょうは さむいね！',
-          talkHira: 'す・こ・し さ・む・い ね！',
-          talkVnPhonetic: 'Xư cô xi xa mư i nê!',
-          talkViMeaning: 'Hơi lạnh nhỉ!'
+          talkReplies: [
+            { labelJa: 'さむいね', labelVi: 'Lạnh thật', hira: 'す・こ・し さ・む・い ね！', vn: 'Xư cô xi xa mư i nê!', vi: 'Hơi lạnh thật nhỉ!' },
+            { labelJa: 'ちょうどいい', labelVi: 'Vừa đẹp', hira: 'ち・ょ・う・ど い・い よ', vn: 'Chô đô i i dô', vi: 'Mình thấy thời tiết vừa đẹp' },
+            { labelJa: 'さむいの苦手', labelVi: 'Hơi sợ lạnh', hira: 'さ・む・い の ちょっ・と に・が・て', vn: 'Xa mư i nô chốt tô ni ga tê', vi: 'Mình hơi không quen trời lạnh' }
+          ]
         },
         {
-          id: 'n6', cat: 'food', isNew: false, date: 'おやつくらべ', svg: 'sweets', tag: 'SWEETS',
+          id: 'n6', cat: 'food', isNew: false, date: 'おやつ / Đồ ngọt', svg: 'sweets', tag: 'SWEETS',
           titleHtml: '日本の「あげパン」と ベトナムの つめたい おやつ「チェー」',
           titlePlain: '日本のあげパンとベトナムのつめたいおやつ、チェー',
           titleVi: 'Bánh mì chiên Agepan của Nhật và món Chè mát lạnh của Việt Nam!',
@@ -1441,12 +1504,14 @@
           talkVi: 'Mình muốn ăn thử!',
           talkKana: 'ミン ムオン アン トゥー！',
           talkJpMeaning: 'たべてみたい！',
-          talkHira: 'た・べ・て み・た・い！',
-          talkVnPhonetic: 'Ta bê tê mi tai!',
-          talkViMeaning: 'Mình cũng muốn ăn thử!'
+          talkReplies: [
+            { labelJa: 'たべてみたい', labelVi: 'Muốn ăn thử', hira: 'た・べ・て み・た・い！', vn: 'Ta bê tê mi tai!', vi: 'Mình cũng muốn ăn thử!' },
+            { labelJa: 'あまいのすき', labelVi: 'Thích ngọt', hira: 'あ・ま・い の す・き だ・よ', vn: 'A mai nô xư ki đa dô', vi: 'Mình thích đồ ngọt lắm' },
+            { labelJa: 'あまいの苦手', labelVi: 'Ít ăn ngọt', hira: 'あ・ま・い の ちょっ・と に・が・て', vn: 'A mai nô chốt tô ni ga tê', vi: 'Mình hơi ít ăn đồ ngọt' }
+          ]
         },
         {
-          id: 'n7', cat: 'food', isNew: false, date: 'めん<ruby>料理<rt>りょうり</rt></ruby>', svg: 'noodle', tag: 'RAMEN vs PHO',
+          id: 'n7', cat: 'food', isNew: false, date: 'めん料理 / Món nước', svg: 'noodle', tag: 'RAMEN vs PHO',
           titleHtml: '日本の ラーメンと ベトナムの フォー！ちがいは なに？',
           titlePlain: '日本のラーメンとベトナムのフォー！ちがいはなに？',
           titleVi: 'Mì Ramen của Nhật và Phở của Việt Nam khác nhau thế nào?',
@@ -1456,12 +1521,14 @@
           talkVi: 'Bạn thích món nào?',
           talkKana: 'バン ティッ モン ナオ？',
           talkJpMeaning: 'どっちが すき？',
-          talkHira: 'どっ・ち も す・き！',
-          talkVnPhonetic: 'Đốt chi mô xư ki!',
-          talkViMeaning: 'Mình thích cả hai!'
+          talkReplies: [
+            { labelJa: 'どっちもすき', labelVi: 'Cả hai', hira: 'どっ・ち も す・き！', vn: 'Đốt chi mô xư ki!', vi: 'Mình thích cả hai!' },
+            { labelJa: 'フォー派', labelVi: 'Thích Phở', hira: 'フ・ォ・ー の ほ・う が す・き', vn: 'Phô nô hô ga xư ki', vi: 'Mình thích Phở hơn một chút' },
+            { labelJa: 'ラーメン派', labelVi: 'Thích Ramen', hira: 'ラ・ー・メ・ン の ほ・う が す・き', vn: 'Ra mên nô hô ga xư ki', vi: 'Mình thích Ramen hơn một chút' }
+          ]
         },
         {
-          id: 'n8', cat: 'sport', isNew: false, date: 'ゲーム<ruby>紹介<rt>しょうかい</rt></ruby>', svg: 'game', tag: 'O AN QUAN',
+          id: 'n8', cat: 'sport', isNew: false, date: 'ゲーム / Trò chơi', svg: 'game', tag: 'O AN QUAN',
           titleHtml: '石や まめで じんとり！ベトナムの ゲーム「オアンクワン」',
           titlePlain: '石やまめでじんとり！ベトナムのゲーム、オアンクワン',
           titleVi: 'Ô ăn quan – Trò chơi dân gian siêu vui của Việt Nam!',
@@ -1471,12 +1538,14 @@
           talkVi: 'Dạy mình chơi nhé!',
           talkKana: 'ザイ ミン チョイ ニェ！',
           talkJpMeaning: 'あそびかた おしえて！',
-          talkHira: 'いっ・しょ に や・ろ・う！',
-          talkVnPhonetic: 'Ít xô ni da rô!',
-          talkViMeaning: 'Cùng chơi với nhau nhé!'
+          talkReplies: [
+            { labelJa: 'いっしょにやろう', labelVi: 'Cùng chơi', hira: 'いっ・しょ に や・ろ・う！', vn: 'Ít xô ni da rô!', vi: 'Cùng chơi với nhau nhé!' },
+            { labelJa: 'すこし知ってる', labelVi: 'Biết chút', hira: 'す・こ・し お・ぼ・え・て・る よ', vn: 'Xư cô xi ô bô ê tê rư dô', vi: 'Mình nhớ luật một chút đấy' },
+            { labelJa: 'わすれちゃった', labelVi: 'Hơi quên', hira: 'ル・ー・ル わ・す・れ・ちゃ・っ・た', vn: 'Rư rư oa xư rê chát ta', vi: 'Mình hơi quên cách chơi rồi' }
+          ]
         },
         {
-          id: 'n9', cat: 'sport', isNew: false, date: 'スポーツ', svg: 'soccer', tag: 'SPORTS',
+          id: 'n9', cat: 'sport', isNew: false, date: 'スポーツ / Thể thao', svg: 'soccer', tag: 'SPORTS',
           titleHtml: '日本の ドッジボールと ベトナムの サッカー<ruby>熱<rt>ねつ</rt></ruby>！',
           titlePlain: '日本のドッジボールとベトナムのサッカー熱！',
           titleVi: 'Bóng né ở Nhật và niềm đam mê bóng đá ở Việt Nam!',
@@ -1486,12 +1555,14 @@
           talkVi: 'Cùng đá bóng nhé!',
           talkKana: 'クン ダー ボン ニェ！',
           talkJpMeaning: 'いっしょに サッカー しよう！',
-          talkHira: 'い・い よ！あ・そ・ぼ・う！',
-          talkVnPhonetic: 'I i dô! A xô bô!',
-          talkViMeaning: 'Được đấy! Cùng chơi nào!'
+          talkReplies: [
+            { labelJa: 'あそぼう', labelVi: 'Chơi nào', hira: 'い・い よ！あ・そ・ぼ・う！', vn: 'I i dô! A xô bô!', vi: 'Được đấy! Cùng chơi nào!' },
+            { labelJa: 'おうえんする', labelVi: 'Cổ vũ', hira: 'お・う・え・ん す・る よ！', vn: 'Ô ên xư rư dô!', vi: 'Mình sẽ cổ vũ cho bạn nhé!' },
+            { labelJa: 'ちょっとにがて', labelVi: 'Hơi ngại', hira: 'ボ・ー・ル ちょっ・と に・が・て か・な', vn: 'Bô rư chốt tô ni ga tê ca na', vi: 'Mình hơi không giỏi bóng lắm' }
+          ]
         },
         {
-          id: 'n10', cat: 'school', isNew: false, date: '持ち物くらべ', svg: 'school', tag: 'SCHOOL BAG',
+          id: 'n10', cat: 'school', isNew: false, date: '持ち物 / Đồ dùng', svg: 'school', tag: 'SCHOOL BAG',
           titleHtml: '日本の ランドセルと ベトナムの <ruby>通学<rt>つうがく</rt></ruby>リュック',
           titlePlain: '日本のランドセルとベトナムの通学リュック',
           titleVi: 'Cặp Randoseru của Nhật và ba lô đi học ở Việt Nam',
@@ -1501,12 +1572,14 @@
           talkVi: 'Cặp này đẹp quá!',
           talkKana: 'カップ ナイ デップ クアー！',
           talkJpMeaning: 'その カバン かっこいいね！',
-          talkHira: 'あ・り・が・と・う！',
-          talkVnPhonetic: 'A ri ga tô!',
-          talkViMeaning: 'Cảm ơn bạn!'
+          talkReplies: [
+            { labelJa: 'ありがとう', labelVi: 'Cảm ơn', hira: 'あ・り・が・と・う！', vn: 'A ri ga tô!', vi: 'Cảm ơn bạn!' },
+            { labelJa: 'おきにいり', labelVi: 'Rất thích', hira: 'お・き・に・い・り だ・よ！', vn: 'Ô ki ni i ri đa dô!', vi: 'Mình thích chiếc cặp này lắm!' },
+            { labelJa: 'ちょっと重い', labelVi: 'Hơi nặng', hira: 'ちょっ・と お・も・い か・な', vn: 'Chốt tô ô môi ca na', vi: 'Hơi nặng một chút nhỉ' }
+          ]
         },
         {
-          id: 'n11', cat: 'entame', isNew: false, date: '<ruby>昔話<rt>むかしばなし</rt></ruby>', svg: 'story', tag: 'FOLK TALE',
+          id: 'n11', cat: 'entame', isNew: false, date: '昔話 / Cổ tích', svg: 'story', tag: 'FOLK TALE',
           titleHtml: 'シンデレラに そっくり？ベトナムの <ruby>昔話<rt>むかしばなし</rt></ruby>「タムとカム」',
           titlePlain: 'シンデレラにそっくり？ベトナムの昔話、タムとカム',
           titleVi: 'Chuyện cổ tích Việt Nam "Tấm Cám" có giống Lọ Lem không?',
@@ -1516,12 +1589,14 @@
           talkVi: 'Giống nhau nhỉ!',
           talkKana: 'ゾン ニャウ ニィ！',
           talkJpMeaning: 'にているね！',
-          talkHira: 'お・も・し・ろ・い ね！',
-          talkVnPhonetic: 'Ô mô xi rô i nê!',
-          talkViMeaning: 'Thú vị quá nhỉ!'
+          talkReplies: [
+            { labelJa: 'おもしろいね', labelVi: 'Thú vị quá', hira: 'お・も・し・ろ・い ね！', vn: 'Ô mô xi rô i nê!', vi: 'Thú vị quá nhỉ!' },
+            { labelJa: 'にているね', labelVi: 'Giống nhau', hira: 'に・て・い・る ね！', vn: 'Ni tê i rư nê!', vi: 'Giống nhau thật đấy!' },
+            { labelJa: 'はじめて知った', labelVi: 'Mới biết', hira: 'は・じ・め・て しっ・た よ', vn: 'Ha di mê tê xít ta dô', vi: 'Lần đầu mình mới biết đấy' }
+          ]
         },
         {
-          id: 'n12', cat: 'weather', isNew: false, date: '<ruby>季節<rt>きせつ</rt></ruby>の<ruby>行事<rt>ぎょうじ</rt></ruby>', svg: 'tet', tag: 'TET HOLIDAY',
+          id: 'n12', cat: 'weather', isNew: false, date: '行事 / Lễ hội', svg: 'tet', tag: 'TET HOLIDAY',
           titleHtml: 'ベトナムの <ruby>旧正月<rt>きゅうしょうがつ</rt></ruby>「テト」と 赤い <ruby>袋<rt>ふくろ</rt></ruby>の お年玉「リーシー」',
           titlePlain: 'ベトナムの旧正月テトと赤い袋のお年玉、リーシー',
           titleVi: 'Tết Nguyên Đán và bao lì xì đỏ may mắn của Việt Nam!',
@@ -1531,9 +1606,11 @@
           talkVi: 'Chúc mừng năm mới!',
           talkKana: 'チュック ムン ナム モイ！',
           talkJpMeaning: 'あけまして おめでとう！',
-          talkHira: 'あ・け・ま・し・て お・め・で・と・う！',
-          talkVnPhonetic: 'A kê ma xi tê ô mê đê tô!',
-          talkViMeaning: 'Chúc mừng năm mới!'
+          talkReplies: [
+            { labelJa: 'おめでとう', labelVi: 'Chúc Tết', hira: 'あ・け・ま・し・て お・め・で・と・う！', vn: 'A kê ma xi tê ô mê đê tô!', vi: 'Chúc mừng năm mới!' },
+            { labelJa: 'たのしみ', labelVi: 'Háo hức', hira: 'た・の・し・み だ・な！', vn: 'Ta nô xi mi đa na!', vi: 'Mình rất háo hức đến Tết!' },
+            { labelJa: 'ベトナムの正月', labelVi: 'Tết VN', hira: 'べ・と・な・む の お・し・ょ・う・が・つ だ・よ', vn: 'Bê tô na mư nô ô xô ga tư đa dô', vi: 'Đó là Tết ở Việt Nam đấy' }
+          ]
         }
       ];
 
@@ -1844,6 +1921,7 @@
         activeCat: 'all',
         articles: BUILTIN_NEWS.slice(),
         selectedId: BUILTIN_NEWS[0].id,
+        selectedReplyIdx: 0,
         usingGas: false,
         weather: Object.assign({}, BUILTIN_WEATHER),
         reactions: {} // { articleId: { want: 0, know: 0, wow: 0, same: 0 } }
@@ -1902,11 +1980,45 @@
         const cat = validCats.includes(raw.cat) ? raw.cat : 'entame';
         const titlePlain = String(raw.titlePlain || raw.title || '').replace(/<[^>]+>/g, '').trim();
         const bodyPlain = String(raw.bodyPlain || raw.body || '').replace(/<[^>]+>/g, '').trim();
+        let replies = [];
+        if (Array.isArray(raw.talkReplies) && raw.talkReplies.length > 0) {
+          replies = raw.talkReplies.slice(0, 3).map((r) => ({
+            labelJa: r.labelJa || 'こたえ',
+            labelVi: r.labelVi || 'Trả lời',
+            hira: r.hira || 'い・い・ね！',
+            vn: r.vn || 'I i nê!',
+            vi: r.vi || 'Hay quá!'
+          }));
+        } else {
+          replies = [
+            {
+              labelJa: 'いいね',
+              labelVi: 'Hay quá',
+              hira: raw.talkHira || 'しっ・て・る！',
+              vn: raw.talkVnPhonetic || 'Xít tê rư!',
+              vi: raw.talkViMeaning || 'Mình biết rồi!'
+            },
+            {
+              labelJa: 'まあまあ',
+              labelVi: 'Bình thường',
+              hira: 'ま・あ・ま・あ か・な',
+              vn: 'Ma a ma a ca na',
+              vi: 'Cũng bình thường thôi'
+            },
+            {
+              labelJa: 'ちょっとにがて',
+              labelVi: 'Hơi không hợp',
+              hira: 'ちょっ・と に・が・て か・な',
+              vn: 'Chốt tô ni ga tê ca na',
+              vi: 'Mình hơi chưa quen lắm'
+            }
+          ];
+        }
         return {
           id: raw.id || ('gas_n_' + idx),
           cat: cat,
           isNew: idx < 3,
-          date: raw.date || 'きょうのニュース',
+          date: raw.date || 'きょうのニュース / Tin mới',
           svg: raw.svg || 'anime',
           tag: raw.tag || 'NEW JP x VN',
           titleHtml: raw.titleHtml || titlePlain,
@@ -1918,52 +2030,98 @@
           talkVi: raw.talkVi || 'Biết cái này không?',
           talkKana: raw.talkKana || 'ビエッ カイ ナイ ホン？',
           talkJpMeaning: raw.talkJpMeaning || 'これ 知ってる？',
-          talkHira: raw.talkHira || 'しっ・て・る！',
-          talkVnPhonetic: raw.talkVnPhonetic || 'Xít tê rư!',
-          talkViMeaning: raw.talkViMeaning || 'Mình biết rồi!',
+          talkReplies: replies,
           fromGas: true
         };
       }
 
       /* ====================================================================
-         5. 画面描画（天気・トピックス一覧・記事詳細・リアクション）
+         5. 画面描画（天気・記事詳細・リアクション・トピックス一覧）
          ==================================================================== */
-      function renderWeather() {
-        const w = State.weather || BUILTIN_WEATHER;
-        $('w-jp-temp').textContent = (w.jp && w.jp.temp) ? w.jp.temp : BUILTIN_WEATHER.jp.temp;
-        $('w-jp-desc').textContent = (w.jp && w.jp.desc) ? w.jp.desc : BUILTIN_WEATHER.jp.desc;
-        $('w-hn-temp').textContent = (w.hn && w.hn.temp) ? w.hn.temp : BUILTIN_WEATHER.hn.temp;
-        $('w-hn-desc').textContent = (w.hn && w.hn.desc) ? w.hn.desc : BUILTIN_WEATHER.hn.desc;
-        $('w-hcm-temp').textContent = (w.hcm && w.hcm.temp) ? w.hcm.temp : BUILTIN_WEATHER.hcm.temp;
-        $('w-hcm-desc').textContent = (w.hcm && w.hcm.desc) ? w.hcm.desc : BUILTIN_WEATHER.hcm.desc;
-      }
-
       function getFilteredArticles() {
         if (State.activeCat === 'all') return State.articles;
         return State.articles.filter((a) => a.cat === State.activeCat);
       }
 
       function getSelectedArticle() {
-        return State.articles.find((a) => a.id === State.selectedId) || State.articles[0];
+        return State.articles.find((a) => a.id === State.selectedId) || State.articles[0] || null;
+      }
+
+      function renderWeather() {
+        const w = State.weather || BUILTIN_WEATHER;
+        if (w.jp) {
+          $('w-jp-temp').textContent = w.jp.temp || '14℃';
+          $('w-jp-desc').textContent = w.jp.desc || 'はれ・すずしい / Nắng mát';
+        }
+        if (w.hn) {
+          $('w-hn-temp').textContent = w.hn.temp || '23℃';
+          $('w-hn-desc').textContent = w.hn.desc || 'くもり / Có mây';
+        }
+        if (w.hcm) {
+          $('w-hcm-temp').textContent = w.hcm.temp || '31℃';
+          $('w-hcm-desc').textContent = w.hcm.desc || 'はれ・あつい / Nắng nóng';
+        }
       }
 
       function renderReactions() {
         const art = getSelectedArticle();
         if (!art) return;
-        const cnt = getReactionCounts(art.id);
+        const counts = getReactionCounts(art.id);
         ['want', 'know', 'wow', 'same'].forEach((key) => {
-          $('react-cnt-' + key).textContent = String(cnt[key] || 0);
-          $('react-btn-' + key).classList.toggle('is-popped', (cnt[key] || 0) > 0);
+          const val = Number(counts[key] || 0);
+          $('react-cnt-' + key).textContent = String(val);
+          $('react-btn-' + key).classList.toggle('is-popped', val > 0);
         });
+      }
+
+      function getSelectedReply(art) {
+        const list = (art && Array.isArray(art.talkReplies) && art.talkReplies.length > 0)
+          ? art.talkReplies
+          : [{ labelJa: 'しってる', labelVi: 'Biết rồi', hira: 'しっ・て・る！', vn: 'Xít tê rư!', vi: 'Mình biết rồi!' }];
+        const idx = Math.max(0, Math.min(State.selectedReplyIdx, list.length - 1));
+        return list[idx];
+      }
+
+      function renderReplyChoices(art) {
+        const wrap = $('talk-reply-choices');
+        wrap.innerHTML = '';
+        const list = (art && Array.isArray(art.talkReplies)) ? art.talkReplies : [];
+        if (State.selectedReplyIdx >= list.length) State.selectedReplyIdx = 0;
+
+        list.forEach((rep, idx) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'btn reply-chip' + (idx === State.selectedReplyIdx ? ' is-active' : '');
+          btn.setAttribute('role', 'radio');
+          btn.setAttribute('aria-checked', idx === State.selectedReplyIdx ? 'true' : 'false');
+          btn.innerHTML = `<span>${rep.labelJa}</span><span class="vi"> / ${rep.labelVi}</span>`;
+          btn.addEventListener('click', () => {
+            Sound.tap();
+            State.selectedReplyIdx = idx;
+            renderReplyChoices(art);
+            renderSelectedReplyText(art);
+            Speech.speak(rep.hira.replace(/・/g, ''), 'ja-JP');
+          });
+          wrap.appendChild(btn);
+        });
+      }
+
+      function renderSelectedReplyText(art) {
+        const rep = getSelectedReply(art);
+        $('talk-vi-to-jp-hira').textContent = rep.hira;
+        $('talk-vi-to-jp-vn').textContent = rep.vn;
+        $('talk-vi-to-jp-vi').textContent = '(' + rep.vi + ')';
       }
 
       function renderSelectedArticle() {
         const art = getSelectedArticle();
         if (!art) return;
 
-        $('art-badge-cat').textContent = CAT_LABELS[art.cat] || 'トピックス';
+        $('art-badge-cat').innerHTML = getCatBilingualHtml(art.cat);
         $('art-date').innerHTML = art.date || 'きょうのトピックス';
-        $('art-source-pill').textContent = art.fromGas ? 'まいにち更新(GAS)' : '内蔵トピックス';
+        $('art-source-pill').innerHTML = art.fromGas
+          ? 'まいにち更新 / <span class="vi">Tin mới (GAS)</span>'
+          : 'おすすめ / <span class="vi">Tin gợi ý</span>';
 
         $('art-svg-wrap').innerHTML = buildNewsSvg(art.svg, art.tag);
         $('art-title-jp').innerHTML = art.titleHtml;
@@ -1971,21 +2129,21 @@
         $('art-body-jp').innerHTML = art.bodyHtml;
         $('art-body-vi').textContent = art.bodyVi;
 
-        // 指さし一言トーク
+        // 指さし一言トーク（ベトナム語 ＋ 選べる3択日本語返事）
         $('talk-jp-to-vi-vi').textContent = art.talkVi;
         $('talk-jp-to-vi-kana').textContent = art.talkKana;
         $('talk-jp-to-vi-jp').textContent = '（' + art.talkJpMeaning + '）';
 
-        $('talk-vi-to-jp-hira').textContent = art.talkHira;
-        $('talk-vi-to-jp-vn').textContent = art.talkVnPhonetic;
-        $('talk-vi-to-jp-vi').textContent = '(' + art.talkViMeaning + ')';
+        renderReplyChoices(art);
+        renderSelectedReplyText(art);
 
         renderReactions();
       }
 
       function renderTopicList() {
         const list = getFilteredArticles();
-        $('topic-list-title').textContent = (CAT_LABELS[State.activeCat] || 'トピックス') + '一覧';
+        const catInfo = CAT_INFO[State.activeCat] || CAT_INFO.all;
+        $('topic-list-title').innerHTML = `${catInfo.jaHtml}<ruby>一覧<rt>いちらん</rt></ruby> / <span class="vi" style="font-size:0.74rem;color:var(--ink-sub);">${catInfo.vi}</span>`;
         $('topic-count-badge').textContent = String(list.length);
 
         const wrap = $('topic-list');
@@ -1994,13 +2152,14 @@
         if (list.length === 0) {
           const empty = document.createElement('div');
           empty.style.cssText = 'padding:20px;text-align:center;font-size:0.84rem;color:var(--ink-muted);font-weight:700;';
-          empty.textContent = 'このジャンルのニュースはまだありません';
+          empty.textContent = 'このジャンルのニュースはまだありません / Chưa có tin trong mục này';
           wrap.appendChild(empty);
           return;
         }
 
         if (!list.some((a) => a.id === State.selectedId)) {
           State.selectedId = list[0].id;
+          State.selectedReplyIdx = 0;
           renderSelectedArticle();
         }
 
@@ -2015,7 +2174,7 @@
           btn.innerHTML = `
             <div class="topic-thumb" aria-hidden="true">${buildNewsSvg(art.svg, art.tag)}</div>
             <div class="topic-texts">
-              <div class="topic-tags">${newBadge}<span>${CAT_LABELS[art.cat] || ''}</span></div>
+              <div class="topic-tags">${newBadge}<span>${getCatBilingualHtml(art.cat)}</span></div>
               <div class="topic-title">${art.titleHtml}</div>
               <div class="topic-vi">${art.titleVi}</div>
             </div>
@@ -2024,6 +2183,7 @@
             Sound.tap();
             Speech.stop();
             State.selectedId = art.id;
+            State.selectedReplyIdx = 0;
             renderSelectedArticle();
             wrap.querySelectorAll('.topic-item').forEach((el) => {
               el.classList.toggle('is-selected', el.dataset.aid === art.id);
@@ -2137,7 +2297,10 @@
         $('btn-talk-speak-ja').addEventListener('click', () => {
           Sound.tap();
           const art = getSelectedArticle();
-          if (art) Speech.speak(art.talkHira.replace(/・/g, ''), 'ja-JP');
+          if (art) {
+            const rep = getSelectedReply(art);
+            Speech.speak(rep.hira.replace(/・/g, ''), 'ja-JP');
+          }
         });
 
         // リアクションボタン
@@ -2145,21 +2308,21 @@
           $('react-btn-' + key).addEventListener('click', () => {
             const art = getSelectedArticle();
             if (!art) return;
-            const cnt = getReactionCounts(art.id);
-            cnt[key] = (cnt[key] || 0) + 1;
-            saveReactions();
             Sound.pop();
+            const counts = getReactionCounts(art.id);
+            counts[key] = Number(counts[key] || 0) + 1;
+            saveReactions();
             renderReactions();
           });
         });
 
-        // 最新に更新ボタン
+        // 最新ニュース取得ボタン
         $('btn-sync-news').addEventListener('click', () => {
           Sound.tap();
           syncNewsFromGas(true, false);
         });
 
-        // 教員用 GAS設定モーダル
+        // GAS設定モーダル
         const openGas = () => {
           $('input-gas-url').value = State.gasUrl;
           $('input-gas-token').value = State.token;
@@ -2168,6 +2331,7 @@
           $('modal-gas').classList.add('is-open');
         };
         const closeGas = () => $('modal-gas').classList.remove('is-open');
+
         $('btn-open-gas').addEventListener('click', () => { Sound.tap(); openGas(); });
         $('btn-gas-close').addEventListener('click', closeGas);
         $('modal-gas').addEventListener('click', (e) => { if (e.target === $('modal-gas')) closeGas(); });
@@ -2194,8 +2358,9 @@
           try {
             const res = await callGas({ action: 'ping' });
             $('gas-status-box').className = 'status-box is-visible is-ok';
-            $('gas-status-box').textContent = (res.message || '接続成功！') + (res.sheetReady ? ' ／ シート連携OK' : '');
+            $('gas-status-box').textContent = res.message || '接続成功！';
             Sound.pop();
+            syncNewsFromGas(true, true);
           } catch (err) {
             $('gas-status-box').className = 'status-box is-visible is-err';
             $('gas-status-box').textContent = '接続失敗：' + err.message;
