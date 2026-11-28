@@ -1,0 +1,3647 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <title>ひらがな・カタカナ かな道場 / Kana Dojo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@500;700;800&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #f1f5f9;
+      --bg-dot: #cbd5e1;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --ink: #0f172a;
+      --ink-sub: #475569;
+      --ink-muted: #64748b;
+      --line: #cbd5e1;
+      --line-strong: #334155;
+
+      /* ひらがなテーマ：ティール */
+      --teal: #0f766e;
+      --teal-dark: #115e59;
+      --teal-soft: #ccfbf1;
+      --teal-tint: #f0fdfa;
+
+      /* カタカナテーマ：インディゴ */
+      --indigo: #4338ca;
+      --indigo-dark: #3730a3;
+      --indigo-soft: #e0e7ff;
+      --indigo-tint: #eef2ff;
+
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-soft: #dbeafe;
+
+      --amber: #d97706;
+      --amber-dark: #b45309;
+      --amber-soft: #fef3c7;
+
+      --green: #15803d;
+      --green-dark: #166534;
+      --green-soft: #dcfce7;
+
+      --rose: #e11d48;
+      --rose-dark: #be123c;
+      --rose-soft: #ffe4e6;
+
+      --radius-sm: 10px;
+      --radius-md: 14px;
+      --radius-lg: 18px;
+      --shadow: 0 3px 0 rgba(15, 23, 42, 0.14);
+      --shadow-sm: 0 2px 0 rgba(15, 23, 42, 0.12);
+
+      --font-jp: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', sans-serif;
+      --font-ui: 'Noto Sans', sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100dvh;
+      width: 100%;
+      overflow: hidden;
+      font-family: var(--font-jp);
+      color: var(--ink);
+      background-color: var(--bg-base);
+      background-image:
+        radial-gradient(var(--bg-dot) 1.25px, transparent 1.25px),
+        linear-gradient(180deg, rgba(255,255,255,0.6) 0%, rgba(241,245,249,0.25) 100%);
+      background-size: 20px 20px, 100% 100%;
+      display: flex;
+      flex-direction: column;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .sub-lang {
+      font-family: var(--font-ui);
+      letter-spacing: 0.01em;
+    }
+    body.no-sub-lang .sub-lang {
+      display: none !important;
+    }
+
+    ruby { ruby-position: over; }
+    rt {
+      font-size: 0.56em;
+      font-weight: 700;
+      color: inherit;
+      opacity: 0.88;
+      user-select: none;
+    }
+
+    button, a.btn, select {
+      font-family: var(--font-jp);
+      cursor: pointer;
+      user-select: none;
+      text-decoration: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      color: var(--ink);
+      font-weight: 700;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background-color 0.15s ease, border-color 0.15s ease;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+    .btn:hover:not(:disabled) { filter: brightness(0.97); }
+    .btn:active:not(:disabled) {
+      transform: translateY(2px);
+      box-shadow: none;
+    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn:focus-visible, select:focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }
+
+    .btn-teal { background: var(--teal); border-color: var(--teal-dark); color: #fff; box-shadow: 0 3px 0 var(--teal-dark); }
+    .btn-blue { background: var(--blue); border-color: var(--blue-dark); color: #fff; box-shadow: 0 3px 0 var(--blue-dark); }
+    .btn-indigo { background: var(--indigo); border-color: var(--indigo-dark); color: #fff; box-shadow: 0 3px 0 var(--indigo-dark); }
+    .btn-amber { background: var(--amber); border-color: var(--amber-dark); color: #fff; box-shadow: 0 3px 0 var(--amber-dark); }
+    .btn-green { background: var(--green); border-color: var(--green-dark); color: #fff; box-shadow: 0 3px 0 var(--green-dark); }
+    .btn-rose { background: var(--rose); border-color: var(--rose-dark); color: #fff; box-shadow: 0 3px 0 var(--rose-dark); }
+    .btn-soft-teal { background: var(--teal-soft); border-color: var(--teal); color: var(--teal-dark); }
+    .btn-soft-indigo { background: var(--indigo-soft); border-color: var(--indigo); color: var(--indigo-dark); }
+
+    .ico-xs { width: 15px; height: 15px; flex-shrink: 0; }
+    .ico-sm { width: 18px; height: 18px; flex-shrink: 0; }
+    .ico-md { width: 20px; height: 20px; flex-shrink: 0; }
+
+    /* ========================================================================
+       ヘッダー（統一ナビ ＋ 万国共通サポート言語切替）
+       ======================================================================== */
+    .app-header {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 6px 14px;
+      background: var(--surface);
+      border-bottom: 2px solid var(--line);
+      z-index: 30;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    .brand-logo { width: 34px; height: 34px; flex-shrink: 0; }
+    .brand-title { display: flex; flex-direction: column; line-height: 1.15; }
+    .brand-jp { font-size: 0.98rem; font-weight: 900; color: var(--ink); }
+    .brand-sub { font-family: var(--font-ui); font-size: 0.68rem; font-weight: 700; color: var(--ink-sub); }
+
+    .mode-switch {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      background: #e2e8f0;
+      border-radius: 15px;
+      border: 2px solid var(--line);
+    }
+    .mode-btn {
+      padding: 5px 10px;
+      border-radius: 11px;
+      border: 2px solid transparent;
+      background: transparent;
+      box-shadow: none;
+      color: var(--ink-sub);
+      font-size: 0.82rem;
+    }
+    .mode-btn:hover { background: rgba(255,255,255,0.68); color: var(--ink); }
+    .mode-btn-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.15;
+    }
+    .mode-btn-sub {
+      font-family: var(--font-ui);
+      font-size: 0.63rem;
+      font-weight: 700;
+      opacity: 0.88;
+    }
+    .mode-btn.is-active-a {
+      background: var(--teal);
+      border-color: var(--teal-dark);
+      color: #ffffff;
+      box-shadow: 0 3px 0 var(--teal-dark);
+    }
+    .mode-btn.is-active-a:hover {
+      background: var(--teal);
+      color: #ffffff;
+    }
+
+    /* study.html と完全統一のサブナビゲーション */
+    .sub-nav {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+    .sub-tab {
+      flex: 1 1 0;
+      min-width: 145px;
+      padding: 7px 10px;
+      font-size: 0.86rem;
+      justify-content: flex-start;
+    }
+    .sub-tab-col { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.15; }
+    .sub-tab-vi { font-family: var(--font-ui); font-size: 0.66rem; font-weight: 700; opacity: 0.85; }
+    .mode-a-nav .sub-tab.is-active {
+      background: var(--teal);
+      border-color: var(--teal-dark);
+      color: #ffffff;
+      box-shadow: 0 3px 0 var(--teal-dark);
+    }
+
+    /* 万国共通の単体配布モード (?standalone=1) */
+    .brand-standalone { display: none; align-items: center; gap: 8px; min-width: 0; }
+    body.is-standalone .brand-integrated { display: none; }
+    body.is-standalone .brand-standalone { display: flex; }
+    body.is-standalone .mode-switch,
+    body.is-standalone #mode-a-nav { display: none !important; }
+
+    .header-utils {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .lang-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 8px;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface-soft);
+      box-shadow: var(--shadow-sm);
+    }
+    .lang-select {
+      border: none;
+      background: transparent;
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--ink);
+      outline: none;
+    }
+    .util-btn { padding: 6px 10px; font-size: 0.8rem; }
+    .util-btn.is-slow { background: var(--amber-soft); border-color: var(--amber); color: #78350f; }
+
+    /* ========================================================================
+       メインエリア（16:9 1画面完結）
+       ======================================================================== */
+    .app-main {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding: 7px 14px 10px;
+      overflow: hidden;
+    }
+
+    /* コントロールバー：ひらがな⇔カタカナ ＋ 練習モード切替 ＋ 全体進捗 */
+    .dojo-top-bar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .script-switch {
+      display: inline-flex;
+      padding: 3px;
+      background: #e2e8f0;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      gap: 4px;
+    }
+    .script-btn {
+      padding: 6px 14px;
+      border-radius: 10px;
+      border: 2px solid transparent;
+      background: transparent;
+      box-shadow: none;
+      font-size: 0.88rem;
+      font-weight: 900;
+      color: var(--ink-sub);
+    }
+    .script-btn.is-hira-active {
+      background: var(--teal);
+      border-color: var(--teal-dark);
+      color: #ffffff;
+      box-shadow: 0 2px 0 var(--teal-dark);
+    }
+    .script-btn.is-kata-active {
+      background: var(--indigo);
+      border-color: var(--indigo-dark);
+      color: #ffffff;
+      box-shadow: 0 2px 0 var(--indigo-dark);
+    }
+
+    .activity-tabs {
+      display: inline-flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .act-btn {
+      padding: 6px 12px;
+      font-size: 0.84rem;
+    }
+    .act-btn.is-active {
+      background: var(--teal);
+      border-color: var(--teal-dark);
+      color: #ffffff;
+      box-shadow: 0 3px 0 var(--teal-dark);
+    }
+    body.is-kata .act-btn.is-active {
+      background: var(--indigo);
+      border-color: var(--indigo-dark);
+      box-shadow: 0 3px 0 var(--indigo-dark);
+    }
+
+    /* 行ミッションバー */
+    .mission-strip {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      overflow-x: auto;
+      padding: 2px 0;
+    }
+    .mission-chip {
+      padding: 5px 10px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      border-radius: 10px;
+      flex-shrink: 0;
+      gap: 4px;
+    }
+    .mission-chip.is-active {
+      background: var(--teal);
+      border-color: var(--teal-dark);
+      color: #ffffff;
+    }
+    body.is-kata .mission-chip.is-active {
+      background: var(--indigo);
+      border-color: var(--indigo-dark);
+    }
+    .mission-chip.is-cleared {
+      background: var(--green-soft);
+      border-color: var(--green);
+      color: var(--green-dark);
+    }
+    .mission-chip.is-active.is-cleared {
+      background: var(--green);
+      border-color: var(--green-dark);
+      color: #ffffff;
+    }
+
+    /* サブビュー切替 */
+    .subview {
+      display: none;
+      flex: 1;
+      min-height: 0;
+      gap: 11px;
+      overflow: hidden;
+    }
+    .subview.is-active { display: flex; }
+
+    .lab-card {
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 0;
+    }
+
+    /* ========================================================================
+       ビュー1：なぞり練習（左：文字選択 / 中：精密SVGなぞり盤 / 右：絵カード＆音声）
+       ======================================================================== */
+    .trace-layout {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 225px 1.15fr 0.95fr;
+      gap: 11px;
+      width: 100%;
+    }
+
+    .char-list-col {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      min-height: 0;
+    }
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 7px;
+      overflow-y: auto;
+      padding: 2px;
+    }
+    .char-btn {
+      padding: 9px 6px;
+      flex-direction: column;
+      gap: 1px;
+      border-radius: var(--radius-md);
+      position: relative;
+    }
+    .char-btn-glyph {
+      font-size: 1.65rem;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+    .char-btn-romaji {
+      font-family: var(--font-ui);
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: var(--ink-sub);
+    }
+    .char-btn.is-active {
+      background: var(--teal-soft);
+      border-color: var(--teal);
+      color: var(--teal-dark);
+    }
+    body.is-kata .char-btn.is-active {
+      background: var(--indigo-soft);
+      border-color: var(--indigo);
+      color: var(--indigo-dark);
+    }
+    .char-btn.is-done {
+      background: var(--green-soft);
+      border-color: var(--green);
+    }
+    .char-done-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 15px;
+      height: 15px;
+    }
+
+    /* 中央：精密SVGベジェなぞりステージ */
+    .trace-stage-col {
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+    }
+    .trace-stage-head {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .step-badge {
+      padding: 4px 11px;
+      border-radius: 999px;
+      background: var(--teal-soft);
+      border: 1.5px solid var(--teal);
+      color: var(--teal-dark);
+      font-size: 0.82rem;
+      font-weight: 900;
+    }
+    body.is-kata .step-badge {
+      background: var(--indigo-soft);
+      border-color: var(--indigo);
+      color: var(--indigo-dark);
+    }
+    .step-badge.is-complete {
+      background: var(--green-soft);
+      border-color: var(--green);
+      color: var(--green-dark);
+    }
+
+    .guide-level-bar {
+      display: inline-flex;
+      gap: 4px;
+    }
+    .lvl-btn {
+      padding: 4px 8px;
+      font-size: 0.73rem;
+      border-radius: 9px;
+    }
+    .lvl-btn.is-active {
+      background: #0f172a;
+      border-color: #0f172a;
+      color: #ffffff;
+    }
+
+    .svg-board-wrap {
+      position: relative;
+      width: min(100%, 350px);
+      aspect-ratio: 1 / 1;
+      max-height: calc(100dvh - 320px);
+      background: #ffffff;
+      border: 3.5px solid var(--teal);
+      border-radius: 22px;
+      box-shadow: inset 0 0 0 2px #e2e8f0, var(--shadow-sm);
+      overflow: hidden;
+      touch-action: none;
+      cursor: crosshair;
+    }
+    body.is-kata .svg-board-wrap {
+      border-color: var(--indigo);
+    }
+    body.is-standalone .svg-board-wrap {
+      max-height: calc(100dvh - 260px);
+    }
+    .svg-board-wrap svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    @keyframes pulseRing {
+      0%, 100% { transform: scale(1); opacity: 0.95; }
+      50% { transform: scale(1.25); opacity: 0.55; }
+    }
+    .start-pulse {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: pulseRing 1.1s ease-in-out infinite;
+    }
+
+    .trace-tools {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .trace-tools .btn {
+      padding: 7px 11px;
+      font-size: 0.8rem;
+    }
+
+    /* 右：絵カード＆音声＆対照文字 */
+    .word-info-col {
+      justify-content: space-between;
+    }
+    .word-hero-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      background: var(--surface-soft);
+      border: 2px solid var(--line);
+      border-radius: var(--radius-md);
+    }
+    .word-svg-box {
+      width: 84px;
+      height: 84px;
+      flex-shrink: 0;
+      border-radius: 14px;
+      border: 2px solid var(--line);
+      background: #ffffff;
+      padding: 4px;
+    }
+    .word-svg-box svg { width: 100%; height: 100%; display: block; }
+    .word-meta {
+      min-width: 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .word-jp-big {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .word-romaji-big {
+      font-family: var(--font-ui);
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--teal-dark);
+    }
+    body.is-kata .word-romaji-big { color: var(--indigo-dark); }
+    .word-meaning {
+      display: inline-block;
+      align-self: flex-start;
+      padding: 2px 9px;
+      border-radius: 999px;
+      background: var(--teal-soft);
+      border: 1.5px solid #99f6e4;
+      color: var(--teal-dark);
+      font-size: 0.84rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-top: 1px;
+    }
+    body.is-kata .word-meaning {
+      background: var(--indigo-soft);
+      border-color: #c7d2fe;
+      color: var(--indigo-dark);
+    }
+    .btn-sub-inline {
+      font-size: 0.72em;
+      font-weight: 700;
+      opacity: 0.9;
+    }
+
+    .pair-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 12px;
+      background: #fffbeb;
+      border: 2px solid #fcd34d;
+      border-radius: var(--radius-md);
+    }
+    .pair-glyph-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: #ffffff;
+      border: 2px solid #f59e0b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7rem;
+      font-weight: 900;
+      color: #92400e;
+      flex-shrink: 0;
+    }
+
+    .mouth-tip-box {
+      padding: 9px 11px;
+      background: var(--teal-tint);
+      border: 1.5px solid #99f6e4;
+      border-radius: var(--radius-md);
+      font-size: 0.83rem;
+      line-height: 1.48;
+      color: var(--teal-dark);
+    }
+    body.is-kata .mouth-tip-box {
+      background: var(--indigo-tint);
+      border-color: #c7d2fe;
+      color: var(--indigo-dark);
+    }
+
+    .progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .progress-track {
+      flex: 1;
+      height: 12px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      border: 1.5px solid var(--line);
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #14b8a6, #0f766e);
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+    body.is-kata .progress-fill {
+      background: linear-gradient(90deg, #6366f1, #4338ca);
+    }
+    .progress-label {
+      font-size: 0.8rem;
+      font-weight: 900;
+      color: var(--ink-sub);
+      min-width: 46px;
+      text-align: right;
+    }
+
+    /* ========================================================================
+       ビュー2・3：ききとりクイズ ＆ へんしんクイズ（UD発光フィードバック）
+       ======================================================================== */
+    .quiz-center {
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+    }
+    .quiz-prompt-box {
+      padding: 14px 18px;
+      background: var(--surface);
+      border: 2.5px solid var(--teal);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    body.is-kata .quiz-prompt-box { border-color: var(--indigo); }
+
+    .quiz-options-4 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .quiz-opt-btn {
+      min-height: 104px;
+      padding: 12px;
+      font-size: 2.3rem;
+      font-weight: 900;
+      border-radius: var(--radius-lg);
+      flex-direction: column;
+      gap: 3px;
+    }
+    .quiz-opt-btn.is-correct {
+      background: var(--green-soft);
+      border-color: var(--green);
+      color: var(--green-dark);
+      box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.25);
+    }
+    .quiz-opt-btn.is-hint-glow {
+      background: #fef9c3;
+      border-color: #d97706;
+      color: #78350f;
+      animation: softGlow 0.9s ease-in-out infinite;
+    }
+    .quiz-opt-btn.is-try-again {
+      background: #f8fafc;
+      border-style: dashed;
+      opacity: 0.7;
+    }
+    @keyframes softGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.45); }
+      50% { box-shadow: 0 0 0 7px rgba(217, 119, 6, 0.2); }
+    }
+
+    .quiz-feedback {
+      min-height: 46px;
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      background: var(--surface-soft);
+      border: 1.5px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+    .quiz-feedback.is-ok {
+      background: var(--green-soft);
+      border-color: var(--green);
+      color: var(--green-dark);
+    }
+    .quiz-feedback.is-guide {
+      background: var(--amber-soft);
+      border-color: var(--amber);
+      color: #92400e;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%) translateY(18px);
+      background: #0f172a;
+      color: #ffffff;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 300;
+      max-width: 92vw;
+      text-align: center;
+    }
+    .toast.is-show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 1140px) {
+      .brand-sub { display: none; }
+      .mode-btn { padding: 5px 8px; font-size: 0.78rem; }
+      .trace-layout { grid-template-columns: 185px 1.15fr 0.95fr; }
+    }
+    @media (max-width: 860px) {
+      .trace-layout { grid-template-columns: 1fr; overflow-y: auto; }
+      .char-grid { grid-template-columns: repeat(5, 1fr); }
+    }
+  </style>
+</head>
+<body class="no-sub-lang">
+
+  <!-- ======================================================================
+       ヘッダー（統一ナビ ＋ 万国共通サポート言語切替）
+       ====================================================================== -->
+  <header class="app-header">
+    <!-- 統合モード用ブランド（study.html と統一） -->
+    <div class="brand brand-integrated">
+      <svg class="brand-logo" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <rect x="3" y="4" width="42" height="40" rx="11" fill="#ccfbf1" stroke="#0f766e" stroke-width="2.6"/>
+        <path d="M16 12v10l-7 13a3 3 0 0 0 2.6 4.5h24.8a3 3 0 0 0 2.6-4.5l-7-13V12" fill="#ffffff" stroke="#0f766e" stroke-width="2.6" stroke-linejoin="round"/>
+        <path d="M13 31h22l3 6H10l3-6z" fill="#5eead4"/>
+        <line x1="14" y1="12" x2="34" y2="12" stroke="#0f766e" stroke-width="2.8" stroke-linecap="round"/>
+        <circle cx="21" cy="27" r="2.2" fill="#0f766e"/>
+        <circle cx="27" cy="23" r="1.7" fill="#4338ca"/>
+      </svg>
+      <div class="brand-title">
+        <span class="brand-jp">にほんご・ベトナムご<ruby>学習<rt>がくしゅう</rt></ruby>ラボ</span>
+        <span class="brand-sub">Phòng Học Nhật - Việt</span>
+      </div>
+    </div>
+
+    <!-- 万国共通 単体配布用ブランド (?standalone=1 時のみ表示) -->
+    <div class="brand brand-standalone">
+      <svg class="brand-logo" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <rect x="3" y="4" width="42" height="40" rx="11" fill="#ccfbf1" stroke="#0f766e" stroke-width="2.6"/>
+        <text x="16" y="31" text-anchor="middle" fill="#0f766e" font-size="20" font-weight="900" font-family="Zen Maru Gothic, sans-serif">あ</text>
+        <text x="33" y="31" text-anchor="middle" fill="#4338ca" font-size="19" font-weight="900" font-family="Zen Maru Gothic, sans-serif">ア</text>
+      </svg>
+      <div class="brand-title">
+        <span class="brand-jp">かな<ruby>道場<rt>どうじょう</rt></ruby>（ひらがな・カタカナ）</span>
+        <span class="brand-sub">Hiragana &amp; Katakana Lab</span>
+      </div>
+    </div>
+
+    <nav class="mode-switch" aria-label="モード切替">
+      <button type="button" id="btn-mode-a" class="btn mode-btn is-active-a" aria-current="page">
+        <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <span class="mode-btn-col">
+          <span>にほんご<ruby>自習<rt>じしゅう</rt></ruby>ラボ</span>
+          <span class="mode-btn-sub">Học tiếng Nhật</span>
+        </span>
+      </button>
+
+      <a href="study.html?mode=b" class="btn mode-btn">
+        <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span class="mode-btn-col">
+          <span>ベトナムご<ruby>交流<rt>こうりゅう</rt></ruby></span>
+          <span class="mode-btn-sub">Giao lưu tiếng Việt</span>
+        </span>
+      </a>
+
+      <a href="news.html" class="btn mode-btn">
+        <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+        <span class="mode-btn-col">
+          <span><ruby>日越<rt>にちえつ</rt></ruby>ニュース</span>
+          <span class="mode-btn-sub">Tin tức vui</span>
+        </span>
+      </a>
+
+      <a href="guide.html" class="btn mode-btn">
+        <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span class="mode-btn-col">
+          <span><ruby>日越<rt>にちえつ</rt></ruby>ガイド</span>
+          <span class="mode-btn-sub">Cẩm nang</span>
+        </span>
+      </a>
+    </nav>
+
+    <div class="header-utils">
+      <div class="lang-pill" title="サポート言語 / Support Language">
+        <svg class="ico-xs" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <select id="select-lang" class="lang-select" aria-label="サポート言語">
+          <option value="none">絵と音 (Universal)</option>
+          <option value="en">English</option>
+          <option value="vi">Tiếng Việt</option>
+          <option value="zh">中文 (Chinese)</option>
+          <option value="tl">Tagalog</option>
+          <option value="pt">Português</option>
+          <option value="es">Español</option>
+        </select>
+      </div>
+
+      <button type="button" id="btn-speed" class="btn util-btn" title="読み上げ速度の切り替え">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        <span id="speed-label">ふつう</span>
+        <span id="speed-sub" class="sub-lang btn-sub-inline"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       メインエリア
+       ====================================================================== -->
+  <main class="app-main">
+    <!-- 自習ラボ サブナビゲーション（study.html と完全統一・?standalone=1時は自動非表示） -->
+    <nav class="sub-nav mode-a-nav" id="mode-a-nav" aria-label="自習ラボメニュー">
+      <button type="button" class="btn sub-tab is-active" aria-current="page">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/></svg>
+        <span class="sub-tab-col"><span>① かな<ruby>道場<rt>どうじょう</rt></ruby></span><span class="sub-tab-vi">Luyện Kana (あ・ア)</span></span>
+      </button>
+
+      <a href="study.html?tab=dict" class="btn sub-tab">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span class="sub-tab-col"><span>② がっこう<ruby>図鑑<rt>ずかん</rt></ruby></span><span class="sub-tab-vi">Từ điển trường học</span></span>
+      </a>
+
+      <a href="study.html?tab=puzzle" class="btn sub-tab">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="7" height="7" rx="1.5"/><rect x="14" y="4" width="7" height="7" rx="1.5"/><rect x="8.5" y="13" width="7" height="7" rx="1.5"/></svg>
+        <span class="sub-tab-col"><span>③ ならべて文パズル</span><span class="sub-tab-vi">Ghép câu</span></span>
+      </a>
+
+      <a href="study.html?tab=review" class="btn sub-tab">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        <span class="sub-tab-col"><span>④ わたしの<ruby>復習帳<rt>ふくしゅうちょう</rt></ruby></span><span class="sub-tab-vi">Ôn tập của em</span></span>
+      </a>
+
+      <a href="study.html?tab=record" class="btn sub-tab">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="6"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>
+        <span class="sub-tab-col"><span>⑤ がんばり<ruby>記録<rt>きろく</rt></ruby></span><span class="sub-tab-vi">Thành tích hôm nay</span></span>
+      </a>
+    </nav>
+
+    <!-- 上部操作バー：ひらがな⇔カタカナ ＋ 3種の練習モード -->
+    <div class="dojo-top-bar">
+      <div class="script-switch" role="tablist" aria-label="文字の種類">
+        <button type="button" id="btn-script-hira" class="btn script-btn is-hira-active" role="tab" aria-selected="true">
+          <span>ひらがな（あ・い・う）</span>
+        </button>
+        <button type="button" id="btn-script-kata" class="btn script-btn" role="tab" aria-selected="false">
+          <span>カタカナ（ア・イ・ウ）</span>
+        </button>
+      </div>
+
+      <div class="activity-tabs" role="tablist" aria-label="練習モード">
+        <button type="button" id="btn-act-trace" class="btn act-btn is-active" role="tab" aria-selected="true">
+          <span>① なぞり<ruby>練習<rt>れんしゅう</rt></ruby></span>
+          <span class="sub-lang" data-i18n="actTrace"></span>
+        </button>
+        <button type="button" id="btn-act-listen" class="btn act-btn" role="tab" aria-selected="false">
+          <span>② ききとりクイズ</span>
+          <span class="sub-lang" data-i18n="actListen"></span>
+        </button>
+        <button type="button" id="btn-act-match" class="btn act-btn" role="tab" aria-selected="false">
+          <span>③ へんしんクイズ（あ⇔ア）</span>
+          <span class="sub-lang" data-i18n="actMatch"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 行ミッションバー（12ミッション） -->
+    <div id="mission-strip" class="mission-strip" role="tablist" aria-label="行ミッション"></div>
+
+    <!-- ====================================================================
+         サブビュー1：精密SVGなぞり練習
+         ==================================================================== -->
+    <section id="subview-trace" class="subview is-active" aria-label="なぞり練習">
+      <div class="trace-layout">
+        <!-- 左：行の中の文字一覧 -->
+        <div class="lab-card char-list-col">
+          <div>
+            <div id="mission-title" style="font-size:0.88rem;font-weight:900;color:var(--teal-dark);">あ<ruby>行<rt>ぎょう</rt></ruby></div>
+            <div id="mission-romaji" class="sub-lang" style="font-size:0.74rem;font-weight:700;color:var(--ink-sub);">a - i - u - e - o</div>
+          </div>
+          <div id="char-grid" class="char-grid"></div>
+          <div style="margin-top:auto;font-size:0.75rem;color:var(--ink-sub);line-height:1.4;">
+            <span>①の まるから <ruby>順番<rt>じゅんばん</rt></ruby>に なぞろう！</span>
+            <div class="sub-lang" data-i18n="traceHint" style="margin-top:2px;font-weight:700;"></div>
+          </div>
+        </div>
+
+        <!-- 中央：ズレゼロの精密ベジェ曲線なぞりボード -->
+        <div class="lab-card trace-stage-col">
+          <div class="trace-stage-head">
+            <span id="stroke-step-badge" class="step-badge">1 / 3 <ruby>画目<rt>かくめ</rt></ruby></span>
+            <div class="guide-level-bar" role="group" aria-label="お手本の濃さ">
+              <button type="button" id="btn-lvl-guide" class="btn lvl-btn is-active"><span>ガイドあり</span><span class="sub-lang btn-sub-inline" data-i18n="lvlGuide"></span></button>
+              <button type="button" id="btn-lvl-faint" class="btn lvl-btn"><span>うすいおてほん</span><span class="sub-lang btn-sub-inline" data-i18n="lvlFaint"></span></button>
+              <button type="button" id="btn-lvl-blank" class="btn lvl-btn"><span><ruby>白紙<rt>はくし</rt></ruby></span><span class="sub-lang btn-sub-inline" data-i18n="lvlBlank"></span></button>
+            </div>
+          </div>
+
+          <div id="svg-board-wrap" class="svg-board-wrap" aria-label="文字なぞりボード">
+            <svg id="kana-svg" viewBox="0 0 100 100" fill="none">
+              <!-- 4マス十字補助線 -->
+              <line x1="50" y1="4" x2="50" y2="96" stroke="#cbd5e1" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+              <line x1="4" y1="50" x2="96" y2="50" stroke="#cbd5e1" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+              <g id="layer-model"></g>
+              <g id="layer-completed"></g>
+              <g id="layer-guide"></g>
+              <path id="user-live-path" d="" stroke="#0f172a" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </div>
+
+          <div class="trace-tools">
+            <button type="button" id="btn-anim-stroke" class="btn btn-teal">
+              <svg class="ico-xs" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+              <span><ruby>書<rt>か</rt></ruby>き<ruby>順<rt>じゅん</rt></ruby><ruby>再生<rt>さいせい</rt></ruby></span>
+              <span class="sub-lang btn-sub-inline" data-i18n="btnAnim"></span>
+            </button>
+            <button type="button" id="btn-step-skip" class="btn btn-soft-teal" title="1画すすめる">
+              <span>1<ruby>画<rt>かく</rt></ruby>すすむ</span>
+              <span class="sub-lang btn-sub-inline" data-i18n="btnSkip"></span>
+            </button>
+            <button type="button" id="btn-reset-stroke" class="btn">
+              <span>やりなおす</span>
+              <span class="sub-lang btn-sub-inline" data-i18n="btnReset"></span>
+            </button>
+            <button type="button" id="btn-mark-done" class="btn btn-green">
+              <span>できた！</span>
+              <span class="sub-lang btn-sub-inline" data-i18n="btnDone"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 右：絵カード・音声・対照文字・発音のコツ -->
+        <div class="lab-card word-info-col">
+          <div class="word-hero-card">
+            <div id="word-svg-box" class="word-svg-box" aria-hidden="true"></div>
+            <div class="word-meta">
+              <div id="word-jp-big" class="word-jp-big">あさ</div>
+              <div id="word-romaji-big" class="word-romaji-big">asa</div>
+              <div id="word-meaning" class="word-meaning sub-lang"></div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:2px;">
+                <button type="button" id="btn-speak-char" class="btn btn-blue" style="padding:5px 10px;font-size:0.8rem;">
+                  <svg class="ico-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                  <span id="btn-speak-char-label">「あ」</span>
+                </button>
+                <button type="button" id="btn-speak-word" class="btn btn-teal" style="padding:5px 10px;font-size:0.8rem;">
+                  <svg class="ico-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                  <span>ことば</span>
+                  <span class="sub-lang btn-sub-inline" data-i18n="btnWord"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="pair-card">
+            <div style="display:flex;align-items:center;gap:9px;">
+              <div id="pair-glyph-box" class="pair-glyph-box">ア</div>
+              <div>
+                <div id="pair-label" style="font-size:0.82rem;font-weight:900;color:#92400e;">おなじ<ruby>音<rt>おと</rt></ruby>の カタカナ</div>
+                <div class="sub-lang" data-i18n="sameSound" style="font-size:0.72rem;font-weight:700;color:#b45309;"></div>
+              </div>
+            </div>
+            <button type="button" id="btn-jump-pair" class="btn btn-amber" style="padding:6px 11px;font-size:0.78rem;">
+              <span>かいてみる</span>
+              <span class="sub-lang btn-sub-inline" data-i18n="btnWritePair"></span>
+            </button>
+          </div>
+
+          <div class="mouth-tip-box">
+            <div style="font-weight:900;margin-bottom:2px;">
+              <span><ruby>発音<rt>はつおん</rt></ruby>のコツ</span>
+              <span class="sub-lang" data-i18n="tipTitle"></span>
+            </div>
+            <div id="tip-jp">くちを おおきく あけて「あ」と いおう。</div>
+            <div id="tip-i18n" class="sub-lang" style="margin-top:3px;font-weight:700;"></div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div class="progress-wrap">
+              <div class="progress-track"><div id="mission-progress-fill" class="progress-fill"></div></div>
+              <span id="mission-progress-text" class="progress-label">0 / 5</span>
+            </div>
+            <button type="button" id="btn-go-listen" class="btn btn-amber" style="padding:8px 12px;font-size:0.84rem;">
+              <span>この<ruby>行<rt>ぎょう</rt></ruby>の ききとりクイズへ</span>
+              <span class="sub-lang" data-i18n="goQuiz"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         サブビュー2：ききとりクイズ
+         ==================================================================== -->
+    <section id="subview-listen" class="subview" aria-label="ききとりクイズ">
+      <div class="quiz-center">
+        <div class="progress-wrap">
+          <div class="progress-track"><div id="lq-progress-fill" class="progress-fill"></div></div>
+          <span id="lq-progress-text" class="progress-label">1 / 5</span>
+        </div>
+
+        <div class="quiz-prompt-box">
+          <div>
+            <div style="font-size:1.05rem;font-weight:900;">おとを きいて ただしい もじを えらぼう</div>
+            <div class="sub-lang" data-i18n="listenPrompt" style="font-size:0.84rem;font-weight:700;color:var(--teal-dark);"></div>
+          </div>
+          <button type="button" id="btn-lq-listen" class="btn btn-teal" style="padding:11px 18px;font-size:0.98rem;">
+            <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            <span>もういちど きく</span>
+            <span class="sub-lang btn-sub-inline" data-i18n="btnListenAgain"></span>
+          </button>
+        </div>
+
+        <div class="quiz-options-4">
+          <button type="button" id="lq-opt-0" class="btn quiz-opt-btn"></button>
+          <button type="button" id="lq-opt-1" class="btn quiz-opt-btn"></button>
+          <button type="button" id="lq-opt-2" class="btn quiz-opt-btn"></button>
+          <button type="button" id="lq-opt-3" class="btn quiz-opt-btn"></button>
+        </div>
+
+        <div id="lq-feedback" class="quiz-feedback">
+          <span id="lq-feedback-text">スピーカーを おして きいてみよう</span>
+          <button type="button" id="btn-lq-next" class="btn btn-teal" style="padding:6px 14px;display:none;">つぎへ</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         サブビュー3：へんしんクイズ（ひらがな ⇔ カタカナ）
+         ==================================================================== -->
+    <section id="subview-match" class="subview" aria-label="へんしんクイズ">
+      <div class="quiz-center">
+        <div class="progress-wrap">
+          <div class="progress-track"><div id="mq-progress-fill" class="progress-fill"></div></div>
+          <span id="mq-progress-text" class="progress-label">1 / 5</span>
+        </div>
+
+        <div class="quiz-prompt-box">
+          <div style="display:flex;align-items:center;gap:14px;">
+            <div id="mq-source-glyph" style="width:66px;height:66px;border-radius:16px;background:var(--amber-soft);border:2.5px solid var(--amber);display:flex;align-items:center;justify-content:center;font-size:2.3rem;font-weight:900;color:#92400e;">あ</div>
+            <div>
+              <div id="mq-prompt-jp" style="font-size:1.05rem;font-weight:900;">おなじ おとの カタカナは どれ？</div>
+              <div class="sub-lang" data-i18n="matchPrompt" style="font-size:0.84rem;font-weight:700;color:var(--teal-dark);"></div>
+            </div>
+          </div>
+          <button type="button" id="btn-mq-listen" class="btn btn-blue" style="padding:10px 16px;font-size:0.95rem;">
+            <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            <span>おとを きく</span>
+            <span class="sub-lang btn-sub-inline" data-i18n="btnListen"></span>
+          </button>
+        </div>
+
+        <div class="quiz-options-4">
+          <button type="button" id="mq-opt-0" class="btn quiz-opt-btn"></button>
+          <button type="button" id="mq-opt-1" class="btn quiz-opt-btn"></button>
+          <button type="button" id="mq-opt-2" class="btn quiz-opt-btn"></button>
+          <button type="button" id="mq-opt-3" class="btn quiz-opt-btn"></button>
+        </div>
+
+        <div id="mq-feedback" class="quiz-feedback">
+          <span id="mq-feedback-text">おなじ おとの もじを えらぼう</span>
+          <button type="button" id="btn-mq-next" class="btn btn-teal" style="padding:6px 14px;display:none;">つぎへ</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script>
+    (function () {
+      'use strict';
+
+      /* ====================================================================
+         1. 万国共通サポート言語辞書（デフォルトは絵と音のみ、必要時に母語表示）
+         ==================================================================== */
+      const I18N = {
+        none: {
+          speedNormal: "", speedSlow: "", lvlGuide: "", lvlFaint: "", lvlBlank: "", btnAnim: "", btnSkip: "", btnReset: "", btnDone: "", btnWord: "", btnWritePair: "", btnListenAgain: "", btnListen: "", btnNext: "", btnAgain: "", stepLabel: "", stepDone: "", toastComplete: "", toastDone: "", lqInit: "", lqOk: "", lqGuide: "", lqClear: "", mqInit: "", mqGuide: "", mqClear: "",
+          actTrace: '', actListen: '', actMatch: '',
+          traceHint: '', sameSound: '', tipTitle: '', goQuiz: '',
+          listenPrompt: '', matchPrompt: '',
+          tips: {}
+        },
+        en: {
+          speedNormal: "/ Normal", speedSlow: "/ Slow", lvlGuide: "/ Guide", lvlFaint: "/ Faint", lvlBlank: "/ Blank", btnAnim: "/ Play", btnSkip: "/ Next", btnReset: "/ Reset", btnDone: "/ Done!", btnWord: "/ Word", btnWritePair: "/ Write", btnListenAgain: "/ Listen again", btnListen: "/ Listen", btnNext: "/ Next", btnAgain: "/ Again", stepLabel: "Stroke", stepDone: "Complete!", toastComplete: "Complete!", toastDone: "Great job!", lqInit: "Listen and choose", lqOk: "Correct!", lqGuide: "Look at the glowing letter and try again!", lqClear: "Mission Clear! Stamp earned!", mqInit: "Choose the matching letter", mqGuide: "Try choosing the glowing letter!", mqClear: "Clear! Great job!",
+          actTrace: ' (Trace)', actListen: ' (Listen)', actMatch: ' (Match)',
+          traceHint: 'Trace in order starting from circle 1!',
+          sameSound: 'Same sound in the other script',
+          tipTitle: ' / Pronunciation Tip',
+          goQuiz: ' (Quiz)',
+          listenPrompt: 'Listen and choose the matching character',
+          matchPrompt: 'Choose the character with the same sound',
+          tips: {
+            open: 'Open your mouth wide and say it clearly.',
+            wide: 'Pull the corners of your mouth slightly sideways.',
+            u: 'Keep your lips relaxed (do not round them strongly).',
+            e: 'Like "e" in "bed", clear and short.',
+            o: 'Round your lips gently for a clean "o".',
+            shi: 'Soft "shi" sound, tongue relaxed.',
+            su: 'Smooth "su" sound without a "t" burst (different from つ/ツ).',
+            tsu: 'Crisp "tsu" sound with a quick tongue tap (different from す/ス).',
+            fu: 'Blow air gently between both lips without biting your lower lip.',
+            ra: 'Tap the tip of your tongue lightly once (between "l" and "r").',
+            n: 'Nasal "n/ng" sound held for one full beat.',
+            sokuon: 'Small tsu: pause silently for 1 beat before the next sound!',
+            choon: 'Long vowel mark: stretch the previous vowel for 2 beats!',
+            daku: 'Two dots (゛) add voice vibration to the throat.'
+          }
+        },
+        vi: {
+          speedNormal: "/ Bình thường", speedSlow: "/ Chậm", lvlGuide: "/ Có nét", lvlFaint: "/ Mờ", lvlBlank: "/ Trống", btnAnim: "/ Xem nét", btnSkip: "/ Nét tiếp", btnReset: "/ Viết lại", btnDone: "/ Xong!", btnWord: "/ Từ vựng", btnWritePair: "/ Tập viết", btnListenAgain: "/ Nghe lại", btnListen: "/ Nghe", btnNext: "/ Tiếp", btnAgain: "/ Làm lại", stepLabel: "Nét", stepDone: "Hoàn thành!", toastComplete: "Hoàn thành!", toastDone: "Giỏi quá!", lqInit: "Nghe âm và chọn chữ nhé", lqOk: "Đúng rồi!", lqGuide: "Nhìn chữ đang sáng và thử lại nhé!", lqClear: "Hoàn thành nhiệm vụ! Đã nhận tem!", mqInit: "Chọn chữ có cùng âm đọc nhé", mqGuide: "Thử chọn chữ đang sáng nhé!", mqClear: "Hoàn thành! Giỏi quá!",
+          actTrace: ' (Tập viết)', actListen: ' (Nghe)', actMatch: ' (Đổi chữ)',
+          traceHint: 'Tô theo thứ tự từ vòng tròn số 1 nhé!',
+          sameSound: 'Chữ có cùng cách đọc',
+          tipTitle: ' / Mẹo phát âm',
+          goQuiz: ' (Làm bài nghe)',
+          listenPrompt: 'Nghe âm thanh và chọn đúng chữ cái',
+          matchPrompt: 'Chọn chữ có cùng âm đọc',
+          tips: {
+            open: 'Mở miệng rộng và đọc rõ ràng.',
+            wide: 'Kéo nhẹ khóe miệng sang hai bên.',
+            u: 'Thả lỏng môi, không chu môi quá tròn.',
+            e: 'Đọc gần giống âm "ê" ngắn và rõ.',
+            o: 'Tròn môi nhẹ đọc âm "ô".',
+            shi: 'Đọc nhẹ như "si", không cong lưỡi mạnh.',
+            su: 'Âm "sư" kéo hơi nhẹ, không bật chữ "t" (khác つ/ツ).',
+            tsu: 'Bật âm "tsư" dứt khoát (khác す/ス).',
+            fu: 'Thổi hơi nhẹ qua hai môi, không cắn môi dưới như "ph".',
+            ra: 'Chạm nhẹ đầu lưỡi một nhịp (giữa âm "l" và "r").',
+            n: 'Âm mũi "n/ng" ngân đủ 1 nhịp.',
+            sokuon: 'Âm ngắt: dừng lại 1 nhịp ngắn rồi bật âm tiếp theo!',
+            choon: 'Trường âm: kéo dài nguyên âm ngay trước đó gấp đôi!',
+            daku: 'Thêm 2 dấu (゛) làm rung cổ họng khi phát âm.'
+          }
+        },
+        zh: {
+          speedNormal: "/ 正常", speedSlow: "/ 慢速", lvlGuide: "/ 引导", lvlFaint: "/ 淡字", lvlBlank: "/ 空白", btnAnim: "/ 笔顺", btnSkip: "/ 下一笔", btnReset: "/ 重写", btnDone: "/ 完成!", btnWord: "/ 单词", btnWritePair: "/ 写写看", btnListenAgain: "/ 再听一次", btnListen: "/ 听发音", btnNext: "/ 下一题", btnAgain: "/ 再来一次", stepLabel: "笔", stepDone: "完成！", toastComplete: "完成！", toastDone: "真棒！", lqInit: "请听发音并选择假名", lqOk: "回答正确！", lqGuide: "看着发光的假名再听一次吧！", lqClear: "任务完成！获得了印章！", mqInit: "请选择读音相同的假名", mqGuide: "试着选择发光的假名吧！", mqClear: "通关成功！真棒！",
+          actTrace: ' (描红练习)', actListen: ' (听力测验)', actMatch: ' (对应测验)',
+          traceHint: '请从①号圆圈开始按笔顺描红！',
+          sameSound: '相同读音的对应假名',
+          tipTitle: ' / 发音小贴士',
+          goQuiz: ' (进入测验)',
+          listenPrompt: '听发音，选择正确的假名',
+          matchPrompt: '请选择读音相同的假名',
+          tips: {
+            open: '张大嘴巴，清晰发音。',
+            wide: '嘴角微微向两侧拉开。',
+            u: '双唇放松，不要过度嘟嘴。',
+            e: '类似汉语拼音的“ei”的起始音，短促清晰。',
+            o: '双唇微圆，发出清晰的“o”。',
+            shi: '类似“西”的轻柔发音，舌尖放松。',
+            su: '平舌“思”音，气流平缓（注意与つ/ツ区分）。',
+            tsu: '类似“次”的短促爆破音（注意与す/ス区分）。',
+            fu: '双唇微留缝隙轻轻吹气，上齿不咬下唇。',
+            ra: '舌尖轻弹上颚一下（介于l和r之间）。',
+            n: '鼻音占满一拍。',
+            sokuon: '促音：停顿一拍后再发后面的音！',
+            choon: '长音符号：把前面的元音拉长一倍！',
+            daku: '加上两点（゛）后声带振动发浊音。'
+          }
+        },
+        tl: {
+          speedNormal: "/ Normal", speedSlow: "/ Mabagal", lvlGuide: "/ Gabay", lvlFaint: "/ Malabo", lvlBlank: "/ Blangko", btnAnim: "/ I-play", btnSkip: "/ Susunod", btnReset: "/ Ulitin", btnDone: "/ Tapos!", btnWord: "/ Salita", btnWritePair: "/ Isulat", btnListenAgain: "/ Pakinggan muli", btnListen: "/ Makinig", btnNext: "/ Susunod", btnAgain: "/ Ulitin", stepLabel: "Guhit", stepDone: "Tapos na!", toastComplete: "Tapos na!", toastDone: "Ang galing!", lqInit: "Makinig at pumili ng titik", lqOk: "Tama!", lqGuide: "Tingnan ang umiilaw na titik at subukan muli!", lqClear: "Tapos ang misyon! May selyo ka na!", mqInit: "Piliin ang kaparehong tunog", mqGuide: "Subukang piliin ang umiilaw na titik!", mqClear: "Tapos na! Ang galing!",
+          actTrace: ' (Bakatin)', actListen: ' (Makinig)', actMatch: ' (Itugma)',
+          traceHint: 'Bakatin nang sunod-sunod mula sa bilog 1!',
+          sameSound: 'Parehong tunog sa kabilang sulat',
+          tipTitle: ' / Gabay sa Bigkas',
+          goQuiz: ' (Pagsusulit)',
+          listenPrompt: 'Makinig at piliin ang tamang titik',
+          matchPrompt: 'Piliin ang titik na may parehong tunog',
+          tips: {
+            open: 'Ibuka nang malaki ang bibig at bigkasin nang malinaw.',
+            wide: 'Hilahin nang bahagya sa gilid ang labi.',
+            u: 'I-relax ang labi at huwag masyadong ibilog.',
+            e: 'Maikli at malinaw na tunog na "e".',
+            o: 'Ibilog nang banayad ang labi para sa "o".',
+            shi: 'Malambot na tunog na "shi".',
+            su: 'Banayad na "su" nang walang tunog na "t" (iba sa つ/ツ).',
+            tsu: 'Malutong na "tsu" (iba sa す/ス).',
+            fu: 'Ihipan nang banayad sa pagitan ng dalawang labi.',
+            ra: 'Idampi nang magaan ang dulo ng dila (pagitan ng "l" at "r").',
+            n: 'Tunog sa ilong na "n/ng" na may isang kumpas.',
+            sokuon: 'Maliit na tsu: huminto ng 1 kumpas bago ang susunod na tunog!',
+            choon: 'Pahabain ang patinig sa unahan nang 2 kumpas!',
+            daku: 'Ang dalawang tuldok (゛) ay nagdaragdag ng tunog sa lalamunan.'
+          }
+        },
+        pt: {
+          speedNormal: "/ Normal", speedSlow: "/ Lento", lvlGuide: "/ Guia", lvlFaint: "/ Fraco", lvlBlank: "/ Vazio", btnAnim: "/ Ver traço", btnSkip: "/ Próx.", btnReset: "/ Refazer", btnDone: "/ Pronto!", btnWord: "/ Palavra", btnWritePair: "/ Escrever", btnListenAgain: "/ Ouvir de novo", btnListen: "/ Ouvir", btnNext: "/ Próximo", btnAgain: "/ De novo", stepLabel: "Traço", stepDone: "Concluído!", toastComplete: "Concluído!", toastDone: "Muito bem!", lqInit: "Ouça e escolha a letra", lqOk: "Correto!", lqGuide: "Olhe a letra brilhando e tente de novo!", lqClear: "Missão concluída! Ganhou um selo!", mqInit: "Escolha a letra com o mesmo som", mqGuide: "Tente escolher a letra brilhando!", mqClear: "Concluído! Muito bem!",
+          actTrace: ' (Traçar)', actListen: ' (Ouvir)', actMatch: ' (Combinar)',
+          traceHint: 'Trace na ordem começando pelo círculo 1!',
+          sameSound: 'Mesmo som no outro alfabeto',
+          tipTitle: ' / Dica de Pronúncia',
+          goQuiz: ' (Quiz)',
+          listenPrompt: 'Ouça o áudio e escolha a letra correta',
+          matchPrompt: 'Escolha a letra com o mesmo som',
+          tips: {
+            open: 'Abra bem a boca e pronuncie com clareza.',
+            wide: 'Puxe levemente os cantos da boca para os lados.',
+            u: 'Relaxe os lábios sem arredondá-los demais.',
+            e: 'Som curto e claro de "ê".',
+            o: 'Arredonde suavemente os lábios para um "ô" limpo.',
+            shi: 'Som suave de "xi".',
+            su: 'Som contínuo de "su" sem explosão de "t" (diferente de つ/ツ).',
+            tsu: 'Som firme de "tsu" (diferente de す/ス).',
+            fu: 'Sopre suavemente entre os dois lábios sem morder o lábio inferior.',
+            ra: 'Toque levemente a ponta da língua uma vez (entre "l" e "r").',
+            n: 'Som nasal "n/ng" segurado por um tempo inteiro.',
+            sokuon: 'Tsu pequeno: faça uma pausa silenciosa de 1 tempo!',
+            choon: 'Sinal de vogal longa: alongue a vogal anterior por 2 tempos!',
+            daku: 'Os dois pontos (゛) adicionam vibração sonora.'
+          }
+        },
+        es: {
+          speedNormal: "/ Normal", speedSlow: "/ Lento", lvlGuide: "/ Guía", lvlFaint: "/ Suave", lvlBlank: "/ Vacío", btnAnim: "/ Ver trazo", btnSkip: "/ Sig.", btnReset: "/ Borrar", btnDone: "/ ¡Listo!", btnWord: "/ Palabra", btnWritePair: "/ Escribir", btnListenAgain: "/ Escuchar", btnListen: "/ Escuchar", btnNext: "/ Siguiente", btnAgain: "/ Otra vez", stepLabel: "Trazo", stepDone: "¡Listo!", toastComplete: "¡Listo!", toastDone: "¡Muy bien!", lqInit: "Escucha y elige la letra", lqOk: "¡Correcto!", lqGuide: "¡Mira la letra que brilla e intenta otra vez!", lqClear: "¡Misión cumplida! ¡Ganaste un sello!", mqInit: "Elige la letra con el mismo sonido", mqGuide: "¡Intenta elegir la letra que brilla!", mqClear: "¡Completado! ¡Muy bien!",
+          actTrace: ' (Trazar)', actListen: ' (Escuchar)', actMatch: ' (Emparejar)',
+          traceHint: '¡Traza en orden empezando desde el círculo 1!',
+          sameSound: 'Mismo sonido en el otro silabario',
+          tipTitle: ' / Consejo de Pronunciación',
+          goQuiz: ' (Cuestionario)',
+          listenPrompt: 'Escucha el audio y elige la letra correcta',
+          matchPrompt: 'Elige la letra con el mismo sonido',
+          tips: {
+            open: 'Abre bien la boca y pronuncia con claridad.',
+            wide: 'Estira ligeramente las comisuras de los labios hacia los lados.',
+            u: 'Relaja los labios sin redondearlos demasiado.',
+            e: 'Sonido corto y claro de "e".',
+            o: 'Redondea suavemente los labios para una "o" limpia.',
+            shi: 'Sonido suave de "shi".',
+            su: 'Sonido suave "su" sin golpe de "t" (diferente de つ/ツ).',
+            tsu: 'Sonido marcado "tsu" (diferente de す/ス).',
+            fu: 'Sopla suavemente entre ambos labios sin morder el labio inferior.',
+            ra: 'Toca suavemente el paladar con la punta de la lengua (entre "l" y "r").',
+            n: 'Sonido nasal "n/ng" mantenido durante un tiempo completo.',
+            sokuon: 'Tsu pequeña: ¡haz una pausa silenciosa de 1 tiempo!',
+            choon: 'Marca de vocal larga: ¡alarga la vocal anterior 2 tiempos!',
+            daku: 'Los dos puntos (゛) añaden vibración sonora.'
+          }
+        }
+      };
+
+
+      const WORD_I18N = {
+  "あさ": {
+    "en": "Morning",
+    "vi": "Buổi sáng",
+    "zh": "早上",
+    "tl": "Umaga",
+    "pt": "Manhã",
+    "es": "Mañana"
+  },
+  "いす / イルカ": {
+    "en": "Chair / Dolphin",
+    "vi": "Cái ghế / Cá heo",
+    "zh": "椅子 / 海豚",
+    "tl": "Upuan / Lumba-lumba",
+    "pt": "Cadeira / Golfinho",
+    "es": "Silla / Delfín"
+  },
+  "いぬ": {
+    "en": "Dog",
+    "vi": "Con chó",
+    "zh": "小狗",
+    "tl": "Aso",
+    "pt": "Cachorro",
+    "es": "Perro"
+  },
+  "うさぎ / ウサギ": {
+    "en": "Rabbit",
+    "vi": "Con thỏ",
+    "zh": "兔子",
+    "tl": "Kuneho",
+    "pt": "Coelho",
+    "es": "Conejo"
+  },
+  "うみ": {
+    "en": "Sea / Ocean",
+    "vi": "Biển",
+    "zh": "大海",
+    "tl": "Dagat",
+    "pt": "Mar",
+    "es": "Mar"
+  },
+  "えんぴつ": {
+    "en": "Pencil",
+    "vi": "Bút chì",
+    "zh": "铅笔",
+    "tl": "Lapis",
+    "pt": "Lápis",
+    "es": "Lápiz"
+  },
+  "おちゃ": {
+    "en": "Green tea",
+    "vi": "Trà",
+    "zh": "茶",
+    "tl": "Tsaa",
+    "pt": "Chá",
+    "es": "Té"
+  },
+  "おにぎり / オニギリ": {
+    "en": "Rice ball (Onigiri)",
+    "vi": "Cơm nắm (Onigiri)",
+    "zh": "饭团",
+    "tl": "Rice ball (Onigiri)",
+    "pt": "Bolinho de arroz",
+    "es": "Bola de arroz (Onigiri)"
+  },
+  "かさ": {
+    "en": "Umbrella",
+    "vi": "Cái ô (dù)",
+    "zh": "雨伞",
+    "tl": "Payong",
+    "pt": "Guarda-chuva",
+    "es": "Paraguas"
+  },
+  "がっこう": {
+    "en": "School",
+    "vi": "Trường học",
+    "zh": "学校",
+    "tl": "Paaralan",
+    "pt": "Escola",
+    "es": "Escuela"
+  },
+  "き": {
+    "en": "Tree",
+    "vi": "Cái cây",
+    "zh": "树",
+    "tl": "Puno",
+    "pt": "Árvore",
+    "es": "Árbol"
+  },
+  "きいろ / キイロ": {
+    "en": "Yellow",
+    "vi": "Màu vàng",
+    "zh": "黄色",
+    "tl": "Dilaw",
+    "pt": "Amarelo",
+    "es": "Amarillo"
+  },
+  "きって": {
+    "en": "Postage stamp",
+    "vi": "Con tem",
+    "zh": "邮票",
+    "tl": "Selyo",
+    "pt": "Selo",
+    "es": "Sello postal"
+  },
+  "くつ": {
+    "en": "Shoes",
+    "vi": "Đôi giày",
+    "zh": "鞋子",
+    "tl": "Sapatos",
+    "pt": "Sapatos",
+    "es": "Zapatos"
+  },
+  "ぐるーぷ": {
+    "en": "Group",
+    "vi": "Nhóm",
+    "zh": "小组",
+    "tl": "Grupo",
+    "pt": "Grupo",
+    "es": "Grupo"
+  },
+  "けしごむ": {
+    "en": "Eraser",
+    "vi": "Cục tẩy (gôm)",
+    "zh": "橡皮擦",
+    "tl": "Pambura",
+    "pt": "Borracha",
+    "es": "Goma de borrar"
+  },
+  "こくばん": {
+    "en": "Blackboard",
+    "vi": "Bảng đen",
+    "zh": "黑板",
+    "tl": "Pisara",
+    "pt": "Quadro-negro",
+    "es": "Pizarra"
+  },
+  "さかな": {
+    "en": "Fish",
+    "vi": "Con cá",
+    "zh": "鱼",
+    "tl": "Isda",
+    "pt": "Peixe",
+    "es": "Pez"
+  },
+  "ざっし": {
+    "en": "Magazine",
+    "vi": "Tạp chí",
+    "zh": "杂志",
+    "tl": "Magasin",
+    "pt": "Revista",
+    "es": "Revista"
+  },
+  "しゅくだい": {
+    "en": "Homework",
+    "vi": "Bài tập về nhà",
+    "zh": "家庭作业",
+    "tl": "Takdang-aralin",
+    "pt": "Tarefa de casa",
+    "es": "Tarea"
+  },
+  "じょうぎ": {
+    "en": "Ruler",
+    "vi": "Thước kẻ",
+    "zh": "尺子",
+    "tl": "Panukat (Ruler)",
+    "pt": "Régua",
+    "es": "Regla"
+  },
+  "すいとう": {
+    "en": "Water bottle",
+    "vi": "Bình nước",
+    "zh": "水壶",
+    "tl": "Lalagyan ng tubig",
+    "pt": "Garrafa de água",
+    "es": "Botella de agua"
+  },
+  "ずこう": {
+    "en": "Arts & Crafts",
+    "vi": "Mỹ thuật & Thủ công",
+    "zh": "美术手工",
+    "tl": "Sining",
+    "pt": "Artes",
+    "es": "Arte y manualidades"
+  },
+  "せんせい": {
+    "en": "Teacher",
+    "vi": "Thầy / Cô giáo",
+    "zh": "老师",
+    "tl": "Guro",
+    "pt": "Professor(a)",
+    "es": "Profesor(a)"
+  },
+  "そら": {
+    "en": "Sky",
+    "vi": "Bầu trời",
+    "zh": "天空",
+    "tl": "Langit",
+    "pt": "Céu",
+    "es": "Cielo"
+  },
+  "ぞうきん": {
+    "en": "Cleaning cloth",
+    "vi": "Khăn lau",
+    "zh": "抹布",
+    "tl": "Basahan",
+    "pt": "Pano de limpeza",
+    "es": "Trapo de limpieza"
+  },
+  "たいいくかん": {
+    "en": "Gym",
+    "vi": "Nhà thể chất",
+    "zh": "体育馆",
+    "tl": "Gym",
+    "pt": "Ginásio",
+    "es": "Gimnasio"
+  },
+  "だいじょうぶ": {
+    "en": "All right / Okay",
+    "vi": "Không sao đâu",
+    "zh": "没关系",
+    "tl": "Ayos lang",
+    "pt": "Tudo bem",
+    "es": "Está bien"
+  },
+  "ちず": {
+    "en": "Map",
+    "vi": "Bản đồ",
+    "zh": "地图",
+    "tl": "Mapa",
+    "pt": "Mapa",
+    "es": "Mapa"
+  },
+  "つくえ": {
+    "en": "Desk",
+    "vi": "Cái bàn học",
+    "zh": "课桌",
+    "tl": "Mesa",
+    "pt": "Carteira / Mesa",
+    "es": "Escritorio"
+  },
+  "て": {
+    "en": "Hand",
+    "vi": "Bàn tay",
+    "zh": "手",
+    "tl": "Kamay",
+    "pt": "Mão",
+    "es": "Mano"
+  },
+  "ともだち": {
+    "en": "Friend",
+    "vi": "Bạn bè",
+    "zh": "朋友",
+    "tl": "Kaibigan",
+    "pt": "Amigo(a)",
+    "es": "Amigo(a)"
+  },
+  "なまえ": {
+    "en": "Name",
+    "vi": "Tên",
+    "zh": "名字",
+    "tl": "Pangalan",
+    "pt": "Nome",
+    "es": "Nombre"
+  },
+  "にほん": {
+    "en": "Japan",
+    "vi": "Nhật Bản",
+    "zh": "日本",
+    "tl": "Japan (Hapon)",
+    "pt": "Japão",
+    "es": "Japón"
+  },
+  "ぬいぐるみ": {
+    "en": "Stuffed toy",
+    "vi": "Thú nhồi bông",
+    "zh": "毛绒玩具",
+    "tl": "Stuffed toy",
+    "pt": "Bichinho de pelúcia",
+    "es": "Peluche"
+  },
+  "ねこ": {
+    "en": "Cat",
+    "vi": "Con mèo",
+    "zh": "猫",
+    "tl": "Pusa",
+    "pt": "Gato",
+    "es": "Gato"
+  },
+  "のり": {
+    "en": "Glue",
+    "vi": "Keo dán (Hồ dán)",
+    "zh": "胶水",
+    "tl": "Pandikit (Glue)",
+    "pt": "Cola",
+    "es": "Pegamento"
+  },
+  "はさみ": {
+    "en": "Scissors",
+    "vi": "Cái kéo",
+    "zh": "剪刀",
+    "tl": "Gunting",
+    "pt": "Tesoura",
+    "es": "Tijeras"
+  },
+  "ばしょ": {
+    "en": "Place",
+    "vi": "Địa điểm",
+    "zh": "地方",
+    "tl": "Lugar",
+    "pt": "Lugar",
+    "es": "Lugar"
+  },
+  "ぱん": {
+    "en": "Bread",
+    "vi": "Bánh mì",
+    "zh": "面包",
+    "tl": "Tinapay",
+    "pt": "Pão",
+    "es": "Pan"
+  },
+  "ひっさん": {
+    "en": "Written calculation",
+    "vi": "Đặt tính rồi tính",
+    "zh": "竖式计算",
+    "tl": "Pagsusulat ng kalkulasyon",
+    "pt": "Conta armada",
+    "es": "Cálculo escrito"
+  },
+  "ふでばこ": {
+    "en": "Pencil case",
+    "vi": "Hộp bút",
+    "zh": "文具盒",
+    "tl": "Pencil case",
+    "pt": "Estojo",
+    "es": "Estuche"
+  },
+  "ぶんすう": {
+    "en": "Fraction",
+    "vi": "Phân số",
+    "zh": "分数",
+    "tl": "Praksiyon (Fraction)",
+    "pt": "Fração",
+    "es": "Fracción"
+  },
+  "へや": {
+    "en": "Room",
+    "vi": "Căn phòng",
+    "zh": "房间",
+    "tl": "Silid / Kwarto",
+    "pt": "Quarto / Sala",
+    "es": "Habitación"
+  },
+  "ほん": {
+    "en": "Book",
+    "vi": "Quyển sách",
+    "zh": "书",
+    "tl": "Libro",
+    "pt": "Livro",
+    "es": "Libro"
+  },
+  "ほんを よむ": {
+    "en": "Read a book",
+    "vi": "Đọc sách",
+    "zh": "读书",
+    "tl": "Magbasa ng libro",
+    "pt": "Ler um livro",
+    "es": "Leer un libro"
+  },
+  "まど": {
+    "en": "Window",
+    "vi": "Cửa sổ",
+    "zh": "窗户",
+    "tl": "Bintana",
+    "pt": "Janela",
+    "es": "Ventana"
+  },
+  "みず": {
+    "en": "Water",
+    "vi": "Nước",
+    "zh": "水",
+    "tl": "Tubig",
+    "pt": "Água",
+    "es": "Agua"
+  },
+  "むし": {
+    "en": "Insect / Bug",
+    "vi": "Côn trùng",
+    "zh": "虫子",
+    "tl": "Insekto",
+    "pt": "Inseto",
+    "es": "Insecto"
+  },
+  "めあて": {
+    "en": "Lesson goal",
+    "vi": "Mục tiêu bài học",
+    "zh": "学习目标",
+    "tl": "Layunin ng aralin",
+    "pt": "Objetivo da aula",
+    "es": "Meta de la clase"
+  },
+  "もちもの": {
+    "en": "Belongings",
+    "vi": "Đồ mang theo",
+    "zh": "携带物品",
+    "tl": "Mga gamit",
+    "pt": "Pertences",
+    "es": "Pertenencias"
+  },
+  "やすみじかん": {
+    "en": "Recess / Break time",
+    "vi": "Giờ ra chơi",
+    "zh": "课间休息",
+    "tl": "Oras ng recess",
+    "pt": "Recreio",
+    "es": "Recreo"
+  },
+  "ゆき": {
+    "en": "Snow",
+    "vi": "Tuyết",
+    "zh": "雪",
+    "tl": "Niyebe",
+    "pt": "Neve",
+    "es": "Nieve"
+  },
+  "よむ": {
+    "en": "Read",
+    "vi": "Đọc",
+    "zh": "读",
+    "tl": "Magbasa",
+    "pt": "Ler",
+    "es": "Leer"
+  },
+  "らんどせる": {
+    "en": "School backpack",
+    "vi": "Cặp sách Randoseru",
+    "zh": "日式书包",
+    "tl": "Bag sa paaralan",
+    "pt": "Mochila escolar",
+    "es": "Mochila escolar"
+  },
+  "りか": {
+    "en": "Science",
+    "vi": "Khoa học",
+    "zh": "科学",
+    "tl": "Agham (Science)",
+    "pt": "Ciências",
+    "es": "Ciencias"
+  },
+  "るすばん": {
+    "en": "House-sitting",
+    "vi": "Trông nhà",
+    "zh": "看家",
+    "tl": "Pagbabantay ng bahay",
+    "pt": "Cuidar da casa",
+    "es": "Cuidar la casa"
+  },
+  "れんらくちょう": {
+    "en": "Communication notebook",
+    "vi": "Sổ liên lạc",
+    "zh": "联系本",
+    "tl": "Kuwaderno ng paalala",
+    "pt": "Caderno de recados",
+    "es": "Cuaderno de avisos"
+  },
+  "ろうか": {
+    "en": "Hallway",
+    "vi": "Hành lang",
+    "zh": "走廊",
+    "tl": "Pasilyo",
+    "pt": "Corredor",
+    "es": "Pasillo"
+  },
+  "わかる": {
+    "en": "Understand",
+    "vi": "Hiểu",
+    "zh": "明白 / 懂",
+    "tl": "Naiintindihan",
+    "pt": "Entender",
+    "es": "Entender"
+  },
+  "アイス": {
+    "en": "Ice cream",
+    "vi": "Kem",
+    "zh": "冰淇淋",
+    "tl": "Sorbetes (Ice cream)",
+    "pt": "Sorvete",
+    "es": "Helado"
+  },
+  "エプロン": {
+    "en": "Apron",
+    "vi": "Tạp dề",
+    "zh": "围裙",
+    "tl": "Apron",
+    "pt": "Avental",
+    "es": "Delantal"
+  },
+  "カメラ": {
+    "en": "Camera",
+    "vi": "Máy ảnh",
+    "zh": "照相机",
+    "tl": "Kamera",
+    "pt": "Câmera",
+    "es": "Cámara"
+  },
+  "ガラス": {
+    "en": "Glass",
+    "vi": "Thủy tinh / Kính",
+    "zh": "玻璃",
+    "tl": "Salamin (Glass)",
+    "pt": "Vidro",
+    "es": "Vidrio"
+  },
+  "クラス": {
+    "en": "Class",
+    "vi": "Lớp học",
+    "zh": "班级",
+    "tl": "Klase",
+    "pt": "Turma / Classe",
+    "es": "Clase"
+  },
+  "クレヨン": {
+    "en": "Crayon",
+    "vi": "Bút sáp màu",
+    "zh": "蜡笔",
+    "tl": "Krayola",
+    "pt": "Giz de cera",
+    "es": "Crayón"
+  },
+  "ケーキ": {
+    "en": "Cake",
+    "vi": "Bánh kem",
+    "zh": "蛋糕",
+    "tl": "Keyk (Cake)",
+    "pt": "Bolo",
+    "es": "Pastel"
+  },
+  "コンパス": {
+    "en": "Compass (for circles)",
+    "vi": "Com-pa",
+    "zh": "圆规",
+    "tl": "Kompas (pang-bilog)",
+    "pt": "Compasso",
+    "es": "Compás"
+  },
+  "サッカー": {
+    "en": "Soccer / Football",
+    "vi": "Bóng đá",
+    "zh": "足球",
+    "tl": "Soccer / Futbol",
+    "pt": "Futebol",
+    "es": "Fútbol"
+  },
+  "シャツ": {
+    "en": "Shirt",
+    "vi": "Áo sơ mi",
+    "zh": "衬衫",
+    "tl": "Polo / Kamiseta",
+    "pt": "Camisa",
+    "es": "Camisa"
+  },
+  "シール": {
+    "en": "Sticker",
+    "vi": "Hình dán (Sticker)",
+    "zh": "贴纸",
+    "tl": "Sticker",
+    "pt": "Adesivo",
+    "es": "Pegatina"
+  },
+  "ジュース": {
+    "en": "Juice",
+    "vi": "Nước ép trái cây",
+    "zh": "果汁",
+    "tl": "Juice",
+    "pt": "Suco",
+    "es": "Jugo / Zumo"
+  },
+  "スプーン": {
+    "en": "Spoon",
+    "vi": "Cái thìa (muỗng)",
+    "zh": "勺子",
+    "tl": "Kutsara",
+    "pt": "Colher",
+    "es": "Cuchara"
+  },
+  "セット": {
+    "en": "Set",
+    "vi": "Bộ / Set",
+    "zh": "套装",
+    "tl": "Set",
+    "pt": "Conjunto",
+    "es": "Conjunto / Set"
+  },
+  "ソファー": {
+    "en": "Sofa",
+    "vi": "Ghế sô-pha",
+    "zh": "沙发",
+    "tl": "Sofa",
+    "pt": "Sofá",
+    "es": "Sofá"
+  },
+  "タオル": {
+    "en": "Towel",
+    "vi": "Khăn mặt / Khăn tắm",
+    "zh": "毛巾",
+    "tl": "Tuwalya",
+    "pt": "Toalha",
+    "es": "Toalla"
+  },
+  "チーズ": {
+    "en": "Cheese",
+    "vi": "Phô mai",
+    "zh": "奶酪",
+    "tl": "Keso",
+    "pt": "Queijo",
+    "es": "Queso"
+  },
+  "チーム": {
+    "en": "Team",
+    "vi": "Đội / Nhóm",
+    "zh": "团队 / 队",
+    "tl": "Koponan (Team)",
+    "pt": "Equipe / Time",
+    "es": "Equipo"
+  },
+  "チーム / ムシ": {
+    "en": "Team / Insect",
+    "vi": "Đội / Côn trùng",
+    "zh": "团队 / 虫子",
+    "tl": "Team / Insekto",
+    "pt": "Time / Inseto",
+    "es": "Equipo / Insecto"
+  },
+  "ツアー / ツリー": {
+    "en": "Tour / Tree",
+    "vi": "Chuyến đi / Cây thông",
+    "zh": "旅行 / 树",
+    "tl": "Tour / Puno",
+    "pt": "Passeio / Árvore",
+    "es": "Tour / Árbol"
+  },
+  "テスト": {
+    "en": "Test / Quiz",
+    "vi": "Bài kiểm tra",
+    "zh": "测验 / 考试",
+    "tl": "Pagsusulit (Test)",
+    "pt": "Prova",
+    "es": "Examen / Prueba"
+  },
+  "トマト": {
+    "en": "Tomato",
+    "vi": "Cà chua",
+    "zh": "西红柿",
+    "tl": "Kamatis",
+    "pt": "Tomate",
+    "es": "Tomate"
+  },
+  "ナイフ / ナプキン": {
+    "en": "Knife / Napkin",
+    "vi": "Con dao / Khăn ăn",
+    "zh": "餐刀 / 餐巾",
+    "tl": "Kutsilyo / Napkin",
+    "pt": "Faca / Guardanapo",
+    "es": "Cuchillo / Servilleta"
+  },
+  "ニュース": {
+    "en": "News",
+    "vi": "Tin tức",
+    "zh": "新闻",
+    "tl": "Balita",
+    "pt": "Notícias",
+    "es": "Noticias"
+  },
+  "ヌードル": {
+    "en": "Noodles",
+    "vi": "Mì",
+    "zh": "面条",
+    "tl": "Pansit / Noodles",
+    "pt": "Macarrão",
+    "es": "Fideos"
+  },
+  "ネクタイ": {
+    "en": "Necktie",
+    "vi": "Cà vạt",
+    "zh": "领带",
+    "tl": "Kurbata",
+    "pt": "Gravata",
+    "es": "Corbata"
+  },
+  "ノート": {
+    "en": "Notebook",
+    "vi": "Quyển vở",
+    "zh": "笔记本",
+    "tl": "Kuwaderno",
+    "pt": "Caderno",
+    "es": "Cuaderno"
+  },
+  "ハンカチ": {
+    "en": "Handkerchief",
+    "vi": "Khăn tay",
+    "zh": "手帕",
+    "tl": "Panyo",
+    "pt": "Lenço",
+    "es": "Pañuelo"
+  },
+  "バス": {
+    "en": "Bus",
+    "vi": "Xe buýt",
+    "zh": "公交车",
+    "tl": "Bus",
+    "pt": "Ônibus",
+    "es": "Autobús"
+  },
+  "パン": {
+    "en": "Bread",
+    "vi": "Bánh mì",
+    "zh": "面包",
+    "tl": "Tinapay",
+    "pt": "Pão",
+    "es": "Pan"
+  },
+  "パンダ": {
+    "en": "Panda",
+    "vi": "Gấu trúc",
+    "zh": "熊猫",
+    "tl": "Panda",
+    "pt": "Panda",
+    "es": "Panda"
+  },
+  "ヒント": {
+    "en": "Hint",
+    "vi": "Gợi ý",
+    "zh": "提示",
+    "tl": "Pahiwatig (Hint)",
+    "pt": "Dica",
+    "es": "Pista"
+  },
+  "ピアノ": {
+    "en": "Piano",
+    "vi": "Đàn piano",
+    "zh": "钢琴",
+    "tl": "Piyano",
+    "pt": "Piano",
+    "es": "Piano"
+  },
+  "ピザ": {
+    "en": "Pizza",
+    "vi": "Bánh pizza",
+    "zh": "披萨",
+    "tl": "Pizza",
+    "pt": "Pizza",
+    "es": "Pizza"
+  },
+  "フォーク": {
+    "en": "Fork",
+    "vi": "Cái dĩa (nĩa)",
+    "zh": "叉子",
+    "tl": "Tinidor",
+    "pt": "Garfo",
+    "es": "Tenedor"
+  },
+  "プール": {
+    "en": "Swimming pool",
+    "vi": "Bể bơi (Hồ bơi)",
+    "zh": "游泳池",
+    "tl": "Swimming pool",
+    "pt": "Piscina",
+    "es": "Piscina"
+  },
+  "ヘルメット": {
+    "en": "Helmet",
+    "vi": "Mũ bảo hiểm",
+    "zh": "头盔",
+    "tl": "Helmet",
+    "pt": "Capacete",
+    "es": "Casco"
+  },
+  "ホワイトボード": {
+    "en": "Whiteboard",
+    "vi": "Bảng trắng",
+    "zh": "白板",
+    "tl": "Whiteboard",
+    "pt": "Quadro branco",
+    "es": "Pizarra blanca"
+  },
+  "マスク": {
+    "en": "Mask",
+    "vi": "Khẩu trang",
+    "zh": "口罩",
+    "tl": "Mask",
+    "pt": "Máscara",
+    "es": "Mascarilla"
+  },
+  "ミルク": {
+    "en": "Milk",
+    "vi": "Sữa",
+    "zh": "牛奶",
+    "tl": "Gatas",
+    "pt": "Leite",
+    "es": "Leche"
+  },
+  "メロン": {
+    "en": "Melon",
+    "vi": "Dưa lưới",
+    "zh": "甜瓜",
+    "tl": "Melon",
+    "pt": "Melão",
+    "es": "Melón"
+  },
+  "モノサシ": {
+    "en": "Ruler",
+    "vi": "Thước kẻ",
+    "zh": "尺子",
+    "tl": "Panukat (Ruler)",
+    "pt": "Régua",
+    "es": "Regla"
+  },
+  "ヤカン / ヤサイ": {
+    "en": "Kettle / Vegetables",
+    "vi": "Ấm nước / Rau củ",
+    "zh": "水壶 / 蔬菜",
+    "tl": "Takure / Gulay",
+    "pt": "Chaleira / Legumes",
+    "es": "Tetera / Verduras"
+  },
+  "ユニフォーム": {
+    "en": "Uniform",
+    "vi": "Đồng phục",
+    "zh": "制服 / 队服",
+    "tl": "Uniporme",
+    "pt": "Uniforme",
+    "es": "Uniforme"
+  },
+  "ヨット / ヨテイ": {
+    "en": "Yacht / Schedule",
+    "vi": "Du thuyền / Lịch trình",
+    "zh": "帆船 / 计划",
+    "tl": "Yate / Iskedyul",
+    "pt": "Iate / Agenda",
+    "es": "Yate / Horario"
+  },
+  "ライオン": {
+    "en": "Lion",
+    "vi": "Sư tử",
+    "zh": "狮子",
+    "tl": "Leon",
+    "pt": "Leão",
+    "es": "León"
+  },
+  "ランドセル": {
+    "en": "School backpack",
+    "vi": "Cặp sách Randoseru",
+    "zh": "日式书包",
+    "tl": "Bag sa paaralan",
+    "pt": "Mochila escolar",
+    "es": "Mochila escolar"
+  },
+  "リボン": {
+    "en": "Ribbon",
+    "vi": "Dải ruy-băng",
+    "zh": "丝带 / 蝴蝶结",
+    "tl": "Laso (Ribbon)",
+    "pt": "Laço / Fita",
+    "es": "Lazo / Cinta"
+  },
+  "ルール": {
+    "en": "Rule",
+    "vi": "Quy tắc / Luật lệ",
+    "zh": "规则",
+    "tl": "Patakaran",
+    "pt": "Regra",
+    "es": "Regla / Norma"
+  },
+  "レモン": {
+    "en": "Lemon",
+    "vi": "Quả chanh vàng",
+    "zh": "柠檬",
+    "tl": "Lemon",
+    "pt": "Limão-siciliano",
+    "es": "Limón"
+  },
+  "ロケット": {
+    "en": "Rocket",
+    "vi": "Tên lửa",
+    "zh": "火箭",
+    "tl": "Rocket",
+    "pt": "Foguete",
+    "es": "Cohete"
+  },
+  "ワッフル": {
+    "en": "Waffle",
+    "vi": "Bánh quế (Waffle)",
+    "zh": "华夫饼",
+    "tl": "Waffle",
+    "pt": "Waffle",
+    "es": "Gofre / Waffle"
+  },
+  "ヲ": {
+    "en": "Particle \"o\" (Katakana)",
+    "vi": "Trợ từ \"o\" (Katakana)",
+    "zh": "助词“o”（片假名）",
+    "tl": "Katagang \"o\" (Katakana)",
+    "pt": "Partícula \"o\" (Katakana)",
+    "es": "Partícula \"o\" (Katakana)"
+  }
+};
+
+      /* ====================================================================
+         2. 単語イラスト用 多色インラインSVG（万国共通の視覚理解用）
+         ==================================================================== */
+      const WORD_SVGS = {
+        sun: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#e0f2fe"/><path d="M6 46h52" stroke="#15803d" stroke-width="4"/><circle cx="32" cy="40" r="16" fill="#fbbf24" stroke="#ea580c" stroke-width="2.5"/><path d="M32 12v7M15 20l5 5M49 20l-5 5M10 34h7M47 34h7" stroke="#ea580c" stroke-width="3" stroke-linecap="round"/></svg>`,
+        dog: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fef3c7"/><ellipse cx="18" cy="28" rx="6" ry="12" transform="rotate(15 18 28)" fill="#92400e"/><ellipse cx="46" cy="28" rx="6" ry="12" transform="rotate(-15 46 28)" fill="#92400e"/><circle cx="32" cy="34" r="16" fill="#fde68a" stroke="#0f172a" stroke-width="2.2"/><circle cx="26" cy="31" r="2.3" fill="#0f172a"/><circle cx="38" cy="31" r="2.3" fill="#0f172a"/><ellipse cx="32" cy="38" rx="4" ry="3" fill="#0f172a"/><path d="M27 43c2.5 3 7.5 3 10 0" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/></svg>`,
+        sea: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#bae6fd"/><circle cx="46" cy="18" r="7" fill="#fbbf24"/><path d="M4 36q14-8 28 0t28 0v28H4z" fill="#0284c7"/><path d="M8 46q12-6 24 0t24 0" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+        pencil: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#ccfbf1"/><path d="M15 44L41 18l9 9-26 26-11 2 2-11z" fill="#fbbf24" stroke="#0f172a" stroke-width="2.3" stroke-linejoin="round"/><path d="M41 18l4-4a3 3 0 0 1 4.2 0l4.8 4.8a3 3 0 0 1 0 4.2l-4 4-9-9z" fill="#fda4af" stroke="#0f172a" stroke-width="2"/><polygon points="13,55 15,49 19,53" fill="#0f172a"/></svg>`,
+        tea: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#dcfce7"/><path d="M18 26h28v16a14 14 0 0 1-28 0V26z" fill="#ffffff" stroke="#0f172a" stroke-width="2.4"/><ellipse cx="32" cy="26" rx="14" ry="4" fill="#4ade80" stroke="#0f172a" stroke-width="2"/><path d="M26 17c0-4 3-5 3-9M36 17c0-4 3-5 3-9" stroke="#15803d" stroke-width="2.2" stroke-linecap="round"/></svg>`,
+        umbrella: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#dbeafe"/><path d="M10 32a22 22 0 0 1 44 0H10z" fill="#ef4444" stroke="#0f172a" stroke-width="2.4"/><path d="M32 32v18a4 4 0 0 1-8 0" stroke="#0f172a" stroke-width="2.6" stroke-linecap="round"/></svg>`,
+        tree: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#dcfce7"/><rect x="28" y="38" width="8" height="18" fill="#92400e" stroke="#0f172a" stroke-width="2"/><circle cx="32" cy="26" r="16" fill="#22c55e" stroke="#0f172a" stroke-width="2.2"/><circle cx="23" cy="30" r="10" fill="#16a34a"/><circle cx="41" cy="30" r="10" fill="#16a34a"/></svg>`,
+        shoes: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#e0e7ff"/><path d="M12 42c0-7 6-12 14-12h9l6-7h8c4 0 6 4 6 9v10H12z" fill="#3b82f6" stroke="#0f172a" stroke-width="2.3"/><rect x="12" y="42" width="43" height="5" fill="#ffffff" stroke="#0f172a" stroke-width="2"/></svg>`,
+        eraser: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#ccfbf1"/><rect x="11" y="22" width="42" height="22" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="2.3"/><rect x="25" y="22" width="28" height="22" rx="3" fill="#2563eb" stroke="#0f172a" stroke-width="2.3"/><rect x="25" y="31" width="28" height="5" fill="#1e293b"/></svg>`,
+        board: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fef3c7"/><rect x="10" y="14" width="44" height="32" rx="3" fill="#14532d" stroke="#92400e" stroke-width="3.5"/><line x1="18" y1="26" x2="42" y2="26" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="34" x2="34" y2="34" stroke="#fde68a" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+        fish: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#dbeafe"/><path d="M16 32c10-14 26-14 36 0-10 14-26 14-36 0z" fill="#38bdf8" stroke="#0f172a" stroke-width="2.3"/><polygon points="16,32 7,22 7,42" fill="#0284c7" stroke="#0f172a" stroke-width="2.2"/><circle cx="42" cy="30" r="2.5" fill="#0f172a"/></svg>`,
+        homework: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fef3c7"/><rect x="14" y="10" width="36" height="44" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="2.3"/><line x1="21" y1="22" x2="43" y2="22" stroke="#0f172a" stroke-width="2.4"/><line x1="21" y1="31" x2="43" y2="31" stroke="#64748b" stroke-width="2.2"/><circle cx="38" cy="42" r="6" stroke="#ef4444" stroke-width="2.6"/></svg>`,
+        bottle: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#e0f2fe"/><rect x="25" y="10" width="14" height="8" rx="3" fill="#0f766e" stroke="#0f172a" stroke-width="2"/><rect x="21" y="18" width="22" height="35" rx="6" fill="#38bdf8" stroke="#0f172a" stroke-width="2.3"/><rect x="21" y="30" width="22" height="10" fill="#ffffff" stroke="#0f172a" stroke-width="2"/></svg>`,
+        teacher: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fce7f3"/><circle cx="32" cy="24" r="10" fill="#fde68a" stroke="#0f172a" stroke-width="2.2"/><path d="M16 54c1-11 7-16 16-16s15 5 16 16H16z" fill="#ec4899" stroke="#0f172a" stroke-width="2.2"/><rect x="25" y="22" width="6" height="4" rx="1" stroke="#0f172a" stroke-width="1.6"/><rect x="33" y="22" width="6" height="4" rx="1" stroke="#0f172a" stroke-width="1.6"/></svg>`,
+        sky: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#bae6fd"/><path d="M16 40a9 9 0 0 1 3-17 12 12 0 0 1 23 2 8 8 0 0 1 3 15H16z" fill="#ffffff" stroke="#0284c7" stroke-width="2.3"/></svg>`,
+        gym: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#dbeafe"/><path d="M10 28L32 13l22 15v23H10V28z" fill="#ffffff" stroke="#0f172a" stroke-width="2.3"/><rect x="18" y="34" width="28" height="17" fill="#fde68a" stroke="#0f172a" stroke-width="2"/></svg>`,
+        map: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#dcfce7"/><polygon points="10,16 24,12 40,18 54,14 54,48 40,52 24,46 10,50" fill="#fef3c7" stroke="#0f172a" stroke-width="2.2"/><circle cx="32" cy="30" r="5" fill="#ef4444"/></svg>`,
+        desk: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fef3c7"/><rect x="12" y="22" width="40" height="7" rx="2" fill="#d97706" stroke="#0f172a" stroke-width="2.2"/><path d="M17 29v23M47 29v23" stroke="#0f172a" stroke-width="2.6"/></svg>`,
+        hand: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#ffedd5"/><path d="M22 34V18a2.5 2.5 0 0 1 5 0v12M27 30V14a2.5 2.5 0 0 1 5 0v16M32 30V16a2.5 2.5 0 0 1 5 0v14M37 32V20a2.5 2.5 0 0 1 5 0v18c0 9-5 14-12 14s-12-5-12-12v-6a2.5 2.5 0 0 1 4-2" fill="#fde68a" stroke="#0f172a" stroke-width="2.2" stroke-linecap="round"/></svg>`,
+        friend: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#e0e7ff"/><circle cx="22" cy="24" r="7" fill="#fde68a" stroke="#0f172a" stroke-width="2"/><path d="M11 48c1-8 5-12 11-12s10 4 11 12H11z" fill="#3b82f6" stroke="#0f172a" stroke-width="2"/><circle cx="42" cy="24" r="7" fill="#fde68a" stroke="#0f172a" stroke-width="2"/><path d="M31 48c1-8 5-12 11-12s10 4 11 12H31z" fill="#f97316" stroke="#0f172a" stroke-width="2"/></svg>`,
+        nametag: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fef9c3"/><rect x="12" y="20" width="40" height="24" rx="5" fill="#ffffff" stroke="#0284c7" stroke-width="2.6"/><circle cx="21" cy="32" r="4" fill="#fbbf24"/><line x1="29" y1="29" x2="45" y2="29" stroke="#0f172a" stroke-width="2.4"/><line x1="29" y1="36" x2="40" y2="36" stroke="#64748b" stroke-width="2"/></svg>`,
+        japan: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#e2e8f0"/><rect x="10" y="16" width="44" height="32" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="2.2"/><circle cx="32" cy="32" r="9" fill="#dc2626"/></svg>`,
+        plushie: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fce7f3"/><circle cx="20" cy="18" r="6" fill="#d97706" stroke="#0f172a" stroke-width="2"/><circle cx="44" cy="18" r="6" fill="#d97706" stroke="#0f172a" stroke-width="2"/><circle cx="32" cy="30" r="14" fill="#f59e0b" stroke="#0f172a" stroke-width="2.2"/><circle cx="27" cy="28" r="2" fill="#0f172a"/><circle cx="37" cy="28" r="2" fill="#0f172a"/><ellipse cx="32" cy="34" rx="4" ry="3" fill="#fef3c7"/></svg>`,
+        cat: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fef3c7"/><polygon points="16,28 18,13 28,22" fill="#fb923c" stroke="#0f172a" stroke-width="2"/><polygon points="48,28 46,13 36,22" fill="#fb923c" stroke="#0f172a" stroke-width="2"/><circle cx="32" cy="34" r="15" fill="#fdba74" stroke="#0f172a" stroke-width="2.2"/><circle cx="26" cy="32" r="2.2" fill="#0f172a"/><circle cx="38" cy="32" r="2.2" fill="#0f172a"/><polygon points="30,37 34,37 32,39" fill="#ec4899"/></svg>`,
+        notebook: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#ccfbf1"/><rect x="14" y="10" width="36" height="44" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="2.3"/><rect x="14" y="10" width="8" height="44" rx="2" fill="#0f766e" stroke="#0f172a" stroke-width="2"/><line x1="27" y1="22" x2="44" y2="22" stroke="#94a3b8" stroke-width="2.5"/><line x1="27" y1="32" x2="44" y2="32" stroke="#94a3b8" stroke-width="2.5"/></svg>`,
+        scissors: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#ffe4e6"/><circle cx="20" cy="44" r="7" stroke="#e11d48" stroke-width="3"/><circle cx="44" cy="44" r="7" stroke="#e11d48" stroke-width="3"/><line x1="24" y1="38" x2="44" y2="14" stroke="#475569" stroke-width="3" stroke-linecap="round"/><line x1="40" y1="38" x2="20" y2="14" stroke="#475569" stroke-width="3" stroke-linecap="round"/></svg>`,
+        hissan: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#dbeafe"/><rect x="14" y="10" width="36" height="44" rx="5" fill="#ffffff" stroke="#0f172a" stroke-width="2.3"/><text x="36" y="25" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="900">24</text><text x="32" y="38" text-anchor="middle" fill="#2563eb" font-size="12" font-weight="900">+18</text><line x1="20" y1="42" x2="44" y2="42" stroke="#0f172a" stroke-width="2.4"/></svg>`,
+        pencilcase: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#e0e7ff"/><rect x="10" y="21" width="44" height="23" rx="7" fill="#3b82f6" stroke="#0f172a" stroke-width="2.3"/><line x1="10" y1="30" x2="54" y2="30" stroke="#0f172a" stroke-width="2"/><rect x="26" y="27" width="12" height="6" rx="2" fill="#fde68a" stroke="#0f172a" stroke-width="1.8"/></svg>`,
+        room: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fef3c7"/><rect x="16" y="12" width="32" height="42" rx="3" fill="#ffffff" stroke="#0f172a" stroke-width="2.4"/><circle cx="41" cy="34" r="2.8" fill="#d97706"/></svg>`,
+        book: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#dcfce7"/><path d="M10 18c7-3 15-2 22 3 7-5 15-6 22-3v28c-7-3-15-2-22 3-7-5-15-6-22-3V18z" fill="#ffffff" stroke="#0f172a" stroke-width="2.3"/><line x1="32" y1="21" x2="32" y2="49" stroke="#0f172a" stroke-width="2"/></svg>`,
+        window: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#e0f2fe"/><rect x="14" y="14" width="36" height="36" rx="4" fill="#bae6fd" stroke="#92400e" stroke-width="3"/><line x1="32" y1="14" x2="32" y2="50" stroke="#92400e" stroke-width="2.5"/><line x1="14" y1="32" x2="50" y2="32" stroke="#92400e" stroke-width="2.5"/></svg>`,
+        water: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#dbeafe"/><path d="M32 12C32 12 18 30 18 40a14 14 0 0 0 28 0c0-10-14-28-14-28z" fill="#38bdf8" stroke="#0f172a" stroke-width="2.3"/></svg>`,
+        bug: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#dcfce7"/><ellipse cx="32" cy="36" rx="13" ry="15" fill="#ef4444" stroke="#0f172a" stroke-width="2.2"/><circle cx="32" cy="20" r="6" fill="#0f172a"/><line x1="32" y1="22" x2="32" y2="50" stroke="#0f172a" stroke-width="2"/><circle cx="26" cy="33" r="2" fill="#0f172a"/><circle cx="38" cy="33" r="2" fill="#0f172a"/></svg>`,
+        target: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fef3c7"/><circle cx="32" cy="32" r="20" fill="#ffffff" stroke="#dc2626" stroke-width="4"/><circle cx="32" cy="32" r="11" fill="#ffffff" stroke="#dc2626" stroke-width="3.5"/><circle cx="32" cy="32" r="4.5" fill="#dc2626"/></svg>`,
+        bag: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#ccfbf1"/><path d="M24 22v-4a8 8 0 0 1 16 0v4" stroke="#0f172a" stroke-width="2.6"/><rect x="14" y="22" width="36" height="28" rx="6" fill="#14b8a6" stroke="#0f172a" stroke-width="2.3"/></svg>`,
+        recess: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#ffedd5"/><circle cx="32" cy="32" r="18" fill="#fb923c" stroke="#0f172a" stroke-width="2.4"/><line x1="14" y1="32" x2="50" y2="32" stroke="#0f172a" stroke-width="2"/><line x1="32" y1="14" x2="32" y2="50" stroke="#0f172a" stroke-width="2"/></svg>`,
+        snow: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#e0f2fe"/><circle cx="32" cy="40" r="12" fill="#ffffff" stroke="#0f172a" stroke-width="2.2"/><circle cx="32" cy="23" r="9" fill="#ffffff" stroke="#0f172a" stroke-width="2.2"/><circle cx="29" cy="21" r="1.6" fill="#0f172a"/><circle cx="35" cy="21" r="1.6" fill="#0f172a"/></svg>`,
+        randoseru: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#ffe4e6"/><path d="M23 17v-4a9 9 0 0 1 18 0v4" stroke="#0f172a" stroke-width="2.8"/><rect x="15" y="17" width="34" height="36" rx="7" fill="#dc2626" stroke="#0f172a" stroke-width="2.3"/><rect x="28" y="38" width="8" height="8" rx="2" fill="#fde68a" stroke="#0f172a" stroke-width="1.8"/></svg>`,
+        science: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#ccfbf1"/><path d="M25 12h14v11l10 21a4 4 0 0 1-3.6 6H18.6A4 4 0 0 1 15 44l10-21V12z" fill="#ffffff" stroke="#0f172a" stroke-width="2.3"/><path d="M19 37h26l3 9H16l3-9z" fill="#34d399"/></svg>`,
+        house: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fef3c7"/><path d="M13 31L32 15l19 16v21H13V31z" fill="#ffffff" stroke="#0f172a" stroke-width="2.3"/><path d="M10 32L32 13l22 19" stroke="#dc2626" stroke-width="3.6" stroke-linecap="round"/><rect x="26" y="36" width="12" height="16" fill="#fbbf24" stroke="#0f172a" stroke-width="2"/></svg>`,
+        renrakucho: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fef3c7"/><rect x="14" y="10" width="36" height="44" rx="5" fill="#fde68a" stroke="#0f172a" stroke-width="2.3"/><rect x="20" y="16" width="24" height="8" rx="2" fill="#ffffff" stroke="#d97706" stroke-width="2"/><line x1="20" y1="32" x2="44" y2="32" stroke="#0f172a" stroke-width="2.2"/></svg>`,
+        corridor: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#e2e8f0"/><polygon points="10,12 24,22 24,42 10,52" fill="#cbd5e1" stroke="#0f172a" stroke-width="2"/><polygon points="54,12 40,22 40,42 54,52" fill="#cbd5e1" stroke="#0f172a" stroke-width="2"/><rect x="24" y="22" width="16" height="20" fill="#ffffff" stroke="#0f172a" stroke-width="2"/></svg>`,
+        ok: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#dcfce7"/><circle cx="32" cy="32" r="19" fill="#22c55e" stroke="#0f172a" stroke-width="2.4"/><polyline points="22,33 29,40 43,25" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+        fraction: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fef3c7"/><circle cx="24" cy="32" r="14" fill="#ffffff" stroke="#0f172a" stroke-width="2.3"/><path d="M24 32V18a14 14 0 0 1 14 14H24z" fill="#3b82f6" stroke="#0f172a" stroke-width="2"/><text x="48" y="27" text-anchor="middle" fill="#0f172a" font-size="14" font-weight="900">1</text><line x1="41" y1="32" x2="55" y2="32" stroke="#0f172a" stroke-width="2.6"/><text x="48" y="48" text-anchor="middle" fill="#0f172a" font-size="14" font-weight="900">4</text></svg>`,
+        school: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#dbeafe"/><rect x="10" y="24" width="44" height="28" rx="3" fill="#ffffff" stroke="#0f172a" stroke-width="2.3"/><polygon points="8,24 32,12 56,24" fill="#ef4444" stroke="#0f172a" stroke-width="2.2"/><circle cx="32" cy="33" r="5" fill="#fef3c7" stroke="#0f172a" stroke-width="2"/></svg>`,
+        ruler: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fef3c7"/><rect x="10" y="23" width="44" height="18" rx="3" fill="#fde68a" stroke="#0f172a" stroke-width="2.3"/><path d="M18 23v7M26 23v5M34 23v7M42 23v5M48 23v7" stroke="#0f172a" stroke-width="2"/></svg>`,
+        art: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fce7f3"/><ellipse cx="32" cy="34" rx="20" ry="15" fill="#fef3c7" stroke="#0f172a" stroke-width="2.3"/><circle cx="23" cy="29" r="3.5" fill="#ef4444"/><circle cx="33" cy="26" r="3.5" fill="#3b82f6"/><circle cx="42" cy="31" r="3.5" fill="#22c55e"/></svg>`,
+        bread: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#ffedd5"/><ellipse cx="32" cy="34" rx="20" ry="13" fill="#f59e0b" stroke="#0f172a" stroke-width="2.3"/><path d="M22 29l5 6M32 27l5 6M41 29l4 5" stroke="#fef3c7" stroke-width="2.4" stroke-linecap="round"/></svg>`,
+        stamp: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#ffe4e6"/><rect x="14" y="12" width="36" height="40" rx="3" fill="#ffffff" stroke="#e11d48" stroke-width="2.4" stroke-dasharray="4 3"/><polygon points="32,20 35,27 43,28 37,33 38,41 32,37 26,41 27,33 21,28 29,27" fill="#fbbf24" stroke="#b45309" stroke-width="1.8"/></svg>`,
+        group: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#e0e7ff"/><circle cx="20" cy="24" r="6" fill="#fde68a" stroke="#0f172a" stroke-width="2"/><circle cx="32" cy="21" r="6" fill="#fde68a" stroke="#0f172a" stroke-width="2"/><circle cx="44" cy="24" r="6" fill="#fde68a" stroke="#0f172a" stroke-width="2"/><path d="M12 46c1-7 4-10 8-10h24c4 0 7 3 8 10H12z" fill="#6366f1" stroke="#0f172a" stroke-width="2"/></svg>`,
+        towel: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#ccfbf1"/><rect x="16" y="14" width="32" height="36" rx="4" fill="#5eead4" stroke="#0f172a" stroke-width="2.3"/><line x1="16" y1="42" x2="48" y2="42" stroke="#0f766e" stroke-width="3"/></svg>`,
+        ice: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fce7f3"/><polygon points="22,32 42,32 32,54" fill="#f59e0b" stroke="#0f172a" stroke-width="2.2"/><circle cx="32" cy="26" r="11" fill="#fb7185" stroke="#0f172a" stroke-width="2.2"/></svg>`,
+        camera: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#e2e8f0"/><rect x="10" y="20" width="44" height="28" rx="6" fill="#334155" stroke="#0f172a" stroke-width="2.3"/><circle cx="32" cy="34" r="9" fill="#38bdf8" stroke="#ffffff" stroke-width="2.5"/></svg>`,
+        cake: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#ffe4e6"/><rect x="14" y="30" width="36" height="20" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="2.3"/><rect x="14" y="38" width="36" height="5" fill="#fb7185"/><circle cx="32" cy="24" r="5" fill="#ef4444"/></svg>`,
+        soccer: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#dcfce7"/><circle cx="32" cy="32" r="18" fill="#ffffff" stroke="#0f172a" stroke-width="2.4"/><polygon points="32,23 39,28 36,36 28,36 25,28" fill="#0f172a"/></svg>`,
+        tomato: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#dcfce7"/><circle cx="32" cy="35" r="16" fill="#ef4444" stroke="#0f172a" stroke-width="2.3"/><path d="M24 21l8 4 8-4M32 16v9" stroke="#15803d" stroke-width="2.6" stroke-linecap="round"/></svg>`,
+        bus: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fef3c7"/><rect x="10" y="18" width="44" height="26" rx="5" fill="#fbbf24" stroke="#0f172a" stroke-width="2.3"/><rect x="15" y="23" width="14" height="10" rx="2" fill="#bae6fd"/><rect x="34" y="23" width="14" height="10" rx="2" fill="#bae6fd"/><circle cx="20" cy="46" r="5" fill="#0f172a"/><circle cx="44" cy="46" r="5" fill="#0f172a"/></svg>`,
+        fork: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#e2e8f0"/><path d="M26 12v14a6 6 0 0 0 12 0V12M32 12v40" stroke="#475569" stroke-width="3" stroke-linecap="round"/></svg>`,
+        melon: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#dcfce7"/><circle cx="32" cy="34" r="17" fill="#86efac" stroke="#0f172a" stroke-width="2.3"/><path d="M32 12v5M26 13h12" stroke="#15803d" stroke-width="2.6" stroke-linecap="round"/></svg>`,
+        ramen: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fef9c3"/><path d="M12 32h40c0 13-9 20-20 20s-20-7-20-20z" fill="#ef4444" stroke="#0f172a" stroke-width="2.3"/><ellipse cx="32" cy="32" rx="20" ry="5" fill="#fbbf24" stroke="#0f172a" stroke-width="2"/></svg>`,
+        lemon: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fef9c3"/><ellipse cx="32" cy="32" rx="19" ry="13" transform="rotate(-20 32 32)" fill="#facc15" stroke="#0f172a" stroke-width="2.3"/></svg>`,
+        lion: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#ffedd5"/><circle cx="32" cy="32" r="19" fill="#d97706" stroke="#0f172a" stroke-width="2.2"/><circle cx="32" cy="33" r="12" fill="#fde68a" stroke="#0f172a" stroke-width="2"/><circle cx="28" cy="31" r="2" fill="#0f172a"/><circle cx="36" cy="31" r="2" fill="#0f172a"/></svg>`,
+        apple: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#ffe4e6"/><circle cx="32" cy="35" r="16" fill="#ef4444" stroke="#0f172a" stroke-width="2.3"/><path d="M32 19v-6M32 16c4-3 8-2 9 1" stroke="#15803d" stroke-width="2.6" stroke-linecap="round"/></svg>`,
+        panda: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#dcfce7"/><circle cx="19" cy="19" r="6" fill="#0f172a"/><circle cx="45" cy="19" r="6" fill="#0f172a"/><circle cx="32" cy="34" r="16" fill="#ffffff" stroke="#0f172a" stroke-width="2.3"/><ellipse cx="26" cy="32" rx="4" ry="3" fill="#0f172a"/><ellipse cx="38" cy="32" rx="4" ry="3" fill="#0f172a"/></svg>`,
+        piano: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#e0e7ff"/><rect x="12" y="18" width="40" height="28" rx="3" fill="#ffffff" stroke="#0f172a" stroke-width="2.3"/><line x1="22" y1="18" x2="22" y2="46" stroke="#0f172a" stroke-width="2"/><line x1="32" y1="18" x2="32" y2="46" stroke="#0f172a" stroke-width="2"/><line x1="42" y1="18" x2="42" y2="46" stroke="#0f172a" stroke-width="2"/><rect x="19" y="18" width="6" height="16" fill="#0f172a"/><rect x="29" y="18" width="6" height="16" fill="#0f172a"/><rect x="39" y="18" width="6" height="16" fill="#0f172a"/></svg>`,
+        pool: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#bae6fd"/><rect x="12" y="16" width="40" height="32" rx="5" fill="#38bdf8" stroke="#0284c7" stroke-width="2.5"/><path d="M16 28q8-4 16 0t16 0M16 38q8-4 16 0t16 0" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/></svg>`,
+        medal: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fef3c7"/><path d="M22 10h7l3 14h-7L22 10z" fill="#3b82f6"/><path d="M42 10h-7l-3 14h7l3-14z" fill="#ef4444"/><circle cx="32" cy="38" r="14" fill="#fbbf24" stroke="#b45309" stroke-width="2.4"/></svg>`,
+        rocket: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#e0e7ff"/><path d="M32 10c9 8 12 20 12 30H20c0-10 3-22 12-30z" fill="#ffffff" stroke="#0f172a" stroke-width="2.3"/><polygon points="20,34 12,44 20,42" fill="#ef4444" stroke="#0f172a" stroke-width="2"/><polygon points="44,34 52,44 44,42" fill="#ef4444" stroke="#0f172a" stroke-width="2"/><circle cx="32" cy="27" r="4.5" fill="#38bdf8" stroke="#0f172a" stroke-width="2"/></svg>`,
+        ribbon: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#fce7f3"/><polygon points="32,32 14,20 14,44" fill="#f43f5e" stroke="#0f172a" stroke-width="2.2"/><polygon points="32,32 50,20 50,44" fill="#f43f5e" stroke="#0f172a" stroke-width="2.2"/><circle cx="32" cy="32" r="6" fill="#fda4af" stroke="#0f172a" stroke-width="2.2"/></svg>`,
+        glasses: `<svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#dbeafe"/><circle cx="21" cy="34" r="9" fill="#ffffff" stroke="#0f172a" stroke-width="2.5"/><circle cx="43" cy="34" r="9" fill="#ffffff" stroke="#0f172a" stroke-width="2.5"/><line x1="30" y1="34" x2="34" y2="34" stroke="#0f172a" stroke-width="2.5"/></svg>`
+      };
+
+      /* ====================================================================
+         3. 精密ベジェ曲線SVGパスデータ（全96基本字 ＋ 濁音/半濁音自動合成）
+            0..100 座標空間で、お手本と書き順ガイドが100%同一パスから描画される
+         ==================================================================== */
+      const BASE_PATHS = {
+        // --- ひらがな (48字) ---
+        'あ': ['M 24 28 Q 48 26 72 24', 'M 47 14 Q 44 48 48 82', 'M 64 40 Q 48 74 26 74 Q 18 62 32 50 Q 54 40 74 52 Q 84 66 64 82'],
+        'い': ['M 26 24 Q 25 56 36 74 L 44 64', 'M 66 30 Q 76 48 74 68'],
+        'う': ['M 38 18 Q 50 23 60 28', 'M 28 44 Q 54 34 68 48 Q 74 68 42 84'],
+        'え': ['M 38 18 Q 50 23 58 27', 'M 24 40 L 66 36 L 24 78 Q 44 60 54 68 Q 62 78 78 76'],
+        'お': ['M 22 32 Q 42 30 58 28', 'M 40 16 L 40 76 Q 24 80 22 68 Q 22 54 52 50 Q 76 50 74 70 Q 70 82 56 80', 'M 68 22 Q 76 28 82 34'],
+        'か': ['M 22 38 Q 44 34 56 34 Q 56 64 46 78 L 38 70', 'M 42 18 Q 36 52 24 80', 'M 68 28 Q 76 40 80 52'],
+        'き': ['M 24 30 Q 48 28 70 24', 'M 22 48 Q 48 46 72 42', 'M 42 16 Q 50 38 58 58', 'M 30 68 Q 36 82 68 78'],
+        'く': ['M 60 16 L 30 50 L 62 84'],
+        'け': ['M 26 20 Q 23 52 28 78 L 35 68', 'M 46 36 Q 62 34 78 32', 'M 62 18 Q 64 56 48 82'],
+        'こ': ['M 28 28 Q 50 26 68 30 L 60 38', 'M 26 64 Q 36 78 74 74'],
+        'さ': ['M 24 34 Q 50 32 74 28', 'M 42 16 Q 50 38 60 58', 'M 30 68 Q 36 82 68 78'],
+        'し': ['M 34 18 L 34 62 Q 36 80 56 78 Q 70 74 76 62'],
+        'す': ['M 20 30 L 78 28', 'M 52 16 L 52 54 Q 44 64 36 56 Q 32 46 44 44 Q 56 44 54 64 Q 50 78 36 84'],
+        'せ': ['M 18 44 L 80 40', 'M 62 20 L 60 54 L 50 50', 'M 34 24 L 34 66 Q 36 78 56 78 L 74 76'],
+        'そ': ['M 30 22 L 62 22 L 26 48 L 74 44 Q 44 56 46 72 Q 48 82 68 80'],
+        'た': ['M 20 32 L 54 28', 'M 38 16 Q 32 50 24 82', 'M 52 46 Q 64 44 76 44', 'M 50 68 Q 56 80 78 78'],
+        'ち': ['M 22 32 L 70 28', 'M 44 16 Q 40 40 36 54 Q 56 44 72 56 Q 80 72 56 80 L 42 82'],
+        'つ': ['M 20 42 Q 56 26 76 44 Q 84 64 46 80'],
+        'て': ['M 22 28 L 74 24 Q 44 42 44 62 Q 44 78 68 80'],
+        'と': ['M 36 18 L 46 46', 'M 70 34 Q 36 48 36 68 Q 36 80 74 78'],
+        'な': ['M 18 32 L 48 30', 'M 34 16 Q 28 46 20 70', 'M 60 24 L 76 34', 'M 60 46 L 60 72 Q 46 82 40 72 Q 38 62 54 64 Q 68 66 78 74'],
+        'に': ['M 24 20 Q 21 52 26 78 L 32 68', 'M 46 32 Q 60 30 74 32', 'M 44 64 Q 54 78 78 74'],
+        'ぬ': ['M 28 22 Q 34 52 48 74', 'M 56 20 Q 48 64 28 74 Q 18 68 28 50 Q 46 34 72 44 Q 84 58 72 74 Q 60 80 56 70 Q 56 62 68 66 L 80 76'],
+        'ね': ['M 30 16 L 30 84', 'M 18 36 L 42 34 L 18 66 Q 48 34 70 44 Q 82 58 70 74 Q 58 80 54 70 Q 54 62 66 66 L 78 74'],
+        'の': ['M 50 30 Q 46 66 28 70 Q 18 62 26 42 Q 42 24 68 34 Q 82 52 70 72 Q 60 80 48 82'],
+        'は': ['M 24 20 Q 21 52 26 78 L 32 68', 'M 44 36 L 74 34', 'M 60 18 L 60 70 Q 46 80 40 70 Q 38 60 54 62 Q 68 64 78 74'],
+        'ひ': ['M 20 30 L 38 26 Q 24 54 34 72 Q 48 82 62 64 Q 72 46 74 26 Q 76 48 82 62'],
+        'ふ': ['M 42 18 L 56 24', 'M 44 38 Q 58 54 48 74 L 40 68', 'M 24 54 Q 20 66 18 74', 'M 70 50 Q 76 60 82 70'],
+        'へ': ['M 16 56 L 36 34 Q 58 54 84 70'],
+        'ほ': ['M 22 20 Q 19 52 24 78 L 30 68', 'M 44 28 L 74 26', 'M 44 46 L 74 44', 'M 60 28 L 60 70 Q 46 80 40 70 Q 38 60 54 62 Q 68 64 78 74'],
+        'ま': ['M 24 30 L 74 28', 'M 26 48 L 72 46', 'M 50 16 L 50 70 Q 36 80 30 70 Q 28 60 46 62 Q 62 64 76 74'],
+        'み': ['M 26 26 L 52 22 Q 42 52 34 70 Q 20 74 22 62 Q 26 52 50 54 Q 68 56 80 66', 'M 70 38 Q 68 64 56 82'],
+        'む': ['M 20 34 L 54 32', 'M 38 16 L 38 62 Q 26 68 24 56 Q 24 46 34 48 Q 42 52 38 70 Q 38 80 62 78 Q 76 76 74 62', 'M 66 26 L 78 38'],
+        'め': ['M 28 24 Q 34 54 48 74', 'M 56 20 Q 48 64 28 74 Q 18 68 28 50 Q 46 34 72 44 Q 84 60 68 76 Q 58 82 48 82'],
+        'も': ['M 46 16 L 38 62 Q 38 78 58 78 Q 74 76 74 60', 'M 26 34 L 66 32', 'M 26 52 L 64 50'],
+        'や': ['M 20 44 Q 56 26 76 42 Q 82 56 62 62 L 54 56', 'M 48 18 L 58 28', 'M 32 26 L 48 82'],
+        'ゆ': ['M 26 24 Q 22 54 26 70 Q 46 34 72 42 Q 84 56 70 72 Q 58 78 46 76', 'M 54 18 Q 54 58 44 84'],
+        'よ': ['M 48 34 L 74 32', 'M 48 16 L 48 70 Q 34 80 28 70 Q 26 60 44 62 Q 60 64 76 74'],
+        'ら': ['M 38 18 L 58 24', 'M 32 34 L 30 58 Q 54 44 72 54 Q 80 70 56 80 L 40 84'],
+        'り': ['M 30 22 Q 28 48 34 62 L 40 54', 'M 64 20 Q 68 56 50 82'],
+        'る': ['M 28 22 L 62 20 L 30 52 Q 58 40 72 54 Q 80 70 60 78 Q 42 80 40 70 Q 40 62 54 66 L 62 74'],
+        'れ': ['M 32 16 L 32 84', 'M 18 36 L 42 34 L 20 66 Q 54 34 68 42 Q 74 52 68 68 Q 66 78 76 76 L 82 68'],
+        'ろ': ['M 28 22 L 64 20 L 30 52 Q 58 40 72 54 Q 80 72 52 80 L 38 82'],
+        'わ': ['M 32 16 L 32 84', 'M 18 36 L 42 34 L 20 66 Q 54 34 72 46 Q 82 64 62 78 L 50 82'],
+        'を': ['M 24 30 L 66 28', 'M 44 16 Q 38 38 30 52 Q 50 44 64 62', 'M 74 44 Q 40 56 40 72 Q 40 82 72 80'],
+        'ん': ['M 50 18 L 24 78 Q 44 50 54 56 Q 60 62 62 72 Q 66 80 80 70'],
+        'っ': ['M 34 56 Q 58 44 72 56 Q 76 70 50 80'],
+        'ー': ['M 16 50 L 84 50'],
+
+        // --- カタカナ (48字) ---
+        'ア': ['M 22 24 L 78 24 L 56 48', 'M 50 38 Q 48 64 30 82'],
+        'イ': ['M 66 20 Q 46 42 22 56', 'M 50 42 L 50 84'],
+        'ウ': ['M 50 16 L 50 30', 'M 26 30 L 26 48', 'M 26 30 L 74 30 Q 70 64 38 84'],
+        'エ': ['M 26 28 L 74 28', 'M 50 28 L 50 74', 'M 18 74 L 82 74'],
+        'オ': ['M 22 36 L 78 36', 'M 56 18 L 56 82 L 44 72', 'M 56 38 Q 40 58 20 72'],
+        'カ': ['M 24 36 L 72 36 Q 70 66 60 80 L 48 70', 'M 48 18 Q 44 54 24 80'],
+        'キ': ['M 24 34 L 74 30', 'M 20 54 L 78 48', 'M 46 18 L 56 82'],
+        'ク': ['M 44 18 Q 36 36 22 50', 'M 42 28 L 72 28 Q 62 62 30 84'],
+        'ケ': ['M 40 18 Q 34 38 22 52', 'M 36 36 L 78 34', 'M 58 36 Q 56 62 36 82'],
+        'コ': ['M 26 28 L 72 28 L 72 72', 'M 24 72 L 74 72'],
+        'サ': ['M 20 38 L 80 38', 'M 36 20 L 36 56', 'M 62 18 L 62 46 Q 62 68 38 82'],
+        'シ': ['M 28 24 L 42 34', 'M 22 44 L 36 54', 'M 28 78 Q 56 68 78 34'],
+        'ス': ['M 26 26 L 72 26 Q 56 58 22 80', 'M 52 54 L 78 78'],
+        'セ': ['M 20 44 L 78 36 L 62 56', 'M 38 20 L 38 68 Q 38 78 56 78 L 76 76'],
+        'ソ': ['M 28 24 L 40 44', 'M 72 24 Q 62 58 32 80'],
+        'タ': ['M 44 18 Q 36 36 22 50', 'M 42 26 L 72 26 Q 60 62 28 84', 'M 38 44 L 56 58'],
+        'チ': ['M 66 20 Q 48 26 28 28', 'M 20 48 L 80 48', 'M 50 26 L 50 52 Q 50 70 32 82'],
+        'ツ': ['M 24 24 L 34 42', 'M 46 20 L 54 38', 'M 74 24 Q 64 58 34 80'],
+        'テ': ['M 28 24 L 72 24', 'M 20 44 L 80 44', 'M 52 44 Q 50 68 34 82'],
+        'ト': ['M 40 18 L 40 84', 'M 42 44 L 72 58'],
+        'ナ': ['M 20 38 L 80 38', 'M 50 18 L 50 46 Q 50 68 30 82'],
+        'ニ': ['M 28 32 L 72 32', 'M 20 70 L 80 70'],
+        'ヌ': ['M 26 26 L 72 26 Q 56 58 22 80', 'M 36 44 L 74 76'],
+        'ネ': ['M 46 16 L 54 26', 'M 24 34 L 72 34 L 22 66', 'M 50 50 L 50 84', 'M 54 54 L 78 72'],
+        'ノ': ['M 66 22 Q 54 58 24 80'],
+        'ハ': ['M 36 30 Q 30 56 18 76', 'M 60 30 Q 68 54 82 76'],
+        'ヒ': ['M 32 46 L 72 34', 'M 32 22 L 32 68 Q 32 78 52 78 L 76 76'],
+        'フ': ['M 24 26 L 74 26 Q 64 60 30 82'],
+        'ヘ': ['M 16 56 L 36 34 Q 58 54 84 70'],
+        'ホ': ['M 22 36 L 78 36', 'M 50 18 L 50 82 L 40 72', 'M 34 50 Q 28 64 20 74', 'M 66 50 Q 74 64 82 74'],
+        'マ': ['M 22 28 L 78 28 L 54 56', 'M 40 48 L 64 74'],
+        'ミ': ['M 32 24 L 68 34', 'M 28 46 L 68 56', 'M 24 68 L 74 80'],
+        'ム': ['M 50 20 L 24 72 L 74 68', 'M 62 52 L 80 78'],
+        'メ': ['M 66 22 Q 52 56 22 80', 'M 34 38 L 72 72'],
+        'モ': ['M 26 30 L 72 30', 'M 20 50 L 78 50', 'M 46 30 L 46 68 Q 46 78 64 78 L 76 76'],
+        'ヤ': ['M 20 44 L 78 32 L 62 56', 'M 38 20 L 54 82'],
+        'ユ': ['M 28 30 L 68 30 L 62 72', 'M 18 72 L 82 72'],
+        'ヨ': ['M 26 26 L 72 26 L 72 74', 'M 26 50 L 72 50', 'M 24 74 L 74 74'],
+        'ラ': ['M 30 24 L 70 24', 'M 22 42 L 76 42 Q 66 68 34 82'],
+        'リ': ['M 32 24 L 32 56', 'M 66 20 L 66 52 Q 64 72 42 84'],
+        'ル': ['M 34 24 L 34 54 Q 32 70 20 80', 'M 56 20 L 56 76 L 80 60'],
+        'レ': ['M 34 22 L 34 78 Q 62 68 80 50'],
+        'ロ': ['M 26 28 L 26 74', 'M 26 28 L 74 28 L 74 74', 'M 26 74 L 74 74'],
+        'ワ': ['M 26 26 L 26 48', 'M 26 26 L 74 26 Q 68 62 36 82'],
+        'ヲ': ['M 24 26 L 74 26', 'M 24 48 L 68 48', 'M 74 26 Q 64 62 32 82'],
+        'ン': ['M 28 26 L 44 40', 'M 26 76 Q 56 66 78 32'],
+        'ッ': ['M 30 42 L 38 56', 'M 48 38 L 54 52', 'M 72 42 Q 62 66 38 82']
+      };
+
+      const DAKUTEN_MAP = {
+        'が':'か','ぎ':'き','ぐ':'く','げ':'け','ご':'こ',
+        'ざ':'さ','じ':'し','ず':'す','ぜ':'せ','ぞ':'そ',
+        'だ':'た','ぢ':'ち','づ':'つ','で':'て','ど':'と',
+        'ば':'は','び':'ひ','ぶ':'ふ','べ':'へ','ぼ':'ほ',
+        'ガ':'カ','ギ':'キ','グ':'ク','ゲ':'ケ','ゴ':'コ',
+        'ザ':'サ','ジ':'シ','ズ':'ス','ゼ':'セ','ゾ':'ソ',
+        'ダ':'タ','ヂ':'チ','ヅ':'ツ','デ':'テ','ド':'ト',
+        'バ':'ハ','ビ':'ヒ','ブ':'フ','ベ':'ヘ','ボ':'ホ'
+      };
+      const HANDAKUTEN_MAP = {
+        'ぱ':'は','ぴ':'ひ','ぷ':'ふ','ぺ':'へ','ぽ':'ほ',
+        'パ':'ハ','ピ':'ヒ','プ':'フ','ペ':'ヘ','ポ':'ホ'
+      };
+
+      function shiftPathLeft(d) {
+        return d.replace(/([MLQ])\s*([0-9.]+)\s+([0-9.]+)(?:\s+([0-9.]+)\s+([0-9.]+))?/g, function (_, cmd, x1, y1, x2, y2) {
+          const nx1 = (Number(x1) * 0.85 - 2).toFixed(1);
+          const ny1 = (Number(y1) * 0.94 + 3).toFixed(1);
+          if (cmd === 'Q') {
+            const nx2 = (Number(x2) * 0.85 - 2).toFixed(1);
+            const ny2 = (Number(y2) * 0.94 + 3).toFixed(1);
+            return `Q ${nx1} ${ny1} ${nx2} ${ny2}`;
+          }
+          return `${cmd} ${nx1} ${ny1}`;
+        });
+      }
+
+      function getCharStrokes(ch) {
+        if (BASE_PATHS[ch]) return BASE_PATHS[ch];
+        if (DAKUTEN_MAP[ch] && BASE_PATHS[DAKUTEN_MAP[ch]]) {
+          return BASE_PATHS[DAKUTEN_MAP[ch]].map(shiftPathLeft).concat([
+            'M 73 15 L 81 24',
+            'M 83 11 L 91 20'
+          ]);
+        }
+        if (HANDAKUTEN_MAP[ch] && BASE_PATHS[HANDAKUTEN_MAP[ch]]) {
+          return BASE_PATHS[HANDAKUTEN_MAP[ch]].map(shiftPathLeft).concat([
+            'M 82 12 Q 88 12 88 18 Q 88 24 82 24 Q 76 24 76 18 Q 76 12 82 12'
+          ]);
+        }
+        return ['M 25 30 L 75 30', 'M 50 20 L 50 80'];
+      }
+
+      /* ====================================================================
+         4. ミッション＆絵カードデータ（ひらがな・カタカナ 12行 × 2種）
+         ==================================================================== */
+      const KANA_MISSIONS = {
+        hira: [
+          { id:'a', label:'あ行', title:'あ<ruby>行<rt>ぎょう</rt></ruby>', romaji:'a - i - u - e - o', chars:[
+            { c:'あ', pair:'ア', r:'a', w:'あさ', wr:'asa', svg:'sun', tipKey:'open', tipJa:'くちを おおきく あけて「あ」と いおう。' },
+            { c:'い', pair:'イ', r:'i', w:'いぬ', wr:'inu', svg:'dog', tipKey:'wide', tipJa:'くちを よこに かるく ひいて「い」と いおう。' },
+            { c:'う', pair:'ウ', r:'u', w:'うみ', wr:'umi', svg:'sea', tipKey:'u', tipJa:'くちびるを まえに つきださずに「う」と いおう。' },
+            { c:'え', pair:'エ', r:'e', w:'えんぴつ', wr:'enpitsu', svg:'pencil', tipKey:'e', tipJa:'くちを かるく あけて はっきり「え」と いおう。' },
+            { c:'お', pair:'オ', r:'o', w:'おちゃ', wr:'ocha', svg:'tea', tipKey:'o', tipJa:'くちを まるく して「お」と いおう。' }
+          ]},
+          { id:'ka', label:'か行', title:'か<ruby>行<rt>ぎょう</rt></ruby>', romaji:'ka - ki - ku - ke - ko', chars:[
+            { c:'か', pair:'カ', r:'ka', w:'かさ', wr:'kasa', svg:'umbrella', tipKey:'open', tipJa:'のどの おくから かるく「か」と だそう。' },
+            { c:'き', pair:'キ', r:'ki', w:'き', wr:'ki', svg:'tree', tipKey:'wide', tipJa:'はっきり「き」と よもう。' },
+            { c:'く', pair:'ク', r:'ku', w:'くつ', wr:'kutsu', svg:'shoes', tipKey:'u', tipJa:'くちを まるめすぎずに「く」と いおう。' },
+            { c:'け', pair:'ケ', r:'ke', w:'けしごむ', wr:'keshigomu', svg:'eraser', tipKey:'e', tipJa:'「け」を はっきり よもう。' },
+            { c:'こ', pair:'コ', r:'ko', w:'こくばん', wr:'kokuban', svg:'board', tipKey:'o', tipJa:'まるい おとで「こ」と いおう。' }
+          ]},
+          { id:'sa', label:'さ行', title:'さ<ruby>行<rt>ぎょう</rt></ruby>', romaji:'sa - shi - su - se - so', chars:[
+            { c:'さ', pair:'サ', r:'sa', w:'さかな', wr:'sakana', svg:'fish', tipKey:'open', tipJa:'はの すきまから やさしく「さ」と いおう。' },
+            { c:'し', pair:'シ', r:'shi', w:'しゅくだい', wr:'shukudai', svg:'homework', tipKey:'shi', tipJa:'やわらかい おとで「し」と いおう。' },
+            { c:'す', pair:'ス', r:'su', w:'すいとう', wr:'suitou', svg:'bottle', tipKey:'su', tipJa:'「つ」と ちがうよ！「す」は いきが つづくおと。' },
+            { c:'せ', pair:'セ', r:'se', w:'せんせい', wr:'sensei', svg:'teacher', tipKey:'e', tipJa:'せんせいの「せ」をはっきり よもう。' },
+            { c:'そ', pair:'ソ', r:'so', w:'そら', wr:'sora', svg:'sky', tipKey:'o', tipJa:'そらの「そ」を まるく よもう。' }
+          ]},
+          { id:'ta', label:'た行', title:'た<ruby>行<rt>ぎょう</rt></ruby>', romaji:'ta - chi - tsu - te - to', chars:[
+            { c:'た', pair:'タ', r:'ta', w:'たいいくかん', wr:'taiikukan', svg:'gym', tipKey:'open', tipJa:'したを はの うらに つけて「た」と いおう。' },
+            { c:'ち', pair:'チ', r:'chi', w:'ちず', wr:'chizu', svg:'map', tipKey:'shi', tipJa:'「ち」は はっきり「チ」の おとだよ。' },
+            { c:'つ', pair:'ツ', r:'tsu', w:'つくえ', wr:'tsukue', svg:'desk', tipKey:'tsu', tipJa:'「す」と ちがうよ！さいしょに「ツ」と はじくおと。' },
+            { c:'て', pair:'テ', r:'te', w:'て', wr:'te', svg:'hand', tipKey:'e', tipJa:'ての「て」を はっきり よもう。' },
+            { c:'と', pair:'ト', r:'to', w:'ともだち', wr:'tomodachi', svg:'friend', tipKey:'o', tipJa:'ともだちの「と」を まるく よもう。' }
+          ]},
+          { id:'na', label:'な行', title:'な<ruby>行<rt>ぎょう</rt></ruby>', romaji:'na - ni - nu - ne - no', chars:[
+            { c:'な', pair:'ナ', r:'na', w:'なまえ', wr:'namae', svg:'nametag', tipKey:'open', tipJa:'はなから いきを だして「な」と いおう。' },
+            { c:'に', pair:'ニ', r:'ni', w:'にほん', wr:'nihon', svg:'japan', tipKey:'wide', tipJa:'にほんの「に」を はっきり よもう。' },
+            { c:'ぬ', pair:'ヌ', r:'nu', w:'ぬいぐるみ', wr:'nuigurumi', svg:'plushie', tipKey:'u', tipJa:'くるっと むすんで「ぬ」と かこう。' },
+            { c:'ね', pair:'ネ', r:'ne', w:'ねこ', wr:'neko', svg:'cat', tipKey:'e', tipJa:'ねこの「ね」を よもう。' },
+            { c:'の', pair:'ノ', r:'no', w:'のり', wr:'nori', svg:'notebook', tipKey:'o', tipJa:'1かくで まるく かく「の」だよ。' }
+          ]},
+          { id:'ha', label:'は行', title:'は<ruby>行<rt>ぎょう</rt></ruby>', romaji:'ha - hi - fu - he - ho', chars:[
+            { c:'は', pair:'ハ', r:'ha', w:'はさみ', wr:'hasami', svg:'scissors', tipKey:'open', tipJa:'いきを かるく だして「は」と いおう。' },
+            { c:'ひ', pair:'ヒ', r:'hi', w:'ひっさん', wr:'hissan', svg:'hissan', tipKey:'wide', tipJa:'ほそく いきを だして「ひ」と いおう。' },
+            { c:'ふ', pair:'フ', r:'fu', w:'ふでばこ', wr:'fudebako', svg:'pencilcase', tipKey:'fu', tipJa:'くちびるを かまずに「ふ」と やさしく ふこう。' },
+            { c:'へ', pair:'ヘ', r:'he', w:'へや', wr:'heya', svg:'room', tipKey:'e', tipJa:'やまの かたちの「へ」だよ。' },
+            { c:'ほ', pair:'ホ', r:'ho', w:'ほん', wr:'hon', svg:'book', tipKey:'o', tipJa:'ほんの「ほ」を よもう。' }
+          ]},
+          { id:'ma', label:'ま行', title:'ま<ruby>行<rt>ぎょう</rt></ruby>', romaji:'ma - mi - mu - me - mo', chars:[
+            { c:'ま', pair:'マ', r:'ma', w:'まど', wr:'mado', svg:'window', tipKey:'open', tipJa:'くちびるを とじてから「ま」と いおう。' },
+            { c:'み', pair:'ミ', r:'mi', w:'みず', wr:'mizu', svg:'water', tipKey:'wide', tipJa:'みずの「み」を よもう。' },
+            { c:'む', pair:'ム', r:'mu', w:'むし', wr:'mushi', svg:'bug', tipKey:'u', tipJa:'みぎうえの てんを わすれずに「む」をかこう。' },
+            { c:'め', pair:'メ', r:'me', w:'めあて', wr:'meate', svg:'target', tipKey:'e', tipJa:'めあての「め」を よもう。' },
+            { c:'も', pair:'モ', r:'mo', w:'もちもの', wr:'mochimono', svg:'bag', tipKey:'o', tipJa:'たての せんから さきに かく「も」だよ。' }
+          ]},
+          { id:'ya', label:'や行', title:'や<ruby>行<rt>ぎょう</rt></ruby>', romaji:'ya - yu - yo', chars:[
+            { c:'や', pair:'ヤ', r:'ya', w:'やすみじかん', wr:'yasumijikan', svg:'recess', tipKey:'open', tipJa:'やすみじかんの「や」だよ。' },
+            { c:'ゆ', pair:'ユ', r:'yu', w:'ゆき', wr:'yuki', svg:'snow', tipKey:'u', tipJa:'ゆきの「ゆ」を かこう。' },
+            { c:'よ', pair:'ヨ', r:'yo', w:'よむ', wr:'yomu', svg:'book', tipKey:'o', tipJa:'よむの「よ」を かこう。' }
+          ]},
+          { id:'ra', label:'ら行', title:'ら<ruby>行<rt>ぎょう</rt></ruby>', romaji:'ra - ri - ru - re - ro', chars:[
+            { c:'ら', pair:'ラ', r:'ra', w:'らんどせる', wr:'randoseru', svg:'randoseru', tipKey:'ra', tipJa:'したを 1かい かるく はじいて「ら」と いおう。' },
+            { c:'り', pair:'リ', r:'ri', w:'りか', wr:'rika', svg:'science', tipKey:'ra', tipJa:'りかの「り」を よもう。' },
+            { c:'る', pair:'ル', r:'ru', w:'るすばん', wr:'rusuban', svg:'house', tipKey:'ra', tipJa:'さいごに くるっと まるめる「る」だよ。' },
+            { c:'れ', pair:'レ', r:'re', w:'れんらくちょう', wr:'renrakucho', svg:'renrakucho', tipKey:'ra', tipJa:'れんらくちょうの「れ」だよ。' },
+            { c:'ろ', pair:'ロ', r:'ro', w:'ろうか', wr:'rouka', svg:'corridor', tipKey:'ra', tipJa:'「る」と ちがって さいごを まるめない「ろ」。' }
+          ]},
+          { id:'wa', label:'わ行', title:'わ<ruby>行<rt>ぎょう</rt></ruby>', romaji:'wa - wo(o) - n', chars:[
+            { c:'わ', pair:'ワ', r:'wa', w:'わかる', wr:'wakaru', svg:'ok', tipKey:'open', tipJa:'わかるの「わ」だよ。' },
+            { c:'を', pair:'ヲ', r:'wo / o', w:'ほんを よむ', wr:'hon o yomu', svg:'book', tipKey:'o', tipJa:'ぶんの なかで つかう「を」（おと は「お」）。' },
+            { c:'ん', pair:'ン', r:'n', w:'ぶんすう', wr:'bunsuu', svg:'fraction', tipKey:'n', tipJa:'はなを つかって 1ぱく のばす「ん」。' }
+          ]},
+          { id:'daku', label:'だくおん', title:'だくおん・はんだくおん', romaji:'ga - za - ji - zu - da - ba - pa', chars:[
+            { c:'が', pair:'ガ', r:'ga', w:'がっこう', wr:'gakkou', svg:'school', tipKey:'daku', tipJa:'「か」に てんてん(゛)で「が」になるよ。' },
+            { c:'ざ', pair:'ザ', r:'za', w:'ざっし', wr:'zasshi', svg:'book', tipKey:'daku', tipJa:'のどを ふるわせて「ざ」と いおう。' },
+            { c:'じ', pair:'ジ', r:'ji', w:'じょうぎ', wr:'jougi', svg:'ruler', tipKey:'daku', tipJa:'「し」に てんてんで「じ」になるよ。' },
+            { c:'ず', pair:'ズ', r:'zu', w:'ずこう', wr:'zukou', svg:'art', tipKey:'daku', tipJa:'「す」に てんてんで「ず」になるよ。' },
+            { c:'だ', pair:'ダ', r:'da', w:'だいじょうぶ', wr:'daijoubu', svg:'ok', tipKey:'daku', tipJa:'「た」に てんてんで「だ」になるよ。' },
+            { c:'ば', pair:'バ', r:'ba', w:'ばしょ', wr:'basho', svg:'map', tipKey:'daku', tipJa:'「は」に てんてんで「ば」になるよ。' },
+            { c:'ぱ', pair:'パ', r:'pa', w:'ぱん', wr:'pan', svg:'bread', tipKey:'daku', tipJa:'「は」に まる(゜)で「ぱ」になるよ。' }
+          ]},
+          { id:'tokkun', label:'とっくん', title:'とっくん（っ・ー・つ/す）', romaji:'っ / ー / tsu vs su', chars:[
+            { c:'っ', pair:'ッ', r:'っ (pause)', w:'きって', wr:'kitte', svg:'stamp', tipKey:'sokuon', tipJa:'ちいさい「っ」は 1ぱく やすむ あいず！' },
+            { c:'ー', pair:'ー', r:'ー (long)', w:'ぐるーぷ', wr:'guruupu', svg:'group', tipKey:'choon', tipJa:'「ー」は まえの おとを のばす しるし！' },
+            { c:'つ', pair:'ツ', r:'tsu', w:'つくえ', wr:'tsukue', svg:'desk', tipKey:'tsu', tipJa:'「つ」は ツ！と はじく おと。' },
+            { c:'す', pair:'ス', r:'su', w:'すいとう', wr:'suitou', svg:'bottle', tipKey:'su', tipJa:'「す」は スーと やさしく いきが つづくおと。' },
+            { c:'ぞ', pair:'ゾ', r:'zo', w:'ぞうきん', wr:'zoukin', svg:'towel', tipKey:'daku', tipJa:'のどが ぶるぶる ふるえる「ぞ」のおと。' }
+          ]}
+        ],
+        kata: [
+          { id:'a', label:'ア行', title:'ア<ruby>行<rt>ぎょう</rt></ruby>', romaji:'a - i - u - e - o', chars:[
+            { c:'ア', pair:'あ', r:'a', w:'アイス', wr:'aisu', svg:'ice', tipKey:'open', tipJa:'くちを おおきく あけて「ア」と いおう。' },
+            { c:'イ', pair:'い', r:'i', w:'いす / イルカ', wr:'iruka', svg:'fish', tipKey:'wide', tipJa:'くちを よこに ひいて「イ」と いおう。' },
+            { c:'ウ', pair:'う', r:'u', w:'うさぎ / ウサギ', wr:'usagi', svg:'dog', tipKey:'u', tipJa:'くちびるを つきださずに「ウ」と いおう。' },
+            { c:'エ', pair:'え', r:'e', w:'エプロン', wr:'epuron', svg:'towel', tipKey:'e', tipJa:'はっきり「エ」と よもう。' },
+            { c:'オ', pair:'お', r:'o', w:'おにぎり / オニギリ', wr:'onigiri', svg:'bread', tipKey:'o', tipJa:'くちを まるく して「オ」と いおう。' }
+          ]},
+          { id:'ka', label:'カ行', title:'カ<ruby>行<rt>ぎょう</rt></ruby>', romaji:'ka - ki - ku - ke - ko', chars:[
+            { c:'カ', pair:'か', r:'ka', w:'カメラ', wr:'kamera', svg:'camera', tipKey:'open', tipJa:'「カ」は 2かくで スッと かこう。' },
+            { c:'キ', pair:'き', r:'ki', w:'きいろ / キイロ', wr:'kiiro', svg:'sun', tipKey:'wide', tipJa:'よこせん 2ほんに ななめせんの「キ」。' },
+            { c:'ク', pair:'く', r:'ku', w:'クラス', wr:'kurasu', svg:'group', tipKey:'u', tipJa:'「タ」と ちがって なかの てんが ない「ク」。' },
+            { c:'ケ', pair:'け', r:'ke', w:'ケーキ', wr:'keeki', svg:'cake', tipKey:'e', tipJa:'ケーキの「ケ」だよ。' },
+            { c:'コ', pair:'こ', r:'ko', w:'コンパス', wr:'konpasu', svg:'ruler', tipKey:'o', tipJa:'かどを きっちり まげる「コ」。' }
+          ]},
+          { id:'sa', label:'サ行', title:'サ<ruby>行<rt>ぎょう</rt></ruby>', romaji:'sa - shi - su - se - so', chars:[
+            { c:'サ', pair:'さ', r:'sa', w:'サッカー', wr:'sakkaa', svg:'soccer', tipKey:'open', tipJa:'みぎの たてせんを ながく はらう「サ」。' },
+            { c:'シ', pair:'し', r:'shi', w:'シール', wr:'shiiru', svg:'stamp', tipKey:'shi', tipJa:'「ツ」と ちがうよ！「シ」は したから うえへ はらう。' },
+            { c:'ス', pair:'す', r:'su', w:'スプーン', wr:'supuun', svg:'fork', tipKey:'su', tipJa:'スプーンの「ス」だよ。' },
+            { c:'セ', pair:'せ', r:'se', w:'セット', wr:'setto', svg:'bag', tipKey:'e', tipJa:'ひらがなの「せ」に にている「セ」。' },
+            { c:'ソ', pair:'そ', r:'so', w:'ソファー', wr:'sofaa', svg:'desk', tipKey:'o', tipJa:'「ン」と ちがうよ！「ソ」は うえから したへ はらう。' }
+          ]},
+          { id:'ta', label:'タ行', title:'タ<ruby>行<rt>ぎょう</rt></ruby>', romaji:'ta - chi - tsu - te - to', chars:[
+            { c:'タ', pair:'た', r:'ta', w:'タオル', wr:'taoru', svg:'towel', tipKey:'open', tipJa:'「ク」の なかに てんを いれる「タ」。' },
+            { c:'チ', pair:'ち', r:'chi', w:'チーム', wr:'chiimu', svg:'group', tipKey:'shi', tipJa:'チームの「チ」だよ。' },
+            { c:'ツ', pair:'つ', r:'tsu', w:'ツアー / ツリー', wr:'tsurii', svg:'tree', tipKey:'tsu', tipJa:'「シ」と ちがうよ！「ツ」は うえから したへ はらう。' },
+            { c:'テ', pair:'て', r:'te', w:'テスト', wr:'tesuto', svg:'homework', tipKey:'e', tipJa:'テストの「テ」だよ。' },
+            { c:'ト', pair:'と', r:'to', w:'トマト', wr:'tomato', svg:'tomato', tipKey:'o', tipJa:'トマトの「ト」だよ。' }
+          ]},
+          { id:'na', label:'ナ行', title:'ナ<ruby>行<rt>ぎょう</rt></ruby>', romaji:'na - ni - nu - ne - no', chars:[
+            { c:'ナ', pair:'な', r:'na', w:'ナイフ / ナプキン', wr:'napukin', svg:'towel', tipKey:'open', tipJa:'よこせんの あとに ななめせんの「ナ」。' },
+            { c:'ニ', pair:'に', r:'ni', w:'ニュース', wr:'nyuusu', svg:'book', tipKey:'wide', tipJa:'かんじの「二」と おなじ かたちの「ニ」。' },
+            { c:'ヌ', pair:'ぬ', r:'nu', w:'ヌードル', wr:'nuudoru', svg:'ramen', tipKey:'u', tipJa:'「ス」に てんを つける「ヌ」。' },
+            { c:'ネ', pair:'ね', r:'ne', w:'ネクタイ', wr:'nekutai', svg:'ribbon', tipKey:'e', tipJa:'4かくで かく「ネ」だよ。' },
+            { c:'ノ', pair:'の', r:'no', w:'ノート', wr:'nooto', svg:'notebook', tipKey:'o', tipJa:'ノートの「ノ」は ななめ 1かく！' }
+          ]},
+          { id:'ha', label:'ハ行', title:'ハ<ruby>行<rt>ぎょう</rt></ruby>', romaji:'ha - hi - fu - he - ho', chars:[
+            { c:'ハ', pair:'は', r:'ha', w:'ハンカチ', wr:'hankachi', svg:'towel', tipKey:'open', tipJa:'ひだりと みぎに ひらく「ハ」。' },
+            { c:'ヒ', pair:'ひ', r:'hi', w:'ヒント', wr:'hinto', svg:'target', tipKey:'wide', tipJa:'よこせんから さきに かく「ヒ」。' },
+            { c:'フ', pair:'ふ', r:'fu', w:'フォーク', wr:'fooku', svg:'fork', tipKey:'fu', tipJa:'フォークの「フ」は 1かく！' },
+            { c:'ヘ', pair:'へ', r:'he', w:'ヘルメット', wr:'herumetto', svg:'ok', tipKey:'e', tipJa:'ひらがなの「へ」と ほぼ おなじ「ヘ」。' },
+            { c:'ホ', pair:'ほ', r:'ho', w:'ホワイトボード', wr:'howaitoboodo', svg:'board', tipKey:'o', tipJa:'「木」に にている「ホ」。' }
+          ]},
+          { id:'ma', label:'マ行', title:'マ<ruby>行<rt>ぎょう</rt></ruby>', romaji:'ma - mi - mu - me - mo', chars:[
+            { c:'マ', pair:'ま', r:'ma', w:'マスク', wr:'masuku', svg:'ok', tipKey:'open', tipJa:'マスクの「マ」だよ。' },
+            { c:'ミ', pair:'み', r:'mi', w:'ミルク', wr:'miruku', svg:'bottle', tipKey:'wide', tipJa:'ななめの 3ぼんせん「ミ」。' },
+            { c:'ム', pair:'む', r:'mu', w:'チーム / ムシ', wr:'mushi', svg:'bug', tipKey:'u', tipJa:'さんかくに てんを つける「ム」。' },
+            { c:'メ', pair:'め', r:'me', w:'メロン', wr:'meron', svg:'melon', tipKey:'e', tipJa:'メロンの「メ」は ばつ印のように まじわるよ。' },
+            { c:'モ', pair:'も', r:'mo', w:'モノサシ', wr:'monosashi', svg:'ruler', tipKey:'o', tipJa:'よこせん 2ほんの あとに たてせんの「モ」。' }
+          ]},
+          { id:'ya', label:'ヤ行', title:'ヤ<ruby>行<rt>ぎょう</rt></ruby>', romaji:'ya - yu - yo', chars:[
+            { c:'ヤ', pair:'や', r:'ya', w:'ヤカン / ヤサイ', wr:'yasai', svg:'tomato', tipKey:'open', tipJa:'ひらがなの「や」を かくばらせた「ヤ」。' },
+            { c:'ユ', pair:'ゆ', r:'yu', w:'ユニフォーム', wr:'yunifoomu', svg:'soccer', tipKey:'u', tipJa:'したの せんを ながく かく「ユ」。' },
+            { c:'ヨ', pair:'よ', r:'yo', w:'ヨット / ヨテイ', wr:'yotei', svg:'renrakucho', tipKey:'o', tipJa:'よこせん 3ぼんの「ヨ」。' }
+          ]},
+          { id:'ra', label:'ラ行', title:'ラ<ruby>行<rt>ぎょう</rt></ruby>', romaji:'ra - ri - ru - re - ro', chars:[
+            { c:'ラ', pair:'ら', r:'ra', w:'ランドセル', wr:'randoseru', svg:'randoseru', tipKey:'ra', tipJa:'ランドセルの「ラ」だよ。' },
+            { c:'リ', pair:'り', r:'ri', w:'リボン', wr:'ribon', svg:'ribbon', tipKey:'ra', tipJa:'ひらがなの「り」に にている「リ」。' },
+            { c:'ル', pair:'る', r:'ru', w:'ルール', wr:'ruuru', svg:'ok', tipKey:'ra', tipJa:'ひだりは はらい、みぎは はねる「ル」。' },
+            { c:'レ', pair:'れ', r:'re', w:'レモン', wr:'remon', svg:'lemon', tipKey:'ra', tipJa:'レモンの「レ」は 1かく！' },
+            { c:'ロ', pair:'ろ', r:'ro', w:'ロケット', wr:'roketto', svg:'rocket', tipKey:'ra', tipJa:'しかくい かたちの「ロ」（3かく）。' }
+          ]},
+          { id:'wa', label:'ワ行', title:'ワ<ruby>行<rt>ぎょう</rt></ruby>', romaji:'wa - wo(o) - n', chars:[
+            { c:'ワ', pair:'わ', r:'wa', w:'ワッフル', wr:'waffuru', svg:'bread', tipKey:'open', tipJa:'「ウ」の うえの てんが ない「ワ」。' },
+            { c:'ヲ', pair:'を', r:'wo / o', w:'ヲ', wr:'wo', svg:'book', tipKey:'o', tipJa:'「フ」に よこせんを たした「ヲ」。' },
+            { c:'ン', pair:'ん', r:'n', w:'パン', wr:'pan', svg:'bread', tipKey:'n', tipJa:'「ソ」と ちがうよ！「ン」は したから うえへ はらう。' }
+          ]},
+          { id:'daku', label:'ダクオン', title:'ダクオン・ハンダクオン', romaji:'ga - za - ji - zu - da - ba - pa', chars:[
+            { c:'ガ', pair:'が', r:'ga', w:'ガラス', wr:'garasu', svg:'window', tipKey:'daku', tipJa:'「カ」に てんてん(゛)で「ガ」。' },
+            { c:'ザ', pair:'ざ', r:'za', w:'ピザ', wr:'piza', svg:'bread', tipKey:'daku', tipJa:'ピザの「ザ」だよ。' },
+            { c:'ジ', pair:'じ', r:'ji', w:'ジュース', wr:'juusu', svg:'bottle', tipKey:'daku', tipJa:'ジュースの「ジ」だよ。' },
+            { c:'ズ', pair:'ず', r:'zu', w:'チーズ', wr:'chiizu', svg:'bread', tipKey:'daku', tipJa:'チーズの「ズ」だよ。' },
+            { c:'ダ', pair:'だ', r:'da', w:'パンダ', wr:'panda', svg:'panda', tipKey:'daku', tipJa:'パンダの「ダ」だよ。' },
+            { c:'バ', pair:'ば', r:'ba', w:'バス', wr:'basu', svg:'bus', tipKey:'daku', tipJa:'バスの「バ」だよ。' },
+            { c:'パ', pair:'ぱ', r:'pa', w:'ピアノ', wr:'piano', svg:'piano', tipKey:'daku', tipJa:'ピアノの「パ」は まる(゜)をつけるよ。' }
+          ]},
+          { id:'tokkun', label:'トックン', title:'トックン（ッ・ー・シ/ツ・ソ/ン）', romaji:'ッ / ー / shi vs tsu / so vs n', chars:[
+            { c:'ッ', pair:'っ', r:'ッ (pause)', w:'ロケット', wr:'roketto', svg:'rocket', tipKey:'sokuon', tipJa:'ちいさい「ッ」は 1ぱく やすむ あいず！' },
+            { c:'ー', pair:'ー', r:'ー (long)', w:'プール', wr:'puuru', svg:'pool', tipKey:'choon', tipJa:'「ー」は まえの おとを のばす しるし！' },
+            { c:'シ', pair:'し', r:'shi', w:'シール', wr:'shiiru', svg:'stamp', tipKey:'shi', tipJa:'てんが たてに ならび、したから うえへ はらう「シ」。' },
+            { c:'ツ', pair:'つ', r:'tsu', w:'シャツ', wr:'shatsu', svg:'towel', tipKey:'tsu', tipJa:'てんが よこに ならび、うえから したへ はらう「ツ」。' },
+            { c:'ソ', pair:'そ', r:'so', w:'クレヨン', wr:'kureyon', svg:'pencil', tipKey:'o', tipJa:'うえから したへ はらう「ソ」。' },
+            { c:'ン', pair:'ん', r:'n', w:'ライオン', wr:'raion', svg:'lion', tipKey:'n', tipJa:'したから うえへ はらう「ン」。' }
+          ]}
+        ]
+      };
+
+      /* ====================================================================
+         5. Web Audio 効果音 & 高耐久 Speech 音声エンジン
+         ==================================================================== */
+      const Sound = {
+        ctx: null,
+        ensure() {
+          if (!this.ctx) {
+            const Ctor = window.AudioContext || window.webkitAudioContext;
+            if (Ctor) this.ctx = new Ctor();
+          }
+          if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume().catch(function () {});
+          }
+          return this.ctx;
+        },
+        beep(freq, offset, dur, type, vol) {
+          const ctx = this.ensure();
+          if (!ctx) return;
+          try {
+            const t = ctx.currentTime + offset;
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = type || 'sine';
+            osc.frequency.setValueAtTime(freq, t);
+            gain.gain.setValueAtTime(0.001, t);
+            gain.gain.exponentialRampToValueAtTime(vol || 0.1, t + 0.015);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + dur);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(t);
+            osc.stop(t + dur + 0.02);
+          } catch (e) {}
+        },
+        tap() { this.beep(587.33, 0, 0.07, 'triangle', 0.09); },
+        step(idx) {
+          const notes = [523.25, 587.33, 659.25, 783.99, 880.00];
+          this.beep(notes[idx % notes.length], 0, 0.11, 'sine', 0.11);
+        },
+        ok() {
+          this.beep(523.25, 0, 0.09, 'sine', 0.1);
+          this.beep(659.25, 0.08, 0.1, 'sine', 0.1);
+          this.beep(783.99, 0.16, 0.16, 'sine', 0.12);
+        },
+        guide() {
+          this.beep(392.00, 0, 0.12, 'triangle', 0.08);
+          this.beep(440.00, 0.11, 0.14, 'triangle', 0.08);
+        },
+        fanfare() {
+          this.beep(523.25, 0, 0.1, 'triangle', 0.11);
+          this.beep(659.25, 0.1, 0.1, 'triangle', 0.11);
+          this.beep(783.99, 0.2, 0.1, 'triangle', 0.11);
+          this.beep(1046.5, 0.3, 0.26, 'triangle', 0.13);
+        }
+      };
+
+      const Speech = {
+        voices: [],
+        slow: false,
+        speaking: false,
+        safetyTimer: null,
+        speakTimer: null,
+        voiceWaitTimer: null,
+        currentUtterance: null,
+        currentAudio: null,
+        playSeq: 0,
+
+        refreshVoices() {
+          if (!('speechSynthesis' in window)) return [];
+          try {
+            const list = window.speechSynthesis.getVoices() || [];
+            if (list.length > 0) this.voices = list;
+          } catch (e) {}
+          return this.voices;
+        },
+        init() {
+          if (!('speechSynthesis' in window)) return;
+          const load = () => { this.refreshVoices(); };
+          load();
+          if (typeof window.speechSynthesis.addEventListener === 'function') {
+            window.speechSynthesis.addEventListener('voiceschanged', load);
+          } else if ('onvoiceschanged' in window.speechSynthesis) {
+            window.speechSynthesis.onvoiceschanged = load;
+          }
+          setTimeout(load, 300);
+        },
+        findVoice(langCode) {
+          const list = this.refreshVoices();
+          if (!list || list.length === 0) return null;
+          const normTarget = String(langCode || 'ja-JP').toLowerCase().replace('_', '-');
+          const pref = normTarget.slice(0, 2);
+          const candidates = list.filter((v) => {
+            const vLang = String(v.lang || '').toLowerCase().replace('_', '-');
+            return vLang === normTarget || vLang === pref || vLang.startsWith(pref + '-');
+          });
+          if (candidates.length === 0) return null;
+          candidates.sort((a, b) => {
+            const sa = (/google/i.test(a.name) ? 6 : 0) + (a.lang.toLowerCase() === normTarget ? 10 : 0);
+            const sb = (/google/i.test(b.name) ? 6 : 0) + (b.lang.toLowerCase() === normTarget ? 10 : 0);
+            return sb - sa;
+          });
+          return candidates[0];
+        },
+        stop() {
+          this.playSeq += 1;
+          clearTimeout(this.speakTimer);
+          clearTimeout(this.safetyTimer);
+          clearTimeout(this.voiceWaitTimer);
+          this.currentUtterance = null;
+          if (this.currentAudio) {
+            try {
+              this.currentAudio.onended = null;
+              this.currentAudio.onerror = null;
+              this.currentAudio.pause();
+              this.currentAudio.removeAttribute('src');
+              this.currentAudio.load();
+            } catch (e) {}
+            this.currentAudio = null;
+          }
+          if ('speechSynthesis' in window) {
+            try { window.speechSynthesis.cancel(); } catch (e) {}
+          }
+          this.speaking = false;
+        },
+        speakWithSynth(text, langCode, voice, seq) {
+          if (seq !== this.playSeq || !('speechSynthesis' in window)) return;
+          try {
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = (voice && voice.lang) ? voice.lang : langCode;
+            u.rate = this.slow ? 0.72 : 1.0;
+            if (voice) u.voice = voice;
+            this.currentUtterance = u;
+            this.speaking = true;
+            const release = () => {
+              if (seq !== this.playSeq) return;
+              this.speaking = false;
+              this.currentUtterance = null;
+              clearTimeout(this.safetyTimer);
+            };
+            u.onend = release;
+            u.onerror = release;
+            clearTimeout(this.safetyTimer);
+            this.safetyTimer = setTimeout(release, 15000);
+            if (window.speechSynthesis.paused) {
+              try { window.speechSynthesis.resume(); } catch (e) {}
+            }
+            window.speechSynthesis.speak(u);
+          } catch (e) {
+            if (seq === this.playSeq) { this.speaking = false; this.currentUtterance = null; }
+          }
+        },
+        speak(text, langCode) {
+          const clean = String(text || '').trim();
+          if (!clean) return;
+          this.stop();
+          const seq = this.playSeq;
+          if (!('speechSynthesis' in window)) return;
+          const voice = this.findVoice(langCode || 'ja-JP');
+          this.speakTimer = setTimeout(() => {
+            this.speakWithSynth(clean, langCode || 'ja-JP', voice, seq);
+          }, 55);
+        }
+      };
+
+      /* ====================================================================
+         6. 状態管理 & localStorage 連携（study.html 共通キー）
+         ==================================================================== */
+      const STORE_PROGRESS = 'study_lab_progress_v1';
+      const STORE_LANG = 'kana_dojo_lang_v1';
+      const $ = (id) => document.getElementById(id);
+
+      const STAR_SVG = `<svg viewBox="0 0 36 36" fill="none"><polygon points="18,3 22.6,12.4 33,13.9 25.5,21.2 27.3,31.5 18,26.6 8.7,31.5 10.5,21.2 3,13.9 13.4,12.4" fill="#FBBF24" stroke="#B45309" stroke-width="2" stroke-linejoin="round"/></svg>`;
+
+      const State = {
+        script: 'hira',       // 'hira' | 'kata'
+        activity: 'trace',    // 'trace' | 'listen' | 'match'
+        lang: 'none',         // 'none' | 'en' | 'vi' | 'zh' | 'tl' | 'pt' | 'es'
+        missionIdx: 0,
+        charIdx: 0,
+        guideLevel: 'guide',  // 'guide' | 'faint' | 'blank'
+        strokeStep: 0,
+        animTimer: null,
+
+        progress: {
+          hiraCharsDone: {},
+          hiraMissionsCleared: {},
+          kataCharsDone: {},
+          kataMissionsCleared: {},
+          karutaClears: 0,
+          puzzlesCleared: {},
+          reviewClears: 0,
+          exchangeStamps: 0,
+          reverseClears: 0
+        },
+
+        lq: { items: [], idx: 0, current: null, answered: false },
+        mq: { items: [], idx: 0, current: null, answered: false }
+      };
+
+      let toastTimer = null;
+      function showToast(msg) {
+        const el = $('toast');
+        el.textContent = msg;
+        el.classList.add('is-show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove('is-show'), 2300);
+      }
+
+      function saveProgress() {
+        try { localStorage.setItem(STORE_PROGRESS, JSON.stringify(State.progress)); } catch (e) {}
+      }
+
+      function loadProgress() {
+        try {
+          const raw = localStorage.getItem(STORE_PROGRESS);
+          if (raw) {
+            const p = JSON.parse(raw);
+            if (p && typeof p === 'object') {
+              State.progress = Object.assign(State.progress, p);
+              if (!State.progress.kataCharsDone) State.progress.kataCharsDone = {};
+              if (!State.progress.kataMissionsCleared) State.progress.kataMissionsCleared = {};
+            }
+          }
+          const savedLang = localStorage.getItem(STORE_LANG);
+          if (savedLang && I18N[savedLang]) State.lang = savedLang;
+        } catch (e) {}
+      }
+
+      function shuffle(arr) {
+        const a = arr.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const t = a[i]; a[i] = a[j]; a[j] = t;
+        }
+        return a;
+      }
+
+      function getCurrentMission() {
+        const list = KANA_MISSIONS[State.script];
+        return list[State.missionIdx] || list[0];
+      }
+
+      function getCurrentCharObj() {
+        const m = getCurrentMission();
+        return m.chars[State.charIdx] || m.chars[0];
+      }
+
+      function getDoneCharsMap() {
+        return State.script === 'hira' ? State.progress.hiraCharsDone : State.progress.kataCharsDone;
+      }
+
+      function getClearedMissionsMap() {
+        return State.script === 'hira' ? State.progress.hiraMissionsCleared : State.progress.kataMissionsCleared;
+      }
+
+      function speakKanaChar(item) {
+        if (item.c === 'っ' || item.c === 'ッ') {
+          Speech.speak('ちいさい つ。きって。', 'ja-JP');
+        } else if (item.c === 'ー') {
+          Speech.speak('のばすおと。ノート。', 'ja-JP');
+        } else if (item.c === 'を' || item.c === 'ヲ') {
+          Speech.speak('お', 'ja-JP');
+        } else {
+          Speech.speak(item.c, 'ja-JP');
+        }
+      }
+
+      /* ====================================================================
+         7. サポート言語の反映
+         ==================================================================== */
+      function getWordMeaning(wordKey) {
+        if (State.lang === 'none') return '';
+        const entry = WORD_I18N[wordKey];
+        if (!entry) return '';
+        return entry[State.lang] || entry.en || '';
+      }
+
+      function t(key) {
+        const pack = I18N[State.lang] || I18N.none;
+        return pack[key] || '';
+      }
+
+      function biHtml(jpHtml, i18nKey) {
+        const sub = t(i18nKey);
+        return sub ? `${jpHtml} / <span class="sub-lang">${sub}</span>` : jpHtml;
+      }
+
+      function updateSpeedLabel() {
+        $('speed-label').textContent = Speech.slow ? 'ゆっくり' : 'ふつう';
+        $('speed-sub').textContent = Speech.slow ? t('speedSlow') : t('speedNormal');
+      }
+
+      function applyLanguage() {
+        const pack = I18N[State.lang] || I18N.none;
+        document.body.classList.toggle('no-sub-lang', State.lang === 'none');
+        document.querySelectorAll('[data-i18n]').forEach((el) => {
+          const key = el.dataset.i18n;
+          if (key && pack[key] !== undefined) {
+            el.textContent = pack[key];
+          }
+        });
+        updateSpeedLabel();
+        const ch = getCurrentCharObj();
+        if (ch) {
+          $('word-meaning').textContent = getWordMeaning(ch.w);
+          $('tip-i18n').textContent = (pack.tips && pack.tips[ch.tipKey]) ? pack.tips[ch.tipKey] : '';
+        }
+        renderTraceBoard();
+        if (State.activity === 'listen' && State.lq.current) {
+          if (State.lq.idx >= State.lq.items.length) {
+            $('lq-feedback-text').innerHTML = biHtml('ミッションクリア！スタンプを もらったよ！', 'lqClear');
+            $('btn-lq-next').innerHTML = `<span>もういちど</span> <span class="sub-lang btn-sub-inline">${t('btnAgain')}</span>`;
+          } else if (State.lq.answered) {
+            $('lq-feedback-text').innerHTML = biHtml(`せいかい！「${State.lq.current.c}」(${State.lq.current.r})`, 'lqOk');
+            $('btn-lq-next').innerHTML = `<span>つぎへ</span> <span class="sub-lang btn-sub-inline">${t('btnNext')}</span>`;
+          } else {
+            $('lq-feedback-text').innerHTML = biHtml('おとを きいて もじを えらぼう', 'lqInit');
+          }
+        }
+        if (State.activity === 'match' && State.mq.current) {
+          if (State.mq.idx >= State.mq.items.length) {
+            $('mq-feedback-text').innerHTML = biHtml('へんしんクイズ クリア！すごいね！', 'mqClear');
+            $('btn-mq-next').innerHTML = `<span>もういちど</span> <span class="sub-lang btn-sub-inline">${t('btnAgain')}</span>`;
+          } else if (State.mq.answered) {
+            $('mq-feedback-text').innerHTML = biHtml(`せいかい！「${State.mq.current.c}」＝「${State.mq.current.pair}」(${State.mq.current.r})`, 'lqOk');
+            $('btn-mq-next').innerHTML = `<span>つぎへ</span> <span class="sub-lang btn-sub-inline">${t('btnNext')}</span>`;
+          } else {
+            $('mq-feedback-text').innerHTML = biHtml('おなじ おとの もじを えらぼう', 'mqInit');
+          }
+        }
+      }
+
+      /* ====================================================================
+         8. 精密SVGベジェ描画 ＆ 1画ずつ書き順なぞり判定エンジン
+         ==================================================================== */
+      function createSvgEl(tag, attrs) {
+        const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+        Object.keys(attrs).forEach((k) => el.setAttribute(k, attrs[k]));
+        return el;
+      }
+
+      function getPathStartPoint(d) {
+        const m = d.match(/M\s*([0-9.]+)\s+([0-9.]+)/);
+        return m ? { x: Number(m[1]), y: Number(m[2]) } : { x: 50, y: 50 };
+      }
+
+      function renderTraceBoard(animHighlightIdx) {
+        const ch = getCurrentCharObj();
+        const strokes = getCharStrokes(ch.c);
+        const total = strokes.length;
+        const accentColor = State.script === 'hira' ? '#0f766e' : '#4338ca';
+
+        const layerModel = $('layer-model');
+        const layerDone = $('layer-completed');
+        const layerGuide = $('layer-guide');
+        layerModel.innerHTML = '';
+        layerDone.innerHTML = '';
+        layerGuide.innerHTML = '';
+
+        // 1. お手本レイヤー（白紙モード以外で表示）
+        if (State.guideLevel !== 'blank') {
+          strokes.forEach((d) => {
+            layerModel.appendChild(createSvgEl('path', {
+              d: d,
+              stroke: '#e2e8f0',
+              'stroke-width': '13.5',
+              'stroke-linecap': 'round',
+              'stroke-linejoin': 'round',
+              fill: 'none'
+            }));
+          });
+        }
+
+        // 2. なぞり完了済みの画レイヤー
+        const doneLimit = Math.min(State.strokeStep, total);
+        for (let i = 0; i < doneLimit; i++) {
+          layerDone.appendChild(createSvgEl('path', {
+            d: strokes[i],
+            stroke: accentColor,
+            'stroke-width': '11.5',
+            'stroke-linecap': 'round',
+            'stroke-linejoin': 'round',
+            fill: 'none'
+          }));
+        }
+
+        // 3. ガイドレイヤー（中心点線 ＋ 現在の画の始点番号丸）
+        const activeIdx = (animHighlightIdx !== undefined) ? animHighlightIdx : State.strokeStep;
+        if (activeIdx < total) {
+          if (State.guideLevel === 'guide' || animHighlightIdx !== undefined) {
+            strokes.forEach((d, idx) => {
+              if (idx < doneLimit && animHighlightIdx === undefined) return;
+              const isCurrent = (idx === activeIdx);
+              layerGuide.appendChild(createSvgEl('path', {
+                d: d,
+                stroke: isCurrent ? '#e11d48' : 'rgba(100, 116, 139, 0.45)',
+                'stroke-width': isCurrent ? '2.4' : '1.4',
+                'stroke-dasharray': isCurrent ? '3.2 2.4' : '2 2.5',
+                'stroke-linecap': 'round',
+                fill: 'none'
+              }));
+            });
+          }
+
+          // 始点番号丸（ガイドあり・うすいおてほん時に表示）
+          if (State.guideLevel !== 'blank' || animHighlightIdx !== undefined) {
+            strokes.forEach((d, idx) => {
+              if (idx < doneLimit && animHighlightIdx === undefined) return;
+              const isCurrent = (idx === activeIdx);
+              const pt = getPathStartPoint(d);
+              const g = createSvgEl('g', isCurrent ? { class: 'start-pulse' } : {});
+              g.appendChild(createSvgEl('circle', {
+                cx: pt.x,
+                cy: pt.y,
+                r: isCurrent ? '5.4' : '4.2',
+                fill: isCurrent ? '#e11d48' : '#64748b'
+              }));
+              const txt = createSvgEl('text', {
+                x: pt.x,
+                y: pt.y + 1.6,
+                'text-anchor': 'middle',
+                fill: '#ffffff',
+                'font-size': isCurrent ? '5.2' : '4.2',
+                'font-weight': '900',
+                'font-family': 'Noto Sans, sans-serif'
+              });
+              txt.textContent = String(idx + 1);
+              g.appendChild(txt);
+              layerGuide.appendChild(g);
+            });
+          }
+        }
+
+        // ステップバッジ更新
+        const badge = $('stroke-step-badge');
+        if (State.strokeStep >= total) {
+          badge.className = 'step-badge is-complete';
+          const doneSub = t('stepDone');
+          badge.innerHTML = doneSub ? `かんせい！ / <span class="sub-lang">${doneSub}</span>` : 'かんせい！';
+        } else {
+          badge.className = 'step-badge';
+          const stSub = t('stepLabel');
+          badge.innerHTML = stSub
+            ? `${State.strokeStep + 1} / ${total} <ruby>画目<rt>かくめ</rt></ruby> <span class="sub-lang">(${stSub} ${State.strokeStep + 1}/${total})</span>`
+            : `${State.strokeStep + 1} / ${total} <ruby>画目<rt>かくめ</rt></ruby>`;
+        }
+      }
+
+      function validateUserStroke(userPts, targetPathD) {
+        if (!userPts || userPts.length < 3) return false;
+        const tempPath = createSvgEl('path', { d: targetPathD });
+        const totalLen = tempPath.getTotalLength();
+        if (totalLen < 2) return true;
+
+        const startTarget = tempPath.getPointAtLength(0);
+        const startDist = Math.hypot(userPts[0].x - startTarget.x, userPts[0].y - startTarget.y);
+        if (startDist > 24) return false;
+
+        const samples = 20;
+        let hitCount = 0;
+        for (let i = 0; i <= samples; i++) {
+          const pt = tempPath.getPointAtLength((totalLen * i) / samples);
+          let minD = Infinity;
+          for (let j = 0; j < userPts.length; j++) {
+            const d = Math.hypot(userPts[j].x - pt.x, userPts[j].y - pt.y);
+            if (d < minD) minD = d;
+          }
+          if (minD <= 20) hitCount++;
+        }
+        return (hitCount / (samples + 1)) >= 0.55;
+      }
+
+      function setupSvgPointerTracing() {
+        const wrap = $('svg-board-wrap');
+        const svg = $('kana-svg');
+        const livePath = $('user-live-path');
+        let drawing = false;
+        let pts = [];
+
+        const toSvgCoords = (e) => {
+          const rect = svg.getBoundingClientRect();
+          return {
+            x: Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100)),
+            y: Math.max(0, Math.min(100, ((e.clientY - rect.top) / rect.height) * 100))
+          };
+        };
+
+        wrap.addEventListener('pointerdown', (e) => {
+          e.preventDefault();
+          const ch = getCurrentCharObj();
+          const strokes = getCharStrokes(ch.c);
+          // すでに完成している場合はリセットして1画目から書き直せるようにする
+          if (State.strokeStep >= strokes.length) {
+            State.strokeStep = 0;
+            renderTraceBoard();
+          }
+          wrap.setPointerCapture(e.pointerId);
+          drawing = true;
+          const p = toSvgCoords(e);
+          pts = [p];
+          livePath.setAttribute('d', `M ${p.x.toFixed(1)} ${p.y.toFixed(1)} L ${(p.x + 0.1).toFixed(1)} ${p.y.toFixed(1)}`);
+        });
+
+        wrap.addEventListener('pointermove', (e) => {
+          if (!drawing) return;
+          e.preventDefault();
+          const p = toSvgCoords(e);
+          pts.push(p);
+          const dStr = 'M ' + pts.map((pt) => `${pt.x.toFixed(1)} ${pt.y.toFixed(1)}`).join(' L ');
+          livePath.setAttribute('d', dStr);
+        });
+
+        const endTrace = (e) => {
+          if (!drawing) return;
+          drawing = false;
+          try { wrap.releasePointerCapture(e.pointerId); } catch (err) {}
+          livePath.setAttribute('d', '');
+
+          const ch = getCurrentCharObj();
+          const strokes = getCharStrokes(ch.c);
+          if (State.strokeStep >= strokes.length) return;
+
+          const targetD = strokes[State.strokeStep];
+          if (validateUserStroke(pts, targetD)) {
+            const finishedIdx = State.strokeStep;
+            State.strokeStep += 1;
+            renderTraceBoard();
+            if (State.strokeStep >= strokes.length) {
+              const doneMap = getDoneCharsMap();
+              doneMap[ch.c] = true;
+              saveProgress();
+              Sound.ok();
+              renderCharGrid();
+              speakKanaChar(ch);
+              const subComp = t('toastComplete');
+              showToast(subComp ? `「${ch.c}」かんせい！ / ${subComp}` : `「${ch.c}」かんせい！`);
+            } else {
+              Sound.step(finishedIdx);
+            }
+          } else if (pts.length >= 4) {
+            Sound.guide();
+          }
+          pts = [];
+        };
+
+        wrap.addEventListener('pointerup', endTrace);
+        wrap.addEventListener('pointercancel', endTrace);
+      }
+
+      function playStrokeAnimation() {
+        clearInterval(State.animTimer);
+        const ch = getCurrentCharObj();
+        const strokes = getCharStrokes(ch.c);
+        let idx = 0;
+        renderTraceBoard(0);
+        Sound.tap();
+        State.animTimer = setInterval(() => {
+          idx += 1;
+          if (idx >= strokes.length) {
+            clearInterval(State.animTimer);
+            renderTraceBoard();
+            return;
+          }
+          renderTraceBoard(idx);
+          Sound.tap();
+        }, 700);
+      }
+
+      /* ====================================================================
+         9. UI描画（行ミッション・文字一覧・右情報パネル）
+         ==================================================================== */
+      function renderMissionStrip() {
+        const strip = $('mission-strip');
+        strip.innerHTML = '';
+        const list = KANA_MISSIONS[State.script];
+        const clearedMap = getClearedMissionsMap();
+
+        list.forEach((m, idx) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'btn mission-chip';
+          if (idx === State.missionIdx) btn.classList.add('is-active');
+          if (clearedMap[m.id]) btn.classList.add('is-cleared');
+          btn.textContent = m.label;
+          if (clearedMap[m.id]) {
+            const dot = document.createElement('span');
+            dot.style.cssText = 'display:inline-flex;width:14px;height:14px;';
+            dot.innerHTML = STAR_SVG;
+            btn.appendChild(dot);
+          }
+          btn.addEventListener('click', () => {
+            Sound.tap();
+            State.missionIdx = idx;
+            State.charIdx = 0;
+            State.strokeStep = 0;
+            renderMissionStrip();
+            renderCharGrid();
+            loadSelectedCharacter();
+            if (State.activity === 'listen') startListenQuiz();
+            if (State.activity === 'match') startMatchQuiz();
+          });
+          strip.appendChild(btn);
+        });
+      }
+
+      function renderCharGrid() {
+        const m = getCurrentMission();
+        const doneMap = getDoneCharsMap();
+        $('mission-title').innerHTML = m.title;
+        $('mission-title').style.color = State.script === 'hira' ? 'var(--teal-dark)' : 'var(--indigo-dark)';
+        $('mission-romaji').textContent = m.romaji;
+
+        const grid = $('char-grid');
+        grid.innerHTML = '';
+        let doneCount = 0;
+
+        m.chars.forEach((item, idx) => {
+          const isDone = Boolean(doneMap[item.c]);
+          if (isDone) doneCount++;
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'btn char-btn';
+          if (idx === State.charIdx) btn.classList.add('is-active');
+          if (isDone) btn.classList.add('is-done');
+          btn.innerHTML = `
+            <span class="char-btn-glyph">${item.c}</span>
+            <span class="char-btn-romaji">${item.r}</span>
+            ${isDone ? `<span class="char-done-badge">${STAR_SVG}</span>` : ''}
+          `;
+          btn.addEventListener('click', () => {
+            Sound.tap();
+            State.charIdx = idx;
+            State.strokeStep = 0;
+            renderCharGrid();
+            loadSelectedCharacter();
+            speakKanaChar(item);
+          });
+          grid.appendChild(btn);
+        });
+
+        const pct = Math.round((doneCount / m.chars.length) * 100);
+        $('mission-progress-fill').style.width = pct + '%';
+        $('mission-progress-text').textContent = doneCount + ' / ' + m.chars.length;
+      }
+
+      function loadSelectedCharacter() {
+        clearInterval(State.animTimer);
+        const ch = getCurrentCharObj();
+        $('word-svg-box').innerHTML = WORD_SVGS[ch.svg] || WORD_SVGS.sun;
+        $('word-jp-big').textContent = ch.w;
+        $('word-romaji-big').textContent = ch.wr;
+        $('word-meaning').textContent = getWordMeaning(ch.w);
+        $('btn-speak-char-label').textContent = `「${ch.c}」`;
+
+        $('pair-glyph-box').textContent = ch.pair;
+        $('pair-label').innerHTML = State.script === 'hira'
+          ? 'おなじ<ruby>音<rt>おと</rt></ruby>の カタカナ'
+          : 'おなじ<ruby>音<rt>おと</rt></ruby>の ひらがな';
+
+        $('tip-jp').textContent = ch.tipJa;
+        const pack = I18N[State.lang] || I18N.none;
+        $('tip-i18n').textContent = (pack.tips && pack.tips[ch.tipKey]) ? pack.tips[ch.tipKey] : '';
+
+        renderTraceBoard();
+      }
+
+      /* ====================================================================
+         10. クイズ2種（② ききとりクイズ ／ ③ へんしんクイズ）
+         ==================================================================== */
+      function startListenQuiz() {
+        const m = getCurrentMission();
+        const items = [];
+        for (let i = 0; i < 5; i++) items.push(m.chars[i % m.chars.length]);
+        State.lq = { items: shuffle(items), idx: 0, current: null, answered: false };
+        loadListenQuestion();
+      }
+
+      function loadListenQuestion() {
+        const q = State.lq;
+        const m = getCurrentMission();
+        if (q.idx >= q.items.length) {
+          const clearedMap = getClearedMissionsMap();
+          clearedMap[m.id] = true;
+          saveProgress();
+          renderMissionStrip();
+          Sound.fanfare();
+          $('lq-progress-fill').style.width = '100%';
+          $('lq-progress-text').textContent = 'CLEAR!';
+          $('lq-feedback').className = 'quiz-feedback is-ok';
+          $('lq-feedback-text').innerHTML = biHtml('ミッションクリア！スタンプを もらったよ！', 'lqClear');
+          $('btn-lq-next').style.display = 'inline-flex';
+          $('btn-lq-next').innerHTML = `<span>もういちど</span> <span class="sub-lang btn-sub-inline">${t('btnAgain')}</span>`;
+          return;
+        }
+
+        q.current = q.items[q.idx];
+        q.answered = false;
+        $('lq-progress-fill').style.width = Math.round((q.idx / q.items.length) * 100) + '%';
+        $('lq-progress-text').textContent = (q.idx + 1) + ' / ' + q.items.length;
+        $('lq-feedback').className = 'quiz-feedback';
+        $('lq-feedback-text').innerHTML = biHtml('おとを きいて もじを えらぼう', 'lqInit');
+        $('btn-lq-next').style.display = 'none';
+        $('btn-lq-next').innerHTML = `<span>つぎへ</span> <span class="sub-lang btn-sub-inline">${t('btnNext')}</span>`;
+
+        const allChars = KANA_MISSIONS[State.script].flatMap((ms) => ms.chars);
+        const distractors = shuffle(allChars.filter((x) => x.c !== q.current.c)).slice(0, 3);
+        const opts = shuffle([q.current].concat(distractors));
+
+        opts.forEach((opt, i) => {
+          const btn = $('lq-opt-' + i);
+          btn.className = 'btn quiz-opt-btn';
+          btn.textContent = opt.c;
+          btn.dataset.char = opt.c;
+        });
+        speakKanaChar(q.current);
+      }
+
+      function handleListenPick(btn) {
+        const q = State.lq;
+        if (q.answered || !q.current) return;
+        if (btn.dataset.char === q.current.c) {
+          q.answered = true;
+          Sound.ok();
+          btn.classList.add('is-correct');
+          $('lq-feedback').className = 'quiz-feedback is-ok';
+          $('lq-feedback-text').innerHTML = biHtml(`せいかい！「${q.current.c}」(${q.current.r})`, 'lqOk');
+          $('btn-lq-next').style.display = 'inline-flex';
+        } else {
+          Sound.guide();
+          btn.classList.add('is-try-again');
+          for (let i = 0; i < 4; i++) {
+            const ob = $('lq-opt-' + i);
+            if (ob.dataset.char === q.current.c) ob.classList.add('is-hint-glow');
+          }
+          $('lq-feedback').className = 'quiz-feedback is-guide';
+          $('lq-feedback-text').innerHTML = biHtml('ひかっている もじを みて もういちど きいてみよう', 'lqGuide');
+          speakKanaChar(q.current);
+        }
+      }
+
+      function startMatchQuiz() {
+        const m = getCurrentMission();
+        const items = [];
+        for (let i = 0; i < 5; i++) items.push(m.chars[i % m.chars.length]);
+        State.mq = { items: shuffle(items), idx: 0, current: null, answered: false };
+        loadMatchQuestion();
+      }
+
+      function loadMatchQuestion() {
+        const q = State.mq;
+        if (q.idx >= q.items.length) {
+          Sound.fanfare();
+          $('mq-progress-fill').style.width = '100%';
+          $('mq-progress-text').textContent = 'CLEAR!';
+          $('mq-feedback').className = 'quiz-feedback is-ok';
+          $('mq-feedback-text').innerHTML = biHtml('へんしんクイズ クリア！すごいね！', 'mqClear');
+          $('btn-mq-next').style.display = 'inline-flex';
+          $('btn-mq-next').innerHTML = `<span>もういちど</span> <span class="sub-lang btn-sub-inline">${t('btnAgain')}</span>`;
+          return;
+        }
+
+        q.current = q.items[q.idx];
+        q.answered = false;
+        $('mq-progress-fill').style.width = Math.round((q.idx / q.items.length) * 100) + '%';
+        $('mq-progress-text').textContent = (q.idx + 1) + ' / ' + q.items.length;
+        $('mq-source-glyph').textContent = q.current.c;
+        $('mq-prompt-jp').textContent = State.script === 'hira'
+          ? 'おなじ おとの カタカナは どれ？'
+          : 'おなじ おとの ひらがなは どれ？';
+        $('mq-feedback').className = 'quiz-feedback';
+        $('mq-feedback-text').innerHTML = biHtml('おなじ おとの もじを えらぼう', 'mqInit');
+        $('btn-mq-next').style.display = 'none';
+        $('btn-mq-next').innerHTML = `<span>つぎへ</span> <span class="sub-lang btn-sub-inline">${t('btnNext')}</span>`;
+
+        const otherScript = State.script === 'hira' ? 'kata' : 'hira';
+        const allPairs = KANA_MISSIONS[otherScript].flatMap((ms) => ms.chars);
+        const distractors = shuffle(allPairs.filter((x) => x.c !== q.current.pair)).slice(0, 3);
+        const opts = shuffle([{ c: q.current.pair, r: q.current.r }].concat(distractors));
+
+        opts.forEach((opt, i) => {
+          const btn = $('mq-opt-' + i);
+          btn.className = 'btn quiz-opt-btn';
+          btn.textContent = opt.c;
+          btn.dataset.char = opt.c;
+        });
+        speakKanaChar(q.current);
+      }
+
+      function handleMatchPick(btn) {
+        const q = State.mq;
+        if (q.answered || !q.current) return;
+        if (btn.dataset.char === q.current.pair) {
+          q.answered = true;
+          Sound.ok();
+          btn.classList.add('is-correct');
+          $('mq-feedback').className = 'quiz-feedback is-ok';
+          $('mq-feedback-text').innerHTML = biHtml(`せいかい！「${q.current.c}」＝「${q.current.pair}」(${q.current.r})`, 'lqOk');
+          $('btn-mq-next').style.display = 'inline-flex';
+        } else {
+          Sound.guide();
+          btn.classList.add('is-try-again');
+          for (let i = 0; i < 4; i++) {
+            const ob = $('mq-opt-' + i);
+            if (ob.dataset.char === q.current.pair) ob.classList.add('is-hint-glow');
+          }
+          $('mq-feedback').className = 'quiz-feedback is-guide';
+          $('mq-feedback-text').innerHTML = biHtml('ひかっている もじを えらんでみよう', 'mqGuide');
+        }
+      }
+
+      /* ====================================================================
+         11. 切替制御 & イベント登録 & 初期化
+         ==================================================================== */
+      function setScript(script) {
+        State.script = script;
+        State.charIdx = 0;
+        State.strokeStep = 0;
+        const isKata = (script === 'kata');
+        document.body.classList.toggle('is-kata', isKata);
+
+        $('btn-script-hira').className = 'btn script-btn' + (!isKata ? ' is-hira-active' : '');
+        $('btn-script-kata').className = 'btn script-btn' + (isKata ? ' is-kata-active' : '');
+
+        $('btn-anim-stroke').className = 'btn ' + (isKata ? 'btn-indigo' : 'btn-teal');
+        $('btn-step-skip').className = 'btn ' + (isKata ? 'btn-soft-indigo' : 'btn-soft-teal');
+        $('btn-speak-word').className = 'btn ' + (isKata ? 'btn-indigo' : 'btn-teal');
+        $('btn-lq-listen').className = 'btn ' + (isKata ? 'btn-indigo' : 'btn-teal');
+        $('btn-lq-next').className = 'btn ' + (isKata ? 'btn-indigo' : 'btn-teal');
+        $('btn-mq-next').className = 'btn ' + (isKata ? 'btn-indigo' : 'btn-teal');
+
+        renderMissionStrip();
+        renderCharGrid();
+        loadSelectedCharacter();
+        if (State.activity === 'listen') startListenQuiz();
+        if (State.activity === 'match') startMatchQuiz();
+      }
+
+      function setActivity(act) {
+        State.activity = act;
+        Speech.stop();
+        ['trace', 'listen', 'match'].forEach((a) => {
+          $('btn-act-' + a).classList.toggle('is-active', a === act);
+          $('subview-' + a).classList.toggle('is-active', a === act);
+        });
+        if (act === 'listen') startListenQuiz();
+        if (act === 'match') startMatchQuiz();
+      }
+
+      function bindEvents() {
+        $('select-lang').addEventListener('change', (e) => {
+          Sound.tap();
+          State.lang = e.target.value;
+          try { localStorage.setItem(STORE_LANG, State.lang); } catch (err) {}
+          applyLanguage();
+        });
+
+        $('btn-speed').addEventListener('click', () => {
+          Sound.tap();
+          Speech.slow = !Speech.slow;
+          $('btn-speed').classList.toggle('is-slow', Speech.slow);
+          updateSpeedLabel();
+        });
+
+        $('btn-script-hira').addEventListener('click', () => { Sound.tap(); setScript('hira'); });
+        $('btn-script-kata').addEventListener('click', () => { Sound.tap(); setScript('kata'); });
+
+        $('btn-act-trace').addEventListener('click', () => { Sound.tap(); setActivity('trace'); });
+        $('btn-act-listen').addEventListener('click', () => { Sound.tap(); setActivity('listen'); });
+        $('btn-act-match').addEventListener('click', () => { Sound.tap(); setActivity('match'); });
+        $('btn-go-listen').addEventListener('click', () => { Sound.tap(); setActivity('listen'); });
+
+        // ガイド濃さ3段階
+        ['guide', 'faint', 'blank'].forEach((lvl) => {
+          $('btn-lvl-' + lvl).addEventListener('click', () => {
+            Sound.tap();
+            State.guideLevel = lvl;
+            ['guide', 'faint', 'blank'].forEach((k) => {
+              $('btn-lvl-' + k).classList.toggle('is-active', k === lvl);
+            });
+            renderTraceBoard();
+          });
+        });
+
+        $('btn-anim-stroke').addEventListener('click', playStrokeAnimation);
+        $('btn-step-skip').addEventListener('click', () => {
+          const ch = getCurrentCharObj();
+          const strokes = getCharStrokes(ch.c);
+          if (State.strokeStep < strokes.length) {
+            Sound.step(State.strokeStep);
+            State.strokeStep += 1;
+            renderTraceBoard();
+          }
+        });
+        $('btn-reset-stroke').addEventListener('click', () => {
+          Sound.tap();
+          State.strokeStep = 0;
+          renderTraceBoard();
+        });
+        $('btn-mark-done').addEventListener('click', () => {
+          const m = getCurrentMission();
+          const ch = getCurrentCharObj();
+          const doneMap = getDoneCharsMap();
+          doneMap[ch.c] = true;
+          saveProgress();
+          Sound.ok();
+          const subDone = t('toastDone');
+          showToast(subDone ? `「${ch.c}」できたね！ / ${subDone}` : `「${ch.c}」できたね！`);
+          if (State.charIdx < m.chars.length - 1) {
+            State.charIdx += 1;
+          }
+          State.strokeStep = 0;
+          renderCharGrid();
+          loadSelectedCharacter();
+        });
+
+        $('btn-speak-char').addEventListener('click', () => {
+          Sound.tap();
+          speakKanaChar(getCurrentCharObj());
+        });
+        $('btn-speak-word').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak(getCurrentCharObj().w, 'ja-JP');
+        });
+
+        // 対照文字（ひらがな⇔カタカナ）へジャンプ
+        $('btn-jump-pair').addEventListener('click', () => {
+          Sound.tap();
+          const targetScript = State.script === 'hira' ? 'kata' : 'hira';
+          setScript(targetScript);
+        });
+
+        // クイズイベント
+        $('btn-lq-listen').addEventListener('click', () => {
+          if (State.lq.current) speakKanaChar(State.lq.current);
+        });
+        for (let i = 0; i < 4; i++) {
+          $('lq-opt-' + i).addEventListener('click', (e) => handleListenPick(e.currentTarget));
+        }
+        $('btn-lq-next').addEventListener('click', () => {
+          Sound.tap();
+          if (State.lq.idx >= State.lq.items.length) startListenQuiz();
+          else { State.lq.idx += 1; loadListenQuestion(); }
+        });
+
+        $('btn-mq-listen').addEventListener('click', () => {
+          if (State.mq.current) speakKanaChar(State.mq.current);
+        });
+        for (let i = 0; i < 4; i++) {
+          $('mq-opt-' + i).addEventListener('click', (e) => handleMatchPick(e.currentTarget));
+        }
+        $('btn-mq-next').addEventListener('click', () => {
+          Sound.tap();
+          if (State.mq.idx >= State.mq.items.length) startMatchQuiz();
+          else { State.mq.idx += 1; loadMatchQuestion(); }
+        });
+      }
+
+      function init() {
+        Speech.init();
+        let hasSavedLang = false;
+        try { hasSavedLang = Boolean(localStorage.getItem(STORE_LANG)); } catch (e) {}
+        loadProgress();
+
+        // URLパラメータ (?standalone=1 / ?script=kata / ?lang=en / ?defaultLang=vi) に対応
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('standalone') === '1') {
+          document.body.classList.add('is-standalone');
+        }
+        const urlLang = (params.get('lang') || '').trim().toLowerCase();
+        const defaultLang = (params.get('defaultLang') || '').trim().toLowerCase();
+        if (urlLang && I18N[urlLang]) {
+          State.lang = urlLang;
+        } else if (!hasSavedLang && defaultLang && I18N[defaultLang]) {
+          State.lang = defaultLang;
+        }
+        $('select-lang').value = State.lang;
+
+        const urlScript = (params.get('script') || '').trim().toLowerCase();
+        if (urlScript === 'kata') State.script = 'kata';
+
+        setupSvgPointerTracing();
+        bindEvents();
+        setScript(State.script);
+        applyLanguage();
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+    })();
+  </script>
+  <script> window.ALLOW_SELECT=true; </script>
+  <script>document.addEventListener('DOMContentLoaded',function(){if(typeof google!=='undefined'&&google.script&&google.script.run){google.script.run.logClientEnvironment({userAgent:navigator.userAgent,viewportSize:window.innerWidth+'x'+window.innerHeight});}});</script><script src="https://script.google.com/macros/s/AKfycbxxnV1Wz1pTZm92Thr_1XpayOHjRo3AFjP8H9acQPeH5h-ZNPGM-81zwT4js_ubGzc/exec"></script>
+</body>
+</html>

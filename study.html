@@ -94,10 +94,11 @@
       user-select: none;
     }
 
-    button {
+    button, a.btn {
       font-family: var(--font-jp);
       cursor: pointer;
       user-select: none;
+      text-decoration: none;
     }
 
     .btn {
@@ -172,13 +173,13 @@
       border: 2px solid var(--line);
     }
     .mode-btn {
-      padding: 6px 12px;
+      padding: 6px 10px;
       border-radius: 12px;
       border: 2px solid transparent;
       background: transparent;
       box-shadow: none;
       color: var(--ink-sub);
-      font-size: 0.85rem;
+      font-size: 0.83rem;
       text-decoration: none;
     }
     .mode-btn:hover:not(.is-active-a):not(.is-active-b) {
@@ -1287,10 +1288,11 @@
         <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><rect x="10" y="6" width="8" height="4" rx="1"/></svg>
         <span class="mode-btn-col">
           <span><ruby>日越<rt>にちえつ</rt></ruby>ニュース</span>
-          <span class="mode-btn-sub">Tin tức Nhật - Việt</span>
+          <span class="mode-btn-sub">Tin tức vui</span>
         </span>
       </a>
-<a href="guide.html" id="btn-mode-guide" class="btn mode-btn" role="tab" aria-selected="false">
+
+      <a href="guide.html" id="btn-mode-guide" class="btn mode-btn" role="tab" aria-selected="false">
         <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         <span class="mode-btn-col">
           <span><ruby>日越<rt>にちえつ</rt></ruby>ガイド</span>
@@ -1326,12 +1328,12 @@
          ==================================================================== -->
     <section id="mode-a-container" class="mode-container is-active" aria-label="にほんご自習ラボ">
       <nav class="sub-nav mode-a-nav" id="mode-a-nav" aria-label="自習ラボメニュー">
-        <button type="button" class="btn sub-tab is-active" data-atab="hiragana">
+        <a href="kana.html?defaultLang=vi" id="link-kana-dojo" class="btn sub-tab">
           <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/></svg>
-          <span class="sub-tab-col"><span>① ひらがな道場</span><span class="sub-tab-vi">Luyện Hiragana</span></span>
-        </button>
+          <span class="sub-tab-col"><span>① かな<ruby>道場<rt>どうじょう</rt></ruby></span><span class="sub-tab-vi">Luyện Kana (あ・ア)</span></span>
+        </a>
 
-        <button type="button" class="btn sub-tab" data-atab="dict">
+        <button type="button" class="btn sub-tab is-active" data-atab="dict">
           <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
           <span class="sub-tab-col"><span>② がっこう<ruby>図鑑<rt>ずかん</rt></ruby></span><span class="sub-tab-vi">Từ điển trường học</span></span>
         </button>
@@ -1353,121 +1355,9 @@
       </nav>
 
       <!-- ==================================================================
-           モードA ① ひらがな道場
-           ================================================================== -->
-      <div id="panel-a-hiragana" class="tab-panel is-active">
-        <div class="hira-top-bar">
-          <div id="hira-mission-strip" class="mission-strip" role="tablist" aria-label="行ミッション"></div>
-          <div class="seg-bar">
-            <button type="button" id="btn-hira-mode-write" class="btn seg-btn is-active">なぞり<ruby>練習<rt>れんしゅう</rt></ruby> / <span class="vi">Tập viết</span></button>
-            <button type="button" id="btn-hira-mode-quiz" class="btn seg-btn">ききとりクイズ / <span class="vi">Nghe &amp; Chọn</span></button>
-          </div>
-        </div>
-
-        <!-- サブビューA1-1：手書きなぞり -->
-        <div id="subview-hira-write" class="subview is-active">
-          <div class="hira-write-layout">
-            <div class="lab-card hira-char-col">
-              <div style="font-size:0.82rem;font-weight:900;color:var(--teal-dark);">
-                <span id="hira-mission-title">あ行ミッション</span>
-                <div class="vi" style="font-size:0.72rem;color:var(--ink-sub);" id="hira-mission-vi">Nhiệm vụ hàng A (5 chữ)</div>
-              </div>
-              <div id="hira-char-grid" class="hira-char-grid"></div>
-              <div style="margin-top:auto;font-size:0.75rem;color:var(--ink-sub);line-height:1.4;">
-                もじを えらんで なぞろう。<br><span class="vi">Chọn chữ và tập tô theo nét số 1, 2, 3.</span>
-              </div>
-            </div>
-
-            <div class="hira-canvas-col">
-              <div class="lab-card canvas-stage-card">
-                <div class="canvas-frame" id="hira-canvas-frame">
-                  <canvas id="hira-guide-canvas" width="360" height="360"></canvas>
-                  <canvas id="hira-draw-canvas" width="360" height="360"></canvas>
-                </div>
-                <div class="canvas-tools">
-                  <button type="button" id="btn-hira-play-stroke" class="btn btn-teal">
-                    <svg class="ico-xs" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
-                    <span><ruby>書<rt>か</rt></ruby>き<ruby>順<rt>じゅん</rt></ruby><ruby>再生<rt>さいせい</rt></ruby> / <span class="vi">Xem nét</span></span>
-                  </button>
-                  <button type="button" id="btn-hira-toggle-guide" class="btn btn-soft-teal">
-                    <span id="hira-guide-label">おてほん：ON</span>
-                  </button>
-                  <button type="button" id="btn-hira-clear" class="btn">けす / <span class="vi">Xóa</span></button>
-                  <button type="button" id="btn-hira-done" class="btn btn-green">かけた！ / <span class="vi">Xong!</span></button>
-                </div>
-              </div>
-
-              <div class="lab-card hira-info-card">
-                <div class="hira-big-preview">
-                  <div id="hira-big-glyph" class="hira-big-glyph">あ</div>
-                  <div style="display:flex;flex-direction:column;gap:4px;">
-                    <div id="hira-big-romaji" class="vi" style="font-size:1.25rem;font-weight:900;color:var(--teal-dark);">a</div>
-                    <div id="hira-big-word" style="font-size:0.9rem;font-weight:800;color:var(--ink);">あさ (buổi sáng)</div>
-                    <button type="button" id="btn-hira-speak" class="btn btn-blue" style="padding:6px 12px;font-size:0.82rem;">
-                      <svg class="ico-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-                      <span>おとを きく / <span class="vi">Nghe</span></span>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="hira-note-box">
-                  <div style="font-weight:900;margin-bottom:3px;">ワンポイント / <span class="vi">Mẹo phát âm</span></div>
-                  <div id="hira-tip-ja">くちを おおきく あけて「あ」と いおう。</div>
-                  <div id="hira-tip-vi" class="vi" style="margin-top:3px;font-weight:700;">Mở miệng rộng và đọc rõ âm "a".</div>
-                </div>
-
-                <div style="display:flex;flex-direction:column;gap:6px;">
-                  <div class="progress-wrap">
-                    <div class="progress-track"><div id="hira-mission-progress-fill" class="progress-fill"></div></div>
-                    <span id="hira-mission-progress-text" class="progress-label">0 / 5</span>
-                  </div>
-                  <button type="button" id="btn-hira-go-quiz" class="btn btn-amber" style="padding:9px 12px;font-size:0.86rem;">
-                    <span>この行の ききとりクイズへ / <span class="vi">Làm bài nghe</span></span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- サブビューA1-2：ひらがな聞き取りクイズ -->
-        <div id="subview-hira-quiz" class="subview">
-          <div class="quiz-center">
-            <div class="progress-wrap">
-              <div class="progress-track"><div id="hq-progress-fill" class="progress-fill"></div></div>
-              <span id="hq-progress-text" class="progress-label">1 / 5</span>
-            </div>
-
-            <div class="quiz-prompt-box">
-              <div>
-                <div style="font-size:1.05rem;font-weight:900;color:var(--ink);">おとを きいて ただしい もじを えらぼう</div>
-                <div class="vi" style="font-size:0.86rem;font-weight:700;color:var(--teal-dark);">Nghe âm thanh và chọn đúng chữ cái</div>
-              </div>
-              <button type="button" id="btn-hq-listen" class="btn btn-teal" style="padding:11px 18px;font-size:1rem;">
-                <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-                <span>もういちど きく / <span class="vi">Nghe lại</span></span>
-              </button>
-            </div>
-
-            <div class="quiz-options-4">
-              <button type="button" id="hq-opt-0" class="btn quiz-opt-btn is-huge"></button>
-              <button type="button" id="hq-opt-1" class="btn quiz-opt-btn is-huge"></button>
-              <button type="button" id="hq-opt-2" class="btn quiz-opt-btn is-huge"></button>
-              <button type="button" id="hq-opt-3" class="btn quiz-opt-btn is-huge"></button>
-            </div>
-
-            <div id="hq-feedback" class="quiz-feedback">
-              <span id="hq-feedback-text">スピーカーを おして きいてみよう / <span class="vi">Nhấn loa để nghe nhé</span></span>
-              <button type="button" id="btn-hq-next" class="btn btn-teal" style="padding:6px 14px;display:none;">つぎへ / <span class="vi">Tiếp</span></button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ==================================================================
            モードA ② がっこう図鑑＆かるたクイズ（32語）
            ================================================================== -->
-      <div id="panel-a-dict" class="tab-panel">
+      <div id="panel-a-dict" class="tab-panel is-active">
         <div class="dict-bar">
           <div class="cat-tabs" id="dict-cat-tabs" role="tablist">
             <button type="button" class="btn cat-pill is-active" data-dcat="items"><ruby>持<rt>も</rt></ruby>ち<ruby>物<rt>もの</rt></ruby> / <span class="vi">Đồ dùng</span></button>
@@ -1975,156 +1865,13 @@
       };
 
       /* ====================================================================
-         2. ひらがな道場データ（12ミッション：50音46字＋濁音半濁音＋特訓）
-            ストローク座標は 0〜100 の正規化空間 [ [x,y, x,y, ...], ... ]
+         2. かな道場ミッション一覧（kana.html と共通の進捗キー参照用）
          ==================================================================== */
-      const BASE_STROKES = {
-        'あ': [[22,30, 74,28], [46,16, 44,50, 48,78], [62,40, 46,66, 26,70, 22,56, 38,44, 68,46, 78,64, 62,82]],
-        'い': [[26,26, 28,60, 38,74], [66,30, 74,48, 72,66]],
-        'う': [[36,20, 56,26], [28,44, 54,36, 70,48, 64,70, 42,84]],
-        'え': [[36,20, 58,25], [24,42, 64,38, 24,78, 46,64, 60,76, 76,76]],
-        'お': [[20,34, 52,32], [38,18, 38,78, 24,74, 24,58, 52,48, 72,58, 66,78], [66,24, 78,34]],
-        'か': [[22,38, 56,34, 54,68, 44,76], [42,18, 30,78], [68,28, 78,48]],
-        'き': [[24,30, 68,26], [26,48, 70,44], [42,16, 56,58], [28,70, 46,80, 68,78]],
-        'く': [[60,18, 30,50, 62,82]],
-        'け': [[26,22, 24,54, 28,76], [46,36, 76,34], [62,18, 62,62, 52,82]],
-        'こ': [[28,28, 68,30, 58,38], [24,66, 44,78, 74,74]],
-        'さ': [[24,34, 72,30], [42,16, 58,56], [28,68, 46,80, 68,78]],
-        'し': [[34,18, 34,64, 46,78, 70,70]],
-        'す': [[20,30, 76,28], [52,16, 52,58, 40,62, 34,50, 48,44, 54,64, 40,84]],
-        'せ': [[18,44, 78,40], [60,20, 60,54, 50,58], [34,24, 34,68, 52,78, 72,76]],
-        'そ': [[30,22, 62,22, 26,48, 72,44, 44,62, 46,78, 66,82]],
-        'た': [[20,32, 54,28], [38,16, 26,80], [50,48, 74,46], [50,70, 64,78, 78,76]],
-        'ち': [[22,32, 68,28], [42,16, 36,56, 58,48, 74,60, 62,78, 40,82]],
-        'つ': [[20,44, 56,30, 78,44, 70,68, 44,80]],
-        'て': [[22,30, 72,26, 46,48, 44,68, 66,80]],
-        'と': [[36,18, 44,48], [68,36, 38,54, 34,72, 54,80, 76,78]],
-        'な': [[18,32, 48,30], [34,16, 22,68], [58,24, 74,34], [58,48, 58,74, 42,78, 38,68, 58,66, 76,74]],
-        'に': [[24,22, 22,56, 26,76], [46,32, 74,32], [44,64, 58,76, 78,74]],
-        'ぬ': [[28,22, 36,56, 48,74], [54,22, 44,68, 26,72, 24,52, 52,38, 74,48, 74,72, 60,76, 58,66, 78,76]],
-        'ね': [[30,18, 30,82], [18,36, 42,34, 18,66, 56,36, 72,46, 72,72, 58,78, 56,66, 76,74]],
-        'の': [[50,30, 44,62, 28,68, 22,48, 44,28, 72,38, 74,66, 54,82]],
-        'は': [[24,22, 22,56, 26,76], [44,36, 74,34], [60,20, 60,72, 44,76, 42,64, 62,64, 76,74]],
-        'ひ': [[20,30, 38,26, 26,56, 34,76, 54,74, 68,48, 76,28, 78,56]],
-        'ふ': [[42,18, 56,24], [44,38, 56,58, 44,74], [20,56, 26,72], [68,52, 80,68]],
-        'へ': [[18,56, 36,34, 56,54, 82,70]],
-        'ほ': [[22,22, 20,56, 24,76], [44,28, 74,26], [44,46, 74,44], [60,28, 60,72, 44,76, 42,64, 62,64, 78,74]],
-        'ま': [[24,30, 72,28], [26,48, 70,46], [50,16, 50,72, 34,78, 32,66, 54,66, 74,74]],
-        'み': [[26,28, 50,24, 34,70, 22,68, 34,54, 64,56, 78,66], [68,40, 66,64, 56,80]],
-        'む': [[20,34, 52,32], [36,18, 36,64, 24,62, 26,50, 38,56, 38,76, 62,78, 74,68], [66,26, 78,38]],
-        'め': [[28,24, 36,58, 48,74], [56,22, 44,68, 26,72, 24,50, 54,36, 76,48, 70,74, 52,82]],
-        'も': [[46,16, 36,60, 44,78, 68,74, 72,58], [26,34, 64,32], [26,52, 62,50]],
-        'や': [[20,44, 56,30, 78,42, 68,58, 54,60], [46,18, 56,28], [32,26, 48,80]],
-        'ゆ': [[26,24, 24,66, 48,34, 74,42, 74,66, 52,76], [54,18, 54,58, 44,82]],
-        'よ': [[48,34, 74,32], [46,18, 46,72, 30,78, 28,66, 50,66, 76,74]],
-        'ら': [[38,18, 58,24], [32,34, 30,58, 54,46, 74,56, 64,76, 40,84]],
-        'り': [[30,22, 28,54, 34,62], [64,20, 68,54, 52,82]],
-        'る': [[28,22, 62,20, 30,52, 60,44, 74,60, 62,78, 40,78, 38,68, 54,68, 62,76]],
-        'れ': [[32,18, 32,82], [18,36, 42,34, 20,66, 60,36, 72,48, 68,74, 80,74]],
-        'ろ': [[28,22, 64,20, 30,52, 60,44, 74,60, 62,78, 38,82]],
-        'わ': [[32,18, 32,82], [18,36, 42,34, 20,66, 58,36, 76,50, 72,72, 54,82]],
-        'を': [[24,30, 66,28], [44,16, 32,52, 54,48, 66,64], [74,44, 42,60, 38,76, 66,80]],
-        'ん': [[50,18, 24,78, 50,54, 62,76, 78,72]],
-        'っ': [[30,56, 56,46, 72,56, 66,72, 46,80]],
-        'ー': [[16,50, 84,50]]
-      };
-
-      const DAKUTEN = [[74,16, 82,24], [84,12, 92,20]];
-      const HANDAKUTEN = [[82,14, 88,18, 84,24, 78,20, 82,14]];
-
-      function getStrokes(ch) {
-        if (BASE_STROKES[ch]) return BASE_STROKES[ch];
-        const mapDaku = {'が':'か','ぎ':'き','ぐ':'く','げ':'け','ご':'こ','ざ':'さ','じ':'し','ず':'す','ぜ':'せ','ぞ':'そ','だ':'た','ぢ':'ち','づ':'つ','で':'て','ど':'と','ば':'は','び':'ひ','ぶ':'ふ','べ':'へ','ぼ':'ほ'};
-        const mapHandaku = {'ぱ':'は','ぴ':'ひ','ぷ':'ふ','ぺ':'へ','ぽ':'ほ'};
-        if (mapDaku[ch] && BASE_STROKES[mapDaku[ch]]) return BASE_STROKES[mapDaku[ch]].concat(DAKUTEN);
-        if (mapHandaku[ch] && BASE_STROKES[mapHandaku[ch]]) return BASE_STROKES[mapHandaku[ch]].concat(HANDAKUTEN);
-        return [[25,30, 75,30], [50,20, 50,80]];
-      }
-
       const HIRA_MISSIONS = [
-        { id:'a', label:'あ行', title:'あ行ミッション', vi:'Hàng A (5 chữ)', chars:[
-          { c:'あ', r:'a', w:'あさ (buổi sáng)', tJa:'くちを おおきく あけて「あ」', tVi:'Mở miệng rộng đọc "a".' },
-          { c:'い', r:'i', w:'いぬ (con chó)', tJa:'くちを よこに ひいて「い」', tVi:'Kéo nhẹ khóe miệng sang ngang.' },
-          { c:'う', r:'u', w:'うみ (biển)', tJa:'くちびるを まえに ださず「う」', tVi:'Không chu môi quá nhiều như tiếng Việt.' },
-          { c:'え', r:'e', w:'えんぴつ (bút chì)', tJa:'かるく あけて「え」', tVi:'Giống âm "ê" nhưng mở miệng rộng hơn chút.' },
-          { c:'お', r:'o', w:'おちゃ (trà)', tJa:'くちを まるく して「お」', tVi:'Tròn môi nhẹ đọc "ô".' }
-        ]},
-        { id:'ka', label:'か行', title:'か行ミッション', vi:'Hàng KA (5 chữ)', chars:[
-          { c:'か', r:'ka', w:'かさ (cái ô)', tJa:'「か」は いきを かるく だすよ', tVi:'Giống "ca" nhưng bật hơi nhẹ.' },
-          { c:'き', r:'ki', w:'き (cây)', tJa:'はっきり「き」と いおう', tVi:'Đọc như "ki".' },
-          { c:'く', r:'ku', w:'くつ (giày)', tJa:'くちを まるめすぎず「く」', tVi:'Đọc nhẹ "kư / cu".' },
-          { c:'け', r:'ke', w:'けしごむ (tẩy)', tJa:'「け」はっきり よもう', tVi:'Đọc như "kê".' },
-          { c:'こ', r:'ko', w:'こくばん (bảng đen)', tJa:'まるい おとで「こ」', tVi:'Đọc như "cô".' }
-        ]},
-        { id:'sa', label:'さ行', title:'さ行ミッション', vi:'Hàng SA (5 chữ)', chars:[
-          { c:'さ', r:'sa', w:'さかな (cá)', tJa:'はの すきまから「さ」', tVi:'Âm "xa / sa" nhẹ.' },
-          { c:'し', r:'shi', w:'しゅくだい (bài tập)', tJa:'「し」は やわらかい し の おと', tVi:'Đọc như "si" nhẹ, không cong lưỡi mạnh.' },
-          { c:'す', r:'su', w:'すいとう (bình nước)', tJa:'「つ」と ちがうよ！「す」は いきが つづく', tVi:'Khác "つ"! Âm "sư" kéo hơi nhẹ, không bật "t".' },
-          { c:'せ', r:'se', w:'せんせい (thầy cô)', tJa:'せんせいの「せ」', tVi:'Đọc như "sê".' },
-          { c:'そ', r:'so', w:'そら (bầu trời)', tJa:'そらの「そ」', tVi:'Đọc như "sô".' }
-        ]},
-        { id:'ta', label:'た行', title:'た行ミッション', vi:'Hàng TA (5 chữ)', chars:[
-          { c:'た', r:'ta', w:'たいいくかん (nhà thể chất)', tJa:'したを はの うらに つけて「た」', tVi:'Đọc như "ta" bật hơi nhẹ.' },
-          { c:'ち', r:'chi', w:'ちず (bản đồ)', tJa:'「ち」は「チ」の おと', tVi:'Đọc gần giống "chi" tiếng Việt.' },
-          { c:'つ', r:'tsu', w:'つくえ (cái bàn)', tJa:'「す」と ちがうよ！さいしょに「ツ」と はじく', tVi:'Khác "す"! Bật âm "tsư" dứt khoát.' },
-          { c:'て', r:'te', w:'て (bàn tay)', tJa:'ての「て」', tVi:'Đọc như "tê".' },
-          { c:'と', r:'to', w:'ともだち (bạn bè)', tJa:'ともだちの「と」', tVi:'Đọc như "tô".' }
-        ]},
-        { id:'na', label:'な行', title:'な行ミッション', vi:'Hàng NA (5 chữ)', chars:[
-          { c:'な', r:'na', w:'なまえ (tên)', tJa:'はなから いきを だして「な」', tVi:'Đọc như "na".' },
-          { c:'に', r:'ni', w:'にほんご (tiếng Nhật)', tJa:'にほんごの「に」', tVi:'Đọc như "ni".' },
-          { c:'ぬ', r:'nu', w:'ぬいぐるみ (thú bông)', tJa:'くるっと むすぶ「ぬ」', tVi:'Đọc như "nư / nu".' },
-          { c:'ね', r:'ne', w:'ねこ (con mèo)', tJa:'ねこの「ね」', tVi:'Đọc như "nê".' },
-          { c:'の', r:'no', w:'ノート (vở)', tJa:'1かくで まるく かく「の」', tVi:'Viết 1 nét tròn, đọc như "nô".' }
-        ]},
-        { id:'ha', label:'は行', title:'は行ミッション', vi:'Hàng HA (5 chữ)', chars:[
-          { c:'は', r:'ha', w:'はさみ (cái kéo)', tJa:'いきを だして「は」', tVi:'Đọc như "ha".' },
-          { c:'ひ', r:'hi', w:'ひっさん (đặt tính)', tJa:'「ひ」は ほそく いきを だす', tVi:'Đọc như "hi".' },
-          { c:'ふ', r:'fu', w:'ふでばこ (hộp bút)', tJa:'くちびるを かまずに「ふ」と ふく', tVi:'Thổi hơi nhẹ qua 2 môi (không cắn môi như "ph").' },
-          { c:'へ', r:'he', w:'へや (căn phòng)', tJa:'やまの かたちの「へ」', tVi:'Đọc như "hê".' },
-          { c:'ほ', r:'ho', w:'ほん (sách)', tJa:'ほんの「ほ」', tVi:'Đọc như "hô".' }
-        ]},
-        { id:'ma', label:'ま行', title:'ま行ミッション', vi:'Hàng MA (5 chữ)', chars:[
-          { c:'ま', r:'ma', w:'まど (cửa sổ)', tJa:'くちびるを とじて「ま」', tVi:'Đọc như "ma".' },
-          { c:'み', r:'mi', w:'みず (nước)', tJa:'みずの「み」', tVi:'Đọc như "mi".' },
-          { c:'む', r:'mu', w:'むし (côn trùng)', tJa:'てんを わすれずに「む」', tVi:'Đọc như "mư / mu".' },
-          { c:'め', r:'me', w:'めあて (mục tiêu)', tJa:'めあての「め」', tVi:'Đọc như "mê".' },
-          { c:'も', r:'mo', w:'もちもの (đồ mang theo)', tJa:'たてから さきに かく「も」', tVi:'Viết nét dọc trước, đọc "mô".' }
-        ]},
-        { id:'ya', label:'や行', title:'や行ミッション', vi:'Hàng YA (3 chữ)', chars:[
-          { c:'や', r:'ya', w:'やすみじかん (giờ ra chơi)', tJa:'やすみの「や」', tVi:'Đọc như "da / ya" (kiểu miền Nam).' },
-          { c:'ゆ', r:'yu', w:'ゆき (tuyết)', tJa:'ゆきの「ゆ」', tVi:'Đọc như "du / yu".' },
-          { c:'よ', r:'よ (yo)', w:'よむ (đọc)', tJa:'よむの「よ」', tVi:'Đọc như "dô / yo".' }
-        ]},
-        { id:'ra', label:'ら行', title:'ら行ミッション', vi:'Hàng RA (5 chữ)', chars:[
-          { c:'ら', r:'ra', w:'ランドセル (cặp sách)', tJa:'したを 1かい かるく はじく「ら」', tVi:'Chạm nhẹ đầu lưỡi (giữa âm "l" và "r").' },
-          { c:'り', r:'ri', w:'りかしつ (phòng khoa học)', tJa:'りかの「り」', tVi:'Đọc nhẹ giữa "li" và "ri".' },
-          { c:'る', r:'ru', w:'るすばん (trông nhà)', tJa:'さいごに くるっと「る」', tVi:'Có vòng tròn nhỏ ở cuối.' },
-          { c:'れ', r:'re', w:'れんらくちょう (sổ liên lạc)', tJa:'れんらくちょうの「れ」', tVi:'Đọc nhẹ giữa "lê" và "rê".' },
-          { c:'ろ', r:'ro', w:'ろうか (hành lang)', tJa:'「る」と ちがって まるめない', tVi:'Khác "る", không có vòng tròn ở cuối.' }
-        ]},
-        { id:'wa', label:'わ行', title:'わ行ミッション', vi:'Hàng WA (3 chữ)', chars:[
-          { c:'わ', r:'wa', w:'わかる (hiểu)', tJa:'わかるの「わ」', tVi:'Đọc như "oa / wa".' },
-          { c:'を', r:'wo / o', w:'ほんを よむ (đọc sách)', tJa:'ぶんの なかで つかう「を」', tVi:'Trợ từ nối tân ngữ, đọc là "ô".' },
-          { c:'ん', r:'n', w:'ぶんすう (phân số)', tJa:'はなを つかって「ん」', tVi:'Âm mũi "n / ng" đứng cuối âm tiết.' }
-        ]},
-        { id:'daku', label:'だくおん', title:'だくおん・はんだくおん', vi:'Âm đục & Bán đục (7 chữ)', chars:[
-          { c:'が', r:'ga', w:'がっこう (trường học)', tJa:'「か」に てんてん(゛)で「が」', tVi:'Thêm 2 dấu (゛) vào か thành "ga".' },
-          { c:'ざ', r:'za', w:'ざっし (tạp chí)', tJa:'のどを ふるわせて「ざ」', tVi:'Rung cổ họng mạnh hơn "さ" (giống "da/za").' },
-          { c:'じ', r:'ji', w:'じょうぎ (thước kẻ)', tJa:'「し」に てんてんで「じ」', tVi:'Đọc như "ji / gi" rung cổ họng.' },
-          { c:'ず', r:'zu', w:'ずこう (mỹ thuật)', tJa:'「す」に てんてんで「ず」', tVi:'Rung cổ họng khi đọc "zư".' },
-          { c:'だ', r:'da', w:'だいじょうぶ (không sao)', tJa:'「た」に てんてんで「だ」', tVi:'Đọc như "đa".' },
-          { c:'ば', r:'ba', w:'ばしょ (địa điểm)', tJa:'「は」に てんてんで「ば」', tVi:'Đọc như "ba".' },
-          { c:'ぱ', r:'pa', w:'ぱん (bánh mì)', tJa:'「は」に まる(゜)で「ぱ」', tVi:'Thêm vòng tròn nhỏ (゜) thành "pa".' }
-        ]},
-        { id:'tokkun', label:'とっくん', title:'とくべつとっくん（っ・ー・つ/す・ざ行）', vi:'Luyện đặc biệt: っ / ー / つ・す / ざ', chars:[
-          { c:'っ', r:'っ (âm ngắt)', w:'きって (tem) / ひっさん (đặt tính)', tJa:'ちいさい「っ」は 1ぱく やすむ！', tVi:'Âm ngắt: dừng lại 1 nhịp ngắn rồi bật phụ âm sau.' },
-          { c:'ー', r:'ー (trường âm)', w:'ノート (vở) / グループ (nhóm)', tJa:'「ー」は まえの おとを のばす！', tVi:'Trường âm: kéo dài nguyên âm ngay trước nó gấp đôi.' },
-          { c:'つ', r:'tsu', w:'つくえ (bàn học)', tJa:'「つ」は ツ！と はじく おと', tVi:'Phân biệt つ (tsư bật hơi) với す (sư êm).' },
-          { c:'す', r:'su', w:'すいとう (bình nước)', tJa:'「す」は スーと やさしい おと', tVi:'Phân biệt す (sư êm) với つ (tsư bật hơi).' },
-          { c:'ざ', r:'za', w:'ざせき (chỗ ngồi)', tJa:'「さ」と ちがって のどが ぶるぶる！', tVi:'Chạm tay vào cổ: ざ rung cổ, さ không rung.' },
-          { c:'ぞ', r:'zo', w:'ぞうきん (khăn lau)', tJa:'「そ」と ちがって のどが ぶるぶる！', tVi:'Chạm tay vào cổ: ぞ rung cổ, そ không rung.' }
-        ]}
+        { id:'a', label:'あ行' }, { id:'ka', label:'か行' }, { id:'sa', label:'さ行' },
+        { id:'ta', label:'た行' }, { id:'na', label:'な行' }, { id:'ha', label:'は行' },
+        { id:'ma', label:'ま行' }, { id:'ya', label:'や行' }, { id:'ra', label:'ら行' },
+        { id:'wa', label:'わ行' }, { id:'daku', label:'だくおん' }, { id:'tokkun', label:'とっくん' }
       ];
 
       /* ====================================================================
@@ -2564,30 +2311,25 @@
 
       const State = {
         mode: 'a',
-        aTab: 'hiragana',
+        aTab: 'dict',
         bTab: 'phrases',
         gasUrl: '',
         token: '',
         gasCards: [],
         usingDemoCards: true,
 
-        // 学習記録（個人情報なし）
+        // 学習記録（個人情報なし・kana.html と共通キー）
         progress: {
-          hiraCharsDone: {},     // { 'あ': true, ... }
-          hiraMissionsCleared: {}, // { 'a': true, ... }
+          hiraCharsDone: {},
+          hiraMissionsCleared: {},
+          kataCharsDone: {},
+          kataMissionsCleared: {},
           karutaClears: 0,
-          puzzlesCleared: {},    // { 'p1': true, ... }
+          puzzlesCleared: {},
           reviewClears: 0,
           exchangeStamps: 0,
           reverseClears: 0
         },
-
-        // ひらがな道場
-        hiraMissionIdx: 0,
-        hiraCharIdx: 0,
-        hiraShowGuide: true,
-        hiraAnimTimer: null,
-        hq: { items: [], idx: 0, current: null, answered: false },
 
         // 図鑑＆かるた
         dictCat: 'items',
@@ -2676,310 +2418,6 @@
           return State.gasCards.concat(DEMO_REVIEW_CARDS).slice(0, Math.max(6, State.gasCards.length));
         }
         return DEMO_REVIEW_CARDS;
-      }
-
-      /* ====================================================================
-         9. モードA ① ひらがな道場（書き順ガイド付きCanvas ＋ 4択聞き取り）
-         ==================================================================== */
-      function renderHiraMissions() {
-        const strip = $('hira-mission-strip');
-        strip.innerHTML = '';
-        HIRA_MISSIONS.forEach((m, idx) => {
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'btn mission-chip';
-          if (idx === State.hiraMissionIdx) btn.classList.add('is-active');
-          if (State.progress.hiraMissionsCleared[m.id]) btn.classList.add('is-cleared');
-          btn.textContent = m.label;
-          if (State.progress.hiraMissionsCleared[m.id]) {
-            const sp = document.createElement('span');
-            sp.className = 'cleared-dot';
-            sp.innerHTML = DICT_SVGS.star;
-            btn.appendChild(sp);
-          }
-          btn.addEventListener('click', () => {
-            Sound.tap();
-            State.hiraMissionIdx = idx;
-            State.hiraCharIdx = 0;
-            renderHiraMissions();
-            renderHiraChars();
-            loadHiraChar();
-            if ($('subview-hira-quiz').classList.contains('is-active')) {
-              startHiraQuiz();
-            }
-          });
-          strip.appendChild(btn);
-        });
-      }
-
-      function renderHiraChars() {
-        const m = HIRA_MISSIONS[State.hiraMissionIdx];
-        $('hira-mission-title').textContent = m.title;
-        $('hira-mission-vi').textContent = m.vi;
-        const grid = $('hira-char-grid');
-        grid.innerHTML = '';
-        let doneCount = 0;
-        m.chars.forEach((item, idx) => {
-          const isDone = Boolean(State.progress.hiraCharsDone[item.c]);
-          if (isDone) doneCount++;
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'btn hira-char-btn';
-          if (idx === State.hiraCharIdx) btn.classList.add('is-active');
-          if (isDone) btn.classList.add('is-done');
-          btn.innerHTML = `<span>${item.c}</span><span class="romaji">${item.r}</span>`;
-          btn.addEventListener('click', () => {
-            Sound.tap();
-            State.hiraCharIdx = idx;
-            renderHiraChars();
-            loadHiraChar();
-            speakHiraChar(item);
-          });
-          grid.appendChild(btn);
-        });
-        const pct = Math.round((doneCount / m.chars.length) * 100);
-        $('hira-mission-progress-fill').style.width = pct + '%';
-        $('hira-mission-progress-text').textContent = doneCount + ' / ' + m.chars.length;
-      }
-
-      function speakHiraChar(item) {
-        if (item.c === 'っ') Speech.speak('ちいさい つ。きって。ひっさん。', 'ja-JP');
-        else if (item.c === 'ー') Speech.speak('のばすおと。ノート。グループ。', 'ja-JP');
-        else Speech.speak(item.c, 'ja-JP');
-      }
-
-      function drawHiraGuide(highlightStep) {
-        const canvas = $('hira-guide-canvas');
-        const ctx = canvas.getContext('2d');
-        const w = canvas.width, h = canvas.height;
-        ctx.clearRect(0, 0, w, h);
-
-        // 4マス補助線
-        ctx.save();
-        ctx.strokeStyle = '#cbd5e1';
-        ctx.lineWidth = 2;
-        ctx.setLineDash([8, 6]);
-        ctx.beginPath();
-        ctx.moveTo(w / 2, 10); ctx.lineTo(w / 2, h - 10);
-        ctx.moveTo(10, h / 2); ctx.lineTo(w - 10, h / 2);
-        ctx.stroke();
-        ctx.restore();
-
-        const m = HIRA_MISSIONS[State.hiraMissionIdx];
-        const item = m.chars[State.hiraCharIdx];
-        if (!State.hiraShowGuide && highlightStep === undefined) return;
-
-        // お手本文字（Zen Maru Gothic薄字）
-        ctx.save();
-        ctx.fillStyle = 'rgba(148, 163, 184, 0.28)';
-        ctx.font = '700 250px "Zen Maru Gothic", sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(item.c, w / 2, h / 2 + 10);
-        ctx.restore();
-
-        // 書き順ストローク＆番号
-        const strokes = getStrokes(item.c);
-        strokes.forEach((pts, sIdx) => {
-          const isHighlight = (highlightStep === sIdx);
-          ctx.save();
-          ctx.strokeStyle = isHighlight ? '#e11d48' : 'rgba(15, 118, 110, 0.42)';
-          ctx.lineWidth = isHighlight ? 7 : 3;
-          ctx.lineCap = 'round';
-          ctx.lineJoin = 'round';
-          if (!isHighlight) ctx.setLineDash([5, 5]);
-          ctx.beginPath();
-          for (let i = 0; i < pts.length; i += 2) {
-            const px = (pts[i] / 100) * w;
-            const py = (pts[i + 1] / 100) * h;
-            if (i === 0) ctx.moveTo(px, py);
-            else ctx.lineTo(px, py);
-          }
-          ctx.stroke();
-
-          // 始点番号丸
-          const sx = (pts[0] / 100) * w;
-          const sy = (pts[1] / 100) * h;
-          ctx.setLineDash([]);
-          ctx.fillStyle = isHighlight ? '#e11d48' : '#0f766e';
-          ctx.beginPath();
-          ctx.arc(sx, sy, 13, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.fillStyle = '#ffffff';
-          ctx.font = '900 14px "Noto Sans", sans-serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText(String(sIdx + 1), sx, sy + 1);
-          ctx.restore();
-        });
-      }
-
-      function clearHiraDrawCanvas() {
-        const c = $('hira-draw-canvas');
-        c.getContext('2d').clearRect(0, 0, c.width, c.height);
-      }
-
-      function loadHiraChar() {
-        clearInterval(State.hiraAnimTimer);
-        const m = HIRA_MISSIONS[State.hiraMissionIdx];
-        const item = m.chars[State.hiraCharIdx];
-        $('hira-big-glyph').textContent = item.c;
-        $('hira-big-romaji').textContent = item.r;
-        $('hira-big-word').textContent = item.w;
-        $('hira-tip-ja').textContent = item.tJa;
-        $('hira-tip-vi').textContent = item.tVi;
-        clearHiraDrawCanvas();
-        drawHiraGuide();
-      }
-
-      function playStrokeAnimation() {
-        clearInterval(State.hiraAnimTimer);
-        const m = HIRA_MISSIONS[State.hiraMissionIdx];
-        const item = m.chars[State.hiraCharIdx];
-        const strokes = getStrokes(item.c);
-        let step = 0;
-        drawHiraGuide(0);
-        Sound.tap();
-        State.hiraAnimTimer = setInterval(() => {
-          step++;
-          if (step >= strokes.length) {
-            clearInterval(State.hiraAnimTimer);
-            drawHiraGuide();
-            return;
-          }
-          drawHiraGuide(step);
-          Sound.tap();
-        }, 750);
-      }
-
-      function setupHiraCanvasDrawing() {
-        const canvas = $('hira-draw-canvas');
-        const ctx = canvas.getContext('2d');
-        let drawing = false;
-        let lastX = 0, lastY = 0;
-
-        const getPos = (e) => {
-          const rect = canvas.getBoundingClientRect();
-          return {
-            x: ((e.clientX - rect.left) / rect.width) * canvas.width,
-            y: ((e.clientY - rect.top) / rect.height) * canvas.height
-          };
-        };
-
-        canvas.addEventListener('pointerdown', (e) => {
-          e.preventDefault();
-          canvas.setPointerCapture(e.pointerId);
-          drawing = true;
-          const p = getPos(e);
-          lastX = p.x; lastY = p.y;
-          ctx.fillStyle = '#0f172a';
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, 7, 0, Math.PI * 2);
-          ctx.fill();
-        });
-
-        canvas.addEventListener('pointermove', (e) => {
-          if (!drawing) return;
-          e.preventDefault();
-          const p = getPos(e);
-          ctx.strokeStyle = '#0f172a';
-          ctx.lineWidth = 14;
-          ctx.lineCap = 'round';
-          ctx.lineJoin = 'round';
-          ctx.beginPath();
-          ctx.moveTo(lastX, lastY);
-          ctx.lineTo(p.x, p.y);
-          ctx.stroke();
-          lastX = p.x; lastY = p.y;
-        });
-
-        const endDraw = (e) => {
-          if (!drawing) return;
-          drawing = false;
-          try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
-        };
-        canvas.addEventListener('pointerup', endDraw);
-        canvas.addEventListener('pointercancel', endDraw);
-      }
-
-      /* ひらがな聞き取りクイズ */
-      function startHiraQuiz() {
-        const m = HIRA_MISSIONS[State.hiraMissionIdx];
-        const pool = m.chars.slice();
-        const items = [];
-        for (let i = 0; i < 5; i++) {
-          items.push(pool[i % pool.length]);
-        }
-        State.hq = { items: shuffle(items), idx: 0, current: null, answered: false };
-        loadHiraQuizQuestion();
-      }
-
-      function loadHiraQuizQuestion() {
-        const q = State.hq;
-        const m = HIRA_MISSIONS[State.hiraMissionIdx];
-        if (q.idx >= q.items.length) {
-          State.progress.hiraMissionsCleared[m.id] = true;
-          saveProgress();
-          renderHiraMissions();
-          Sound.fanfare();
-          $('hq-progress-fill').style.width = '100%';
-          $('hq-progress-text').textContent = 'CLEAR!';
-          $('hq-feedback').className = 'quiz-feedback is-ok';
-          $('hq-feedback-text').innerHTML = 'ミッションクリア！スタンプを もらったよ！ / <span class="vi">Hoàn thành nhiệm vụ! Đã nhận tem!</span>';
-          $('btn-hq-next').style.display = 'inline-flex';
-          $('btn-hq-next').textContent = 'もういちど / Làm lại';
-          return;
-        }
-
-        q.current = q.items[q.idx];
-        q.answered = false;
-        $('hq-progress-fill').style.width = Math.round((q.idx / q.items.length) * 100) + '%';
-        $('hq-progress-text').textContent = (q.idx + 1) + ' / ' + q.items.length;
-        $('hq-feedback').className = 'quiz-feedback';
-        $('hq-feedback-text').innerHTML = 'おとを きいて もじを えらぼう / <span class="vi">Nghe âm và chọn chữ nhé</span>';
-        $('btn-hq-next').style.display = 'none';
-        $('btn-hq-next').innerHTML = 'つぎへ / <span class="vi">Tiếp</span>';
-
-        // 選択肢4つ生成（同ミッション内＋不足時は他ミッションから補充）
-        const distractPool = m.chars.filter((x) => x.c !== q.current.c);
-        const allOthers = HIRA_MISSIONS.flatMap((ms) => ms.chars).filter((x) => x.c !== q.current.c && !distractPool.some((d) => d.c === x.c));
-        const distractors = shuffle(distractPool).concat(shuffle(allOthers)).slice(0, 3);
-        const opts = shuffle([q.current].concat(distractors));
-
-        opts.forEach((opt, i) => {
-          const btn = $('hq-opt-' + i);
-          btn.className = 'btn quiz-opt-btn is-huge';
-          btn.textContent = opt.c;
-          btn.dataset.char = opt.c;
-          btn.disabled = false;
-        });
-
-        speakHiraChar(q.current);
-      }
-
-      function handleHiraQuizPick(btn) {
-        const q = State.hq;
-        if (q.answered || !q.current) return;
-        const picked = btn.dataset.char;
-        if (picked === q.current.c) {
-          q.answered = true;
-          Sound.ok();
-          btn.classList.add('is-correct');
-          $('hq-feedback').className = 'quiz-feedback is-ok';
-          $('hq-feedback-text').innerHTML = `せいかい！「${q.current.c}」(${q.current.r}) / <span class="vi">Đúng rồi!</span>`;
-          $('btn-hq-next').style.display = 'inline-flex';
-        } else {
-          Sound.guide();
-          btn.classList.add('is-try-again');
-          // 正解ボタンを優しく光らせる（×や減点なし）
-          for (let i = 0; i < 4; i++) {
-            const ob = $('hq-opt-' + i);
-            if (ob.dataset.char === q.current.c) ob.classList.add('is-hint-glow');
-          }
-          $('hq-feedback').className = 'quiz-feedback is-guide';
-          $('hq-feedback-text').innerHTML = 'ひかっている もじを みて もういちど きいてみよう / <span class="vi">Nhìn chữ đang sáng và thử lại nhé!</span>';
-          speakHiraChar(q.current);
-        }
       }
 
       /* ====================================================================
@@ -3391,10 +2829,13 @@
          ==================================================================== */
       function renderRecordView() {
         const p = State.progress;
-        const hiraCount = Object.keys(p.hiraMissionsCleared).length;
-        const puzzleCount = Object.keys(p.puzzlesCleared).length;
+        const hiraCount = Object.keys(p.hiraMissionsCleared || {}).length;
+        const kataCount = Object.keys(p.kataMissionsCleared || {}).length;
+        const puzzleCount = Object.keys(p.puzzlesCleared || {}).length;
 
-        $('kpi-hira').textContent = hiraCount + ' / ' + HIRA_MISSIONS.length;
+        $('kpi-hira').textContent = kataCount > 0
+          ? `${hiraCount}/${HIRA_MISSIONS.length} (カタカナ ${kataCount}/${HIRA_MISSIONS.length})`
+          : (hiraCount + ' / ' + HIRA_MISSIONS.length);
         $('kpi-karuta').textContent = String(p.karutaClears);
         $('kpi-puzzle').textContent = puzzleCount + ' / ' + PUZZLES.length;
         $('kpi-exchange').textContent = String(p.exchangeStamps);
@@ -3636,10 +3077,11 @@
       }
 
       function switchATab(tab) {
+        if (!['dict', 'puzzle', 'review', 'record'].includes(tab)) return;
         State.aTab = tab;
         Speech.stop();
         $('mode-a-nav').querySelectorAll('.sub-tab').forEach((b) => b.classList.toggle('is-active', b.dataset.atab === tab));
-        ['hiragana','dict','puzzle','review','record'].forEach((t) => {
+        ['dict','puzzle','review','record'].forEach((t) => {
           $('panel-a-' + t).classList.toggle('is-active', t === tab);
         });
         if (tab === 'record') renderRecordView();
@@ -3719,65 +3161,9 @@
         // モードA サブタブ
         $('mode-a-nav').addEventListener('click', (e) => {
           const b = e.target.closest('.sub-tab');
-          if (!b) return;
+          if (!b || !b.dataset.atab) return;
           Sound.tap();
           switchATab(b.dataset.atab);
-        });
-
-        // モードA ① ひらがな道場
-        $('btn-hira-mode-write').addEventListener('click', () => {
-          Sound.tap();
-          $('btn-hira-mode-write').classList.add('is-active');
-          $('btn-hira-mode-quiz').classList.remove('is-active');
-          $('subview-hira-write').classList.add('is-active');
-          $('subview-hira-quiz').classList.remove('is-active');
-        });
-        $('btn-hira-mode-quiz').addEventListener('click', () => {
-          Sound.tap();
-          $('btn-hira-mode-quiz').classList.add('is-active');
-          $('btn-hira-mode-write').classList.remove('is-active');
-          $('subview-hira-quiz').classList.add('is-active');
-          $('subview-hira-write').classList.remove('is-active');
-          startHiraQuiz();
-        });
-        $('btn-hira-go-quiz').addEventListener('click', () => $('btn-hira-mode-quiz').click());
-        $('btn-hira-play-stroke').addEventListener('click', playStrokeAnimation);
-        $('btn-hira-toggle-guide').addEventListener('click', () => {
-          Sound.tap();
-          State.hiraShowGuide = !State.hiraShowGuide;
-          $('hira-guide-label').textContent = State.hiraShowGuide ? 'おてほん：ON' : 'おてほん：OFF';
-          drawHiraGuide();
-        });
-        $('btn-hira-clear').addEventListener('click', () => { Sound.tap(); clearHiraDrawCanvas(); });
-        $('btn-hira-speak').addEventListener('click', () => {
-          Sound.tap();
-          const item = HIRA_MISSIONS[State.hiraMissionIdx].chars[State.hiraCharIdx];
-          speakHiraChar(item);
-        });
-        $('btn-hira-done').addEventListener('click', () => {
-          const m = HIRA_MISSIONS[State.hiraMissionIdx];
-          const item = m.chars[State.hiraCharIdx];
-          State.progress.hiraCharsDone[item.c] = true;
-          saveProgress();
-          Sound.ok();
-          showToast(`「${item.c}」できたね！ / Giỏi quá!`);
-          if (State.hiraCharIdx < m.chars.length - 1) {
-            State.hiraCharIdx += 1;
-          }
-          renderHiraChars();
-          loadHiraChar();
-        });
-
-        $('btn-hq-listen').addEventListener('click', () => {
-          if (State.hq.current) speakHiraChar(State.hq.current);
-        });
-        for (let i = 0; i < 4; i++) {
-          $('hq-opt-' + i).addEventListener('click', (e) => handleHiraQuizPick(e.currentTarget));
-        }
-        $('btn-hq-next').addEventListener('click', () => {
-          Sound.tap();
-          if (State.hq.idx >= State.hq.items.length) startHiraQuiz();
-          else { State.hq.idx += 1; loadHiraQuizQuestion(); }
         });
 
         // モードA ② 図鑑＆かるた
@@ -3912,10 +3298,8 @@
         $('btn-record-reset-yes').addEventListener('click', () => {
           $('record-reset-confirm').style.display = 'none';
           $('btn-record-reset-ask').style.display = '';
-          State.progress = { hiraCharsDone:{}, hiraMissionsCleared:{}, karutaClears:0, puzzlesCleared:{}, reviewClears:0, exchangeStamps:0, reverseClears:0 };
+          State.progress = { hiraCharsDone:{}, hiraMissionsCleared:{}, kataCharsDone:{}, kataMissionsCleared:{}, karutaClears:0, puzzlesCleared:{}, reviewClears:0, exchangeStamps:0, reverseClears:0 };
           saveProgress();
-          renderHiraMissions();
-          renderHiraChars();
           renderRecordView();
           showToast('がんばり記録をリセットしました');
         });
@@ -4057,10 +3441,6 @@
           try { localStorage.setItem(STORE_TOKEN, State.token); } catch (e) {}
         }
 
-        setupHiraCanvasDrawing();
-        renderHiraMissions();
-        renderHiraChars();
-        loadHiraChar();
         renderDictGrid('items');
         loadPuzzle(0);
         renderFlashcard();
@@ -4072,6 +3452,11 @@
         const urlMode = (params.get('mode') || '').trim().toLowerCase();
         if (urlMode === 'a' || urlMode === 'b') {
           switchMode(urlMode);
+        }
+        const urlTab = (params.get('tab') || '').trim().toLowerCase();
+        if (['dict', 'puzzle', 'review', 'record'].includes(urlTab)) {
+          switchMode('a');
+          switchATab(urlTab);
         }
 
         if (State.gasUrl) {
