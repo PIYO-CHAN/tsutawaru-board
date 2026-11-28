@@ -1301,7 +1301,7 @@
         </span>
       </button>
 
-      <button type="button" id="btn-open-gas" class="btn util-btn" title="教員用GAS設定">
+      <button type="button" id="btn-open-gas" class="btn util-btn" style="display:none;" title="教員用GAS設定">
         <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 1 1 0 4h-.09c-.66 0-1.25.4-1.51 1z"/></svg>
         <span>GAS<ruby>設定<rt>せってい</rt></ruby></span>
       </button>
@@ -4072,7 +4072,13 @@
         }
       }
 
-      document.addEventListener('DOMContentLoaded', init);
+      document.addEventListener('DOMContentLoaded', function () {
+        init();
+        if (new URLSearchParams(window.location.search).get('admin') === '1') {
+          var gasBtn = document.getElementById('btn-open-gas');
+          if (gasBtn) gasBtn.style.display = '';
+        }
+      });
     })();
   </script>
   <script> window.ALLOW_SELECT=true; </script>
