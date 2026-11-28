@@ -175,13 +175,13 @@
       border: 2px solid var(--line);
     }
     .mode-btn {
-      padding: 6px 12px;
+      padding: 6px 10px;
       border-radius: 12px;
       border: 2px solid transparent;
       background: transparent;
       box-shadow: none;
       color: var(--ink-sub);
-      font-size: 0.85rem;
+      font-size: 0.83rem;
     }
     .mode-btn:hover { background: rgba(255,255,255,0.65); color: var(--ink); }
     .mode-btn-col {
@@ -953,6 +953,14 @@
           <span class="mode-btn-sub">Tin tức vui</span>
         </span>
       </button>
+
+      <a href="guide.html" id="btn-mode-guide" class="btn mode-btn">
+        <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span class="mode-btn-col">
+          <span><ruby>日越<rt>にちえつ</rt></ruby>ガイド</span>
+          <span class="mode-btn-sub">Cẩm nang</span>
+        </span>
+      </a>
     </nav>
 
     <div class="header-utils">
@@ -2438,7 +2446,13 @@
         }
       }
 
-      document.addEventListener('DOMContentLoaded', init);
+      document.addEventListener('DOMContentLoaded', function () {
+        init();
+        if (new URLSearchParams(window.location.search).get('admin') === '1') {
+          var gasBtn = document.getElementById('btn-open-gas');
+          if (gasBtn) gasBtn.style.display = '';
+        }
+      });
     })();
   </script>
   <script> window.ALLOW_SELECT=true; </script>
