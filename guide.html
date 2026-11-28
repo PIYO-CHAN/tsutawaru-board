@@ -1,0 +1,2779 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <title>日越まるわかりガイド / Cẩm nang Nhật - Việt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@500;700;800&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================================================
+       1. デザイントークン & 文字サイズスケール（ふつう / おおきく / とくだい）
+       ======================================================================== */
+    :root {
+      --fs: 1;
+      --bg-base: #eef2f6;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --ink: #0f172a;
+      --ink-sub: #475569;
+      --ink-muted: #64748b;
+      --line: #cbd5e1;
+      --line-soft: #e2e8f0;
+
+      /* アプリ統一カラー */
+      --teal: #0f766e;
+      --teal-dark: #115e59;
+      --teal-soft: #ccfbf1;
+      --teal-tint: #f0fdfa;
+
+      --indigo: #4338ca;
+      --indigo-dark: #3730a3;
+      --indigo-soft: #e0e7ff;
+      --indigo-tint: #eef2ff;
+
+      --guide: #c2410c;
+      --guide-dark: #9a3412;
+      --guide-soft: #ffedd5;
+      --guide-tint: #fff7ed;
+
+      /* 国別カラー（日本＝ロイヤルブルー / ベトナム＝クリムゾン＆ゴールド） */
+      --jp: #1d4ed8;
+      --jp-dark: #1e3a8a;
+      --jp-soft: #dbeafe;
+      --jp-tint: #eff6ff;
+
+      --vn: #dc2626;
+      --vn-dark: #991b1b;
+      --vn-soft: #fee2e2;
+      --vn-tint: #fef2f2;
+      --vn-gold: #f59e0b;
+
+      --green: #15803d;
+      --green-dark: #166534;
+      --green-soft: #dcfce7;
+
+      --amber: #d97706;
+      --amber-dark: #b45309;
+      --amber-soft: #fef3c7;
+
+      --radius-sm: 10px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+
+      --elev-1: 0 2px 6px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+      --elev-2: 0 8px 20px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.05);
+      --btn-shadow: 0 3px 0 rgba(15, 23, 42, 0.16);
+
+      --font-jp: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', sans-serif;
+      --font-vi: 'Noto Sans', sans-serif;
+    }
+
+    /* 文字サイズ切替クラス */
+    body.font-md { --fs: 1; }
+    body.font-lg { --fs: 1.18; }
+    body.font-xl { --fs: 1.36; }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100dvh;
+      width: 100%;
+      overflow: hidden;
+      font-family: var(--font-jp);
+      color: var(--ink);
+      background-color: var(--bg-base);
+      background-image:
+        radial-gradient(circle at 12% 10%, rgba(251, 146, 60, 0.09), transparent 36%),
+        radial-gradient(circle at 88% 90%, rgba(37, 99, 235, 0.08), transparent 38%),
+        radial-gradient(#cbd5e1 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 22px 22px;
+      display: flex;
+      flex-direction: column;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .vi {
+      font-family: var(--font-vi);
+      letter-spacing: 0.01em;
+    }
+
+    ruby { ruby-position: over; }
+    rt {
+      font-size: 0.56em;
+      font-weight: 700;
+      color: inherit;
+      opacity: 0.92;
+      user-select: none;
+    }
+
+    button, a.btn {
+      font-family: var(--font-jp);
+      cursor: pointer;
+      user-select: none;
+      text-decoration: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      color: var(--ink);
+      font-weight: 700;
+      box-shadow: 0 2px 0 rgba(15, 23, 42, 0.1);
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background-color 0.16s ease, border-color 0.16s ease;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+    .btn:hover:not(:disabled) { filter: brightness(0.97); }
+    .btn:active:not(:disabled) { transform: translateY(2px); box-shadow: none; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn:focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }
+
+    .btn-teal { background: linear-gradient(180deg, #14b8a6, #0f766e); border-color: var(--teal-dark); color: #fff; box-shadow: 0 3px 0 var(--teal-dark); }
+    .btn-blue { background: linear-gradient(180deg, #3b82f6, #1d4ed8); border-color: var(--jp-dark); color: #fff; box-shadow: 0 3px 0 var(--jp-dark); }
+    .btn-indigo { background: linear-gradient(180deg, #6366f1, #4338ca); border-color: var(--indigo-dark); color: #fff; box-shadow: 0 3px 0 var(--indigo-dark); }
+    .btn-guide { background: linear-gradient(180deg, #ea580c, #c2410c); border-color: var(--guide-dark); color: #fff; box-shadow: 0 3px 0 var(--guide-dark); }
+    .btn-green { background: linear-gradient(180deg, #22c55e, #15803d); border-color: var(--green-dark); color: #fff; box-shadow: 0 3px 0 var(--green-dark); }
+    .btn-vn { background: linear-gradient(180deg, #ef4444, #dc2626); border-color: var(--vn-dark); color: #fff; box-shadow: 0 3px 0 var(--vn-dark); }
+
+    .ico-xs { width: 15px; height: 15px; flex-shrink: 0; }
+    .ico-sm { width: 18px; height: 18px; flex-shrink: 0; }
+    .ico-md { width: 20px; height: 20px; flex-shrink: 0; }
+
+    /* ========================================================================
+       2. ヘッダー（4連スイッチ ＋ 文字サイズ切替 ＋ 読み上げ速度）
+       ======================================================================== */
+    .app-header {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 7px 14px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1.5px solid var(--line);
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+      z-index: 30;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    .brand-logo { width: 35px; height: 35px; flex-shrink: 0; filter: drop-shadow(0 2px 3px rgba(15,23,42,0.12)); }
+    .brand-title { display: flex; flex-direction: column; line-height: 1.15; }
+    .brand-jp { font-size: 0.96rem; font-weight: 900; color: var(--ink); }
+    .brand-vi { font-family: var(--font-vi); font-size: 0.68rem; font-weight: 700; color: var(--ink-sub); }
+
+    .mode-switch {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      background: #e2e8f0;
+      border-radius: 16px;
+      border: 1.5px solid var(--line);
+      overflow-x: auto;
+    }
+    .mode-btn {
+      padding: 5px 10px;
+      border-radius: 12px;
+      border: 1.5px solid transparent;
+      background: transparent;
+      box-shadow: none;
+      color: var(--ink-sub);
+      font-size: 0.82rem;
+    }
+    .mode-btn:hover { background: rgba(255,255,255,0.75); color: var(--ink); }
+    .mode-btn-col { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.15; }
+    .mode-btn-sub { font-family: var(--font-vi); font-size: 0.62rem; font-weight: 700; opacity: 0.88; }
+    .mode-btn.is-active-guide {
+      background: linear-gradient(180deg, #ea580c, #c2410c);
+      border-color: var(--guide-dark);
+      color: #ffffff;
+      box-shadow: 0 3px 0 var(--guide-dark);
+    }
+    .mode-btn.is-active-guide:hover { filter: brightness(1.03); color: #ffffff; }
+
+    .header-utils {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .util-btn { padding: 5px 10px; font-size: 0.79rem; }
+    .util-col { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
+    .util-sub { font-family: var(--font-vi); font-size: 0.61rem; opacity: 0.85; }
+    .util-btn.is-slow, .util-btn.is-size-boost {
+      background: var(--amber-soft);
+      border-color: var(--amber);
+      color: #78350f;
+    }
+
+    /* ========================================================================
+       3. メイン領域 & 5大ガイドタブ
+       ======================================================================== */
+    .app-main {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      padding: 9px 14px 10px;
+      overflow: hidden;
+    }
+
+    .guide-nav {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+    .guide-tab {
+      flex: 1 1 0;
+      min-width: 150px;
+      padding: 8px 11px;
+      font-size: 0.86rem;
+      justify-content: flex-start;
+      background: rgba(255,255,255,0.88);
+    }
+    .guide-tab-col { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.15; }
+    .guide-tab-vi { font-family: var(--font-vi); font-size: 0.65rem; font-weight: 700; opacity: 0.85; }
+    .guide-tab.is-active {
+      background: linear-gradient(180deg, #ea580c, #c2410c);
+      border-color: var(--guide-dark);
+      color: #ffffff;
+      box-shadow: 0 3px 0 var(--guide-dark);
+    }
+
+    .tab-panel {
+      display: none;
+      flex: 1;
+      min-height: 0;
+      flex-direction: column;
+      gap: 9px;
+      overflow: hidden;
+    }
+    .tab-panel.is-active { display: flex; }
+
+    /* 共通パネル・ボタン */
+    .panel-card {
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--elev-2);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      min-height: 0;
+    }
+    .section-head {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .section-title {
+      font-size: calc(0.98rem * var(--fs));
+      font-weight: 900;
+      color: var(--ink);
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+    .section-title .vi {
+      font-size: calc(0.78rem * var(--fs));
+      font-weight: 800;
+      color: var(--guide-dark);
+    }
+    .speak-pair { display: inline-flex; gap: 5px; flex-shrink: 0; }
+    .btn-mini { padding: 5px 9px; font-size: 0.76rem; border-radius: 10px; }
+
+    /* 国旗ミニSVG */
+    .flag-ico {
+      width: 22px;
+      height: 15px;
+      border-radius: 3px;
+      border: 1px solid rgba(15,23,42,0.22);
+      flex-shrink: 0;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    /* ========================================================================
+       タブ①：地図とくらしの基本
+       ======================================================================== */
+    .geo-grid {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1.18fr 1fr;
+      gap: 11px;
+      overflow: hidden;
+    }
+    .map-svg-wrap {
+      flex: 1;
+      min-height: 160px;
+      border-radius: var(--radius-md);
+      border: 2px solid #93c5fd;
+      background: #0ea5e9;
+      overflow: hidden;
+      box-shadow: inset 0 0 24px rgba(15, 23, 42, 0.15);
+    }
+    .map-svg-wrap > svg { width: 100%; height: 100%; display: block; }
+    .geo-caption {
+      font-size: calc(0.88rem * var(--fs));
+      font-weight: 700;
+      line-height: 1.55;
+      color: var(--ink);
+      overflow-y: auto;
+      max-height: 36%;
+    }
+    .geo-caption-vi {
+      font-family: var(--font-vi);
+      font-size: calc(0.78rem * var(--fs));
+      font-weight: 700;
+      color: var(--guide-dark);
+      margin-top: 3px;
+    }
+
+    .fact-stack {
+      display: grid;
+      grid-template-rows: repeat(3, 1fr);
+      gap: 9px;
+      min-height: 0;
+    }
+    .fact-card {
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--elev-1);
+      display: flex;
+      align-items: stretch;
+      overflow: hidden;
+      min-height: 0;
+    }
+    .fact-svg {
+      width: 132px;
+      flex-shrink: 0;
+      overflow: hidden;
+      background: #0f172a;
+      border-right: 1.5px solid var(--line-soft);
+    }
+    .fact-svg > svg { width: 100%; height: 100%; display: block; }
+    .fact-body {
+      flex: 1;
+      min-width: 0;
+      padding: 9px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3px;
+      overflow-y: auto;
+    }
+    .fact-heading { font-size: calc(0.95rem * var(--fs)); font-weight: 900; color: var(--ink); }
+    .fact-desc-jp { font-size: calc(0.85rem * var(--fs)); font-weight: 700; color: var(--ink); line-height: 1.48; }
+    .fact-desc-vi { font-family: var(--font-vi); font-size: calc(0.76rem * var(--fs)); font-weight: 700; color: var(--guide-dark); line-height: 1.35; }
+
+    /* ========================================================================
+       タブ②：学校のちがい（日本タブ / ベトナムタブ / カレンダー比較タブ 明確分離）
+       ======================================================================== */
+    .school-subnav {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .school-tab-btn {
+      padding: 8px 16px;
+      font-size: calc(0.88rem * var(--fs));
+      border-radius: 14px;
+      background: var(--surface);
+    }
+    .school-tab-btn.is-active-jp {
+      background: linear-gradient(180deg, #2563eb, #1d4ed8);
+      border-color: var(--jp-dark);
+      color: #ffffff;
+      box-shadow: 0 3px 0 var(--jp-dark);
+    }
+    .school-tab-btn.is-active-vn {
+      background: linear-gradient(180deg, #ef4444, #dc2626);
+      border-color: var(--vn-dark);
+      color: #ffffff;
+      box-shadow: 0 3px 0 var(--vn-dark);
+    }
+    .school-tab-btn.is-active-cal {
+      background: linear-gradient(180deg, #ea580c, #c2410c);
+      border-color: var(--guide-dark);
+      color: #ffffff;
+      box-shadow: 0 3px 0 var(--guide-dark);
+    }
+
+    .school-subpanel {
+      display: none;
+      flex: 1;
+      min-height: 0;
+      flex-direction: column;
+      gap: 9px;
+      overflow: hidden;
+    }
+    .school-subpanel.is-active { display: flex; }
+
+    .country-banner {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: calc(0.88rem * var(--fs));
+      font-weight: 900;
+    }
+    .country-banner.is-jp {
+      background: linear-gradient(90deg, #dbeafe, #eff6ff);
+      border: 1.5px solid #93c5fd;
+      color: var(--jp-dark);
+    }
+    .country-banner.is-vn {
+      background: linear-gradient(90deg, #fee2e2, #fef2f2);
+      border: 1.5px solid #fca5a5;
+      color: var(--vn-dark);
+    }
+
+    /* リッチ図鑑カード（2列×2行・フルブリードビジュアル） */
+    .school-rich-grid {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 11px;
+      overflow-y: auto;
+      padding: 2px;
+    }
+    .visual-card {
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--elev-2);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 220px;
+    }
+    .visual-card.is-jp { border-top: 4px solid var(--jp); }
+    .visual-card.is-vn { border-top: 4px solid var(--vn); }
+
+    .visual-card-media {
+      position: relative;
+      width: 100%;
+      height: 142px;
+      flex-shrink: 0;
+      overflow: hidden;
+      background: #e2e8f0;
+    }
+    .visual-card-media > svg { width: 100%; height: 100%; display: block; }
+    .media-chip {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.82);
+      backdrop-filter: blur(4px);
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      z-index: 2;
+    }
+    .media-chip .flag-ico {
+      width: 20px;
+      height: 14px;
+    }
+    .media-speak {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      display: inline-flex;
+      gap: 4px;
+      z-index: 2;
+    }
+    .visual-card-media svg { width: 100%; height: 100%; display: block; }
+    .media-chip {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(4px);
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+    .media-speak {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      display: inline-flex;
+      gap: 4px;
+    }
+    .visual-card-body {
+      flex: 1;
+      padding: 10px 13px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      overflow-y: auto;
+    }
+    .vc-title {
+      font-size: calc(0.98rem * var(--fs));
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+    .vc-title-vi {
+      font-family: var(--font-vi);
+      font-size: calc(0.76rem * var(--fs));
+      font-weight: 800;
+      color: var(--ink-sub);
+    }
+    .vc-jp {
+      font-size: calc(0.88rem * var(--fs));
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    .vc-vi {
+      font-family: var(--font-vi);
+      font-size: calc(0.78rem * var(--fs));
+      font-weight: 700;
+      color: var(--teal-dark);
+      line-height: 1.42;
+      background: var(--surface-soft);
+      border-left: 3px solid var(--line);
+      padding: 5px 8px;
+      border-radius: 0 8px 8px 0;
+      margin-top: auto;
+    }
+    .visual-card.is-jp .vc-vi { border-left-color: var(--jp); color: var(--jp-dark); }
+    .visual-card.is-vn .vc-vi { border-left-color: var(--vn); color: var(--vn-dark); }
+
+    /* カレンダー比較専用画面 */
+    .calendar-full-card {
+      flex: 1;
+      min-height: 0;
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--elev-2);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+    }
+    .calendar-big-svg {
+      width: 100%;
+      max-height: 230px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--line);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .calendar-big-svg > svg { width: 100%; height: 100%; display: block; }
+
+    /* ========================================================================
+       タブ③：大切なこと・価値観
+       ======================================================================== */
+    .values-layout {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+    }
+    .values-selector {
+      flex-shrink: 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+    }
+    .val-btn {
+      padding: 8px 10px;
+      font-size: calc(0.84rem * var(--fs));
+      flex-direction: column;
+      gap: 2px;
+      border-radius: var(--radius-md);
+      white-space: normal;
+      text-align: center;
+    }
+    .val-btn .vi { font-size: calc(0.66rem * var(--fs)); opacity: 0.86; }
+    .val-btn.is-active {
+      background: linear-gradient(180deg, #ea580c, #c2410c);
+      border-color: var(--guide-dark);
+      color: #ffffff;
+      box-shadow: 0 3px 0 var(--guide-dark);
+    }
+
+    .values-stage {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 0.92fr 1.25fr;
+      gap: 11px;
+      overflow: hidden;
+    }
+    .val-visual-card {
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-top: 4px solid var(--guide);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--elev-2);
+      padding: 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      min-height: 0;
+    }
+    .val-scene-svg {
+      flex: 1;
+      min-height: 150px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--line);
+      background: #f8fafc;
+      overflow: hidden;
+    }
+    .val-scene-svg > svg { width: 100%; height: 100%; display: block; }
+
+    .magic-phrase-box {
+      flex-shrink: 0;
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+      border: 2px solid var(--teal);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .magic-label { font-size: calc(0.74rem * var(--fs)); font-weight: 900; color: var(--teal-dark); }
+    .magic-hira { font-size: calc(1.08rem * var(--fs)); font-weight: 900; color: var(--ink); line-height: 1.28; }
+    .magic-vn-read {
+      display: inline-block;
+      margin-top: 3px;
+      padding: 2px 9px;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid #5eead4;
+      color: var(--teal-dark);
+      font-family: var(--font-vi);
+      font-size: calc(0.82rem * var(--fs));
+      font-weight: 800;
+    }
+    .magic-vi-meaning { font-family: var(--font-vi); font-size: calc(0.76rem * var(--fs)); font-weight: 700; color: var(--ink-sub); margin-top: 2px; }
+
+    .val-compare-col {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      min-height: 0;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+    .perspective-box {
+      flex: 1;
+      min-height: 0;
+      border-radius: var(--radius-lg);
+      border: 2px solid var(--line);
+      box-shadow: var(--elev-1);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      overflow-y: auto;
+    }
+    .perspective-box.is-vn-sense { background: linear-gradient(180deg, #fef2f2, #ffffff); border-color: #f87171; }
+    .perspective-box.is-jp-rule { background: linear-gradient(180deg, #eff6ff, #ffffff); border-color: #60a5fa; }
+    .persp-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      align-self: flex-start;
+      padding: 4px 11px;
+      border-radius: 999px;
+      font-size: calc(0.78rem * var(--fs));
+      font-weight: 900;
+      color: #ffffff;
+    }
+    .perspective-box.is-vn-sense .persp-badge { background: var(--vn); }
+    .perspective-box.is-jp-rule .persp-badge { background: var(--jp); }
+    .persp-jp { font-size: calc(0.95rem * var(--fs)); font-weight: 800; color: var(--ink); line-height: 1.62; }
+    .persp-vi {
+      font-family: var(--font-vi);
+      font-size: calc(0.84rem * var(--fs));
+      font-weight: 700;
+      color: var(--ink-sub);
+      line-height: 1.48;
+      background: rgba(248,250,252,0.92);
+      border: 1px solid var(--line-soft);
+      padding: 7px 10px;
+      border-radius: 10px;
+    }
+
+    /* ========================================================================
+       タブ④：小学生の流行り・エンタメ（12種類・図鑑ビジュアル）
+       ======================================================================== */
+    .trend-bar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .trend-filter-group { display: flex; gap: 7px; flex-wrap: wrap; }
+    .trend-pill { padding: 7px 13px; font-size: calc(0.84rem * var(--fs)); border-radius: 12px; }
+    .trend-pill.is-active { background: linear-gradient(180deg, #ea580c, #c2410c); border-color: var(--guide-dark); color: #fff; box-shadow: 0 3px 0 var(--guide-dark); }
+    .trend-pill.is-active-jp { background: linear-gradient(180deg, #2563eb, #1d4ed8); border-color: var(--jp-dark); color: #fff; box-shadow: 0 3px 0 var(--jp-dark); }
+    .trend-pill.is-active-vn { background: linear-gradient(180deg, #ef4444, #dc2626); border-color: var(--vn-dark); color: #fff; box-shadow: 0 3px 0 var(--vn-dark); }
+
+    .trend-grid {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 11px;
+      overflow-y: auto;
+      padding: 2px 3px 8px;
+    }
+    .trend-card {
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--elev-2);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 255px;
+    }
+    .trend-card.is-jp { border-top: 4px solid var(--jp); }
+    .trend-card.is-vn { border-top: 4px solid var(--vn); }
+    .trend-media {
+      position: relative;
+      width: 100%;
+      height: 134px;
+      flex-shrink: 0;
+      overflow: hidden;
+      background: #e2e8f0;
+    }
+    .trend-media > svg { width: 100%; height: 100%; display: block; }
+    .trend-body {
+      flex: 1;
+      padding: 10px 12px 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .trend-name { font-size: calc(0.95rem * var(--fs)); font-weight: 900; color: var(--ink); line-height: 1.32; }
+    .trend-desc-jp { font-size: calc(0.84rem * var(--fs)); font-weight: 700; color: var(--ink); line-height: 1.5; }
+    .trend-desc-vi {
+      font-family: var(--font-vi);
+      font-size: calc(0.75rem * var(--fs));
+      font-weight: 700;
+      color: var(--ink-sub);
+      line-height: 1.38;
+      margin-top: auto;
+      padding-top: 4px;
+      border-top: 1px dashed var(--line-soft);
+    }
+
+    /* ========================================================================
+       タブ⑤：1日のスケジュールくらべ
+       ======================================================================== */
+    .sched-layout {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      overflow: hidden;
+    }
+    .sched-columns {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+      overflow: hidden;
+    }
+    .sched-col {
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--elev-2);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .sched-col.is-jp { border-top: 5px solid var(--jp); }
+    .sched-col.is-vn { border-top: 5px solid var(--vn); }
+    .sched-list {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding-right: 2px;
+    }
+    .sched-item {
+      width: 100%;
+      padding: 9px 11px;
+      border-radius: 13px;
+      border: 1.5px solid var(--line);
+      background: var(--surface-soft);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+      white-space: normal;
+      box-shadow: none;
+    }
+    .sched-item:hover { background: #fff7ed; border-color: var(--guide); }
+    .sched-item.is-selected {
+      background: var(--guide-soft);
+      border-color: var(--guide);
+      box-shadow: 0 2px 0 var(--guide-dark);
+    }
+    .sched-time {
+      min-width: 64px;
+      padding: 5px 7px;
+      border-radius: 9px;
+      background: #0f172a;
+      color: #ffffff;
+      font-family: var(--font-vi);
+      font-size: calc(0.8rem * var(--fs));
+      font-weight: 800;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .sched-detail-bar {
+      flex-shrink: 0;
+      background: var(--surface);
+      border: 2px solid var(--guide);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--elev-2);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    /* トースト */
+    .toast {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%) translateY(18px);
+      background: #0f172a;
+      color: #ffffff;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.28);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 300;
+      max-width: 92vw;
+      text-align: center;
+    }
+    .toast.is-show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 1180px) {
+      .brand-vi { display: none; }
+      .mode-btn { padding: 5px 8px; font-size: 0.76rem; }
+      .mode-btn-sub { font-size: 0.58rem; }
+    }
+    @media (max-width: 960px) {
+      .geo-grid, .values-stage, .sched-columns { grid-template-columns: 1fr; overflow-y: auto; }
+      .school-rich-grid { grid-template-columns: 1fr; }
+      .trend-grid { grid-template-columns: repeat(2, 1fr); }
+      .values-selector { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 620px) {
+      .trend-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="font-md">
+
+  <!-- ======================================================================
+       ヘッダー（4連スイッチ ＋ 文字サイズ切替 ＋ 読み上げ速度）
+       ====================================================================== -->
+  <header class="app-header">
+    <div class="brand">
+      <svg class="brand-logo" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="logoBg" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#fed7aa"/><stop offset="100%" stop-color="#fdba74"/>
+          </linearGradient>
+        </defs>
+        <rect x="3" y="4" width="42" height="40" rx="12" fill="url(#logoBg)" stroke="#c2410c" stroke-width="2.5"/>
+        <circle cx="24" cy="24" r="13" fill="#ffffff" stroke="#c2410c" stroke-width="2.2"/>
+        <ellipse cx="24" cy="24" rx="6" ry="13" stroke="#ea580c" stroke-width="1.8"/>
+        <line x1="11" y1="24" x2="37" y2="24" stroke="#ea580c" stroke-width="1.8"/>
+        <circle cx="29" cy="18" r="3" fill="#dc2626"/>
+        <circle cx="19" cy="28" r="3" fill="#1d4ed8"/>
+      </svg>
+      <div class="brand-title">
+        <span class="brand-jp">にほんご・ベトナムご<ruby>学習<rt>がくしゅう</rt></ruby>ラボ</span>
+        <span class="brand-vi">Phòng Học Nhật - Việt</span>
+      </div>
+    </div>
+
+    <nav class="mode-switch" aria-label="アプリ切替">
+      <a href="study.html?mode=a" class="btn mode-btn">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <span class="mode-btn-col">
+          <span>にほんご<ruby>自習<rt>じしゅう</rt></ruby>ラボ</span>
+          <span class="mode-btn-sub">Học tiếng Nhật</span>
+        </span>
+      </a>
+
+      <a href="study.html?mode=b" class="btn mode-btn">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span class="mode-btn-col">
+          <span>ベトナムご<ruby>交流<rt>こうりゅう</rt></ruby></span>
+          <span class="mode-btn-sub">Giao lưu</span>
+        </span>
+      </a>
+
+      <a href="news.html" class="btn mode-btn">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+        <span class="mode-btn-col">
+          <span><ruby>日越<rt>にちえつ</rt></ruby>ニュース</span>
+          <span class="mode-btn-sub">Tin tức vui</span>
+        </span>
+      </a>
+
+      <button type="button" id="btn-mode-guide" class="btn mode-btn is-active-guide" aria-current="page">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span class="mode-btn-col">
+          <span><ruby>日越<rt>にちえつ</rt></ruby>ガイド</span>
+          <span class="mode-btn-sub">Cẩm nang</span>
+        </span>
+      </button>
+    </nav>
+
+    <div class="header-utils">
+      <!-- 文字サイズ切替ボタン（3段階：ふつう / おおきく / とくだい） -->
+      <button type="button" id="btn-font-size" class="btn util-btn" title="文字の大きさを変える">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20L9 6l5 14"/><line x1="5.8" y1="15" x2="12.2" y2="15"/><path d="M16 14h6"/><path d="M19 11v6"/></svg>
+        <span class="util-col">
+          <span id="fontsize-jp">もじ：<ruby>普通<rt>ふつう</rt></ruby></span>
+          <span id="fontsize-vi" class="util-sub">Chữ: Vừa</span>
+        </span>
+      </button>
+
+      <!-- 読み上げ速度ボタン -->
+      <button type="button" id="btn-speed" class="btn util-btn" title="読み上げ速度の切り替え">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        <span class="util-col">
+          <span id="speed-jp">ふつう</span>
+          <span id="speed-vi" class="util-sub">Bình thường</span>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       メインエリア：5つのガイドタブ
+       ====================================================================== -->
+  <main class="app-main">
+    <nav class="guide-nav" id="guide-nav" role="tablist" aria-label="ガイドメニュー">
+      <button type="button" class="btn guide-tab is-active" data-gtab="geo" role="tab" aria-selected="true">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+        <span class="guide-tab-col"><span>① <ruby>地図<rt>ちず</rt></ruby>とくらし</span><span class="guide-tab-vi">Địa lý &amp; Cuộc sống</span></span>
+      </button>
+
+      <button type="button" class="btn guide-tab" data-gtab="school" role="tab" aria-selected="false">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+        <span class="guide-tab-col"><span>② <ruby>学校<rt>がっこう</rt></ruby>のちがい</span><span class="guide-tab-vi">Trường học Nhật - Việt</span></span>
+      </button>
+
+      <button type="button" class="btn guide-tab" data-gtab="values" role="tab" aria-selected="false">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span class="guide-tab-col"><span>③ <ruby>大切<rt>たいせつ</rt></ruby>なこと・<ruby>価値観<rt>かちかん</rt></ruby></span><span class="guide-tab-vi">Giá trị &amp; Văn hóa</span></span>
+      </button>
+
+      <button type="button" class="btn guide-tab" data-gtab="trends" role="tab" aria-selected="false">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span class="guide-tab-col"><span>④ <ruby>流行<rt>はや</rt></ruby>り・エンタメ</span><span class="guide-tab-vi">Giải trí &amp; Xu hướng</span></span>
+      </button>
+
+      <button type="button" class="btn guide-tab" data-gtab="schedule" role="tab" aria-selected="false">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span class="guide-tab-col"><span>⑤ 1<ruby>日<rt>にち</rt></ruby>のくらべ</span><span class="guide-tab-vi">Một ngày học sinh</span></span>
+      </button>
+    </nav>
+
+    <!-- ====================================================================
+         タブ①：地図とくらしの基本
+         ==================================================================== -->
+    <section id="panel-geo" class="tab-panel is-active" aria-label="地図とくらしの基本">
+      <div class="geo-grid">
+        <div class="panel-card">
+          <div class="section-head">
+            <div class="section-title">
+              <span><ruby>日本<rt>にほん</rt></ruby>と ベトナムの <ruby>場所<rt>ばしょ</rt></ruby>と <ruby>大<rt>おお</rt></ruby>きさ</span>
+              <span class="vi">Vị trí &amp; Diện tích</span>
+            </div>
+            <div class="speak-pair">
+              <button type="button" id="btn-geo-speak-ja" class="btn btn-blue btn-mini">にほんご</button>
+              <button type="button" id="btn-geo-speak-vi" class="btn btn-teal btn-mini">Tiếng Việt</button>
+            </div>
+          </div>
+
+          <div class="map-svg-wrap" id="geo-map-svg-wrap" aria-label="日本とベトナムの地図図解"></div>
+
+          <div class="geo-caption">
+            ベトナムは <ruby>南北<rt>なんぼく</rt></ruby>に <ruby>細長<rt>ほそなが</rt></ruby>い「S」の かたちの <ruby>国<rt>くに</rt></ruby>です。<ruby>広<rt>ひろ</rt></ruby>さは <ruby>日本<rt>にほん</rt></ruby>の <ruby>約<rt>やく</rt></ruby>0.88ばい。<ruby>飛行機<rt>ひこうき</rt></ruby>で <ruby>約<rt>やく</rt></ruby>5〜6<ruby>時間<rt>じかん</rt></ruby>の <ruby>距離<rt>きょり</rt></ruby>です。
+            <div class="geo-caption-vi">Việt Nam có hình chữ S kéo dài Bắc - Nam, diện tích bằng khoảng 0,88 lần Nhật Bản, cách khoảng 5-6 giờ bay.</div>
+          </div>
+        </div>
+
+        <div class="fact-stack">
+          <div class="fact-card">
+            <div class="fact-svg" id="svg-fact-time" aria-hidden="true"></div>
+            <div class="fact-body">
+              <div class="fact-heading"><ruby>時差<rt>じさ</rt></ruby>は 2<ruby>時間<rt>じかん</rt></ruby> ／ <span class="vi" style="font-size:0.84em;color:var(--guide-dark);">Chênh lệch 2 tiếng</span></div>
+              <div class="fact-desc-jp"><ruby>日本<rt>にほん</rt></ruby>が <ruby>午前<rt>ごぜん</rt></ruby>10<ruby>時<rt>じ</rt></ruby>の とき、ベトナムは <ruby>午前<rt>ごぜん</rt></ruby>8<ruby>時<rt>じ</rt></ruby>です。<ruby>日本<rt>にほん</rt></ruby>の ほうが 2<ruby>時間<rt>じかん</rt></ruby> <ruby>早<rt>はや</rt></ruby>く <ruby>朝<rt>あさ</rt></ruby>が きます。</div>
+              <div class="fact-desc-vi">Khi Nhật Bản là 10 giờ sáng thì Việt Nam là 8 giờ sáng.</div>
+            </div>
+          </div>
+
+          <div class="fact-card">
+            <div class="fact-svg" id="svg-fact-money" aria-hidden="true"></div>
+            <div class="fact-body">
+              <div class="fact-heading">お<ruby>金<rt>かね</rt></ruby>の <ruby>単位<rt>たんい</rt></ruby>「<ruby>円<rt>えん</rt></ruby>」と「ドン」 ／ <span class="vi" style="font-size:0.84em;color:var(--guide-dark);">Yên &amp; Đồng (VND)</span></div>
+              <div class="fact-desc-jp"><ruby>日本<rt>にほん</rt></ruby>の 100<ruby>円<rt>えん</rt></ruby>は ベトナムの <ruby>約<rt>やく</rt></ruby>16,000ドン！「0」が たくさん ついて、お<ruby>札<rt>さつ</rt></ruby>が ほとんどです。</div>
+              <div class="fact-desc-vi">100 Yên Nhật khoảng 16.000 Đồng Việt Nam! Ở Việt Nam chủ yếu dùng tiền polymer.</div>
+            </div>
+          </div>
+
+          <div class="fact-card">
+            <div class="fact-svg" id="svg-fact-season" aria-hidden="true"></div>
+            <div class="fact-body">
+              <div class="fact-heading"><ruby>季節<rt>きせつ</rt></ruby>と <ruby>気候<rt>きこう</rt></ruby>のちがい ／ <span class="vi" style="font-size:0.84em;color:var(--guide-dark);">Mùa &amp; Khí hậu</span></div>
+              <div class="fact-desc-jp"><ruby>日本<rt>にほん</rt></ruby>は <ruby>春夏秋冬<rt>しゅんかしゅうとう</rt></ruby>の 4つ。ベトナムは <ruby>北<rt>きた</rt></ruby>（ハノイ）に <ruby>涼<rt>すず</rt></ruby>しい<ruby>冬<rt>ふゆ</rt></ruby>があり、<ruby>南<rt>みなみ</rt></ruby>（ホーチミン）は 1<ruby>年<rt>ねん</rt></ruby>じゅう <ruby>夏<rt>なつ</rt></ruby>のようです。</div>
+              <div class="fact-desc-vi">Nhật có 4 mùa rõ rệt. Miền Bắc VN có mùa đông mát/lạnh, miền Nam nóng ấm quanh năm.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         タブ②：学校のちがい（日本タブ / ベトナムタブ / カレンダー比較タブに明確分離）
+         ==================================================================== -->
+    <section id="panel-school" class="tab-panel" aria-label="学校生活のちがい">
+      <div class="school-subnav" id="school-subnav" role="tablist" aria-label="国の切り替え">
+        <button type="button" id="btn-sc-jp" class="btn school-tab-btn is-active-jp" data-scmode="jp" role="tab" aria-selected="true">
+          <svg class="flag-ico" viewBox="0 0 24 16"><rect width="24" height="16" fill="#fff"/><circle cx="12" cy="8" r="4.5" fill="#dc2626"/></svg>
+          <span><ruby>日本<rt>にほん</rt></ruby>の <ruby>学校<rt>がっこう</rt></ruby> / <span class="vi" style="font-size:0.84em;">Trường Nhật Bản</span></span>
+        </button>
+
+        <button type="button" id="btn-sc-vn" class="btn school-tab-btn" data-scmode="vn" role="tab" aria-selected="false">
+          <svg class="flag-ico" viewBox="0 0 24 16"><rect width="24" height="16" fill="#dc2626"/><polygon points="12,3.2 13.2,6.8 17,6.8 14,9 15.1,12.6 12,10.4 8.9,12.6 10,9 7,6.8 10.8,6.8" fill="#facc15"/></svg>
+          <span>ベトナムの <ruby>学校<rt>がっこう</rt></ruby> / <span class="vi" style="font-size:0.84em;">Trường Việt Nam</span></span>
+        </button>
+
+        <button type="button" id="btn-sc-cal" class="btn school-tab-btn" data-scmode="cal" role="tab" aria-selected="false">
+          <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>4<ruby>月<rt>がつ</rt></ruby> vs 9<ruby>月<rt>がつ</rt></ruby>（<ruby>新学期<rt>しんがっき</rt></ruby>くらべ） / <span class="vi" style="font-size:0.84em;">Lịch học</span></span>
+        </button>
+      </div>
+
+      <!-- サブパネル②-1：日本の学校（独立コンテナ） -->
+      <div id="sc-panel-jp" class="school-subpanel is-active">
+        <div class="country-banner is-jp">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <svg class="flag-ico" viewBox="0 0 24 16"><rect width="24" height="16" fill="#fff"/><circle cx="12" cy="8" r="4.5" fill="#dc2626"/></svg>
+            <span><ruby>日本<rt>にほん</rt></ruby>の <ruby>小学校<rt>しょうがっこう</rt></ruby>の 4つの とくちょう ／ <span class="vi">4 nét đặc trưng của tiểu học Nhật Bản</span></span>
+          </div>
+        </div>
+        <div id="school-grid-jp" class="school-rich-grid"></div>
+      </div>
+
+      <!-- サブパネル②-2：ベトナムの学校（独立コンテナ） -->
+      <div id="sc-panel-vn" class="school-subpanel">
+        <div class="country-banner is-vn">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <svg class="flag-ico" viewBox="0 0 24 16"><rect width="24" height="16" fill="#dc2626"/><polygon points="12,3.2 13.2,6.8 17,6.8 14,9 15.1,12.6 12,10.4 8.9,12.6 10,9 7,6.8 10.8,6.8" fill="#facc15"/></svg>
+            <span>ベトナムの <ruby>小学校<rt>しょうがっこう</rt></ruby>の 4つの とくちょう ／ <span class="vi">4 nét đặc trưng của tiểu học Việt Nam</span></span>
+          </div>
+        </div>
+        <div id="school-grid-vn" class="school-rich-grid"></div>
+      </div>
+
+      <!-- サブパネル②-3：新学期カレンダー比較（独立コンテナ） -->
+      <div id="sc-panel-cal" class="school-subpanel">
+        <div class="calendar-full-card">
+          <div class="section-head">
+            <div class="section-title">
+              <span><ruby>新学期<rt>しんがっき</rt></ruby>は いつ？ 4<ruby>月<rt>がつ</rt></ruby>（<ruby>日本<rt>にほん</rt></ruby>） vs 9<ruby>月<rt>がつ</rt></ruby>（ベトナム）</span>
+              <span class="vi">Khai giảng tháng 4 vs tháng 9</span>
+            </div>
+            <div class="speak-pair">
+              <button type="button" id="btn-cal-speak-ja" class="btn btn-blue btn-mini">にほんご</button>
+              <button type="button" id="btn-cal-speak-vi" class="btn btn-teal btn-mini">Tiếng Việt</button>
+            </div>
+          </div>
+
+          <div class="calendar-big-svg" id="svg-school-calendar" aria-label="4月始まりと9月始まりの比較図"></div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div style="padding:12px;border-radius:14px;background:var(--jp-tint);border:1.5px solid #93c5fd;">
+              <div style="font-size:calc(0.92rem * var(--fs));font-weight:900;color:var(--jp-dark);margin-bottom:4px;"><ruby>日本<rt>にほん</rt></ruby>：4<ruby>月<rt>がつ</rt></ruby>はじまり</div>
+              <div style="font-size:calc(0.86rem * var(--fs));font-weight:700;line-height:1.55;">さくらが さく 4<ruby>月<rt>がつ</rt></ruby>に <ruby>新学期<rt>しんがっき</rt></ruby>が はじまります。4<ruby>月<rt>がつ</rt></ruby>2<ruby>日<rt>か</rt></ruby>〜つぎの<ruby>年<rt>とし</rt></ruby>の 4<ruby>月<rt>がつ</rt></ruby>1<ruby>日<rt>にち</rt></ruby>うまれが <ruby>同<rt>おな</rt></ruby>じ <ruby>学年<rt>がくねん</rt></ruby>です。</div>
+              <div class="vi" style="font-size:calc(0.76rem * var(--fs));font-weight:700;color:var(--jp-dark);margin-top:4px;">Nhật Bản khai giảng vào tháng 4 mùa hoa anh đào.</div>
+            </div>
+            <div style="padding:12px;border-radius:14px;background:var(--vn-tint);border:1.5px solid #fca5a5;">
+              <div style="font-size:calc(0.92rem * var(--fs));font-weight:900;color:var(--vn-dark);margin-bottom:4px;">ベトナム：9<ruby>月<rt>がつ</rt></ruby>はじまり</div>
+              <div style="font-size:calc(0.86rem * var(--fs));font-weight:700;line-height:1.55;">9<ruby>月<rt>がつ</rt></ruby>5<ruby>日<rt>か</rt></ruby>に <ruby>全国<rt>ぜんこく</rt></ruby>いっせいに <ruby>新学期<rt>しんがっき</rt></ruby>が はじまります。1<ruby>月<rt>がつ</rt></ruby>〜12<ruby>月<rt>がつ</rt></ruby>うまれで 1<ruby>学年<rt>がくねん</rt></ruby>なので、<ruby>日本<rt>にほん</rt></ruby>と <ruby>年齢<rt>ねんれい</rt></ruby>の <ruby>感<rt>かん</rt></ruby>じが すこし ちがうことが あります。</div>
+              <div class="vi" style="font-size:calc(0.76rem * var(--fs));font-weight:700;color:var(--vn-dark);margin-top:4px;">Việt Nam khai giảng ngày 5/9 và tính lớp theo năm dương lịch (tháng 1 đến tháng 12).</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         タブ③：大切にしていること・価値観（すれちがい予防＆日本ルール適応）
+         ==================================================================== -->
+    <section id="panel-values" class="tab-panel" aria-label="大切にしていること・価値観">
+      <div class="values-layout">
+        <div class="values-selector" id="values-selector" role="tablist">
+          <button type="button" class="btn val-btn is-active" data-vidx="0" role="tab" aria-selected="true">
+            <span>① <ruby>注意<rt>ちゅうい</rt></ruby>・まちがえたとき</span>
+            <span class="vi">Khi bị nhắc nhở / làm sai</span>
+          </button>
+          <button type="button" class="btn val-btn" data-vidx="1" role="tab" aria-selected="false">
+            <span>② <ruby>時間<rt>じかん</rt></ruby>と チャイム</span>
+            <span class="vi">Giờ giấc &amp; Tiếng chuông</span>
+          </button>
+          <button type="button" class="btn val-btn" data-vidx="2" role="tab" aria-selected="false">
+            <span>③ <ruby>距離感<rt>きょりかん</rt></ruby>・<ruby>貸<rt>か</rt></ruby>し<ruby>借<rt>か</rt></ruby>り</span>
+            <span class="vi">Khoảng cách &amp; Mượn đồ</span>
+          </button>
+          <button type="button" class="btn val-btn" data-vidx="3" role="tab" aria-selected="false">
+            <span>④ <ruby>先生<rt>せんせい</rt></ruby>・<ruby>年上<rt>としうえ</rt></ruby>への <ruby>礼儀<rt>れいぎ</rt></ruby></span>
+            <span class="vi">Lễ phép với thầy cô</span>
+          </button>
+        </div>
+
+        <div class="values-stage">
+          <div class="val-visual-card">
+            <div class="section-head">
+              <div id="val-scene-title" class="section-title"></div>
+            </div>
+            <div id="val-scene-svg" class="val-scene-svg" aria-hidden="true"></div>
+
+            <div class="magic-phrase-box">
+              <div style="min-width:0;flex:1;">
+                <div class="magic-label"><ruby>日本<rt>にほん</rt></ruby>の <ruby>学校<rt>がっこう</rt></ruby>で つかってみよう ／ <span class="vi">Câu nói hay dùng ở trường Nhật</span></div>
+                <div id="val-magic-hira" class="magic-hira">ご・め・ん・な・さ・い</div>
+                <span id="val-magic-vnread" class="magic-vn-read">Gô mên na xai</span>
+                <div id="val-magic-vimean" class="magic-vi-meaning">Xin lỗi!</div>
+              </div>
+              <button type="button" id="btn-val-speak-magic" class="btn btn-teal" style="padding:10px 13px;border-radius:14px;">
+                <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <span>きく</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="val-compare-col">
+            <div class="perspective-box is-vn-sense">
+              <div class="section-head">
+                <span class="persp-badge">
+                  <svg class="flag-ico" viewBox="0 0 24 16"><rect width="24" height="16" fill="#dc2626"/><polygon points="12,3.2 13.2,6.8 17,6.8 14,9 15.1,12.6 12,10.4 8.9,12.6 10,9 7,6.8 10.8,6.8" fill="#facc15"/></svg>
+                  <span><ruby>日本<rt>にほん</rt></ruby>の <ruby>子<rt>こ</rt></ruby>へ：ベトナムでは こう<ruby>感<rt>かん</rt></ruby>じるよ</span>
+                </span>
+                <div class="speak-pair">
+                  <button type="button" id="btn-val-vn-ja" class="btn btn-vn btn-mini">にほんご</button>
+                  <button type="button" id="btn-val-vn-vi" class="btn btn-teal btn-mini">Tiếng Việt</button>
+                </div>
+              </div>
+              <div id="val-vn-jp" class="persp-jp"></div>
+              <div id="val-vn-vi" class="persp-vi"></div>
+            </div>
+
+            <div class="perspective-box is-jp-rule">
+              <div class="section-head">
+                <span class="persp-badge">
+                  <svg class="flag-ico" viewBox="0 0 24 16"><rect width="24" height="16" fill="#fff"/><circle cx="12" cy="8" r="4.5" fill="#dc2626"/></svg>
+                  <span>ベトナムの <ruby>子<rt>こ</rt></ruby>へ：<ruby>日本<rt>にほん</rt></ruby>の <ruby>学校<rt>がっこう</rt></ruby>の ルール</span>
+                </span>
+                <div class="speak-pair">
+                  <button type="button" id="btn-val-jp-ja" class="btn btn-blue btn-mini">にほんご</button>
+                  <button type="button" id="btn-val-jp-vi" class="btn btn-teal btn-mini">Tiếng Việt</button>
+                </div>
+              </div>
+              <div id="val-jp-jp" class="persp-jp"></div>
+              <div id="val-jp-vi" class="persp-vi"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         タブ④：小学生の流行り・エンタメ（日本6種＋ベトナム6種＝計12種）
+         ==================================================================== -->
+    <section id="panel-trends" class="tab-panel" aria-label="小学生の流行りとエンタメ">
+      <div class="trend-bar">
+        <div class="trend-filter-group" id="trend-filter-group">
+          <button type="button" class="btn trend-pill is-active" data-tfilter="all">ぜんぶ (12) / <span class="vi">Tất cả</span></button>
+          <button type="button" class="btn trend-pill" data-tfilter="jp">
+            <svg class="flag-ico" viewBox="0 0 24 16"><rect width="24" height="16" fill="#fff"/><circle cx="12" cy="8" r="4.5" fill="#dc2626"/></svg>
+            <span><ruby>日本<rt>にほん</rt></ruby>の <ruby>流行<rt>はや</rt></ruby>り (6) / <span class="vi">Nhật</span></span>
+          </button>
+          <button type="button" class="btn trend-pill" data-tfilter="vn">
+            <svg class="flag-ico" viewBox="0 0 24 16"><rect width="24" height="16" fill="#dc2626"/><polygon points="12,3.2 13.2,6.8 17,6.8 14,9 15.1,12.6 12,10.4 8.9,12.6 10,9 7,6.8 10.8,6.8" fill="#facc15"/></svg>
+            <span>ベトナムの <ruby>流行<rt>はや</rt></ruby>り (6) / <span class="vi">Việt Nam</span></span>
+          </button>
+        </div>
+        <span style="font-size:calc(0.8rem * var(--fs));font-weight:800;color:var(--guide-dark);">ボタンで <ruby>音<rt>おと</rt></ruby>が きけるよ ／ <span class="vi">Nhấn nút để nghe</span></span>
+      </div>
+
+      <div id="trend-grid" class="trend-grid"></div>
+    </section>
+
+    <!-- ====================================================================
+         タブ⑤：1日のスケジュールくらべ
+         ==================================================================== -->
+    <section id="panel-schedule" class="tab-panel" aria-label="1日のスケジュールくらべ">
+      <div class="sched-layout">
+        <div class="sched-columns">
+          <div class="sched-col is-jp">
+            <div class="section-head">
+              <div class="section-title">
+                <svg class="flag-ico" viewBox="0 0 24 16"><rect width="24" height="16" fill="#fff"/><circle cx="12" cy="8" r="4.5" fill="#dc2626"/></svg>
+                <span><ruby>日本<rt>にほん</rt></ruby>の <ruby>小学生<rt>しょうがくせい</rt></ruby>の 1<ruby>日<rt>にち</rt></ruby></span>
+                <span class="vi" style="color:var(--jp-dark);">Học sinh Nhật Bản</span>
+              </div>
+            </div>
+            <div id="sched-list-jp" class="sched-list"></div>
+          </div>
+
+          <div class="sched-col is-vn">
+            <div class="section-head">
+              <div class="section-title">
+                <svg class="flag-ico" viewBox="0 0 24 16"><rect width="24" height="16" fill="#dc2626"/><polygon points="12,3.2 13.2,6.8 17,6.8 14,9 15.1,12.6 12,10.4 8.9,12.6 10,9 7,6.8 10.8,6.8" fill="#facc15"/></svg>
+                <span>ベトナムの <ruby>小学生<rt>しょうがくせい</rt></ruby>の 1<ruby>日<rt>にち</rt></ruby></span>
+                <span class="vi" style="color:var(--vn-dark);">Học sinh Việt Nam</span>
+              </div>
+            </div>
+            <div id="sched-list-vn" class="sched-list"></div>
+          </div>
+        </div>
+
+        <div class="sched-detail-bar" aria-live="polite">
+          <div style="min-width:0;flex:1;">
+            <div id="sched-detail-title" style="font-size:calc(0.98rem * var(--fs));font-weight:900;color:var(--guide-dark);">じかんを タップして くらべてみよう！</div>
+            <div id="sched-detail-jp" style="font-size:calc(0.88rem * var(--fs));font-weight:700;color:var(--ink);margin-top:2px;">うえの スケジュールを タップすると、くわしい せつめいが でるよ。</div>
+            <div id="sched-detail-vi" class="vi" style="font-size:calc(0.78rem * var(--fs));font-weight:700;color:var(--ink-sub);margin-top:2px;">Chạm vào từng mốc giờ ở trên để xem giải thích chi tiết nhé!</div>
+          </div>
+          <div class="speak-pair">
+            <button type="button" id="btn-sched-speak-ja" class="btn btn-blue" style="padding:7px 13px;font-size:0.82rem;">にほんご</button>
+            <button type="button" id="btn-sched-speak-vi" class="btn btn-teal" style="padding:7px 13px;font-size:0.82rem;">Tiếng Việt</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /* ====================================================================
+         1. リッチ多色・奥行きレイヤーSVG図解ライブラリ
+            preserveAspectRatio="xMidYMid slice" で枠いっぱいに美しく描画
+         ==================================================================== */
+      const FLAG_JP = `<svg class="flag-ico" viewBox="0 0 24 16"><rect width="24" height="16" fill="#fff"/><circle cx="12" cy="8" r="4.5" fill="#dc2626"/></svg>`;
+      const FLAG_VN = `<svg class="flag-ico" viewBox="0 0 24 16"><rect width="24" height="16" fill="#dc2626"/><polygon points="12,3.2 13.2,6.8 17,6.8 14,9 15.1,12.6 12,10.4 8.9,12.6 10,9 7,6.8 10.8,6.8" fill="#facc15"/></svg>`;
+
+      const SVGS = {
+        /* 地図（海グラデ・等高線・光る航路） */
+        geoMap: `<svg viewBox="0 0 480 280" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs>
+            <linearGradient id="ocean" x1="0" y1="0" x2="480" y2="280" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#0284c7"/><stop offset="55%" stop-color="#0ea5e9"/><stop offset="100%" stop-color="#38bdf8"/>
+            </linearGradient>
+            <linearGradient id="jpLand" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#86efac"/><stop offset="100%" stop-color="#16a34a"/>
+            </linearGradient>
+            <linearGradient id="vnLand" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fde047"/><stop offset="100%" stop-color="#ea580c"/>
+            </linearGradient>
+            <filter id="landSh" x="-10%" y="-10%" width="125%" height="125%">
+              <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.32"/>
+            </filter>
+          </defs>
+          <rect x="-320" y="-160" width="1120" height="600" fill="url(#ocean)"/>
+          <g stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="5 5">
+            <line x1="-320" y1="70" x2="800" y2="70"/><line x1="-320" y1="140" x2="800" y2="140"/><line x1="-320" y1="210" x2="800" y2="210"/>
+            <line x1="160" y1="-160" x2="160" y2="440"/><line x1="320" y1="-160" x2="320" y2="440"/>
+          </g>
+          <!-- ユーラシア大陸シルエット（背景） -->
+          <path d="M-320 -160h530l-16 202-34 26-38 22-46 58-24 62-52 38H-320V-160z" fill="rgba(255,255,255,0.14)"/>
+          <!-- 日本列島 -->
+          <g transform="translate(286,18)" filter="url(#landSh)">
+            <path d="M98 10l24 8-8 24-24 6-10-16 18-22z" fill="url(#jpLand)" stroke="#14532d" stroke-width="2"/>
+            <path d="M90 44l16 14-5 34-26 24-40 9-16-13 26-13 24-20 11-26 10-9z" fill="url(#jpLand)" stroke="#14532d" stroke-width="2"/>
+            <path d="M40 120l18-4 4 13-18 6-4-15z" fill="url(#jpLand)" stroke="#14532d" stroke-width="1.8"/>
+            <path d="M16 122l18 4-7 26-15-4 4-26z" fill="url(#jpLand)" stroke="#14532d" stroke-width="1.8"/>
+          </g>
+          <!-- 日本ピン＆ラベル -->
+          <circle cx="338" cy="126" r="6" fill="#1d4ed8" stroke="#fff" stroke-width="2.2"/>
+          <rect x="274" y="96" width="66" height="22" rx="7" fill="#1e3a8a"/>
+          <text x="307" y="111" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="900">おかやま</text>
+          <circle cx="378" cy="108" r="5.5" fill="#dc2626" stroke="#fff" stroke-width="2.2"/>
+          <rect x="388" y="96" width="70" height="22" rx="7" fill="#991b1b"/>
+          <text x="423" y="111" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="900">とうきょう</text>
+          <!-- ベトナム国土 -->
+          <g transform="translate(56,82)" filter="url(#landSh)">
+            <path d="M36 8l42 4 14 20-18 15 3 24 24 28 15 36-7 32-30 18-26 10-8-15 22-16 15-19-6-28-24-28-9-36-15-19 8-26z" fill="url(#vnLand)" stroke="#7c2d12" stroke-width="2.2"/>
+          </g>
+          <!-- ベトナムピン＆ラベル -->
+          <circle cx="118" cy="112" r="6" fill="#dc2626" stroke="#fff" stroke-width="2.2"/>
+          <rect x="14" y="100" width="96" height="22" rx="7" fill="#991b1b"/>
+          <text x="62" y="115" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="900">ハノイ (Hà Nội)</text>
+          <circle cx="136" cy="236" r="6" fill="#0f766e" stroke="#fff" stroke-width="2.2"/>
+          <rect x="150" y="224" width="124" height="22" rx="7" fill="#115e59"/>
+          <text x="212" y="239" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="900">ホーチミン (TP.HCM)</text>
+          <!-- 航路＆飛行機 -->
+          <path d="M124 112 Q 228 42 332 124" stroke="#fef08a" stroke-width="3.5" stroke-dasharray="8 6" fill="none"/>
+          <g transform="translate(226,74)">
+            <rect x="-64" y="-22" width="128" height="26" rx="13" fill="rgba(15,23,42,0.88)" stroke="#facc15" stroke-width="2"/>
+            <text x="0" y="-5" text-anchor="middle" fill="#fef08a" font-size="11.5" font-weight="900">ひこうき 5〜6じかん</text>
+          </g>
+          <!-- 方位 -->
+          <g transform="translate(446,32)">
+            <circle r="17" fill="rgba(15,23,42,0.55)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+            <polygon points="0,-12 4.5,0 0,-3 -4.5,0" fill="#facc15"/>
+            <text x="0" y="12" text-anchor="middle" fill="#fff" font-size="9" font-weight="900">N</text>
+          </g>
+        </svg>`,
+
+        factTime: `<svg viewBox="0 0 132 96" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="tBg" x1="0" y1="0" x2="132" y2="96" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1e3a8a"/><stop offset="100%" stop-color="#0284c7"/></linearGradient></defs>
+          <rect x="-120" y="-120" width="372" height="336" fill="url(#tBg)"/>
+          <circle cx="38" cy="40" r="24" fill="#fff" stroke="#93c5fd" stroke-width="3"/>
+          <line x1="38" y1="40" x2="38" y2="23" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="38" y1="40" x2="25" y2="33" stroke="#dc2626" stroke-width="3" stroke-linecap="round"/>
+          <text x="38" y="82" text-anchor="middle" fill="#fff" font-size="11" font-weight="900">JP 10:00</text>
+          <circle cx="94" cy="40" r="24" fill="#fff" stroke="#fdba74" stroke-width="3"/>
+          <line x1="94" y1="40" x2="94" y2="23" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="94" y1="40" x2="81" y2="47" stroke="#ea580c" stroke-width="3" stroke-linecap="round"/>
+          <text x="94" y="82" text-anchor="middle" fill="#fef08a" font-size="11" font-weight="900">VN 8:00</text>
+        </svg>`,
+
+        factMoney: `<svg viewBox="0 0 132 96" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="mBg" x1="0" y1="0" x2="132" y2="96" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#78350f"/><stop offset="100%" stop-color="#d97706"/></linearGradient></defs>
+          <rect x="-120" y="-120" width="372" height="336" fill="url(#mBg)"/>
+          <circle cx="34" cy="48" r="24" fill="#e2e8f0" stroke="#94a3b8" stroke-width="3"/>
+          <circle cx="34" cy="48" r="19" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3 2"/>
+          <text x="34" y="53" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="900">¥100</text>
+          <rect x="64" y="18" width="58" height="30" rx="5" fill="#fef08a" stroke="#a16207" stroke-width="2"/>
+          <text x="93" y="37" text-anchor="middle" fill="#854d0e" font-size="11" font-weight="900">10,000đ</text>
+          <rect x="68" y="48" width="54" height="28" rx="5" fill="#bae6fd" stroke="#0369a1" stroke-width="2"/>
+          <text x="95" y="66" text-anchor="middle" fill="#0c4a6e" font-size="10.5" font-weight="900">+6,000đ</text>
+        </svg>`,
+
+        factSeason: `<svg viewBox="0 0 132 96" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs>
+            <linearGradient id="sJp" x1="0" y1="0" x2="0" y2="96" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fda4af"/><stop offset="100%" stop-color="#f43f5e"/></linearGradient>
+            <linearGradient id="sVn" x1="0" y1="0" x2="0" y2="96" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fde047"/><stop offset="100%" stop-color="#f97316"/></linearGradient>
+          </defs>
+          <rect x="-120" y="-120" width="186" height="336" fill="url(#sJp)"/>
+          <rect x="66" y="-120" width="186" height="336" fill="url(#sVn)"/>
+          <g transform="translate(33,38)">
+            <circle cy="-10" r="7" fill="#fff"/><circle cx="10" cy="-2" r="7" fill="#fff"/><circle cx="6" cy="9" r="7" fill="#fff"/>
+            <circle cx="-6" cy="9" r="7" fill="#fff"/><circle cx="-10" cy="-2" r="7" fill="#fff"/><circle r="5" fill="#f43f5e"/>
+          </g>
+          <text x="33" y="82" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="900">4つのきせつ</text>
+          <circle cx="99" cy="38" r="15" fill="#fff7ed" stroke="#ea580c" stroke-width="2.5"/>
+          <path d="M99 16v5M99 55v5M77 38h5M116 38h5" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/>
+          <text x="99" y="82" text-anchor="middle" fill="#7c2d12" font-size="10.5" font-weight="900">あつい/あめ</text>
+        </svg>`,
+
+        /* ②学校のちがい：日本4種（背景フルブリード＋中央イラスト無欠損） */
+        jpRandoseru: `<svg viewBox="0 0 320 130" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="skyJp1" x1="0" y1="0" x2="320" y2="130" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#bae6fd"/><stop offset="100%" stop-color="#e0f2fe"/></linearGradient></defs>
+          <rect x="-320" y="-100" width="960" height="330" fill="url(#skyJp1)"/>
+          <rect x="-320" y="94" width="960" height="140" fill="#cbd5e1"/>
+          <path d="M-90 112h28m28 0h28m28 0h28m28 0h28m28 0h28m28 0h28m28 0h28m28 0h28m28 0h28" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+          <!-- 桜の木 -->
+          <circle cx="48" cy="46" r="34" fill="#fbcfe8"/><circle cx="80" cy="54" r="24" fill="#f9a8d4"/><rect x="44" y="68" width="10" height="32" fill="#92400e"/>
+          <!-- 立体ランドセル -->
+          <g transform="translate(132,20)">
+            <rect x="6" y="14" width="60" height="72" rx="14" fill="#b91c1c" stroke="#450a0a" stroke-width="2.5"/>
+            <rect x="12" y="14" width="48" height="50" rx="10" fill="#ef4444" stroke="#7f1d1d" stroke-width="2"/>
+            <path d="M18 14v-6a18 18 0 0 1 36 0v6" stroke="#450a0a" stroke-width="3.5" fill="none"/>
+            <rect x="30" y="54" width="12" height="14" rx="3" fill="#fde047" stroke="#854d0e" stroke-width="2"/>
+            <path d="M20 24h32" stroke="rgba(255,255,255,0.45)" stroke-width="3" stroke-linecap="round"/>
+          </g>
+          <!-- 黄色い通学帽 -->
+          <g transform="translate(226,42)">
+            <path d="M8 38c0-20 14-32 30-32s30 12 30 32H8z" fill="#facc15" stroke="#854d0e" stroke-width="2.5"/>
+            <rect x="2" y="34" width="72" height="9" rx="4.5" fill="#eab308" stroke="#854d0e" stroke-width="2"/>
+          </g>
+        </svg>`,
+
+        jpLunch: `<svg viewBox="0 0 320 130" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="woodDesk" x1="0" y1="0" x2="0" y2="130" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fef3c7"/><stop offset="100%" stop-color="#fde68a"/></linearGradient></defs>
+          <rect x="-320" y="-100" width="960" height="330" fill="url(#woodDesk)"/>
+          <line x1="-320" y1="30" x2="640" y2="30" stroke="rgba(180,83,9,0.12)" stroke-width="2"/>
+          <line x1="-320" y1="86" x2="640" y2="86" stroke="rgba(180,83,9,0.12)" stroke-width="2"/>
+          <!-- アルミ給食トレイ -->
+          <rect x="44" y="18" width="232" height="96" rx="14" fill="#e2e8f0" stroke="#64748b" stroke-width="3"/>
+          <rect x="52" y="26" width="216" height="80" rx="10" fill="#f1f5f9"/>
+          <!-- カレー皿 -->
+          <circle cx="114" cy="70" r="32" fill="#fff" stroke="#94a3b8" stroke-width="2.2"/>
+          <path d="M86 70a28 28 0 0 1 56 0z" fill="#b45309"/>
+          <path d="M86 70a28 28 0 0 0 56 0z" fill="#fefce8"/>
+          <circle cx="106" cy="58" r="5" fill="#f97316"/><circle cx="122" cy="56" r="4" fill="#fde047"/>
+          <!-- スープ椀 -->
+          <circle cx="186" cy="76" r="22" fill="#dc2626" stroke="#7f1d1d" stroke-width="2"/>
+          <circle cx="186" cy="76" r="16" fill="#fef3c7"/><circle cx="182" cy="74" r="4" fill="#22c55e"/>
+          <!-- 牛乳パック -->
+          <rect x="224" y="34" width="32" height="58" rx="4" fill="#fff" stroke="#1d4ed8" stroke-width="2.2"/>
+          <rect x="224" y="54" width="32" height="18" fill="#3b82f6"/>
+          <text x="240" y="67" text-anchor="middle" fill="#fff" font-size="10" font-weight="900">MILK</text>
+        </svg>`,
+
+        jpClean: `<svg viewBox="0 0 320 130" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="floorJp" x1="0" y1="0" x2="0" y2="130" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#dcfce7"/><stop offset="55%" stop-color="#fef3c7"/><stop offset="100%" stop-color="#fcd34d"/></linearGradient></defs>
+          <rect x="-320" y="-100" width="960" height="330" fill="url(#floorJp)"/>
+          <!-- 教室の黒板 -->
+          <rect x="46" y="10" width="228" height="46" rx="5" fill="#14532d" stroke="#92400e" stroke-width="4"/>
+          <line x1="72" y1="28" x2="156" y2="28" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+          <line x1="72" y1="40" x2="196" y2="40" stroke="#fde047" stroke-width="3" stroke-linecap="round"/>
+          <!-- ほうき＆バケツ＆キラキラ -->
+          <line x1="126" y1="36" x2="88" y2="96" stroke="#92400e" stroke-width="5" stroke-linecap="round"/>
+          <path d="M74 86l24 14-14 22-26-14 16-22z" fill="#fbbf24" stroke="#78350f" stroke-width="2.2"/>
+          <path d="M188 74h48l-6 44h-36l-6-44z" fill="#38bdf8" stroke="#0369a1" stroke-width="2.5"/>
+          <ellipse cx="212" cy="74" rx="24" ry="6" fill="#bae6fd" stroke="#0369a1" stroke-width="2"/>
+          <path d="M156 80l5-10 5 10 10 5-10 5-5 10-5-10-10-5 10-5z" fill="#facc15" stroke="#b45309" stroke-width="1.5"/>
+          <path d="M258 68l4-8 4 8 8 4-8 4-4 8-4-8-8-4 8-4z" fill="#fff"/>
+        </svg>`,
+
+        jpEvent: `<svg viewBox="0 0 320 130" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs>
+            <linearGradient id="skyEvTop" x1="0" y1="0" x2="0" y2="88" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#bae6fd"/></linearGradient>
+            <linearGradient id="skyEvGnd" x1="0" y1="88" x2="0" y2="130" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fde68a"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient>
+          </defs>
+          <rect x="-320" y="-100" width="960" height="188" fill="url(#skyEvTop)"/>
+          <rect x="-320" y="88" width="960" height="140" fill="url(#skyEvGnd)"/>
+          <!-- 万国旗 -->
+          <path d="M-80 18 Q 160 58 400 18" stroke="#475569" stroke-width="2" fill="none"/>
+          <polygon points="36,30 56,33 44,50" fill="#ef4444"/><polygon points="78,36 98,38 87,55" fill="#facc15"/>
+          <polygon points="122,40 142,40 132,58" fill="#22c55e"/><polygon points="168,40 188,40 178,58" fill="#3b82f6"/>
+          <polygon points="214,38 234,36 225,54" fill="#ef4444"/><polygon points="258,33 278,30 270,48" fill="#a855f7"/>
+          <!-- 玉入れカゴ＆赤白玉 -->
+          <line x1="160" y1="54" x2="160" y2="128" stroke="#78350f" stroke-width="5"/>
+          <path d="M134 54h52l-8 24h-36l-8-24z" fill="#dc2626" stroke="#7f1d1d" stroke-width="2.2"/>
+          <circle cx="116" cy="52" r="8" fill="#fff" stroke="#94a3b8" stroke-width="1.8"/>
+          <circle cx="204" cy="48" r="8" fill="#ef4444" stroke="#991b1b" stroke-width="1.8"/>
+          <circle cx="148" cy="44" r="7" fill="#fff" stroke="#94a3b8" stroke-width="1.8"/>
+        </svg>`,
+
+        /* ②学校のちがい：ベトナム4種（背景フルブリード＋中央イラスト無欠損） */
+        vnBike: `<svg viewBox="0 0 320 130" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="skyVn1" x1="0" y1="0" x2="320" y2="130" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fef08a"/><stop offset="100%" stop-color="#fed7aa"/></linearGradient></defs>
+          <rect x="-320" y="-100" width="960" height="330" fill="url(#skyVn1)"/>
+          <rect x="-320" y="94" width="960" height="140" fill="#64748b"/>
+          <circle cx="272" cy="30" r="20" fill="#f97316" opacity="0.85"/>
+          <!-- 街路樹 -->
+          <circle cx="48" cy="60" r="28" fill="#22c55e"/><rect x="44" y="76" width="8" height="22" fill="#78350f"/>
+          <!-- スクーター＆リュック -->
+          <g transform="translate(96,38)">
+            <circle cx="28" cy="58" r="16" fill="#1e293b" stroke="#0f172a" stroke-width="3"/><circle cx="28" cy="58" r="7" fill="#cbd5e1"/>
+            <circle cx="104" cy="58" r="16" fill="#1e293b" stroke="#0f172a" stroke-width="3"/><circle cx="104" cy="58" r="7" fill="#cbd5e1"/>
+            <path d="M24 54h64l18-24h14l-14 34H24z" fill="#dc2626" stroke="#7f1d1d" stroke-width="2.4"/>
+            <rect x="30" y="34" width="44" height="10" rx="5" fill="#1e293b"/>
+            <rect x="26" y="8" width="32" height="30" rx="8" fill="#2563eb" stroke="#1e3a8a" stroke-width="2.2"/>
+            <rect x="33" y="18" width="18" height="12" rx="3" fill="#93c5fd"/>
+          </g>
+        </svg>`,
+
+        vnNap: `<svg viewBox="0 0 320 130" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="napRoom" x1="0" y1="0" x2="320" y2="130" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#312e81"/><stop offset="100%" stop-color="#4338ca"/></linearGradient></defs>
+          <rect x="-320" y="-100" width="960" height="330" fill="url(#napRoom)"/>
+          <!-- 窓のカーテンと月星 -->
+          <rect x="22" y="14" width="76" height="58" rx="6" fill="#1e1b4b" stroke="#818cf8" stroke-width="2.5"/>
+          <path d="M68 26a14 14 0 1 0 14 22 11 11 0 1 1-14-22z" fill="#fde047"/>
+          <!-- マットとお昼寝の子どもたち -->
+          <rect x="36" y="84" width="248" height="32" rx="10" fill="#e0e7ff" stroke="#1e1b4b" stroke-width="2.5"/>
+          <rect x="108" y="78" width="166" height="38" rx="10" fill="#60a5fa" stroke="#1e3a8a" stroke-width="2.5"/>
+          <circle cx="88" cy="84" r="18" fill="#fde68a" stroke="#1e1b4b" stroke-width="2.4"/>
+          <path d="M80 84c3 3 6 3 9 0M92 84c3 3 6 3 9 0" stroke="#1e1b4b" stroke-width="2" stroke-linecap="round"/>
+          <text x="166" y="54" fill="#fde047" font-size="24" font-weight="900" font-family="Noto Sans, sans-serif">Zzz...</text>
+        </svg>`,
+
+        vnScarf: `<svg viewBox="0 0 320 130" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="vnSchBg" x1="0" y1="0" x2="320" y2="130" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fee2e2"/><stop offset="100%" stop-color="#fef3c7"/></linearGradient></defs>
+          <rect x="-320" y="-100" width="960" height="330" fill="url(#vnSchBg)"/>
+          <circle cx="160" cy="40" r="24" fill="#fde68a" stroke="#0f172a" stroke-width="2.5"/>
+          <path d="M138 30c6-12 38-12 44 0" fill="#1e293b"/>
+          <path d="M150 45c4 4 16 4 20 0" stroke="#0f172a" stroke-width="2.2" stroke-linecap="round"/>
+          <!-- 白い制服シャツ -->
+          <path d="M104 128c6-34 22-52 56-52s50 18 56 52H104z" fill="#ffffff" stroke="#0f172a" stroke-width="2.6"/>
+          <!-- 赤いスカーフ（Khăn quàng đỏ） -->
+          <polygon points="132,74 188,74 160,104" fill="#dc2626" stroke="#7f1d1d" stroke-width="2.2"/>
+          <path d="M160 98l-14 26M160 98l14 26" stroke="#dc2626" stroke-width="10" stroke-linecap="round"/>
+          <circle cx="160" cy="96" r="6" fill="#ef4444" stroke="#7f1d1d" stroke-width="2"/>
+          <!-- 輝く星 -->
+          <polygon points="248,26 252,36 263,37 255,44 257,55 248,49 239,55 241,44 233,37 244,36" fill="#facc15" stroke="#b45309" stroke-width="1.8"/>
+        </svg>`,
+
+        vnTeacherDay: `<svg viewBox="0 0 320 130" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="tdBg" x1="0" y1="0" x2="320" y2="130" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#ffe4e6"/><stop offset="100%" stop-color="#fce7f3"/></linearGradient></defs>
+          <rect x="-320" y="-100" width="960" height="330" fill="url(#tdBg)"/>
+          <rect x="24" y="18" width="116" height="92" rx="14" fill="#fff" stroke="#e11d48" stroke-width="2.6"/>
+          <rect x="24" y="18" width="116" height="28" rx="10" fill="#e11d48"/>
+          <text x="82" y="37" text-anchor="middle" fill="#fff" font-size="13" font-weight="900">11がつ</text>
+          <text x="82" y="88" text-anchor="middle" fill="#be123c" font-size="38" font-weight="900" font-family="Noto Sans, sans-serif">20</text>
+          <!-- 花束 -->
+          <g transform="translate(196,14)">
+            <path d="M18 104l26-56 26 56H18z" fill="#fbcfe8" stroke="#9d174d" stroke-width="2.4"/>
+            <circle cx="28" cy="40" r="14" fill="#f43f5e" stroke="#881337" stroke-width="2"/>
+            <circle cx="60" cy="40" r="14" fill="#fbbf24" stroke="#92400e" stroke-width="2"/>
+            <circle cx="44" cy="24" r="15" fill="#fb7185" stroke="#881337" stroke-width="2"/>
+            <circle cx="44" cy="48" r="13" fill="#ffffff" stroke="#e11d48" stroke-width="2"/>
+          </g>
+        </svg>`,
+
+        /* カレンダー比較（大型精密図解） */
+        schoolCalendarBig: `<svg viewBox="0 0 720 200" preserveAspectRatio="xMidYMid meet" fill="none">
+          <rect x="-300" y="-100" width="1320" height="400" fill="#fffbeb"/>
+          <!-- 月目盛り -->
+          <g font-family="Noto Sans, sans-serif" font-size="12" font-weight="900" fill="#64748b">
+            <text x="150" y="28">1がつ</text><text x="240" y="28">3がつ</text><text x="290" y="28" fill="#1d4ed8">4がつ</text>
+            <text x="385" y="28">6がつ</text><text x="485" y="28">8がつ</text><text x="535" y="28" fill="#dc2626">9がつ</text><text x="655" y="28">12がつ</text>
+          </g>
+          <!-- 日本バー -->
+          <rect x="20" y="48" width="110" height="44" rx="12" fill="#1d4ed8"/>
+          <text x="75" y="75" text-anchor="middle" fill="#fff" font-size="14" font-weight="900">にほん (JP)</text>
+          <rect x="144" y="48" width="552" height="44" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2.2"/>
+          <rect x="282" y="48" width="104" height="44" rx="12" fill="#2563eb"/>
+          <text x="334" y="75" text-anchor="middle" fill="#fff" font-size="13.5" font-weight="900">4がつ しんがっき</text>
+          <text x="538" y="75" text-anchor="middle" fill="#1e3a8a" font-size="13" font-weight="800">なつやすみ (7〜8がつ) → 2がっき</text>
+          <!-- ベトナムバー -->
+          <rect x="20" y="114" width="110" height="44" rx="12" fill="#dc2626"/>
+          <text x="75" y="141" text-anchor="middle" fill="#fff" font-size="14" font-weight="900">ベトナム (VN)</text>
+          <rect x="144" y="114" width="552" height="44" rx="12" fill="#fee2e2" stroke="#dc2626" stroke-width="2.2"/>
+          <rect x="382" y="114" width="142" height="44" rx="10" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
+          <text x="453" y="141" text-anchor="middle" fill="#854d0e" font-size="13" font-weight="900">ながい なつやすみ</text>
+          <rect x="526" y="114" width="120" height="44" rx="12" fill="#dc2626"/>
+          <text x="586" y="141" text-anchor="middle" fill="#fff" font-size="13.5" font-weight="900">9がつ しんがっき</text>
+          <text x="260" y="141" text-anchor="middle" fill="#991b1b" font-size="12.5" font-weight="800">テト (1〜2がつ)</text>
+          <text x="360" y="186" text-anchor="middle" fill="#9a3412" font-size="12.5" font-weight="900">★ 9がつ はじまりと 4がつ はじまりの ちがいが あるよ！</text>
+        </svg>`,
+
+        /* タブ③：価値観シーンSVG（背景フルブリード＋中央無欠損） */
+        valSorry: `<svg viewBox="0 0 340 200" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs>
+            <linearGradient id="vsL" x1="0" y1="0" x2="0" y2="200" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fee2e2"/><stop offset="100%" stop-color="#fecaca"/></linearGradient>
+            <linearGradient id="vsR" x1="0" y1="0" x2="0" y2="200" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#dcfce7"/><stop offset="100%" stop-color="#bbf7d0"/></linearGradient>
+          </defs>
+          <rect x="-250" y="-120" width="420" height="440" fill="url(#vsL)"/>
+          <rect x="170" y="-120" width="420" height="440" fill="url(#vsR)"/>
+          <rect x="18" y="14" width="134" height="26" rx="13" fill="#991b1b"/>
+          <text x="85" y="31" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="900">はずかしい・どきどき</text>
+          <circle cx="85" cy="96" r="30" fill="#fde68a" stroke="#0f172a" stroke-width="2.5"/>
+          <circle cx="68" cy="102" r="7" fill="#fb7185" opacity="0.65"/><circle cx="102" cy="102" r="7" fill="#fb7185" opacity="0.65"/>
+          <path d="M74 90l6 4M96 90l-6 4" stroke="#0f172a" stroke-width="2.6" stroke-linecap="round"/>
+          <line x1="77" y1="111" x2="93" y2="111" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M46 196c4-32 18-48 39-48s35 16 39 48H46z" fill="#3b82f6" stroke="#0f172a" stroke-width="2.5"/>
+
+          <rect x="188" y="14" width="134" height="26" rx="13" fill="#15803d"/>
+          <text x="255" y="31" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="900">すぐ なかなおり！</text>
+          <rect x="194" y="48" width="122" height="28" rx="12" fill="#fff" stroke="#16a34a" stroke-width="2.2"/>
+          <text x="255" y="66" text-anchor="middle" fill="#166534" font-size="12" font-weight="900">ごめんなさい！</text>
+          <circle cx="224" cy="116" r="22" fill="#fde68a" stroke="#0f172a" stroke-width="2.3"/>
+          <path d="M215 121c4 5 14 5 18 0" stroke="#0f172a" stroke-width="2.3" stroke-linecap="round"/>
+          <circle cx="286" cy="116" r="22" fill="#fed7aa" stroke="#0f172a" stroke-width="2.3"/>
+          <path d="M277 121c4 5 14 5 18 0" stroke="#0f172a" stroke-width="2.3" stroke-linecap="round"/>
+          <path d="M198 196c3-24 12-36 26-36s23 12 26 36h-52z" fill="#14b8a6" stroke="#0f172a" stroke-width="2.3"/>
+          <path d="M260 196c3-24 12-36 26-36s23 12 26 36h-52z" fill="#fb923c" stroke="#0f172a" stroke-width="2.3"/>
+          <circle cx="170" cy="104" r="18" fill="#ea580c" stroke="#fff" stroke-width="3"/>
+          <path d="M163 104h14m-5-6l6 6-6 6" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`,
+
+        valTime: `<svg viewBox="0 0 340 200" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="vtBg" x1="0" y1="0" x2="340" y2="200" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#dbeafe"/><stop offset="100%" stop-color="#dcfce7"/></linearGradient></defs>
+          <rect x="-250" y="-120" width="840" height="440" fill="url(#vtBg)"/>
+          <circle cx="102" cy="96" r="62" fill="#fff" stroke="#15803d" stroke-width="5"/>
+          <path d="M102 34A62 62 0 0 0 71 42L102 96Z" fill="#86efac"/>
+          <line x1="102" y1="96" x2="102" y2="52" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round"/>
+          <line x1="102" y1="96" x2="76" y2="60" stroke="#15803d" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="102" cy="96" r="6" fill="#0f172a"/>
+          <rect x="40" y="164" width="124" height="26" rx="13" fill="#15803d"/>
+          <text x="102" y="181" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="900">5ふんまえ ちゃくせき</text>
+          <rect x="192" y="122" width="122" height="16" rx="4" fill="#fbbf24" stroke="#78350f" stroke-width="2.5"/>
+          <path d="M204 138v48M302 138v48" stroke="#78350f" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="253" cy="72" r="24" fill="#fde68a" stroke="#0f172a" stroke-width="2.5"/>
+          <path d="M244 77c5 5 13 5 18 0" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M220 122c5-16 16-24 33-24s28 8 33 24H220z" fill="#3b82f6" stroke="#0f172a" stroke-width="2.4"/>
+          <rect x="196" y="16" width="114" height="28" rx="12" fill="#fff" stroke="#15803d" stroke-width="2.2"/>
+          <text x="253" y="34" text-anchor="middle" fill="#15803d" font-size="12" font-weight="900">じゅんび OK！</text>
+        </svg>`,
+
+        valBorrow: `<svg viewBox="0 0 340 200" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="vbBg" x1="0" y1="0" x2="340" y2="200" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#e0f2fe"/><stop offset="100%" stop-color="#ccfbf1"/></linearGradient></defs>
+          <rect x="-250" y="-120" width="840" height="440" fill="url(#vbBg)"/>
+          <circle cx="88" cy="96" r="26" fill="#fde68a" stroke="#0f172a" stroke-width="2.5"/>
+          <path d="M79 101c4 5 14 5 18 0" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M52 196c4-32 16-48 36-48s32 16 36 48H52z" fill="#14b8a6" stroke="#0f172a" stroke-width="2.5"/>
+          <circle cx="252" cy="96" r="26" fill="#fed7aa" stroke="#0f172a" stroke-width="2.5"/>
+          <path d="M243 101c4 5 14 5 18 0" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M216 196c4-32 16-48 36-48s32 16 36 48h-72z" fill="#3b82f6" stroke="#0f172a" stroke-width="2.5"/>
+          <rect x="22" y="20" width="132" height="34" rx="14" fill="#fff" stroke="#0f766e" stroke-width="2.5"/>
+          <text x="88" y="41" text-anchor="middle" fill="#0f766e" font-size="13" font-weight="900">かして いい？</text>
+          <rect x="184" y="20" width="134" height="34" rx="14" fill="#fff" stroke="#1d4ed8" stroke-width="2.5"/>
+          <text x="251" y="41" text-anchor="middle" fill="#1d4ed8" font-size="13" font-weight="900">いいよ！どうぞ</text>
+          <path d="M138 124l56-16 5 14-56 16-12-5 7-9z" fill="#fbbf24" stroke="#78350f" stroke-width="2.4"/>
+        </svg>`,
+
+        valRespect: `<svg viewBox="0 0 340 200" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs>
+            <linearGradient id="vrL" x1="0" y1="0" x2="0" y2="200" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#ffe4e6"/><stop offset="100%" stop-color="#fecdd3"/></linearGradient>
+            <linearGradient id="vrR" x1="0" y1="0" x2="0" y2="200" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#dbeafe"/><stop offset="100%" stop-color="#bfdbfe"/></linearGradient>
+          </defs>
+          <rect x="-250" y="-120" width="420" height="440" fill="url(#vrL)"/>
+          <rect x="170" y="-120" width="420" height="440" fill="url(#vrR)"/>
+          <rect x="16" y="14" width="138" height="26" rx="13" fill="#be123c"/>
+          <text x="85" y="31" text-anchor="middle" fill="#fff" font-size="11" font-weight="900">VN: 11/20 せんせいのひ</text>
+          <path d="M62 152l23-58 23 58H62z" fill="#fda4af" stroke="#881337" stroke-width="2.4"/>
+          <circle cx="71" cy="84" r="14" fill="#f43f5e" stroke="#881337" stroke-width="2"/>
+          <circle cx="99" cy="84" r="14" fill="#fbbf24" stroke="#92400e" stroke-width="2"/>
+          <circle cx="85" cy="68" r="15" fill="#fb7185" stroke="#881337" stroke-width="2"/>
+          <text x="85" y="178" text-anchor="middle" fill="#881337" font-size="11" font-weight="900">りょうてわたし・ạ</text>
+
+          <rect x="186" y="14" width="138" height="26" rx="13" fill="#1d4ed8"/>
+          <text x="255" y="31" text-anchor="middle" fill="#fff" font-size="11" font-weight="900">JP: おじぎ＆「はい！」</text>
+          <circle cx="238" cy="96" r="22" fill="#fde68a" stroke="#0f172a" stroke-width="2.4"/>
+          <path d="M229 101c4 4 14 4 18 0" stroke="#0f172a" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M216 158l14-42 32 10-10 32h-36z" fill="#2563eb" stroke="#0f172a" stroke-width="2.4"/>
+          <rect x="260" y="54" width="60" height="28" rx="12" fill="#0f766e"/>
+          <text x="290" y="72" text-anchor="middle" fill="#fff" font-size="13" font-weight="900">はい！</text>
+          <text x="255" y="178" text-anchor="middle" fill="#1e3a8a" font-size="11" font-weight="900">です・ます / ぺこり</text>
+        </svg>`,
+
+        /* タブ④：流行り・エンタメ12種（背景フルブリード＋中央無欠損） */
+        trJp1: `<svg viewBox="0 0 280 120" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="gJp1" x1="0" y1="0" x2="280" y2="120" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#0ea5e9"/><stop offset="100%" stop-color="#1d4ed8"/></linearGradient></defs>
+          <rect x="-260" y="-100" width="800" height="320" fill="url(#gJp1)"/>
+          <circle cx="40" cy="24" r="36" fill="rgba(255,255,255,0.12)"/><circle cx="248" cy="96" r="44" fill="rgba(255,255,255,0.1)"/>
+          <!-- モンスターボール風＆ロボット猫風＆探偵めがね -->
+          <circle cx="74" cy="64" r="30" fill="#fff" stroke="#0f172a" stroke-width="3"/>
+          <path d="M44 64a30 30 0 0 1 60 0z" fill="#ef4444" stroke="#0f172a" stroke-width="3"/>
+          <circle cx="74" cy="64" r="9" fill="#fff" stroke="#0f172a" stroke-width="3"/>
+          <circle cx="144" cy="64" r="28" fill="#38bdf8" stroke="#0f172a" stroke-width="2.6"/>
+          <circle cx="144" cy="70" r="20" fill="#fff"/><circle cx="144" cy="61" r="4.5" fill="#ef4444"/>
+          <path d="M132 76c6 6 18 6 24 0" stroke="#0f172a" stroke-width="2.2" stroke-linecap="round"/>
+          <g transform="translate(194,42)">
+            <rect x="0" y="10" width="24" height="16" rx="5" fill="#fff" stroke="#0f172a" stroke-width="2.6"/>
+            <rect x="34" y="10" width="24" height="16" rx="5" fill="#fff" stroke="#0f172a" stroke-width="2.6"/>
+            <line x1="24" y1="18" x2="34" y2="18" stroke="#0f172a" stroke-width="2.6"/>
+            <polygon points="16,42 29,34 42,42 29,50" fill="#ef4444" stroke="#0f172a" stroke-width="2"/>
+          </g>
+        </svg>`,
+
+        trJp2: `<svg viewBox="0 0 280 120" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs>
+            <linearGradient id="gJp2Sky" x1="0" y1="0" x2="0" y2="76" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#bae6fd"/></linearGradient>
+            <linearGradient id="gJp2Gnd" x1="0" y1="76" x2="0" y2="120" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fde68a"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient>
+          </defs>
+          <rect x="-260" y="-100" width="800" height="176" fill="url(#gJp2Sky)"/>
+          <rect x="-260" y="76" width="800" height="160" fill="url(#gJp2Gnd)"/>
+          <ellipse cx="140" cy="104" rx="108" ry="12" fill="none" stroke="#fff" stroke-width="3"/>
+          <circle cx="104" cy="62" r="30" fill="#f97316" stroke="#7c2d12" stroke-width="3"/>
+          <path d="M74 62h60M104 32v60M82 42c12 12 12 28 0 40M126 42c-12 12-12 28 0 40" stroke="#7c2d12" stroke-width="2.4"/>
+          <path d="M148 56h34m-10-10l12 10-12 10" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="216" cy="54" r="14" fill="#fde68a" stroke="#0f172a" stroke-width="2.4"/>
+          <path d="M202 96l8-28h12l8 28" stroke="#1d4ed8" stroke-width="6" stroke-linecap="round"/>
+        </svg>`,
+
+        trJp3: `<svg viewBox="0 0 280 120" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="gJp3" x1="0" y1="0" x2="280" y2="120" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1e1b4b"/><stop offset="100%" stop-color="#312e81"/></linearGradient></defs>
+          <rect x="-260" y="-100" width="800" height="320" fill="url(#gJp3)"/>
+          <!-- ゲーム機風 -->
+          <rect x="26" y="30" width="128" height="62" rx="14" fill="#1e293b" stroke="#94a3b8" stroke-width="2.5"/>
+          <rect x="26" y="30" width="24" height="62" rx="12" fill="#38bdf8"/>
+          <rect x="130" y="30" width="24" height="62" rx="12" fill="#fb7185"/>
+          <rect x="54" y="38" width="72" height="46" rx="4" fill="#0f172a"/>
+          <!-- ボクセルブロック -->
+          <rect x="178" y="28" width="66" height="66" rx="6" fill="#22c55e" stroke="#14532d" stroke-width="2.8"/>
+          <rect x="190" y="44" width="14" height="14" fill="#0f172a"/><rect x="218" y="44" width="14" height="14" fill="#0f172a"/>
+          <rect x="202" y="58" width="18" height="14" fill="#0f172a"/><rect x="196" y="66" width="8" height="16" fill="#0f172a"/><rect x="218" y="66" width="8" height="16" fill="#0f172a"/>
+        </svg>`,
+
+        trJp4: `<svg viewBox="0 0 280 120" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="gJp4" x1="0" y1="0" x2="280" y2="120" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fef3c7"/><stop offset="100%" stop-color="#fed7aa"/></linearGradient></defs>
+          <rect x="-260" y="-100" width="800" height="320" fill="url(#gJp4)"/>
+          <!-- あげパン -->
+          <ellipse cx="86" cy="66" rx="54" ry="26" fill="#d97706" stroke="#78350f" stroke-width="3"/>
+          <path d="M52 56c20-10 48-10 68 0" stroke="#fef3c7" stroke-width="6" stroke-dasharray="6 6" stroke-linecap="round"/>
+          <!-- おにぎり -->
+          <path d="M196 24l38 66H158l38-66z" fill="#ffffff" stroke="#0f172a" stroke-width="3" stroke-linejoin="round"/>
+          <rect x="180" y="64" width="32" height="26" rx="3" fill="#0f172a"/>
+        </svg>`,
+
+        trJp5: `<svg viewBox="0 0 280 120" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="gJp5" x1="0" y1="0" x2="0" y2="120" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#0f172a"/><stop offset="100%" stop-color="#1e3a8a"/></linearGradient></defs>
+          <rect x="-260" y="-100" width="800" height="320" fill="url(#gJp5)"/>
+          <!-- 花火 -->
+          <g stroke-width="3" stroke-linecap="round">
+            <path d="M74 44l0-22M74 44l16-16M74 44l22 0M74 44l16 16M74 44l0 22M74 44l-16 16M74 44l-22 0M74 44l-16-16" stroke="#facc15"/>
+            <path d="M210 38l0-18M210 38l13-13M210 38l18 0M210 38l13 13M210 38l0 18M210 38l-13 13M210 38l-18 0M210 38l-13-13" stroke="#fb7185"/>
+          </g>
+          <!-- かき氷 -->
+          <path d="M116 90c0-18 14-30 28-30s28 12 28 30h-56z" fill="#38bdf8" stroke="#fff" stroke-width="2"/>
+          <path d="M122 90h44l-8 22h-28l-8-22z" fill="#f43f5e" stroke="#fff" stroke-width="2"/>
+        </svg>`,
+
+        trJp6: `<svg viewBox="0 0 280 120" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="gJp6" x1="0" y1="0" x2="280" y2="120" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#ec4899"/><stop offset="100%" stop-color="#6366f1"/></linearGradient></defs>
+          <rect x="-260" y="-100" width="800" height="320" fill="url(#gJp6)"/>
+          <circle cx="84" cy="64" r="34" fill="rgba(255,255,255,0.16)"/>
+          <path d="M68 84V34l48-10v50" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="58" cy="84" r="12" fill="#fde047"/><circle cx="106" cy="74" r="12" fill="#38bdf8"/>
+          <rect x="164" y="34" width="84" height="54" rx="12" fill="rgba(15,23,42,0.55)" stroke="#fff" stroke-width="2.5"/>
+          <polygon points="198,48 220,61 198,74" fill="#fff"/>
+        </svg>`,
+
+        trVn1: `<svg viewBox="0 0 280 120" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="gVn1" x1="0" y1="0" x2="280" y2="120" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fda4af"/><stop offset="100%" stop-color="#fef08a"/></linearGradient></defs>
+          <rect x="-260" y="-100" width="800" height="320" fill="url(#gVn1)"/>
+          <!-- 虹 -->
+          <path d="M140 112a64 64 0 0 1 128 0" stroke="#ef4444" stroke-width="8" fill="none"/>
+          <path d="M148 112a56 56 0 0 1 112 0" stroke="#f59e0b" stroke-width="8" fill="none"/>
+          <path d="M156 112a48 48 0 0 1 96 0" stroke="#22c55e" stroke-width="8" fill="none"/>
+          <path d="M164 112a40 40 0 0 1 80 0" stroke="#3b82f6" stroke-width="8" fill="none"/>
+          <!-- 七色のうさぎ風キャラ -->
+          <g transform="translate(50,12)">
+            <rect x="18" y="4" width="14" height="40" rx="7" fill="#fff" stroke="#0f172a" stroke-width="2.5"/>
+            <rect x="44" y="4" width="14" height="40" rx="7" fill="#fff" stroke="#0f172a" stroke-width="2.5"/>
+            <circle cx="38" cy="64" r="30" fill="#fff" stroke="#0f172a" stroke-width="2.8"/>
+            <circle cx="28" cy="60" r="3" fill="#0f172a"/><circle cx="48" cy="60" r="3" fill="#0f172a"/>
+            <path d="M31 71c4 4 10 4 14 0" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"/>
+          </g>
+        </svg>`,
+
+        trVn2: `<svg viewBox="0 0 280 120" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs>
+            <linearGradient id="gVn2Top" x1="0" y1="0" x2="0" y2="82" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#bbf7d0"/><stop offset="100%" stop-color="#4ade80"/></linearGradient>
+            <linearGradient id="gVn2Gnd" x1="0" y1="82" x2="0" y2="120" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#22c55e"/><stop offset="100%" stop-color="#15803d"/></linearGradient>
+          </defs>
+          <rect x="-260" y="-100" width="800" height="182" fill="url(#gVn2Top)"/>
+          <rect x="-260" y="82" width="800" height="140" fill="url(#gVn2Gnd)"/>
+          <!-- ダーカウ -->
+          <g transform="translate(82,22) rotate(10)">
+            <path d="M0 54L-18 10h14L8 54z" fill="#ef4444" stroke="#0f172a" stroke-width="2"/>
+            <path d="M8 54L4 4h16L18 54z" fill="#facc15" stroke="#0f172a" stroke-width="2"/>
+            <path d="M16 54L30 10h14L24 54z" fill="#2563eb" stroke="#0f172a" stroke-width="2"/>
+            <ellipse cx="12" cy="58" rx="18" ry="6" fill="#0f172a"/>
+            <ellipse cx="12" cy="64" rx="18" ry="6" fill="#f97316"/>
+          </g>
+          <!-- サッカーボール -->
+          <g transform="translate(198,64)">
+            <circle r="32" fill="#fff" stroke="#0f172a" stroke-width="3"/>
+            <polygon points="0,-12 11,-4 7,10 -7,10 -11,-4" fill="#0f172a"/>
+            <path d="M0,-12V-32M11,-4L30,-10M7,10L19,26M-7,10L-19,26M-11,-4L-30,-10" stroke="#0f172a" stroke-width="2.4"/>
+          </g>
+        </svg>`,
+
+        trVn3: `<svg viewBox="0 0 280 120" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="gVn3" x1="0" y1="0" x2="280" y2="120" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fde68a"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient></defs>
+          <rect x="-260" y="-100" width="800" height="320" fill="url(#gVn3)"/>
+          <!-- オアンクワン盤面 -->
+          <rect x="28" y="22" width="224" height="76" rx="38" fill="#fff7ed" stroke="#78350f" stroke-width="3.5"/>
+          <rect x="74" y="22" width="132" height="76" fill="#fef3c7" stroke="#78350f" stroke-width="2.6"/>
+          <line x1="74" y1="60" x2="206" y2="60" stroke="#78350f" stroke-width="2.4"/>
+          <line x1="107" y1="22" x2="107" y2="98" stroke="#78350f" stroke-width="2.2"/>
+          <line x1="140" y1="22" x2="140" y2="98" stroke="#78350f" stroke-width="2.2"/>
+          <line x1="173" y1="22" x2="173" y2="98" stroke="#78350f" stroke-width="2.2"/>
+          <circle cx="52" cy="60" r="11" fill="#dc2626" stroke="#7f1d1d" stroke-width="2"/>
+          <circle cx="228" cy="60" r="11" fill="#2563eb" stroke="#1e3a8a" stroke-width="2"/>
+          <circle cx="90" cy="40" r="5" fill="#0f766e"/><circle cx="124" cy="42" r="5" fill="#d97706"/>
+          <circle cx="156" cy="40" r="5" fill="#7c3aed"/><circle cx="190" cy="42" r="5" fill="#0f766e"/>
+          <circle cx="90" cy="78" r="5" fill="#d97706"/><circle cx="124" cy="80" r="5" fill="#7c3aed"/>
+          <circle cx="156" cy="78" r="5" fill="#0f766e"/><circle cx="190" cy="80" r="5" fill="#d97706"/>
+        </svg>`,
+
+        trVn4: `<svg viewBox="0 0 280 120" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="gVn4" x1="0" y1="0" x2="280" y2="120" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#ffedd5"/><stop offset="100%" stop-color="#fdba74"/></linearGradient></defs>
+          <rect x="-260" y="-100" width="800" height="320" fill="url(#gVn4)"/>
+          <!-- バインミー -->
+          <path d="M24 72c0-24 28-38 68-38s68 14 68 38c0 18-24 28-68 28S24 90 24 72z" fill="#d97706" stroke="#78350f" stroke-width="2.8"/>
+          <path d="M38 70h108" stroke="#16a34a" stroke-width="9" stroke-linecap="round"/>
+          <circle cx="72" cy="68" r="6" fill="#ef4444"/><circle cx="108" cy="68" r="6" fill="#fb7185"/>
+          <!-- チェー -->
+          <path d="M186 24h58l-8 74h-42l-8-74z" fill="#fff" stroke="#0f172a" stroke-width="2.6"/>
+          <path d="M191 58h48l-5 38h-38l-5-38z" fill="#fde047"/>
+          <circle cx="206" cy="74" r="6" fill="#ef4444"/><circle cx="222" cy="68" r="6" fill="#22c55e"/><circle cx="218" cy="84" r="6" fill="#a855f7"/>
+        </svg>`,
+
+        trVn5: `<svg viewBox="0 0 280 120" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="gVn5" x1="0" y1="0" x2="280" y2="120" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#991b1b"/><stop offset="100%" stop-color="#dc2626"/></linearGradient></defs>
+          <rect x="-260" y="-100" width="800" height="320" fill="url(#gVn5)"/>
+          <!-- リーシー赤い袋 -->
+          <rect x="52" y="18" width="66" height="86" rx="10" fill="#ef4444" stroke="#fde047" stroke-width="3"/>
+          <path d="M52 40l33 18 33-18" stroke="#fde047" stroke-width="2.5" fill="none"/>
+          <circle cx="85" cy="72" r="14" fill="#facc15"/>
+          <!-- 中秋節の星型ランタン -->
+          <g transform="translate(194,60)">
+            <circle r="38" fill="rgba(250,204,21,0.22)"/>
+            <polygon points="0,-32 9,-10 32,-10 14,4 20,28 0,14 -20,28 -14,4 -32,-10 -9,-10" fill="#fde047" stroke="#f97316" stroke-width="2.5"/>
+            <circle r="10" fill="#ef4444"/>
+          </g>
+        </svg>`,
+
+        trVn6: `<svg viewBox="0 0 280 120" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="gVn6" x1="0" y1="0" x2="280" y2="120" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#ea580c"/><stop offset="100%" stop-color="#db2777"/></linearGradient></defs>
+          <rect x="-260" y="-100" width="800" height="320" fill="url(#gVn6)"/>
+          <circle cx="140" cy="60" r="46" fill="rgba(255,255,255,0.14)"/>
+          <!-- ヘッドホン＆音符 -->
+          <path d="M62 74v-16a34 34 0 0 1 68 0v16" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+          <rect x="52" y="64" width="18" height="30" rx="8" fill="#fde047" stroke="#0f172a" stroke-width="2.2"/>
+          <rect x="122" y="64" width="18" height="30" rx="8" fill="#fde047" stroke="#0f172a" stroke-width="2.2"/>
+          <path d="M180 86V38l44-8v46" stroke="#fef08a" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="172" cy="86" r="10" fill="#fff"/><circle cx="216" cy="76" r="10" fill="#fff"/>
+        </svg>`
+      };
+
+      /* ====================================================================
+         2. データ定義（すべて小学1年生から読める全漢字ルビ付き）
+         ==================================================================== */
+      const SCHOOL_JP_CARDS = [
+        {
+          svg: 'jpRandoseru', badge: 'にほん・登校',
+          titleHtml: 'ランドセルで <ruby>歩<rt>ある</rt></ruby>いて <ruby>登校<rt>とうこう</rt></ruby>',
+          titleVi: 'Đeo cặp Randoseru tự đi bộ đến trường',
+          jpHtml: '<ruby>日本<rt>にほん</rt></ruby>の <ruby>小学生<rt>しょうがくせい</rt></ruby>は 6<ruby>年間<rt>ねんかん</rt></ruby> <ruby>使<rt>つか</rt></ruby>う じょうぶな ランドセルを せおって、<ruby>友<rt>とも</rt></ruby>だちと <ruby>歩<rt>ある</rt></ruby>いて <ruby>学校<rt>がっこう</rt></ruby>へ <ruby>通<rt>かよ</rt></ruby>います。',
+          jpPlain: '日本の小学生は6年間使うじょうぶなランドセルをせおって、友だちと歩いて学校へ通います。',
+          vi: 'Học sinh Nhật đeo chiếc cặp Randoseru rất bền dùng suốt 6 năm và tự đi bộ cùng bạn đến trường.'
+        },
+        {
+          svg: 'jpLunch', badge: 'にほん・給食',
+          titleHtml: '<ruby>白衣<rt>はくい</rt></ruby>を <ruby>着<rt>き</rt></ruby>て <ruby>給食当番<rt>きゅうしょくとうばん</rt></ruby>',
+          titleVi: 'Mặc áo trắng tự chia cơm trưa',
+          jpHtml: '<ruby>給食<rt>きゅうしょく</rt></ruby>は <ruby>栄養<rt>えいよう</rt></ruby>たっぷりの あたたかい ごはん。<ruby>子ども<rt>こども</rt></ruby>たちが <ruby>交代<rt>こうたい</rt></ruby>で <ruby>白衣<rt>はくい</rt></ruby>を <ruby>着<rt>き</rt></ruby>て、みんなで <ruby>配膳<rt>はいぜん</rt></ruby>します。',
+          jpPlain: '給食は栄養たっぷりのあたたかいごはん。子どもたちが交代で白衣を着て、みんなで配膳します。',
+          vi: 'Bữa trưa ở trường rất đủ chất. Các bạn luân phiên mặc áo trắng để chia đồ ăn cho cả lớp.'
+        },
+        {
+          svg: 'jpClean', badge: 'にほん・掃除',
+          titleHtml: 'みんなで <ruby>教室<rt>きょうしつ</rt></ruby>を <ruby>掃除<rt>そうじ</rt></ruby>する',
+          titleVi: 'Cả lớp cùng tự dọn vệ sinh',
+          jpHtml: '<ruby>自分<rt>じぶん</rt></ruby>たちが <ruby>使<rt>つか</rt></ruby>った <ruby>教室<rt>きょうしつ</rt></ruby>や <ruby>廊下<rt>ろうか</rt></ruby>を <ruby>毎日<rt>まいにち</rt></ruby> <ruby>掃除<rt>そうじ</rt></ruby>します。<ruby>協力<rt>きょうりょく</rt></ruby>して <ruby>場所<rt>ばしょ</rt></ruby>を <ruby>大切<rt>たいせつ</rt></ruby>にする <ruby>文化<rt>ぶんか</rt></ruby>です。',
+          jpPlain: '自分たちが使った教室や廊下を毎日掃除します。協力して場所を大切にする文化です。',
+          vi: 'Mỗi ngày học sinh đều tự quét dọn lớp học và hành lang để rèn tinh thần hợp tác và giữ gìn trường lớp.'
+        },
+        {
+          svg: 'jpEvent', badge: 'にほん・行事',
+          titleHtml: '<ruby>運動会<rt>うんどうかい</rt></ruby>や <ruby>係活動<rt>かかりかつどう</rt></ruby>',
+          titleVi: 'Ngày hội thể thao & Hoạt động lớp',
+          jpHtml: '<ruby>赤白<rt>あかしろ</rt></ruby>に わかれて <ruby>競<rt>きそ</rt></ruby>う「<ruby>運動会<rt>うんどうかい</rt></ruby>」や、<ruby>日直<rt>にっちょく</rt></ruby>・<ruby>係<rt>かかり</rt></ruby>など クラスみんなで <ruby>作<rt>つく</rt></ruby>る <ruby>行事<rt>ぎょうじ</rt></ruby>が たくさん あります。',
+          jpPlain: '赤白にわかれて競う運動会や、日直、係などクラスみんなで作る行事がたくさんあります。',
+          vi: 'Có rất nhiều hoạt động cả lớp cùng tham gia như Ngày hội thể thao (đội Đỏ - Trắng) và trực nhật lớp.'
+        }
+      ];
+
+      const SCHOOL_VN_CARDS = [
+        {
+          svg: 'vnBike', badge: 'ベトナム・登校',
+          titleHtml: 'バイクや <ruby>車<rt>くるま</rt></ruby>での <ruby>送<rt>おく</rt></ruby>り<ruby>迎<rt>むか</rt></ruby>え',
+          titleVi: 'Bố mẹ đưa đón bằng xe máy / ô tô',
+          jpHtml: 'ベトナムでは かるい リュックサックを せおい、<ruby>家族<rt>かぞく</rt></ruby>の バイクの うしろに のって <ruby>登校<rt>とうこう</rt></ruby>する <ruby>子<rt>こ</rt></ruby>が とても <ruby>多<rt>おお</rt></ruby>いです。',
+          jpPlain: 'ベトナムではかるいリュックサックをせおい、家族のバイクのうしろにのって登校する子がとても多いです。',
+          vi: 'Ở Việt Nam, học sinh đeo ba lô nhẹ và thường được bố mẹ chở đến cổng trường bằng xe máy hoặc ô tô.'
+        },
+        {
+          svg: 'vnNap', badge: 'ベトナム・お昼寝',
+          titleHtml: '<ruby>教室<rt>きょうしつ</rt></ruby>で お<ruby>昼寝<rt>ひるね</rt></ruby>タイム',
+          titleVi: 'Giờ ngủ trưa ngay trong lớp học',
+          jpHtml: 'お<ruby>昼<rt>ひる</rt></ruby>ごろ とても <ruby>暑<rt>あつ</rt></ruby>くなるので、お<ruby>昼<rt>ひる</rt></ruby>ごはんの あとに <ruby>教室<rt>きょうしつ</rt></ruby>へ マットを しいて 1<ruby>時間<rt>じかん</rt></ruby>ほど お<ruby>昼寝<rt>ひるね</rt></ruby>をします。',
+          jpPlain: 'お昼ごろとても暑くなるので、お昼ごはんのあとに教室へマットをしいて1時間ほどお昼寝をします。',
+          vi: 'Vì buổi trưa rất nóng nên sau bữa trưa, học sinh bán trú trải chiếu ngủ trưa khoảng 1 tiếng ngay tại lớp.'
+        },
+        {
+          svg: 'vnScarf', badge: 'ベトナム・制服',
+          titleHtml: '<ruby>制服<rt>せいふく</rt></ruby>と <ruby>赤<rt>あか</rt></ruby>いスカーフ',
+          titleVi: 'Đồng phục & Khăn quàng đỏ Đội viên',
+          jpHtml: '<ruby>小学生<rt>しょうがくせい</rt></ruby>は <ruby>白<rt>しろ</rt></ruby>いシャツの <ruby>制服<rt>せいふく</rt></ruby>を <ruby>着<rt>き</rt></ruby>ます。3<ruby>年生<rt>ねんせい</rt></ruby>ごろから <ruby>首<rt>くび</rt></ruby>に <ruby>巻<rt>ま</rt></ruby>く「<ruby>赤<rt>あか</rt></ruby>いスカーフ」は みんなの <ruby>誇<rt>ほこ</rt></ruby>りです！',
+          jpPlain: '小学生は白いシャツの制服を着ます。3年生ごろから首に巻く赤いスカーフはみんなの誇りです！',
+          vi: 'Học sinh mặc đồng phục áo trắng. Từ lớp 3, được kết nạp Đội và đeo khăn quàng đỏ là niềm tự hào lớn.'
+        },
+        {
+          svg: 'vnTeacherDay', badge: 'ベトナム・行事',
+          titleHtml: '11<ruby>月<rt>がつ</rt></ruby>20<ruby>日<rt>にち</rt></ruby>「<ruby>先生<rt>せんせい</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>」',
+          titleVi: 'Ngày Nhà giáo Việt Nam 20/11',
+          jpHtml: 'ベトナムでは <ruby>毎年<rt>まいとし</rt></ruby> 11<ruby>月<rt>がつ</rt></ruby>20<ruby>日<rt>にち</rt></ruby>に、<ruby>先生<rt>せんせい</rt></ruby>へ お<ruby>花<rt>はな</rt></ruby>や ありがとうの <ruby>手紙<rt>てがみ</rt></ruby>を <ruby>贈<rt>おく</rt></ruby>って 盛大に お<ruby>祝<rt>いわ</rt></ruby>いします。',
+          jpPlain: 'ベトナムでは毎年11月20日に、先生へお花やありがとうの手紙を贈って盛大にお祝いします。',
+          vi: 'Hằng năm vào ngày 20/11, học sinh Việt Nam tặng hoa và gửi lời chúc tri ân rất long trọng đến thầy cô.'
+        }
+      ];
+
+      const VALUE_THEMES = [
+        {
+          titleHtml: '① <ruby>注意<rt>ちゅうい</rt></ruby>されたとき・まちがえたとき ／ <span class="vi">Khi bị nhắc nhở</span>',
+          svg: 'valSorry',
+          vnSenseJpHtml: 'ベトナムでは <ruby>人<rt>ひと</rt></ruby>の <ruby>前<rt>まえ</rt></ruby>で <ruby>強<rt>つよ</rt></ruby>く <ruby>注意<rt>ちゅうい</rt></ruby>されると「はずかしい・プライドが きずついた」と <ruby>強<rt>つよ</rt></ruby>く <ruby>感<rt>かん</rt></ruby>じやすいです。とっさに <ruby>言<rt>い</rt></ruby>いわけを したり <ruby>黙<rt>だま</rt></ruby>り<ruby>込<rt>こ</rt></ruby>んだりしても、<ruby>悪気<rt>わるぎ</rt></ruby>や <ruby>反抗<rt>はんこう</rt></ruby>では ありません。',
+          vnSenseJpPlain: 'ベトナムでは人の前で強く注意されるとはずかしい、プライドが傷ついたと強く感じやすいです。とっさに言い訳をしたり黙り込んだりしても、悪気や反抗ではありません。',
+          vnSenseVi: 'Ở Việt Nam, khi bị nhắc trước nhiều người, nhiều bạn thấy rất ngại và dễ im lặng hoặc giải thích ngay, chứ không phải cố ý chống đối.',
+          jpRuleJpHtml: '<ruby>日本<rt>にほん</rt></ruby>の <ruby>学校<rt>がっこう</rt></ruby>では、まちがえた ときに <ruby>素直<rt>すなお</rt></ruby>に「ごめんなさい」「つぎから <ruby>気<rt>き</rt></ruby>をつけます」と <ruby>言<rt>い</rt></ruby>うことが とても <ruby>大切<rt>たいせつ</rt></ruby>です。<ruby>言<rt>い</rt></ruby>いわけを せず あやまると、<ruby>先生<rt>せんせい</rt></ruby>も <ruby>友<rt>とも</rt></ruby>だちも すぐ <ruby>許<rt>ゆる</rt></ruby>して <ruby>仲直<rt>なかなお</rt></ruby>り できるよ！',
+          jpRuleJpPlain: '日本の学校では、まちがえたときに素直にごめんなさい、つぎから気をつけますと言うことがとても大切です。言い訳をせずあやまると、先生も友だちもすぐ許して仲直りできるよ！',
+          jpRuleVi: 'Ở trường học Nhật Bản, khi lỡ làm sai, việc nói thẳng "Gomen nasai" (Xin lỗi) mà không đổ lỗi rất được trân trọng. Mọi người sẽ tha thứ và làm hòa ngay!',
+          magicHira: 'ご・め・ん・な・さ・い。き・を つ・け・ま・す。',
+          magicVnRead: 'Gô mên na xai. Ki ô tư kê ma xư.',
+          magicViMean: 'Em/Mình xin lỗi. Lần sau sẽ chú ý hơn.',
+          magicPlain: 'ごめんなさい。気をつけます。'
+        },
+        {
+          titleHtml: '② <ruby>時間<rt>じかん</rt></ruby>と チャイムの <ruby>感覚<rt>かんかく</rt></ruby> ／ <span class="vi">Giờ giấc &amp; Tiếng chuông</span>',
+          svg: 'valTime',
+          vnSenseJpHtml: 'ベトナムは おおらかで、2〜3<ruby>分<rt>ふん</rt></ruby>の <ruby>遅<rt>おく</rt></ruby>れや <ruby>予定<rt>よてい</rt></ruby>の <ruby>変更<rt>へんこう</rt></ruby>を あまり <ruby>気<rt>き</rt></ruby>に しない <ruby>文化<rt>ぶんか</rt></ruby>があります。チャイムが <ruby>鳴<rt>な</rt></ruby>ってから ゆっくり <ruby>席<rt>せき</rt></ruby>へ <ruby>戻<rt>もど</rt></ruby>る <ruby>感覚<rt>かんかく</rt></ruby>の <ruby>子<rt>こ</rt></ruby>も <ruby>多<rt>おお</rt></ruby>いです。',
+          vnSenseJpPlain: 'ベトナムはおおらかで、2、3分の遅れや予定の変更をあまり気にしない文化があります。チャイムが鳴ってからゆっくり席へ戻る感覚の子も多いです。',
+          vnSenseVi: 'Văn hóa Việt Nam khá thoải mái về thời gian, chênh vài phút không sao nên nhiều bạn quen nghe chuông reo rồi mới đi về chỗ.',
+          jpRuleJpHtml: '<ruby>日本<rt>にほん</rt></ruby>の <ruby>学校<rt>がっこう</rt></ruby>では「5<ruby>分前行動<rt>ふんまえこうどう</rt></ruby>・チャイム<ruby>着席<rt>ちゃくせき</rt></ruby>」が <ruby>大切<rt>たいせつ</rt></ruby>な <ruby>約束<rt>やくそく</rt></ruby>です。<ruby>時計<rt>とけい</rt></ruby>を <ruby>見<rt>み</rt></ruby>て、チャイムが <ruby>鳴<rt>な</rt></ruby>る <ruby>前<rt>まえ</rt></ruby>に <ruby>席<rt>せき</rt></ruby>に すわって <ruby>教科書<rt>きょうかしょ</rt></ruby>を <ruby>出<rt>だ</rt></ruby>す <ruby>練習<rt>れんしゅう</rt></ruby>を しよう！',
+          jpRuleJpPlain: '日本の学校では5分前行動、チャイム着席が大切な約束です。時計を見て、チャイムが鳴る前に席にすわって教科書を出す練習をしよう！',
+          jpRuleVi: 'Ở Nhật, quy tắc rất quan trọng là "ngồi sẵn vào chỗ trước khi chuông reo". Hãy xem đồng hồ và chuẩn bị sách vở trước 2-5 phút nhé!',
+          magicHira: 'も・う す・ぐ チャ・イ・ム だ・よ！',
+          magicVnRead: 'Mô xư gư chai mư đa dô!',
+          magicViMean: 'Sắp đến giờ chuông reo rồi đấy!',
+          magicPlain: 'もうすぐチャイムだよ！'
+        },
+        {
+          titleHtml: '③ <ruby>友<rt>とも</rt></ruby>だちとの <ruby>距離感<rt>きょりかん</rt></ruby>・<ruby>貸<rt>か</rt></ruby>し<ruby>借<rt>か</rt></ruby>り ／ <span class="vi">Khoảng cách &amp; Mượn đồ</span>',
+          svg: 'valBorrow',
+          vnSenseJpHtml: 'ベトナムでは <ruby>仲<rt>なか</rt></ruby>よく なると <ruby>距離<rt>きょり</rt></ruby>が とても <ruby>近<rt>ちか</rt></ruby>く、<ruby>肩<rt>かた</rt></ruby>を <ruby>組<rt>く</rt></ruby>んだり、<ruby>悪気<rt>わるぎ</rt></ruby>なく となりの <ruby>人<rt>ひと</rt></ruby>の <ruby>消<rt>け</rt></ruby>しゴムを ちょっと <ruby>使<rt>つか</rt></ruby>ったり することが あります。<ruby>困<rt>こま</rt></ruby>った <ruby>人<rt>ひと</rt></ruby>を すぐ <ruby>助<rt>たす</rt></ruby>ける <ruby>優<rt>やさ</rt></ruby>しさの あらわれです。',
+          vnSenseJpPlain: 'ベトナムでは仲良くなると距離がとても近く、肩を組んだり、悪気なく隣の人の消しゴムをちょっと使ったりすることがあります。困った人をすぐ助ける優しさの表れです。',
+          vnSenseVi: 'Ở Việt Nam, bạn thân thường rất gần gũi, hay chia sẻ đồ dùng tự nhiên và sẵn sàng giúp đỡ nhau ngay lập tức.',
+          jpRuleJpHtml: '<ruby>日本<rt>にほん</rt></ruby>では どんなに <ruby>仲<rt>なか</rt></ruby>よしでも、<ruby>人<rt>ひと</rt></ruby>の <ruby>物<rt>もの</rt></ruby>に さわる <ruby>前<rt>まえ</rt></ruby>に かならず「かして いい？」と <ruby>声<rt>こえ</rt></ruby>を かけるのが マナーです。<ruby>使<rt>つか</rt></ruby>ったら「ありがとう」と <ruby>返<rt>かえ</rt></ruby>そう！',
+          jpRuleJpPlain: '日本ではどんなに仲良しでも、人の物にさわる前にかならずかしていい？と声をかけるのがマナーです。使ったらありがとうと返そう！',
+          jpRuleVi: 'Ở Nhật, dù rất thân nhưng trước khi chạm vào đồ của bạn, bắt buộc phải hỏi "Kashite ii?" (Cho mình mượn nhé?) và nói "Arigatou" khi trả lại.',
+          magicHira: 'か・し・て い・い？ ／ あ・り・が・と・う！',
+          magicVnRead: 'Ca xi tê i i? / A ri ga tô!',
+          magicViMean: 'Cho mình mượn được không? / Cảm ơn bạn!',
+          magicPlain: 'かしていい？ありがとう！'
+        },
+        {
+          titleHtml: '④ <ruby>先生<rt>せんせい</rt></ruby>や <ruby>年上<rt>としうえ</rt></ruby>への <ruby>礼儀<rt>れいぎ</rt></ruby> ／ <span class="vi">Tôn trọng thầy cô</span>',
+          svg: 'valRespect',
+          vnSenseJpHtml: 'ベトナムでは 11<ruby>月<rt>がつ</rt></ruby>20<ruby>日<rt>にち</rt></ruby>が「<ruby>先生<rt>せんせい</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>」で、お<ruby>花<rt>はな</rt></ruby>を <ruby>贈<rt>おく</rt></ruby>るほど <ruby>先生<rt>せんせい</rt></ruby>を <ruby>家族<rt>かぞく</rt></ruby>のように <ruby>深<rt>ふか</rt></ruby>く <ruby>敬<rt>うやま</rt></ruby>います。<ruby>物<rt>もの</rt></ruby>を <ruby>渡<rt>わた</rt></ruby>すときは <ruby>両手<rt>りょうて</rt></ruby>で <ruby>渡<rt>わた</rt></ruby>し、<ruby>言葉<rt>ことば</rt></ruby>の さいごに「ạ（ア）」をつけます。',
+          vnSenseJpPlain: 'ベトナムでは11月20日が先生の日で、お花を贈るほど先生を家族のように深く敬います。物を渡すときは両手で渡し、言葉の最後にアをつけます。',
+          vnSenseVi: 'Việt Nam có Ngày Nhà giáo 20/11 rất long trọng. Học sinh luôn đưa đồ bằng hai tay và thêm chữ "ạ" cuối câu để lễ phép.',
+          jpRuleJpHtml: '<ruby>日本<rt>にほん</rt></ruby>の <ruby>学校<rt>がっこう</rt></ruby>では「おじぎ（ぺこり）」と「です・ます」で <ruby>敬意<rt>けいい</rt></ruby>を あらわします。<ruby>名前<rt>なまえ</rt></ruby>を よばれたら「はい！」と <ruby>元気<rt>げんき</rt></ruby>に <ruby>返事<rt>へんじ</rt></ruby>をすると とても いい <ruby>印象<rt>いんしょう</rt></ruby>になるよ！',
+          jpRuleJpPlain: '日本の学校ではおじぎとです、ますで敬意を表します。名前を呼ばれたらはい！と元気に返事をするととてもいい印象になるよ！',
+          jpRuleVi: 'Ở Nhật, sự lễ phép thể hiện qua cái cúi đầu nhẹ (Ojigi), dùng đuôi câu "desu/masu" và đáp "Hai!" rõ ràng khi thầy cô gọi tên.',
+          magicHira: 'は・い！ ／ お・ね・が・い し・ま・す！',
+          magicVnRead: 'Hai! / Ô nê gai xi ma xư!',
+          magicViMean: 'Dạ có! / Nhờ thầy cô giúp ạ!',
+          magicPlain: 'はい！お願いします！'
+        }
+      ];
+
+      /* 流行り・エンタメ12種（日本6種＋ベトナム6種） */
+      const TREND_ITEMS = [
+        {
+          country: 'jp', svg: 'trJp1', tag: 'アニメ・まんが',
+          nameHtml: 'ポケモン・コナン・ドラえもん',
+          namePlain: 'ポケモン、コナン、ドラえもん',
+          jpHtml: '<ruby>日本<rt>にほん</rt></ruby>の <ruby>小学生<rt>しょうがくせい</rt></ruby>に <ruby>大人気<rt>だいにんき</rt></ruby>の アニメや まんが。ベトナムでも よく <ruby>知<rt>し</rt></ruby>られていて <ruby>一番<rt>いちばん</rt></ruby> <ruby>話<rt>はなし</rt></ruby>が <ruby>合<rt>あ</rt></ruby>うよ！',
+          vi: 'Pokémon, Conan, Doraemon là những bộ anime nổi tiếng ở cả Nhật Bản và Việt Nam!'
+        },
+        {
+          country: 'jp', svg: 'trJp2', tag: 'そとあそび',
+          nameHtml: 'ドッジボール・おにごっこ',
+          namePlain: 'ドッジボール、おにごっこ',
+          jpHtml: '<ruby>休<rt>やす</rt></ruby>み<ruby>時間<rt>じかん</rt></ruby>の <ruby>運動場<rt>うんどうじょう</rt></ruby>では ドッジボールや けいどろ（おにごっこ）、<ruby>一輪車<rt>いちりんしゃ</rt></ruby>が <ruby>大人気<rt>だいにんき</rt></ruby>です。',
+          vi: 'Giờ ra chơi ở sân trường Nhật, bóng né (Dodgeball), đuổi bắt và xe đạp một bánh rất được yêu thích.'
+        },
+        {
+          country: 'jp', svg: 'trJp3', tag: 'ゲーム・カード',
+          nameHtml: 'マイクラ・スイッチ・カードゲーム',
+          namePlain: 'マインクラフト、ニンテンドースイッチ、カードゲーム',
+          jpHtml: 'おうちでは マインクラフトで <ruby>建物<rt>たてもの</rt></ruby>を つくったり、スイッチや ポケモンカードで <ruby>遊<rt>あそ</rt></ruby>ぶのが <ruby>流行<rt>はや</rt></ruby>っています。',
+          vi: 'Ở nhà, các bạn Nhật thích xây nhà trong Minecraft, chơi Nintendo Switch và sưu tầm thẻ bài Pokémon.'
+        },
+        {
+          country: 'jp', svg: 'trJp4', tag: '給食・おやつ',
+          nameHtml: 'あげパン・おにぎり・<ruby>駄菓子<rt>だがし</rt></ruby>',
+          namePlain: 'あげパン、おにぎり、駄菓子',
+          jpHtml: '<ruby>給食<rt>きゅうしょく</rt></ruby>の「あげパン」や「カレー」は <ruby>大人気<rt>だいにんき</rt></ruby>！10<ruby>円<rt>えん</rt></ruby>〜50<ruby>円<rt>えん</rt></ruby>の「<ruby>駄菓子<rt>だがし</rt></ruby>」も わくわくするよ。',
+          vi: 'Bánh mì chiên Agepan, cơm nắm Onigiri và các loại bánh kẹo truyền thống Dagashi giá rẻ rất hấp dẫn!'
+        },
+        {
+          country: 'jp', svg: 'trJp5', tag: 'おまつり',
+          nameHtml: '<ruby>夏祭<rt>なつまつ</rt></ruby>り・<ruby>花火<rt>はなび</rt></ruby>・かき<ruby>氷<rt>ごおり</rt></ruby>',
+          namePlain: '夏祭り、花火、かき氷',
+          jpHtml: '<ruby>夏<rt>なつ</rt></ruby>になると ゆかたを <ruby>着<rt>き</rt></ruby>て、おおきな <ruby>花火<rt>はなび</rt></ruby>を <ruby>見<rt>み</rt></ruby>たり、<ruby>金魚<rt>きんぎょ</rt></ruby>すくいや かき<ruby>氷<rt>ごおり</rt></ruby>を <ruby>楽<rt>たの</rt></ruby>しみます。',
+          vi: 'Mùa hè ở Nhật có lễ hội pháo hoa rực rỡ, mặc Yukata, vớt cá vàng và ăn đá bào Kakigori mát lạnh.'
+        },
+        {
+          country: 'jp', svg: 'trJp6', tag: 'おんがく・ダンス',
+          nameHtml: 'アニメ<ruby>主題歌<rt>しゅだいか</rt></ruby> ＆ J-POPダンス',
+          namePlain: 'アニメ主題歌とジェイポップダンス',
+          jpHtml: '<ruby>人気<rt>にんき</rt></ruby>アニメの うたや J-POPに あわせて みんなで ダンスを おどるのが <ruby>小学生<rt>しょうがくせい</rt></ruby>に <ruby>大流行<rt>だいりゅうこう</rt></ruby>！',
+          vi: 'Hát nhạc phim anime và nhảy theo các bài hát J-POP sôi động đang rất thịnh hành ở tiểu học Nhật!'
+        },
+        {
+          country: 'vn', svg: 'trVn1', tag: 'キャラ・まんが',
+          nameHtml: '<ruby>七色<rt>なないろ</rt></ruby>のうさぎ (Thỏ Bảy Màu)',
+          namePlain: 'トーバイマウ、七色のうさぎ',
+          jpHtml: 'ベトナムで <ruby>大人気<rt>だいにんき</rt></ruby>の ゆるかわキャラ「トー・バイ・マウ」や、<ruby>歴史<rt>れきし</rt></ruby>まんが「<ruby>神童<rt>しんどう</rt></ruby> (Thần Đồng Đất Việt)」が <ruby>有名<rt>ゆうめい</rt></ruby>！',
+          vi: 'Thỏ Bảy Màu siêu hài hước và truyện tranh Thần Đồng Đất Việt cực kỳ quen thuộc với thiếu nhi Việt Nam!'
+        },
+        {
+          country: 'vn', svg: 'trVn2', tag: 'スポーツ',
+          nameHtml: 'ダーカウ・サッカー・バドミントン',
+          namePlain: 'ダーカウ、サッカー、バドミントン',
+          jpHtml: '<ruby>羽根<rt>はね</rt></ruby>を <ruby>足<rt>あし</rt></ruby>で ける「ダーカウ」や サッカーは 国民的<ruby>人気<rt>にんき</rt></ruby>！<ruby>夕方<rt>ゆうがた</rt></ruby>は <ruby>公園<rt>こうえん</rt></ruby>で バドミントンも するよ。',
+          vi: 'Đá cầu bằng chân, bóng đá và đánh cầu lông ở công viên buổi chiều là môn thể thao số 1 ở Việt Nam!'
+        },
+        {
+          country: 'vn', svg: 'trVn3', tag: 'ボードゲーム',
+          nameHtml: '<ruby>石<rt>いし</rt></ruby>の じんとり「オアンクワン」',
+          namePlain: 'オアンクワン',
+          jpHtml: '<ruby>地面<rt>じめん</rt></ruby>や <ruby>紙<rt>かみ</rt></ruby>に マスを かいて <ruby>小石<rt>こいし</rt></ruby>や まめを まきあう むかしからの <ruby>頭脳<rt>ずのう</rt></ruby>ゲーム。おはじきでも すぐ <ruby>遊<rt>あそ</rt></ruby>べるよ！',
+          vi: 'Ô ăn quan là trò chơi dân gian rải sỏi qua các ô cực vui, giúp tính nhẩm nhanh và gắn kết bạn bè!'
+        },
+        {
+          country: 'vn', svg: 'trVn4', tag: 'おやつ・グルメ',
+          nameHtml: 'バインミー・チェー・マンゴー',
+          namePlain: 'バインミー、チェー、マンゴー',
+          jpHtml: 'サクサクの「バインミー」、あまくて つめたい「チェー」、ライスペーパーの おやつ（バインチャンチョン）が <ruby>大人気<rt>だいにんき</rt></ruby>！',
+          vi: 'Bánh mì giòn, chè ngọt mát, xoài và bánh tráng trộn là những món ăn vặt khoái khẩu của học sinh Việt Nam!'
+        },
+        {
+          country: 'vn', svg: 'trVn5', tag: 'おまつり・行事',
+          nameHtml: 'テト（<ruby>旧正月<rt>きゅうしょうがつ</rt></ruby>）＆ <ruby>星<rt>ほし</rt></ruby>ランタン',
+          namePlain: 'テトと中秋節の星ランタン',
+          jpHtml: '<ruby>赤<rt>あか</rt></ruby>い<ruby>袋<rt>ふくろ</rt></ruby>の お<ruby>年玉<rt>としだま</rt></ruby>「リーシー」をもらう テトや、<ruby>秋<rt>あき</rt></ruby>の <ruby>星型<rt>ほしがた</rt></ruby>ランタンを <ruby>持<rt>も</rt></ruby>って <ruby>歩<rt>ある</rt></ruby>く「<ruby>中秋節<rt>ちゅうしゅうせつ</rt></ruby>」が <ruby>大好<rt>だいす</rt></ruby>き！',
+          vi: 'Trẻ em Việt Nam mê nhất là nhận bao lì xì đỏ dịp Tết Nguyên Đán và rước đèn ông sao đêm Trung Thu!'
+        },
+        {
+          country: 'vn', svg: 'trVn6', tag: 'おんがく・ダンス',
+          nameHtml: 'V-POP ＆ げんきな キッズダンス',
+          namePlain: 'ブイポップとキッズダンス',
+          jpHtml: 'ベトナムの 明るく リズミカルな V-POP（ブイポップ）や、みんなで おどる <ruby>動画<rt>どうが</rt></ruby>ダンスが <ruby>大人気<rt>だいにんき</rt></ruby>！',
+          vi: 'Các bài hát V-POP sôi động và những điệu nhảy vui nhộn rất được học sinh Việt Nam yêu thích!'
+        }
+      ];
+
+      const SCHEDULE_DATA = {
+        jp: [
+          { id:'sj1', time:'7:50', titleHtml:'<ruby>歩<rt>ある</rt></ruby>いて <ruby>登校<rt>とうこう</rt></ruby>', titleVi:'Đi bộ đến trường',
+            detailJp:'ランドセルを せおって <ruby>友<rt>とも</rt></ruby>だちと <ruby>歩<rt>ある</rt></ruby>いて <ruby>学校<rt>がっこう</rt></ruby>へ <ruby>行<rt>い</rt></ruby>きます。',
+            detailPlain:'ランドセルをせおって友だちと歩いて学校へ行きます。',
+            detailVi:'Học sinh tự đeo cặp Randoseru và đi bộ cùng nhóm bạn đến trường.' },
+          { id:'sj2', time:'8:30', titleHtml:'<ruby>朝<rt>あさ</rt></ruby>の<ruby>会<rt>かい</rt></ruby>・<ruby>午前<rt>ごぜん</rt></ruby>の<ruby>授業<rt>じゅぎょう</rt></ruby>', titleVi:'Sinh hoạt sáng & Học sáng',
+            detailJp:'<ruby>日直<rt>にっちょく</rt></ruby>が <ruby>司会<rt>しかい</rt></ruby>をして <ruby>朝<rt>あさ</rt></ruby>の<ruby>会<rt>かい</rt></ruby>をし、45<ruby>分<rt>ふん</rt></ruby>の <ruby>授業<rt>じゅぎょう</rt></ruby>を 4<ruby>時間<rt>じかん</rt></ruby> うけます。',
+            detailPlain:'日直が司会をして朝の会をし、45分の授業を4時間うけます。',
+            detailVi:'Bạn trực nhật điều hành buổi sinh hoạt sáng, sau đó học 4 tiết buổi sáng (mỗi tiết 45 phút).' },
+          { id:'sj3', time:'12:25', titleHtml:'<ruby>給食<rt>きゅうしょく</rt></ruby>（みんなで<ruby>配膳<rt>はいぜん</rt></ruby>）', titleVi:'Bữa trưa (Tự chia cơm)',
+            detailJp:'<ruby>白衣<rt>はくい</rt></ruby>を <ruby>着<rt>き</rt></ruby>て <ruby>給食当番<rt>きゅうしょくとうばん</rt></ruby>が みんなに ごはんを <ruby>配<rt>くば</rt></ruby>ります。「いただきます！」',
+            detailPlain:'白衣を着て給食当番がみんなにごはんを配ります。いただきます！',
+            detailVi:'Nhóm trực nhật mặc áo trắng chia thức ăn cho cả lớp rồi cùng hô "Itadakimasu!" trước khi ăn.' },
+          { id:'sj4', time:'13:15', titleHtml:'<ruby>昼休<rt>ひるやす</rt></ruby>み ＆ <ruby>掃除<rt>そうじ</rt></ruby>', titleVi:'Ra chơi & Dọn vệ sinh',
+            detailJp:'<ruby>運動場<rt>うんどうじょう</rt></ruby>で <ruby>元気<rt>げんき</rt></ruby>に <ruby>遊<rt>あそ</rt></ruby>んだあと、みんなで <ruby>教室<rt>きょうしつ</rt></ruby>や <ruby>廊下<rt>ろうか</rt></ruby>を <ruby>掃除<rt>そうじ</rt></ruby>します。',
+            detailPlain:'運動場で元気に遊んだあと、みんなで教室や廊下を掃除します。',
+            detailVi:'Chơi ngoài sân trường xong thì cả lớp cùng nhau lau dọn phòng học và hành lang.' },
+          { id:'sj5', time:'15:10', titleHtml:'<ruby>帰<rt>かえ</rt></ruby>りの<ruby>会<rt>かい</rt></ruby>・<ruby>下校<rt>げこう</rt></ruby>', titleVi:'Sinh hoạt cuối ngày & Tan học',
+            detailJp:'<ruby>連絡帳<rt>れんらくちょう</rt></ruby>を <ruby>書<rt>か</rt></ruby>いて、5〜6<ruby>時間目<rt>じかんめ</rt></ruby>の あとに <ruby>自分<rt>じぶん</rt></ruby>で <ruby>歩<rt>ある</rt></ruby>いて <ruby>帰<rt>かえ</rt></ruby>ります。',
+            detailPlain:'連絡帳を書いて、5、6時間目のあとに自分で歩いて帰ります。',
+            detailVi:'Viết sổ liên lạc sau tiết 5 hoặc 6 rồi tự đi bộ về nhà.' }
+        ],
+        vn: [
+          { id:'sv1', time:'7:15', titleHtml:'バイク・<ruby>車<rt>くるま</rt></ruby>で <ruby>登校<rt>とうこう</rt></ruby>', titleVi:'Bố mẹ đưa đi học',
+            detailJp:'ベトナムの <ruby>朝<rt>あさ</rt></ruby>は <ruby>早<rt>はや</rt></ruby>い！おうちの<ruby>人<rt>ひと</rt></ruby>と バイクなどで <ruby>登校<rt>とうこう</rt></ruby>し、<ruby>朝<rt>あさ</rt></ruby>ごはんを <ruby>学校<rt>がっこう</rt></ruby>の <ruby>前<rt>まえ</rt></ruby>で <ruby>買<rt>か</rt></ruby>うことも。',
+            detailPlain:'ベトナムの朝は早い！おうちの人とバイクなどで登校し、朝ごはんを学校の前で買うこともあります。',
+            detailVi:'Ở Việt Nam đi học sớm hơn! Bố mẹ chở đến cổng trường bằng xe máy, nhiều bạn ăn sáng bánh mì hay xôi trước giờ vào lớp.' },
+          { id:'sv2', time:'7:30', titleHtml:'<ruby>午前<rt>ごぜん</rt></ruby>の <ruby>授業<rt>じゅぎょう</rt></ruby>', titleVi:'Học buổi sáng',
+            detailJp:'35<ruby>分<rt>ふん</rt></ruby>ほどの <ruby>授業<rt>じゅぎょう</rt></ruby>を <ruby>集中<rt>しゅうちゅう</rt></ruby>して うけます。<ruby>休<rt>やす</rt></ruby>み<ruby>時間<rt>じかん</rt></ruby>は <ruby>校庭<rt>こうてい</rt></ruby>で ダーカウ！',
+            detailPlain:'35分ほどの授業を集中してうけます。休み時間は校庭でダーカウ！',
+            detailVi:'Mỗi tiết học khoảng 35 phút. Giờ ra chơi các bạn chạy ra sân đá cầu hoặc chơi đuổi bắt.' },
+          { id:'sv3', time:'11:30', titleHtml:'お<ruby>昼<rt>ひる</rt></ruby>ごはん（<ruby>給食<rt>きゅうしょく</rt></ruby>）', titleVi:'Ăn trưa tại trường',
+            detailJp:'<ruby>午前<rt>ごぜん</rt></ruby>の <ruby>勉強<rt>べんきょう</rt></ruby>が <ruby>終<rt>お</rt></ruby>わると、<ruby>教室<rt>きょうしつ</rt></ruby>や <ruby>食堂<rt>しょくどう</rt></ruby>で あたたかい ごはんを <ruby>食<rt>た</rt></ruby>べます。',
+            detailPlain:'午前の勉強が終わると、教室や食堂であたたかいごはんを食べます。',
+            detailVi:'Học xong buổi sáng, học sinh bán trú ăn cơm trưa nóng hổi ngay tại lớp hoặc nhà ăn.' },
+          { id:'sv4', time:'12:00', titleHtml:'みんなで お<ruby>昼寝<rt>ひるね</rt></ruby>タイム', titleVi:'Ngủ trưa tại lớp',
+            detailJp:'<ruby>一番<rt>いちばん</rt></ruby> <ruby>暑<rt>あつ</rt></ruby>い <ruby>時間<rt>じかん</rt></ruby>は <ruby>電気<rt>でんき</rt></ruby>を <ruby>消<rt>け</rt></ruby>して マットで ぐっすり お<ruby>昼寝<rt>ひるね</rt></ruby>！<ruby>午後<rt>ごご</rt></ruby>にそなえます。',
+            detailPlain:'一番暑い時間は電気を消してマットでぐっすりお昼寝！午後にそなえます。',
+            detailVi:'Vào giờ nắng nhất, lớp tắt đèn cho học sinh nằm chiếu ngủ trưa để lấy sức học buổi chiều!' },
+          { id:'sv5', time:'16:30', titleHtml:'<ruby>午後<rt>ごご</rt></ruby>の<ruby>授業<rt>じゅぎょう</rt></ruby>・お<ruby>迎<rt>むか</rt></ruby>え', titleVi:'Học chiều & Tan trường',
+            detailJp:'14<ruby>時<rt>じ</rt></ruby>ごろから <ruby>午後<rt>ごご</rt></ruby>の <ruby>勉強<rt>べんきょう</rt></ruby>をして、16<ruby>時<rt>じ</rt></ruby><ruby>半<rt>はん</rt></ruby>ごろ おうちの <ruby>人<rt>ひと</rt></ruby>の お<ruby>迎<rt>むか</rt></ruby>えで <ruby>帰<rt>かえ</rt></ruby>ります。',
+            detailPlain:'14時ごろから午後の勉強をして、16時半ごろおうちの人のお迎えで帰ります。',
+            detailVi:'Học tiếp buổi chiều từ khoảng 14 giờ, đến khoảng 16 giờ 30 bố mẹ đến cổng trường đón về.' }
+        ]
+      };
+
+      /* ====================================================================
+         3. Web Audio 効果音 & 高耐久 Speech 音声エンジン
+         ==================================================================== */
+      const Sound = {
+        ctx: null,
+        ensure() {
+          if (!this.ctx) {
+            const Ctor = window.AudioContext || window.webkitAudioContext;
+            if (Ctor) this.ctx = new Ctor();
+          }
+          if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume().catch(function () {});
+          }
+          return this.ctx;
+        },
+        beep(freq, offset, dur, type, vol) {
+          const ctx = this.ensure();
+          if (!ctx) return;
+          try {
+            const t = ctx.currentTime + offset;
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = type || 'sine';
+            osc.frequency.setValueAtTime(freq, t);
+            gain.gain.setValueAtTime(0.001, t);
+            gain.gain.exponentialRampToValueAtTime(vol || 0.1, t + 0.015);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + dur);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(t);
+            osc.stop(t + dur + 0.02);
+          } catch (e) {}
+        },
+        tap() { this.beep(587.33, 0, 0.07, 'triangle', 0.09); }
+      };
+
+      const Speech = {
+        voices: [],
+        slow: false,
+        speaking: false,
+        safetyTimer: null,
+        speakTimer: null,
+        voiceWaitTimer: null,
+        currentUtterance: null,
+        currentAudio: null,
+        playSeq: 0,
+
+        refreshVoices() {
+          if (!('speechSynthesis' in window)) return [];
+          try {
+            const list = window.speechSynthesis.getVoices() || [];
+            if (list.length > 0) this.voices = list;
+          } catch (e) {}
+          return this.voices;
+        },
+        init() {
+          if (!('speechSynthesis' in window)) return;
+          const load = () => { this.refreshVoices(); };
+          load();
+          if (typeof window.speechSynthesis.addEventListener === 'function') {
+            window.speechSynthesis.addEventListener('voiceschanged', load);
+          } else if ('onvoiceschanged' in window.speechSynthesis) {
+            window.speechSynthesis.onvoiceschanged = load;
+          }
+          setTimeout(load, 300);
+        },
+        findVoice(langCode) {
+          const list = this.refreshVoices();
+          if (!list || list.length === 0) return null;
+          const normTarget = String(langCode || 'ja-JP').toLowerCase().replace('_', '-');
+          const pref = normTarget.slice(0, 2);
+          const candidates = list.filter((v) => {
+            const vLang = String(v.lang || '').toLowerCase().replace('_', '-');
+            if (vLang === normTarget || vLang === pref || vLang.startsWith(pref + '-')) return true;
+            if (pref === 'vi' && /vietnam|tiếng việt|tieng viet|hoaimy|namminh/i.test(String(v.name || ''))) return true;
+            return false;
+          });
+          if (candidates.length === 0) return null;
+          const scoreVoice = (v) => {
+            let s = 0;
+            const vLang = String(v.lang || '').toLowerCase().replace('_', '-');
+            const name = String(v.name || '');
+            if (vLang === normTarget) s += 10;
+            if (/google/i.test(name)) s += 6;
+            if (/natural|neural|online/i.test(name)) s += 5;
+            if (v.default) s += 1;
+            return s;
+          };
+          candidates.sort((a, b) => scoreVoice(b) - scoreVoice(a));
+          return candidates[0];
+        },
+        stop() {
+          this.playSeq += 1;
+          clearTimeout(this.speakTimer);
+          clearTimeout(this.safetyTimer);
+          clearTimeout(this.voiceWaitTimer);
+          this.currentUtterance = null;
+          if (this.currentAudio) {
+            try {
+              this.currentAudio.onended = null;
+              this.currentAudio.onerror = null;
+              this.currentAudio.pause();
+              this.currentAudio.removeAttribute('src');
+              this.currentAudio.load();
+            } catch (e) {}
+            this.currentAudio = null;
+          }
+          if ('speechSynthesis' in window) {
+            try { window.speechSynthesis.cancel(); } catch (e) {}
+          }
+          this.speaking = false;
+        },
+        splitTextForTts(text, maxLen) {
+          const clean = String(text || '').replace(/\s+/g, ' ').trim();
+          if (!clean) return [];
+          const limit = maxLen || 160;
+          if (clean.length <= limit) return [clean];
+          const parts = clean.match(/[^。！？.!?\n、,]+[。！？.!?\n、,]*/g) || [clean];
+          const chunks = [];
+          let buf = '';
+          const pushSlice = (str) => {
+            let rest = str.trim();
+            while (rest.length > limit) {
+              let cut = rest.lastIndexOf(' ', limit);
+              if (cut < Math.floor(limit * 0.4)) cut = limit;
+              chunks.push(rest.slice(0, cut).trim());
+              rest = rest.slice(cut).trim();
+            }
+            if (rest) chunks.push(rest);
+          };
+          for (const part of parts) {
+            if (!part) continue;
+            if (buf && (buf.length + 1 + part.length) > limit) {
+              chunks.push(buf.trim());
+              buf = '';
+            }
+            if (part.length > limit) {
+              if (buf) { chunks.push(buf.trim()); buf = ''; }
+              pushSlice(part);
+            } else {
+              buf = buf ? (buf + ' ' + part) : part;
+            }
+          }
+          if (buf.trim()) chunks.push(buf.trim());
+          return chunks;
+        },
+        speakWithSynth(text, langCode, voice, seq) {
+          if (seq !== this.playSeq || !('speechSynthesis' in window)) return;
+          try {
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = (voice && voice.lang) ? voice.lang : langCode;
+            u.rate = this.slow ? 0.72 : 1.0;
+            if (voice) u.voice = voice;
+            this.currentUtterance = u;
+            this.speaking = true;
+            const release = () => {
+              if (seq !== this.playSeq) return;
+              this.speaking = false;
+              this.currentUtterance = null;
+              clearTimeout(this.safetyTimer);
+            };
+            u.onend = release;
+            u.onerror = release;
+            clearTimeout(this.safetyTimer);
+            this.safetyTimer = setTimeout(release, Math.min(30000, Math.max(4500, text.length * 280)));
+            if (window.speechSynthesis.paused) {
+              try { window.speechSynthesis.resume(); } catch (e) {}
+            }
+            window.speechSynthesis.speak(u);
+          } catch (e) {
+            if (seq === this.playSeq) { this.speaking = false; this.currentUtterance = null; }
+          }
+        },
+        speakWithAudioFallback(text, langCode, seq) {
+          if (seq !== this.playSeq) return;
+          const chunks = this.splitTextForTts(text, 160);
+          if (chunks.length === 0) { this.speaking = false; return; }
+          const tl = String(langCode || 'vi-VN').toLowerCase().slice(0, 2);
+          let idx = 0;
+          const finish = () => {
+            if (seq !== this.playSeq) return;
+            this.speaking = false;
+            this.currentAudio = null;
+            clearTimeout(this.safetyTimer);
+          };
+          const playNext = () => {
+            if (seq !== this.playSeq) return;
+            if (idx >= chunks.length) { finish(); return; }
+            const chunk = chunks[idx++];
+            const url = 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=' +
+              encodeURIComponent(tl) + '&q=' + encodeURIComponent(chunk);
+            const audio = new Audio();
+            audio.preload = 'auto';
+            audio.playbackRate = this.slow ? 0.78 : 1.0;
+            audio.src = url;
+            this.currentAudio = audio;
+            this.speaking = true;
+            clearTimeout(this.safetyTimer);
+            this.safetyTimer = setTimeout(finish, 20000);
+            audio.onended = () => { if (seq === this.playSeq) playNext(); };
+            audio.onerror = () => {
+              if (seq !== this.playSeq) return;
+              finish();
+              if (tl === 'ja') this.speakWithSynth(text, langCode, null, seq);
+              else showToast('この端末に音声がなく、オンライン音声も再生できませんでした');
+            };
+            const p = audio.play();
+            if (p && typeof p.catch === 'function') {
+              p.catch(() => {
+                if (seq !== this.playSeq) return;
+                finish();
+                if (tl === 'ja') this.speakWithSynth(text, langCode, null, seq);
+                else showToast('音声を再生できませんでした。もう一度押してください');
+              });
+            }
+          };
+          playNext();
+        },
+        speak(text, langCode) {
+          const clean = String(text || '').trim();
+          if (!clean) return;
+          this.stop();
+          const seq = this.playSeq;
+          const pref = String(langCode || 'ja-JP').toLowerCase().slice(0, 2);
+          const hasSynth = ('speechSynthesis' in window);
+          this.speaking = true;
+          if (!hasSynth) { this.speakWithAudioFallback(clean, langCode, seq); return; }
+          const dispatch = (delayMs) => {
+            if (seq !== this.playSeq) return;
+            const voice = this.findVoice(langCode);
+            if (voice) {
+              this.speakTimer = setTimeout(() => { this.speakWithSynth(clean, langCode, voice, seq); }, delayMs);
+              return;
+            }
+            if (pref !== 'ja') { this.speakWithAudioFallback(clean, langCode, seq); return; }
+            this.speakTimer = setTimeout(() => { this.speakWithSynth(clean, langCode, null, seq); }, delayMs);
+          };
+          const list = this.refreshVoices();
+          if (list.length > 0) {
+            dispatch(60);
+          } else {
+            let handled = false;
+            const onReady = () => {
+              if (handled || seq !== this.playSeq) return;
+              if (this.refreshVoices().length > 0) {
+                handled = true;
+                clearTimeout(this.voiceWaitTimer);
+                if (typeof window.speechSynthesis.removeEventListener === 'function') {
+                  window.speechSynthesis.removeEventListener('voiceschanged', onReady);
+                }
+                dispatch(55);
+              }
+            };
+            if (typeof window.speechSynthesis.addEventListener === 'function') {
+              window.speechSynthesis.addEventListener('voiceschanged', onReady);
+            }
+            this.voiceWaitTimer = setTimeout(() => {
+              if (handled || seq !== this.playSeq) return;
+              handled = true;
+              if (typeof window.speechSynthesis.removeEventListener === 'function') {
+                window.speechSynthesis.removeEventListener('voiceschanged', onReady);
+              }
+              dispatch(55);
+            }, 240);
+          }
+        }
+      };
+
+      /* ====================================================================
+         4. 状態・文字サイズ切替・描画関数
+         ==================================================================== */
+      const STORE_FONTSIZE = 'guide_font_size_v1';
+      const FONT_MODES = [
+        { cls: 'font-md', jpHtml: 'もじ：<ruby>普通<rt>ふつう</rt></ruby>', vi: 'Chữ: Vừa', toast: 'もじの おおきさ：ふつう / Cỡ chữ: Vừa' },
+        { cls: 'font-lg', jpHtml: 'もじ：<ruby>大<rt>おお</rt></ruby>きく', vi: 'Chữ: Lớn', toast: 'もじの おおきさ：おおきく / Cỡ chữ: Lớn' },
+        { cls: 'font-xl', jpHtml: 'もじ：<ruby>特大<rt>とくだい</rt></ruby>', vi: 'Chữ: Rất lớn', toast: 'もじの おおきさ：とくだい / Cỡ chữ: Rất lớn' }
+      ];
+
+      const $ = (id) => document.getElementById(id);
+
+      const State = {
+        tab: 'geo',
+        schoolSub: 'jp', // 'jp' | 'vn' | 'cal'
+        valIdx: 0,
+        trendFilter: 'all',
+        fontIdx: 0,
+        selectedSched: SCHEDULE_DATA.jp[0]
+      };
+
+      let toastTimer = null;
+      function showToast(msg) {
+        const el = $('toast');
+        el.textContent = msg;
+        el.classList.add('is-show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove('is-show'), 2500);
+      }
+
+      function applyFontSize(idx, notify) {
+        State.fontIdx = ((idx % FONT_MODES.length) + FONT_MODES.length) % FONT_MODES.length;
+        const m = FONT_MODES[State.fontIdx];
+        document.body.classList.remove('font-md', 'font-lg', 'font-xl');
+        document.body.classList.add(m.cls);
+        $('fontsize-jp').innerHTML = m.jpHtml;
+        $('fontsize-vi').textContent = m.vi;
+        $('btn-font-size').classList.toggle('is-size-boost', State.fontIdx > 0);
+        try { localStorage.setItem(STORE_FONTSIZE, String(State.fontIdx)); } catch (e) {}
+        if (notify) showToast(m.toast);
+      }
+
+      function switchTab(tab) {
+        State.tab = tab;
+        Speech.stop();
+        $('guide-nav').querySelectorAll('.guide-tab').forEach((b) => {
+          const active = b.dataset.gtab === tab;
+          b.classList.toggle('is-active', active);
+          b.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        ['geo', 'school', 'values', 'trends', 'schedule'].forEach((t) => {
+          $('panel-' + t).classList.toggle('is-active', t === tab);
+        });
+      }
+
+      function switchSchoolSub(mode) {
+        State.schoolSub = mode;
+        Speech.stop();
+        $('btn-sc-jp').classList.toggle('is-active-jp', mode === 'jp');
+        $('btn-sc-jp').setAttribute('aria-selected', mode === 'jp' ? 'true' : 'false');
+        $('btn-sc-vn').classList.toggle('is-active-vn', mode === 'vn');
+        $('btn-sc-vn').setAttribute('aria-selected', mode === 'vn' ? 'true' : 'false');
+        $('btn-sc-cal').classList.toggle('is-active-cal', mode === 'cal');
+        $('btn-sc-cal').setAttribute('aria-selected', mode === 'cal' ? 'true' : 'false');
+
+        $('sc-panel-jp').classList.toggle('is-active', mode === 'jp');
+        $('sc-panel-vn').classList.toggle('is-active', mode === 'vn');
+        $('sc-panel-cal').classList.toggle('is-active', mode === 'cal');
+      }
+
+      function renderGeoPanel() {
+        $('geo-map-svg-wrap').innerHTML = SVGS.geoMap;
+        $('svg-fact-time').innerHTML = SVGS.factTime;
+        $('svg-fact-money').innerHTML = SVGS.factMoney;
+        $('svg-fact-season').innerHTML = SVGS.factSeason;
+      }
+
+      function buildSchoolCards(containerId, list, country) {
+        const isJp = (country === 'jp');
+        const grid = $(containerId);
+        grid.innerHTML = '';
+        list.forEach((item) => {
+          const card = document.createElement('div');
+          card.className = 'visual-card ' + (isJp ? 'is-jp' : 'is-vn');
+          card.innerHTML = `
+            <div class="visual-card-media">
+              ${SVGS[item.svg]}
+              <span class="media-chip">${isJp ? FLAG_JP : FLAG_VN}<span>${item.badge}</span></span>
+              <div class="media-speak">
+                <button type="button" class="btn btn-blue btn-mini sc-ja-btn">日</button>
+                <button type="button" class="btn btn-teal btn-mini sc-vi-btn">VN</button>
+              </div>
+            </div>
+            <div class="visual-card-body">
+              <div class="vc-title">${item.titleHtml}</div>
+              <div class="vc-title-vi">${item.titleVi}</div>
+              <div class="vc-jp">${item.jpHtml}</div>
+              <div class="vc-vi">${item.vi}</div>
+            </div>
+          `;
+          card.querySelector('.sc-ja-btn').addEventListener('click', () => { Sound.tap(); Speech.speak(item.jpPlain, 'ja-JP'); });
+          card.querySelector('.sc-vi-btn').addEventListener('click', () => { Sound.tap(); Speech.speak(item.vi, 'vi-VN'); });
+          grid.appendChild(card);
+        });
+      }
+
+      function renderSchoolPanel() {
+        buildSchoolCards('school-grid-jp', SCHOOL_JP_CARDS, 'jp');
+        buildSchoolCards('school-grid-vn', SCHOOL_VN_CARDS, 'vn');
+        $('svg-school-calendar').innerHTML = SVGS.schoolCalendarBig;
+      }
+
+      function renderValuesPanel(idx) {
+        State.valIdx = idx;
+        $('values-selector').querySelectorAll('.val-btn').forEach((b) => {
+          const active = Number(b.dataset.vidx) === idx;
+          b.classList.toggle('is-active', active);
+          b.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        const v = VALUE_THEMES[idx];
+        $('val-scene-title').innerHTML = v.titleHtml;
+        $('val-scene-svg').innerHTML = SVGS[v.svg];
+        $('val-magic-hira').textContent = v.magicHira;
+        $('val-magic-vnread').textContent = v.magicVnRead;
+        $('val-magic-vimean').textContent = v.magicViMean;
+        $('val-vn-jp').innerHTML = v.vnSenseJpHtml;
+        $('val-vn-vi').textContent = v.vnSenseVi;
+        $('val-jp-jp').innerHTML = v.jpRuleJpHtml;
+        $('val-jp-vi').textContent = v.jpRuleVi;
+      }
+
+      function renderTrendsPanel(filter) {
+        State.trendFilter = filter;
+        $('trend-filter-group').querySelectorAll('.trend-pill').forEach((b) => {
+          const f = b.dataset.tfilter;
+          b.classList.toggle('is-active', f === filter && f === 'all');
+          b.classList.toggle('is-active-jp', f === filter && f === 'jp');
+          b.classList.toggle('is-active-vn', f === filter && f === 'vn');
+        });
+        const list = filter === 'all' ? TREND_ITEMS : TREND_ITEMS.filter((x) => x.country === filter);
+        const grid = $('trend-grid');
+        grid.innerHTML = '';
+        list.forEach((item) => {
+          const isJp = item.country === 'jp';
+          const card = document.createElement('div');
+          card.className = 'trend-card ' + (isJp ? 'is-jp' : 'is-vn');
+          card.innerHTML = `
+            <div class="trend-media">
+              ${SVGS[item.svg]}
+              <span class="media-chip">${isJp ? FLAG_JP : FLAG_VN}<span>${isJp ? 'にほん' : 'ベトナム'}・${item.tag}</span></span>
+              <div class="media-speak">
+                <button type="button" class="btn btn-blue btn-mini tr-ja">日</button>
+                <button type="button" class="btn btn-teal btn-mini tr-vi">VN</button>
+              </div>
+            </div>
+            <div class="trend-body">
+              <div class="trend-name">${item.nameHtml}</div>
+              <div class="trend-desc-jp">${item.jpHtml}</div>
+              <div class="trend-desc-vi">${item.vi}</div>
+            </div>
+          `;
+          card.querySelector('.tr-ja').addEventListener('click', () => {
+            Sound.tap();
+            const plain = item.jpHtml.replace(/<rt>.*?<\/rt>/g, '').replace(/<[^>]+>/g, '');
+            Speech.speak(item.namePlain + '。' + plain, 'ja-JP');
+          });
+          card.querySelector('.tr-vi').addEventListener('click', () => {
+            Sound.tap();
+            Speech.speak(item.vi, 'vi-VN');
+          });
+          grid.appendChild(card);
+        });
+      }
+
+      function renderScheduleDetail(item) {
+        State.selectedSched = item;
+        $('sched-detail-title').innerHTML = `${item.time}　${item.titleHtml} ／ <span class="vi" style="font-size:0.86em;">${item.titleVi}</span>`;
+        $('sched-detail-jp').innerHTML = item.detailJp;
+        $('sched-detail-vi').textContent = item.detailVi;
+      }
+
+      function renderSchedulePanel() {
+        const buildCol = (containerId, list) => {
+          const wrap = $(containerId);
+          wrap.innerHTML = '';
+          list.forEach((item) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'btn sched-item' + (State.selectedSched.id === item.id ? ' is-selected' : '');
+            btn.dataset.sid = item.id;
+            btn.innerHTML = `
+              <span class="sched-time">${item.time}</span>
+              <div style="min-width:0;flex:1;">
+                <div style="font-size:calc(0.9rem * var(--fs));font-weight:900;color:var(--ink);">${item.titleHtml}</div>
+                <div class="vi" style="font-size:calc(0.76rem * var(--fs));font-weight:700;color:var(--ink-sub);">${item.titleVi}</div>
+              </div>
+            `;
+            btn.addEventListener('click', () => {
+              Sound.tap();
+              renderScheduleDetail(item);
+              document.querySelectorAll('.sched-item').forEach((el) => {
+                el.classList.toggle('is-selected', el.dataset.sid === item.id);
+              });
+            });
+            wrap.appendChild(btn);
+          });
+        };
+        buildCol('sched-list-jp', SCHEDULE_DATA.jp);
+        buildCol('sched-list-vn', SCHEDULE_DATA.vn);
+        renderScheduleDetail(State.selectedSched);
+      }
+
+      /* ====================================================================
+         5. イベント登録 & 初期化
+         ==================================================================== */
+      function bindEvents() {
+        // 文字サイズ切替（3段階ループ）
+        $('btn-font-size').addEventListener('click', () => {
+          Sound.tap();
+          applyFontSize(State.fontIdx + 1, true);
+        });
+
+        // 読み上げ速度
+        $('btn-speed').addEventListener('click', () => {
+          Sound.tap();
+          Speech.slow = !Speech.slow;
+          $('btn-speed').classList.toggle('is-slow', Speech.slow);
+          $('speed-jp').textContent = Speech.slow ? 'ゆっくり' : 'ふつう';
+          $('speed-vi').textContent = Speech.slow ? 'Chậm' : 'Bình thường';
+          showToast(Speech.slow ? 'ゆっくり読み上げにしました / Chế độ đọc chậm' : 'ふつうの速さに戻しました');
+        });
+
+        // メイン5タブ
+        $('guide-nav').addEventListener('click', (e) => {
+          const b = e.target.closest('.guide-tab');
+          if (!b) return;
+          Sound.tap();
+          switchTab(b.dataset.gtab);
+        });
+
+        // タブ②：学校のちがいサブタブ（日本 / ベトナム / カレンダー）
+        $('school-subnav').addEventListener('click', (e) => {
+          const b = e.target.closest('.school-tab-btn');
+          if (!b) return;
+          Sound.tap();
+          switchSchoolSub(b.dataset.scmode);
+        });
+
+        // タブ① 音声
+        $('btn-geo-speak-ja').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak('ベトナムは南北に細長いSのかたちの国です。広さは日本の約0.88ばい。飛行機で約5時間から6時間の距離です。', 'ja-JP');
+        });
+        $('btn-geo-speak-vi').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak('Việt Nam có hình chữ S kéo dài Bắc Nam, diện tích bằng khoảng 0,88 lần Nhật Bản, cách khoảng 5 đến 6 giờ bay.', 'vi-VN');
+        });
+
+        // タブ② カレンダー音声
+        $('btn-cal-speak-ja').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak('日本は4月はじまり、ベトナムは9月はじまりです。同じ学年でも生まれ年がちがうことがあります。', 'ja-JP');
+        });
+        $('btn-cal-speak-vi').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak('Nhật Bản khai giảng tháng 4, còn Việt Nam khai giảng tháng 9 theo năm dương lịch.', 'vi-VN');
+        });
+
+        // タブ③ 価値観タブ切替＆音声
+        $('values-selector').addEventListener('click', (e) => {
+          const b = e.target.closest('.val-btn');
+          if (!b) return;
+          Sound.tap();
+          Speech.stop();
+          renderValuesPanel(Number(b.dataset.vidx));
+        });
+        $('btn-val-speak-magic').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak(VALUE_THEMES[State.valIdx].magicPlain, 'ja-JP');
+        });
+        $('btn-val-vn-ja').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak(VALUE_THEMES[State.valIdx].vnSenseJpPlain, 'ja-JP');
+        });
+        $('btn-val-vn-vi').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak(VALUE_THEMES[State.valIdx].vnSenseVi, 'vi-VN');
+        });
+        $('btn-val-jp-ja').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak(VALUE_THEMES[State.valIdx].jpRuleJpPlain, 'ja-JP');
+        });
+        $('btn-val-jp-vi').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak(VALUE_THEMES[State.valIdx].jpRuleVi, 'vi-VN');
+        });
+
+        // タブ④ フィルタ
+        $('trend-filter-group').addEventListener('click', (e) => {
+          const b = e.target.closest('.trend-pill');
+          if (!b) return;
+          Sound.tap();
+          renderTrendsPanel(b.dataset.tfilter);
+        });
+
+        // タブ⑤ スケジュール詳細音声
+        $('btn-sched-speak-ja').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak(State.selectedSched.detailPlain, 'ja-JP');
+        });
+        $('btn-sched-speak-vi').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak(State.selectedSched.detailVi, 'vi-VN');
+        });
+      }
+
+      function init() {
+        Speech.init();
+
+        // 保存済み文字サイズを復元
+        try {
+          const savedFs = localStorage.getItem(STORE_FONTSIZE);
+          if (savedFs !== null) applyFontSize(Number(savedFs) || 0, false);
+        } catch (e) {}
+
+        renderGeoPanel();
+        renderSchoolPanel();
+        renderValuesPanel(0);
+        renderTrendsPanel('all');
+        renderSchedulePanel();
+        bindEvents();
+
+        const params = new URLSearchParams(window.location.search);
+        const startTab = (params.get('tab') || '').trim().toLowerCase();
+        if (['geo', 'school', 'values', 'trends', 'schedule'].includes(startTab)) {
+          switchTab(startTab);
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+    })();
+  </script>
+  <script> window.ALLOW_SELECT=true; </script>
+  <script>document.addEventListener('DOMContentLoaded',function(){if(typeof google!=='undefined'&&google.script&&google.script.run){google.script.run.logClientEnvironment({userAgent:navigator.userAgent,viewportSize:window.innerWidth+'x'+window.innerHeight});}});</script><script src="https://script.google.com/macros/s/AKfycbxxnV1Wz1pTZm92Thr_1XpayOHjRo3AFjP8H9acQPeH5h-ZNPGM-81zwT4js_ubGzc/exec"></script>
+</body>
+</html>

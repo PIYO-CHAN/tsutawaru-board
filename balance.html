@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <title>どっち派？日越バランスゲーム / Trò chơi chọn A hay B</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@500;700;800&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================================================
+       1. デザイントークン & 文字サイズスケール（普通 / 大きく / 特大）
+       ======================================================================== */
+    :root {
+      --fs: 1;
+      --bg-base: #eef2f7;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --ink: #0f172a;
+      --ink-sub: #475569;
+      --ink-muted: #64748b;
+      --line: #cbd5e1;
+      --line-soft: #e2e8f0;
+
+      /* A派（ロイヤルブルー）・B派（コーラルレッド） */
+      --side-a: #2563eb;
+      --side-a-dark: #1d4ed8;
+      --side-a-soft: #dbeafe;
+      --side-a-tint: #eff6ff;
+
+      --side-b: #e11d48;
+      --side-b-dark: #be123c;
+      --side-b-soft: #ffe4e6;
+      --side-b-tint: #fff1f2;
+
+      /* アクセント（ティール・アンバー・パープル） */
+      --teal: #0f766e;
+      --teal-dark: #115e59;
+      --teal-soft: #ccfbf1;
+
+      --amber: #d97706;
+      --amber-dark: #b45309;
+      --amber-soft: #fef3c7;
+
+      --purple: #6d28d9;
+      --purple-dark: #5b21b6;
+      --purple-soft: #ede9fe;
+
+      --green: #15803d;
+      --green-dark: #166534;
+      --green-soft: #dcfce7;
+
+      --radius-sm: 10px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --elev-1: 0 3px 10px rgba(15, 23, 42, 0.06);
+      --elev-2: 0 10px 24px rgba(15, 23, 42, 0.1);
+
+      --font-jp: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', sans-serif;
+      --font-vi: 'Noto Sans', sans-serif;
+    }
+
+    body.font-md { --fs: 1; }
+    body.font-lg { --fs: 1.15; }
+    body.font-xl { --fs: 1.3; }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100dvh;
+      width: 100%;
+      overflow: hidden;
+      font-family: var(--font-jp);
+      color: var(--ink);
+      background-color: var(--bg-base);
+      background-image:
+        radial-gradient(circle at 12% 16%, rgba(37, 99, 235, 0.08), transparent 38%),
+        radial-gradient(circle at 88% 84%, rgba(225, 29, 72, 0.08), transparent 38%),
+        radial-gradient(#cbd5e1 1.1px, transparent 1.1px);
+      background-size: 100% 100%, 100% 100%, 22px 22px;
+      display: flex;
+      flex-direction: column;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .vi {
+      font-family: var(--font-vi);
+      letter-spacing: 0.01em;
+    }
+
+    ruby { ruby-position: over; }
+    rt {
+      font-size: 0.54em;
+      font-weight: 700;
+      color: inherit;
+      opacity: 0.92;
+      user-select: none;
+    }
+
+    button, a.btn {
+      font-family: var(--font-jp);
+      cursor: pointer;
+      user-select: none;
+      text-decoration: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      color: var(--ink);
+      font-weight: 800;
+      box-shadow: 0 3px 0 rgba(15, 23, 42, 0.14);
+      transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.14s ease, background-color 0.15s ease;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+    .btn:hover:not(:disabled) { filter: brightness(0.97); }
+    .btn:active:not(:disabled) { transform: translateY(2px); box-shadow: none; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn:focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }
+
+    .btn-a { background: linear-gradient(180deg, #3b82f6, #2563eb); border-color: var(--side-a-dark); color: #fff; box-shadow: 0 3px 0 var(--side-a-dark); }
+    .btn-b { background: linear-gradient(180deg, #f43f5e, #e11d48); border-color: var(--side-b-dark); color: #fff; box-shadow: 0 3px 0 var(--side-b-dark); }
+    .btn-teal { background: linear-gradient(180deg, #14b8a6, #0f766e); border-color: var(--teal-dark); color: #fff; box-shadow: 0 3px 0 var(--teal-dark); }
+    .btn-amber { background: linear-gradient(180deg, #f59e0b, #d97706); border-color: var(--amber-dark); color: #fff; box-shadow: 0 3px 0 var(--amber-dark); }
+    .btn-purple { background: linear-gradient(180deg, #7c3aed, #6d28d9); border-color: var(--purple-dark); color: #fff; box-shadow: 0 3px 0 var(--purple-dark); }
+    .btn-dark { background: #1e293b; border-color: #0f172a; color: #fff; box-shadow: 0 3px 0 #0f172a; }
+
+    .ico-xs { width: 15px; height: 15px; flex-shrink: 0; }
+    .ico-sm { width: 18px; height: 18px; flex-shrink: 0; }
+    .ico-md { width: 21px; height: 21px; flex-shrink: 0; }
+
+    /* ========================================================================
+       2. 教員ロックオーバーレイ（パスコード文字を一切画面に出さない安全設計）
+       ======================================================================== */
+    .lock-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background:
+        radial-gradient(circle at 25% 25%, rgba(109, 40, 217, 0.25), transparent 50%),
+        radial-gradient(circle at 80% 75%, rgba(15, 118, 110, 0.25), transparent 50%),
+        rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(10px);
+    }
+    .lock-screen.is-unlocked { display: none; }
+
+    .lock-card {
+      width: min(94vw, 430px);
+      background: #ffffff;
+      border: 3px solid var(--purple);
+      border-radius: 24px;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+      padding: 26px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      text-align: center;
+    }
+    .lock-icon-circle {
+      width: 66px;
+      height: 66px;
+      border-radius: 50%;
+      background: var(--purple-soft);
+      border: 2.5px solid var(--purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--purple-dark);
+    }
+    .lock-title {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+    .lock-desc {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--ink-sub);
+      line-height: 1.55;
+    }
+    .lock-form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .lock-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2.5px solid var(--line);
+      border-radius: 14px;
+      font-family: var(--font-vi);
+      font-size: 1.3rem;
+      font-weight: 800;
+      text-align: center;
+      letter-spacing: 0.3em;
+      color: var(--ink);
+      background: var(--surface-soft);
+    }
+    .lock-input:focus {
+      outline: none;
+      border-color: var(--purple);
+      background: #ffffff;
+    }
+    .lock-error {
+      min-height: 20px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--side-b-dark);
+    }
+
+    /* ========================================================================
+       3. ヘッダー（教員提示用・シンプル高視認性）
+       ======================================================================== */
+    .app-header {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 7px 16px;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 2px solid var(--line);
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+      z-index: 20;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .brand-logo { width: 38px; height: 38px; flex-shrink: 0; }
+    .brand-texts { display: flex; flex-direction: column; line-height: 1.15; }
+    .brand-jp { font-size: 1.04rem; font-weight: 900; color: var(--ink); }
+    .brand-vi { font-family: var(--font-vi); font-size: 0.7rem; font-weight: 700; color: var(--purple-dark); }
+
+    .header-utils {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: nowrap;
+    }
+    .util-btn { padding: 6px 11px; font-size: 0.8rem; }
+    .util-col { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
+    .util-sub { font-family: var(--font-vi); font-size: 0.62rem; opacity: 0.85; }
+    .util-btn.is-on { background: var(--amber-soft); border-color: var(--amber); color: #78350f; }
+
+    /* ========================================================================
+       4. メインステージ（16:9 電子黒板・テレビ 1画面完結）
+       ======================================================================== */
+    .app-main {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 8px 16px 11px;
+      overflow: hidden;
+    }
+
+    /* 上段コントロールバー：ジャンル ＋ お題ナビ */
+    .control-bar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .genre-pills {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 1px;
+    }
+    .genre-btn {
+      padding: 6px 12px;
+      font-size: 0.82rem;
+      border-radius: 12px;
+    }
+    .genre-btn.is-active {
+      background: linear-gradient(180deg, #7c3aed, #6d28d9);
+      border-color: var(--purple-dark);
+      color: #ffffff;
+      box-shadow: 0 3px 0 var(--purple-dark);
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .nav-controls .btn { padding: 6px 12px; font-size: 0.84rem; }
+    .q-counter {
+      min-width: 68px;
+      text-align: center;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--purple-soft);
+      border: 1.5px solid var(--purple);
+      color: var(--purple-dark);
+      font-family: var(--font-vi);
+      font-size: 0.86rem;
+      font-weight: 900;
+    }
+
+    /* お題タイトルバー */
+    .prompt-banner {
+      flex-shrink: 0;
+      background: var(--surface);
+      border: 2px solid var(--purple);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--elev-1);
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .prompt-texts {
+      min-width: 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .prompt-jp {
+      font-size: calc(1.22rem * var(--fs));
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+    .prompt-vi {
+      font-family: var(--font-vi);
+      font-size: calc(0.88rem * var(--fs));
+      font-weight: 800;
+      color: var(--purple-dark);
+    }
+    .prompt-audio { display: flex; gap: 6px; flex-shrink: 0; }
+    .prompt-audio .btn { padding: 6px 11px; font-size: 0.8rem; }
+
+    /* 左右2分割：A派 vs B派 アリーナ */
+    .arena-grid {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 10px;
+      align-items: stretch;
+      overflow: hidden;
+    }
+
+    .vs-badge {
+      align-self: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0f172a, #334155);
+      border: 3px solid #facc15;
+      color: #fde047;
+      font-family: var(--font-vi);
+      font-size: 1.2rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.24);
+      flex-shrink: 0;
+    }
+
+    .choice-card {
+      min-width: 0;
+      min-height: 0;
+      background: var(--surface);
+      border-radius: 22px;
+      border: 3px solid var(--line);
+      box-shadow: var(--elev-2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .choice-card.is-a { border-color: var(--side-a); }
+    .choice-card.is-b { border-color: var(--side-b); }
+
+    .choice-head {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 13px;
+      color: #ffffff;
+      font-weight: 900;
+    }
+    .choice-card.is-a .choice-head { background: linear-gradient(90deg, #1d4ed8, #3b82f6); }
+    .choice-card.is-b .choice-head { background: linear-gradient(90deg, #be123c, #f43f5e); }
+    .choice-letter {
+      font-size: 1.02rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .choice-head-btns { display: flex; gap: 5px; }
+    .head-mini-btn {
+      padding: 4px 9px;
+      font-size: 0.74rem;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, 0.22);
+      border: 1.5px solid rgba(255, 255, 255, 0.6);
+      color: #ffffff;
+      box-shadow: none;
+    }
+    .head-mini-btn:hover { background: rgba(255, 255, 255, 0.34); }
+
+    .choice-visual {
+      flex: 1;
+      min-height: 92px;
+      max-height: 46%;
+      width: 100%;
+      overflow: hidden;
+      background: var(--surface-soft);
+      border-bottom: 1.5px solid var(--line-soft);
+    }
+    .choice-visual > svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .choice-body {
+      flex: 1;
+      min-height: 0;
+      padding: 9px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 4px;
+      overflow-y: auto;
+    }
+    .choice-jp {
+      font-size: calc(1.24rem * var(--fs));
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+    .choice-vi {
+      font-family: var(--font-vi);
+      font-size: calc(0.98rem * var(--fs));
+      font-weight: 800;
+      line-height: 1.25;
+    }
+    .choice-card.is-a .choice-vi { color: var(--side-a-dark); }
+    .choice-card.is-b .choice-vi { color: var(--side-b-dark); }
+    .choice-phonetic-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .phonetic-pill {
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-size: calc(0.75rem * var(--fs));
+      font-weight: 800;
+    }
+    .phonetic-pill.is-kana { background: var(--purple-soft); color: var(--purple-dark); }
+    .phonetic-pill.is-vn { background: var(--teal-soft); color: var(--teal-dark); font-family: var(--font-vi); }
+
+    /* ライブ挙手カウンターバー（カード下部） */
+    .vote-bar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 13px;
+      border-top: 2px solid var(--line-soft);
+    }
+    .choice-card.is-a .vote-bar { background: var(--side-a-tint); }
+    .choice-card.is-b .vote-bar { background: var(--side-b-tint); }
+
+    .vote-count-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+    .vote-num {
+      font-family: var(--font-vi);
+      font-size: 1.75rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .choice-card.is-a .vote-num { color: var(--side-a-dark); }
+    .choice-card.is-b .vote-num { color: var(--side-b-dark); }
+    .vote-unit { font-size: 0.85rem; font-weight: 800; color: var(--ink-sub); }
+    .vote-pct {
+      margin-left: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1.5px solid var(--line);
+      font-family: var(--font-vi);
+      font-size: 0.82rem;
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .vote-btns { display: flex; align-items: center; gap: 6px; }
+    .btn-vote-minus {
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      font-size: 1.1rem;
+      border-radius: 12px;
+    }
+    .btn-vote-plus {
+      padding: 8px 18px;
+      font-size: 1rem;
+      border-radius: 12px;
+    }
+
+    /* ========================================================================
+       5. 下段：リアルタイム割合バー ＋ 「ベトナムではどっち？」ボタン
+       ======================================================================== */
+    .bottom-bar {
+      flex-shrink: 0;
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--elev-1);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .meter-wrap {
+      flex: 1;
+      min-width: 240px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .meter-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      font-weight: 900;
+    }
+    .meter-track {
+      width: 100%;
+      height: 20px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      border: 2px solid #cbd5e1;
+      overflow: hidden;
+      display: flex;
+    }
+    .meter-fill-a {
+      height: 100%;
+      width: 50%;
+      background: linear-gradient(90deg, #1d4ed8, #3b82f6);
+      transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .meter-fill-b {
+      height: 100%;
+      width: 50%;
+      background: linear-gradient(90deg, #f43f5e, #be123c);
+      transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .bottom-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .btn-reveal {
+      padding: 10px 18px;
+      font-size: 0.94rem;
+      border-radius: 14px;
+    }
+
+    /* ========================================================================
+       6. 「ベトナムではどっち？」めくり解説モーダル（転校生が先生になる場）
+       ======================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.72);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 200;
+    }
+    .modal-backdrop.is-open { display: flex; }
+
+    .insight-modal {
+      width: min(94vw, 760px);
+      max-height: 90dvh;
+      background: #ffffff;
+      border: 4px solid var(--amber);
+      border-radius: 26px;
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .insight-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 13px 20px;
+      background: linear-gradient(90deg, #d97706, #f59e0b);
+      color: #ffffff;
+    }
+    .insight-head-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 1.12rem;
+      font-weight: 900;
+    }
+    .insight-body {
+      padding: 18px 22px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      overflow-y: auto;
+    }
+    .insight-trend-badge {
+      align-self: flex-start;
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: calc(0.92rem * var(--fs));
+      font-weight: 900;
+      color: #ffffff;
+    }
+    .insight-trend-badge.is-a { background: var(--side-a); }
+    .insight-trend-badge.is-b { background: var(--side-b); }
+    .insight-trend-badge.is-both { background: var(--teal); }
+
+    .insight-jp {
+      font-size: calc(1.06rem * var(--fs));
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.65;
+    }
+    .insight-vi {
+      font-family: var(--font-vi);
+      font-size: calc(0.92rem * var(--fs));
+      font-weight: 700;
+      color: var(--teal-dark);
+      background: #f0fdfa;
+      border-left: 4px solid var(--teal);
+      padding: 10px 14px;
+      border-radius: 0 12px 12px 0;
+      line-height: 1.5;
+    }
+    .teacher-ask-box {
+      background: #fffbeb;
+      border: 2px dashed var(--amber);
+      border-radius: 16px;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .teacher-ask-label {
+      font-size: 0.8rem;
+      font-weight: 900;
+      color: var(--amber-dark);
+    }
+    .teacher-ask-text {
+      font-size: calc(1rem * var(--fs));
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1.45;
+    }
+    .insight-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding-top: 6px;
+      border-top: 1.5px solid var(--line-soft);
+    }
+
+    .flag-ico {
+      width: 24px;
+      height: 16px;
+      border-radius: 3px;
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      flex-shrink: 0;
+    }
+
+    /* トースト */
+    .toast {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%) translateY(18px);
+      background: #0f172a;
+      color: #ffffff;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.28);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 600;
+      max-width: 92vw;
+      text-align: center;
+    }
+    .toast.is-show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 960px) {
+      .brand-vi { display: none; }
+      .arena-grid { grid-template-columns: 1fr; overflow-y: auto; }
+      .vs-badge { display: none; }
+      .choice-visual { max-height: 130px; }
+    }
+  </style>
+</head>
+<body class="font-md">
+
+  <!-- ======================================================================
+       教員ロック画面（パスコード番号は画面に一切記載しない安全仕様）
+       ====================================================================== -->
+  <div id="teacher-lock-screen" class="lock-screen" role="dialog" aria-modal="true" aria-labelledby="lock-title">
+    <div class="lock-card">
+      <div class="lock-icon-circle" aria-hidden="true">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div id="lock-title" class="lock-title">教員専用・学級経営ツール</div>
+      <div class="lock-desc">
+        朝の会や学級活動で、電子黒板・テレビに映して使う「どっち派？日越バランスゲーム」です。<br>
+        教員用パスコードを入力してロックを解除してください。
+      </div>
+      <form id="lock-form" class="lock-form" autocomplete="off">
+        <input type="password" id="lock-pass-input" class="lock-input" inputmode="numeric" maxlength="6" placeholder="••••" aria-label="教員用パスコード">
+        <div id="lock-error-msg" class="lock-error" role="alert"></div>
+        <button type="submit" id="btn-unlock" class="btn btn-purple" style="padding:12px 18px;font-size:1rem;">ロックを解除する</button>
+      </form>
+      <a href="index.html" class="btn" style="padding:8px 16px;font-size:0.84rem;margin-top:4px;">つたわるボードへもどる</a>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       ヘッダー（つたわるボード戻りリンク ＋ 文字サイズ ＋ 速度 ＋ 再ロック）
+       ====================================================================== -->
+  <header class="app-header">
+    <div class="brand">
+      <svg class="brand-logo" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <rect x="3" y="4" width="42" height="40" rx="12" fill="#ede9fe" stroke="#6d28d9" stroke-width="2.5"/>
+        <line x1="24" y1="11" x2="24" y2="36" stroke="#4c1d95" stroke-width="3" stroke-linecap="round"/>
+        <line x1="10" y1="18" x2="38" y2="18" stroke="#4c1d95" stroke-width="3" stroke-linecap="round"/>
+        <path d="M10 18l-5 11h10l-5-11z" fill="#3b82f6" stroke="#1e3a8a" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M38 18l-5 11h10l-5-11z" fill="#f43f5e" stroke="#9f1239" stroke-width="1.8" stroke-linejoin="round"/>
+        <rect x="17" y="34" width="14" height="5" rx="2.5" fill="#6d28d9"/>
+      </svg>
+      <div class="brand-texts">
+        <span class="brand-jp">どっち<ruby>派<rt>は</rt></ruby>？<ruby>日越<rt>にちえつ</rt></ruby>バランスゲーム</span>
+        <span class="brand-vi">Trò chơi chọn A hay B (Nhật - Việt)</span>
+      </div>
+    </div>
+
+    <div class="header-utils">
+      <a href="index.html" class="btn util-btn" style="background:var(--teal-soft);border-color:var(--teal);color:var(--teal-dark);" title="つたわるボードへもどる">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        <span class="util-col"><span>つたわるボード</span><span class="util-sub">Bảng Giao Tiếp</span></span>
+      </a>
+
+      <button type="button" id="btn-font-size" class="btn util-btn" title="文字の大きさを変える">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20L9 6l5 14"/><line x1="5.8" y1="15" x2="12.2" y2="15"/><path d="M16 14h6"/><path d="M19 11v6"/></svg>
+        <span class="util-col">
+          <span id="fontsize-jp">もじ：<ruby>普通<rt>ふつう</rt></ruby></span>
+          <span id="fontsize-vi" class="util-sub">Chữ: Vừa</span>
+        </span>
+      </button>
+
+      <button type="button" id="btn-speed" class="btn util-btn" title="読み上げ速度の切り替え">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        <span class="util-col">
+          <span id="speed-jp">ふつう</span>
+          <span id="speed-vi" class="util-sub">Bình thường</span>
+        </span>
+      </button>
+
+      <button type="button" id="btn-relock" class="btn util-btn" title="教員ロックをかける">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span>ロック</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       メインステージ
+       ====================================================================== -->
+  <main class="app-main">
+    <!-- ジャンルタブ ＋ お題送り -->
+    <div class="control-bar">
+      <div class="genre-pills" id="genre-pills" role="tablist" aria-label="お題ジャンル">
+        <button type="button" class="btn genre-btn is-active" data-cat="all" role="tab" aria-selected="true">すべて (20)</button>
+        <button type="button" class="btn genre-btn" data-cat="food" role="tab" aria-selected="false"><ruby>食<rt>しょく</rt></ruby>・<ruby>朝<rt>あさ</rt></ruby>ごはん</button>
+        <button type="button" class="btn genre-btn" data-cat="school" role="tab" aria-selected="false"><ruby>学校<rt>がっこう</rt></ruby><ruby>生活<rt>せいかつ</rt></ruby></button>
+        <button type="button" class="btn genre-btn" data-cat="play" role="tab" aria-selected="false"><ruby>遊<rt>あそ</rt></ruby>び・<ruby>休<rt>やす</rt></ruby>み<ruby>時間<rt>じかん</rt></ruby></button>
+        <button type="button" class="btn genre-btn" data-cat="life" role="tab" aria-selected="false"><ruby>季節<rt>きせつ</rt></ruby>・くらし</button>
+      </div>
+
+      <div class="nav-controls">
+        <button type="button" id="btn-prev-q" class="btn">まえへ</button>
+        <span id="q-counter" class="q-counter">1 / 20</span>
+        <button type="button" id="btn-next-q" class="btn">つぎへ</button>
+        <button type="button" id="btn-rand-q" class="btn btn-purple">
+          <svg class="ico-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+          <span>ランダム</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- お題バナー -->
+    <section class="prompt-banner" aria-live="polite">
+      <div class="prompt-texts">
+        <div id="q-title-jp" class="prompt-jp"></div>
+        <div id="q-title-vi" class="prompt-vi"></div>
+      </div>
+      <div class="prompt-audio">
+        <button type="button" id="btn-q-speak-ja" class="btn btn-a">にほんご</button>
+        <button type="button" id="btn-q-speak-vi" class="btn btn-teal">Tiếng Việt</button>
+      </div>
+    </section>
+
+    <!-- 左右2分割：A派 vs B派 -->
+    <section class="arena-grid" aria-label="2択投票エリア">
+      <!-- A派カード -->
+      <div class="choice-card is-a">
+        <div class="choice-head">
+          <span class="choice-letter">A<ruby>派<rt>は</rt></ruby> ／ <span class="vi" style="font-size:0.86em;">Chọn A</span></span>
+          <div class="choice-head-btns">
+            <button type="button" id="btn-a-speak-ja" class="btn head-mini-btn">日</button>
+            <button type="button" id="btn-a-speak-vi" class="btn head-mini-btn">VN</button>
+          </div>
+        </div>
+        <div id="a-visual" class="choice-visual" aria-hidden="true"></div>
+        <div class="choice-body">
+          <div id="a-jp" class="choice-jp"></div>
+          <div id="a-vi" class="choice-vi"></div>
+          <div class="choice-phonetic-row">
+            <span id="a-kana" class="phonetic-pill is-kana"></span>
+            <span id="a-vnread" class="phonetic-pill is-vn"></span>
+          </div>
+        </div>
+        <div class="vote-bar">
+          <div class="vote-count-wrap">
+            <span id="vote-a-num" class="vote-num">0</span>
+            <span class="vote-unit"><ruby>人<rt>にん</rt></ruby></span>
+            <span id="vote-a-pct" class="vote-pct">50%</span>
+          </div>
+          <div class="vote-btns">
+            <button type="button" id="btn-vote-a-minus" class="btn btn-vote-minus" aria-label="A派を1人へらす">−</button>
+            <button type="button" id="btn-vote-a-plus" class="btn btn-a btn-vote-plus">A<ruby>派<rt>は</rt></ruby> ＋1</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="vs-badge" aria-hidden="true">VS</div>
+
+      <!-- B派カード -->
+      <div class="choice-card is-b">
+        <div class="choice-head">
+          <span class="choice-letter">B<ruby>派<rt>は</rt></ruby> ／ <span class="vi" style="font-size:0.86em;">Chọn B</span></span>
+          <div class="choice-head-btns">
+            <button type="button" id="btn-b-speak-ja" class="btn head-mini-btn">日</button>
+            <button type="button" id="btn-b-speak-vi" class="btn head-mini-btn">VN</button>
+          </div>
+        </div>
+        <div id="b-visual" class="choice-visual" aria-hidden="true"></div>
+        <div class="choice-body">
+          <div id="b-jp" class="choice-jp"></div>
+          <div id="b-vi" class="choice-vi"></div>
+          <div class="choice-phonetic-row">
+            <span id="b-kana" class="phonetic-pill is-kana"></span>
+            <span id="b-vnread" class="phonetic-pill is-vn"></span>
+          </div>
+        </div>
+        <div class="vote-bar">
+          <div class="vote-count-wrap">
+            <span id="vote-b-num" class="vote-num">0</span>
+            <span class="vote-unit"><ruby>人<rt>にん</rt></ruby></span>
+            <span id="vote-b-pct" class="vote-pct">50%</span>
+          </div>
+          <div class="vote-btns">
+            <button type="button" id="btn-vote-b-minus" class="btn btn-vote-minus" aria-label="B派を1人へらす">−</button>
+            <button type="button" id="btn-vote-b-plus" class="btn btn-b btn-vote-plus">B<ruby>派<rt>は</rt></ruby> ＋1</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 下段：割合メーター ＋ リセット ＋ 「ベトナムではどっち？」めくりボタン -->
+    <section class="bottom-bar" aria-label="投票結果と解説">
+      <div class="meter-wrap">
+        <div class="meter-labels">
+          <span style="color:var(--side-a-dark);">A<ruby>派<rt>は</rt></ruby>：<span id="meter-a-text">0人 (50%)</span></span>
+          <span id="meter-total-text" style="color:var(--ink-sub);"><ruby>合計<rt>ごうけい</rt></ruby> 0<ruby>人<rt>にん</rt></ruby></span>
+          <span style="color:var(--side-b-dark);">B<ruby>派<rt>は</rt></ruby>：<span id="meter-b-text">0人 (50%)</span></span>
+        </div>
+        <div class="meter-track" role="img" aria-label="A派とB派の割合バー">
+          <div id="meter-fill-a" class="meter-fill-a"></div>
+          <div id="meter-fill-b" class="meter-fill-b"></div>
+        </div>
+      </div>
+
+      <div class="bottom-actions">
+        <button type="button" id="btn-vote-reset" class="btn" style="padding:9px 12px;font-size:0.84rem;">0に もどす</button>
+        <button type="button" id="btn-open-insight" class="btn btn-amber btn-reveal">
+          <svg class="flag-ico" viewBox="0 0 24 16"><rect width="24" height="16" fill="#dc2626"/><polygon points="12,3.2 13.2,6.8 17,6.8 14,9 15.1,12.6 12,10.4 8.9,12.6 10,9 7,6.8 10.8,6.8" fill="#facc15"/></svg>
+          <span>ベトナムでは どっち？ ／ <span class="vi" style="font-size:0.86em;">Góc nhìn Việt Nam</span></span>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================================================================
+       「ベトナムではどっち？」めくり解説モーダル
+       ====================================================================== -->
+  <div id="modal-insight" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="insight-modal-title">
+    <div class="insight-modal">
+      <div class="insight-head">
+        <div id="insight-modal-title" class="insight-head-title">
+          <svg class="flag-ico" viewBox="0 0 24 16"><rect width="24" height="16" fill="#dc2626"/><polygon points="12,3.2 13.2,6.8 17,6.8 14,9 15.1,12.6 12,10.4 8.9,12.6 10,9 7,6.8 10.8,6.8" fill="#facc15"/></svg>
+          <span>ベトナムでは どっち？ ／ <span class="vi">Ở Việt Nam thì sao?</span></span>
+        </div>
+        <button type="button" id="btn-insight-close" class="btn" style="padding:5px 12px;font-size:0.84rem;">とじる</button>
+      </div>
+
+      <div class="insight-body">
+        <span id="insight-trend-badge" class="insight-trend-badge is-b">ベトナムでは B派が ていばん！</span>
+        <div id="insight-jp" class="insight-jp"></div>
+        <div id="insight-vi" class="insight-vi"></div>
+
+        <div class="teacher-ask-box">
+          <div class="teacher-ask-label">★ クラスで きいてみよう（ベトナムの ともだちに <ruby>質問<rt>しつもん</rt></ruby>！） ／ <span class="vi">Hỏi bạn người Việt Nam nhé!</span></div>
+          <div id="insight-ask-jp" class="teacher-ask-text"></div>
+          <div id="insight-ask-vi" class="vi" style="font-size:0.88rem;font-weight:800;color:var(--amber-dark);"></div>
+        </div>
+
+        <div class="insight-foot">
+          <div style="display:flex;gap:7px;flex-wrap:wrap;">
+            <button type="button" id="btn-insight-speak-ja" class="btn btn-a" style="padding:7px 14px;font-size:0.84rem;">かいせつ（にほんご）</button>
+            <button type="button" id="btn-insight-speak-vi" class="btn btn-teal" style="padding:7px 14px;font-size:0.84rem;">Giải thích (Tiếng Việt)</button>
+            <button type="button" id="btn-insight-speak-ask" class="btn btn-amber" style="padding:7px 14px;font-size:0.84rem;">しつもんを きく (VN)</button>
+          </div>
+          <button type="button" id="btn-insight-next-q" class="btn btn-purple" style="padding:8px 16px;font-size:0.88rem;">つぎのおだいへ →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /* ====================================================================
+         1. リッチ多色インラインSVG図解セット（背景フルブリード＋中央無欠損）
+         ==================================================================== */
+      function svgWrap(bg1, bg2, body) {
+        const gid = 'g_' + Math.random().toString(36).slice(2, 8);
+        return `<svg viewBox="0 0 320 140" preserveAspectRatio="xMidYMid meet" fill="none">
+          <defs><linearGradient id="${gid}" x1="0" y1="0" x2="320" y2="140" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="${bg1}"/><stop offset="100%" stop-color="${bg2}"/></linearGradient></defs>
+          <rect x="-320" y="-120" width="960" height="380" fill="url(#${gid})"/>
+          ${body}
+        </svg>`;
+      }
+
+      const ART = {
+        rice: () => svgWrap('#dbeafe', '#bfdbfe', `<ellipse cx="160" cy="116" rx="86" ry="14" fill="rgba(15,23,42,0.12)"/><path d="M98 76h124c0 30-26 44-62 44s-62-14-62-44z" fill="#1e3a8a" stroke="#0f172a" stroke-width="3"/><path d="M108 76c10-28 94-28 104 0H108z" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/><circle cx="160" cy="54" r="9" fill="#ef4444"/><rect x="218" y="34" width="60" height="58" rx="10" fill="#7c2d12" stroke="#0f172a" stroke-width="2.5"/><ellipse cx="248" cy="42" rx="28" ry="8" fill="#d97706"/><circle cx="240" cy="42" r="4" fill="#ffffff"/><circle cx="256" cy="44" r="3.5" fill="#22c55e"/>`),
+        banhmi: () => svgWrap('#ffedd5', '#fed7aa', `<ellipse cx="160" cy="116" rx="94" ry="14" fill="rgba(15,23,42,0.12)"/><path d="M62 76c0-26 42-40 98-40s98 14 98 40c0 20-32 32-98 32S62 96 62 76z" fill="#f59e0b" stroke="#78350f" stroke-width="3.2"/><path d="M82 74h156" stroke="#16a34a" stroke-width="11" stroke-linecap="round"/><circle cx="118" cy="72" r="8" fill="#ef4444"/><circle cx="160" cy="70" r="8" fill="#fb7185"/><circle cx="202" cy="72" r="8" fill="#f97316"/><path d="M110 48l16 8M156 44l16 8M200 48l16 8" stroke="#b45309" stroke-width="3" stroke-linecap="round"/>`),
+        soy: () => svgWrap('#e0e7ff', '#c7d2fe', `<rect x="128" y="24" width="64" height="96" rx="14" fill="#1e293b" stroke="#0f172a" stroke-width="3"/><rect x="142" y="10" width="36" height="16" rx="5" fill="#dc2626" stroke="#7f1d1d" stroke-width="2.4"/><rect x="138" y="54" width="44" height="36" rx="6" fill="#fef3c7"/><text x="160" y="77" text-anchor="middle" fill="#78350f" font-size="13" font-weight="900">しょうゆ</text>`),
+        chili: () => svgWrap('#fee2e2', '#fecaca', `<path d="M98 86c16-34 62-48 118-30-24 38-66 56-118 30z" fill="#dc2626" stroke="#7f1d1d" stroke-width="3"/><path d="M214 54c12-10 18-16 24-22" stroke="#15803d" stroke-width="5" stroke-linecap="round"/><circle cx="96" cy="42" r="14" fill="#f59e0b" stroke="#78350f" stroke-width="2.4"/><circle cx="236" cy="96" r="16" fill="#84cc16" stroke="#3f6212" stroke-width="2.4"/>`),
+        ramen: () => svgWrap('#fef9c3', '#fde68a', `<path d="M84 74h152c0 34-32 52-76 52s-76-18-76-52z" fill="#dc2626" stroke="#0f172a" stroke-width="3"/><ellipse cx="160" cy="74" rx="76" ry="16" fill="#fbbf24" stroke="#0f172a" stroke-width="2.5"/><circle cx="132" cy="72" r="11" fill="#fff" stroke="#ec4899" stroke-width="2.6"/><circle cx="188" cy="72" r="12" fill="#fde68a" stroke="#0f172a" stroke-width="2"/><path d="M132 52c0-10 8-12 8-22M160 50c0-10 8-12 8-22M188 52c0-10 8-12 8-22" stroke="#f97316" stroke-width="3.2" stroke-linecap="round"/>`),
+        pho: () => svgWrap('#ccfbf1', '#99f6e4', `<path d="M84 74h152c0 34-32 52-76 52s-76-18-76-52z" fill="#0f766e" stroke="#0f172a" stroke-width="3"/><ellipse cx="160" cy="74" rx="76" ry="16" fill="#fef3c7" stroke="#0f172a" stroke-width="2.5"/><path d="M116 74h88M124 80h72" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round"/><circle cx="132" cy="68" r="8" fill="#22c55e"/><circle cx="192" cy="68" r="10" fill="#84cc16" stroke="#14532d" stroke-width="2"/><path d="M132 52c0-10 8-12 8-22M160 50c0-10 8-12 8-22M188 52c0-10 8-12 8-22" stroke="#0d9488" stroke-width="3.2" stroke-linecap="round"/>`),
+        tea: () => svgWrap('#fef3c7', '#fde68a', `<path d="M122 24h76l-10 92h-56l-10-92z" fill="#fff" stroke="#0f172a" stroke-width="3"/><path d="M127 52h66l-7 60h-52l-7-60z" fill="#b45309"/><rect x="142" y="62" width="16" height="16" rx="3" fill="rgba(255,255,255,0.65)"/><rect x="164" y="76" width="14" height="14" rx="3" fill="rgba(255,255,255,0.65)"/>`),
+        juice: () => svgWrap('#dcfce7', '#bbf7d0', `<path d="M122 30h76l-10 86h-56l-10-86z" fill="#fff" stroke="#0f172a" stroke-width="3"/><path d="M127 56h66l-7 56h-52l-7-56z" fill="#facc15"/><rect x="172" y="10" width="7" height="54" rx="3" transform="rotate(14 172 10)" fill="#ef4444"/><circle cx="196" cy="36" r="16" fill="#fb923c" stroke="#9a3412" stroke-width="2.5"/>`),
+        salty: () => svgWrap('#fef3c7', '#fed7aa', `<ellipse cx="160" cy="76" rx="74" ry="40" fill="#fbbf24" stroke="#92400e" stroke-width="3"/><circle cx="132" cy="68" r="10" fill="#f59e0b"/><circle cx="186" cy="72" r="12" fill="#f59e0b"/><circle cx="158" cy="88" r="9" fill="#f59e0b"/><rect x="116" y="18" width="88" height="22" rx="11" fill="#b45309"/><text x="160" y="33" text-anchor="middle" fill="#fff" font-size="11" font-weight="900">サクサク・しょっぱい</text>`),
+        sweet: () => svgWrap('#fce7f3', '#fbcfe8', `<path d="M122 34h76l-10 84h-56l-10-84z" fill="#fff" stroke="#0f172a" stroke-width="3"/><path d="M127 64h66l-7 50h-52l-7-50z" fill="#fde047"/><circle cx="146" cy="82" r="8" fill="#ef4444"/><circle cx="164" cy="90" r="8" fill="#22c55e"/><circle cx="176" cy="76" r="8" fill="#a855f7"/><circle cx="160" cy="48" r="14" fill="#fb7185" stroke="#9f1239" stroke-width="2"/>`),
+        walk: () => svgWrap('#dbeafe', '#93c5fd', `<rect x="-320" y="96" width="960" height="100" fill="#cbd5e1"/><rect x="126" y="26" width="68" height="80" rx="14" fill="#dc2626" stroke="#7f1d1d" stroke-width="3"/><rect x="134" y="26" width="52" height="54" rx="10" fill="#ef4444"/><rect x="154" y="68" width="12" height="14" rx="3" fill="#fde047"/><path d="M142 26v-8a18 18 0 0 1 36 0v8" stroke="#7f1d1d" stroke-width="3.5"/>`),
+        bike: () => svgWrap('#fef3c7', '#fdba74', `<rect x="-320" y="96" width="960" height="100" fill="#64748b"/><circle cx="116" cy="94" r="18" fill="#1e293b" stroke="#0f172a" stroke-width="3"/><circle cx="116" cy="94" r="7" fill="#cbd5e1"/><circle cx="204" cy="94" r="18" fill="#1e293b" stroke="#0f172a" stroke-width="3"/><circle cx="204" cy="94" r="7" fill="#cbd5e1"/><path d="M114 90h72l20-30h16l-16 40h-92z" fill="#dc2626" stroke="#7f1d1d" stroke-width="2.5"/><rect x="116" y="34" width="34" height="34" rx="8" fill="#2563eb" stroke="#1e3a8a" stroke-width="2.4"/>`),
+        recessOut: () => svgWrap('#bae6fd', '#7dd3fc', `<rect x="-320" y="92" width="960" height="100" fill="#4ade80"/><circle cx="160" cy="68" r="36" fill="#fb923c" stroke="#7c2d12" stroke-width="3"/><path d="M124 68h72M160 32v72M134 42c16 14 16 38 0 52M186 42c-16 14-16 38 0 52" stroke="#7c2d12" stroke-width="2.5"/><circle cx="256" cy="30" r="16" fill="#facc15"/>`),
+        nap: () => svgWrap('#312e81', '#4338ca', `<path d="M244 20a18 18 0 1 0 18 28 14 14 0 1 1-18-28z" fill="#fde047"/><rect x="58" y="84" width="204" height="36" rx="12" fill="#e0e7ff" stroke="#1e1b4b" stroke-width="2.6"/><rect x="122" y="78" width="134" height="42" rx="12" fill="#60a5fa" stroke="#1e3a8a" stroke-width="2.6"/><circle cx="102" cy="84" r="19" fill="#fde68a" stroke="#1e1b4b" stroke-width="2.5"/><text x="166" y="54" fill="#fde047" font-size="24" font-weight="900">Zzz...</text>`),
+        clean: () => svgWrap('#dcfce7', '#bbf7d0', `<line x1="162" y1="18" x2="120" y2="86" stroke="#92400e" stroke-width="5.5" stroke-linecap="round"/><path d="M104 76l28 16-14 26-30-16 16-26z" fill="#fbbf24" stroke="#78350f" stroke-width="2.5"/><path d="M188 64h54l-7 52h-40l-7-52z" fill="#38bdf8" stroke="#0369a1" stroke-width="2.6"/><path d="M214 34l5-10 5 10 10 5-10 5-5 10-5-10-10-5 10-5z" fill="#facc15"/>`),
+        study: () => svgWrap('#e0f2fe', '#bae6fd', `<path d="M72 34c30-12 58-10 88 10 30-20 58-22 88-10v78c-30-12-58-10-88 10-30-20-58-22-88-10V34z" fill="#fff" stroke="#0f172a" stroke-width="3" stroke-linejoin="round"/><line x1="160" y1="44" x2="160" y2="122" stroke="#0f172a" stroke-width="2.5"/><line x1="94" y1="62" x2="142" y2="66" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/><line x1="94" y1="78" x2="136" y2="82" stroke="#93c5fd" stroke-width="4" stroke-linecap="round"/><line x1="178" y1="66" x2="226" y2="62" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>`),
+        uniform: () => svgWrap('#ffe4e6', '#fecdd3', `<path d="M106 130c8-40 24-62 54-62s46 22 54 62H106z" fill="#fff" stroke="#0f172a" stroke-width="3"/><polygon points="134,66 186,66 160,96" fill="#dc2626" stroke="#7f1d1d" stroke-width="2.4"/><path d="M160 90l-14 28M160 90l14 28" stroke="#dc2626" stroke-width="10" stroke-linecap="round"/><circle cx="160" cy="38" r="22" fill="#fde68a" stroke="#0f172a" stroke-width="2.5"/>`),
+        casual: () => svgWrap('#dbeafe', '#bfdbfe', `<path d="M104 42l26-16h60l26 16-14 28-14-8v58h-56V62l-14 8-14-28z" fill="#22c55e" stroke="#14532d" stroke-width="3" stroke-linejoin="round"/><polygon points="160,52 165,64 178,65 168,74 171,86 160,80 149,86 152,74 142,65 155,64" fill="#fde047"/>`),
+        math: () => svgWrap('#fef3c7', '#fde68a', `<rect x="78" y="20" width="164" height="100" rx="14" fill="#14532d" stroke="#78350f" stroke-width="4"/><text x="160" y="64" text-anchor="middle" fill="#fff" font-size="24" font-weight="900">1/2 + 1/4 = ?</text><text x="160" y="100" text-anchor="middle" fill="#fde047" font-size="18" font-weight="900">さんすう / Toán</text>`),
+        pe: () => svgWrap('#dcfce7', '#86efac', `<circle cx="116" cy="72" r="34" fill="#fff" stroke="#0f172a" stroke-width="3"/><polygon points="116,58 128,67 123,82 109,82 104,67" fill="#0f172a"/><circle cx="212" cy="72" r="32" fill="#fb923c" stroke="#7c2d12" stroke-width="3"/><line x1="180" y1="72" x2="244" y2="72" stroke="#7c2d12" stroke-width="2.5"/>`),
+        dacau: () => svgWrap('#dcfce7', '#bbf7d0', `<g transform="translate(152,22) rotate(10)"><path d="M0 72L-24 12h18L8 72z" fill="#ef4444" stroke="#0f172a" stroke-width="2.4"/><path d="M8 72L4 6h22L18 72z" fill="#facc15" stroke="#0f172a" stroke-width="2.4"/><path d="M16 72L36 14h18L24 72z" fill="#2563eb" stroke="#0f172a" stroke-width="2.4"/><ellipse cx="12" cy="78" rx="22" ry="8" fill="#0f172a"/><ellipse cx="12" cy="86" rx="22" ry="8" fill="#f97316"/></g>`),
+        game: () => svgWrap('#1e1b4b', '#312e81', `<rect x="86" y="34" width="148" height="72" rx="18" fill="#1e293b" stroke="#94a3b8" stroke-width="3"/><rect x="86" y="34" width="28" height="72" rx="14" fill="#38bdf8"/><rect x="206" y="34" width="28" height="72" rx="14" fill="#fb7185"/><rect x="118" y="42" width="84" height="56" rx="6" fill="#0f172a"/><circle cx="160" cy="70" r="14" fill="#22c55e"/>`),
+        anime: () => svgWrap('#0ea5e9', '#2563eb', `<circle cx="118" cy="72" r="34" fill="#fff" stroke="#0f172a" stroke-width="3"/><path d="M84 72a34 34 0 0 1 68 0z" fill="#ef4444" stroke="#0f172a" stroke-width="3"/><circle cx="118" cy="72" r="10" fill="#fff" stroke="#0f172a" stroke-width="3"/><circle cx="204" cy="72" r="32" fill="#38bdf8" stroke="#0f172a" stroke-width="2.8"/><circle cx="204" cy="78" r="22" fill="#fff"/><circle cx="204" cy="68" r="5" fill="#ef4444"/>`),
+        music: () => svgWrap('#ec4899', '#8b5cf6', `<path d="M126 100V34l66-12v66" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="114" cy="100" r="14" fill="#fde047"/><circle cx="180" cy="88" r="14" fill="#38bdf8"/>`),
+        draw: () => svgWrap('#fef3c7', '#fbcfe8', `<rect x="88" y="20" width="144" height="100" rx="12" fill="#fff" stroke="#0f172a" stroke-width="3"/><circle cx="128" cy="54" r="14" fill="#facc15"/><path d="M100 104l38-36 28 24 22-18 32 30H100z" fill="#22c55e"/><path d="M214 34l34-18 10 18-34 18-16 2 6-20z" fill="#ef4444" stroke="#0f172a" stroke-width="2.4"/>`),
+        boardgame: () => svgWrap('#ede9fe', '#ddd6fe', `<rect x="66" y="28" width="188" height="84" rx="42" fill="#fff7ed" stroke="#78350f" stroke-width="3.5"/><rect x="108" y="28" width="104" height="84" fill="#fef3c7" stroke="#78350f" stroke-width="2.5"/><line x1="108" y1="70" x2="212" y2="70" stroke="#78350f" stroke-width="2.2"/><line x1="142" y1="28" x2="142" y2="112" stroke="#78350f" stroke-width="2.2"/><line x1="178" y1="28" x2="178" y2="112" stroke="#78350f" stroke-width="2.2"/><circle cx="88" cy="70" r="12" fill="#dc2626"/><circle cx="232" cy="70" r="12" fill="#2563eb"/>`),
+        summer: () => svgWrap('#38bdf8', '#fef08a', `<circle cx="160" cy="64" r="34" fill="#facc15" stroke="#ea580c" stroke-width="3.5"/><path d="M160 14v12M160 102v12M110 64h12M198 64h12M124 28l9 9M187 91l9 9M196 28l-9 9M133 91l-9 9" stroke="#ea580c" stroke-width="4" stroke-linecap="round"/>`),
+        winter: () => svgWrap('#0f172a', '#1d4ed8', `<circle cx="160" cy="96" r="28" fill="#fff" stroke="#93c5fd" stroke-width="3"/><circle cx="160" cy="54" r="20" fill="#fff" stroke="#93c5fd" stroke-width="3"/><rect x="146" y="22" width="28" height="16" rx="4" fill="#dc2626"/><circle cx="98" cy="40" r="5" fill="#fff"/><circle cx="226" cy="48" r="6" fill="#fff"/><circle cx="116" cy="74" r="4" fill="#fff"/><circle cx="236" cy="90" r="5" fill="#fff"/>`),
+        jan1: () => svgWrap('#fff7ed', '#fed7aa', `<path d="M52 104h216" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round"/><path d="M104 104a56 56 0 0 1 112 0" fill="#ef4444" stroke="#991b1b" stroke-width="3"/><rect x="108" y="18" width="104" height="30" rx="12" fill="#1d4ed8"/><text x="160" y="39" text-anchor="middle" fill="#fff" font-size="14" font-weight="900">1がつ 1にち</text>`),
+        tet: () => svgWrap('#991b1b', '#dc2626', `<rect x="120" y="18" width="80" height="104" rx="12" fill="#ef4444" stroke="#fde047" stroke-width="3.2"/><path d="M120 44l40 22 40-22" stroke="#fde047" stroke-width="3" fill="none"/><circle cx="160" cy="84" r="18" fill="#facc15"/><polygon points="160,72 163.5,80 172,81 165.5,87 167,95 160,91 153,95 154.5,87 148,81 156.5,80" fill="#dc2626"/>`),
+        family: () => svgWrap('#fef3c7', '#fbcfe8', `<circle cx="96" cy="56" r="18" fill="#fde68a" stroke="#0f172a" stroke-width="2.5"/><path d="M72 122c4-24 12-34 24-34s20 10 24 34H72z" fill="#3b82f6" stroke="#0f172a" stroke-width="2.5"/><circle cx="160" cy="50" r="20" fill="#fed7aa" stroke="#0f172a" stroke-width="2.5"/><path d="M132 122c4-28 14-38 28-38s24 10 28 38h-56z" fill="#f43f5e" stroke="#0f172a" stroke-width="2.5"/><circle cx="224" cy="56" r="18" fill="#fde68a" stroke="#0f172a" stroke-width="2.5"/><path d="M200 122c4-24 12-34 24-34s20 10 24 34h-48z" fill="#14b8a6" stroke="#0f172a" stroke-width="2.5"/>`),
+        home: () => svgWrap('#e0f2fe', '#c7d2fe', `<path d="M98 66L160 22l62 44v54H98V66z" fill="#fff" stroke="#0f172a" stroke-width="3" stroke-linejoin="round"/><path d="M88 68L160 16l72 52" stroke="#6d28d9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><rect x="142" y="80" width="36" height="40" rx="4" fill="#fbbf24" stroke="#0f172a" stroke-width="2.4"/>`),
+        early: () => svgWrap('#fef08a', '#38bdf8', `<circle cx="160" cy="70" r="44" fill="#fff" stroke="#d97706" stroke-width="4"/><line x1="160" y1="70" x2="160" y2="38" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/><line x1="160" y1="70" x2="184" y2="70" stroke="#dc2626" stroke-width="4" stroke-linecap="round"/><circle cx="160" cy="70" r="5" fill="#0f172a"/>`),
+        night: () => svgWrap('#0f172a', '#312e81', `<path d="M168 24a42 42 0 1 0 42 66 32 32 0 1 1-42-66z" fill="#fde047" stroke="#f59e0b" stroke-width="2.5"/><polygon points="94,38 97,46 106,47 99,52 101,60 94,55 87,60 89,52 82,47 91,46" fill="#fef08a"/><circle cx="234" cy="42" r="5" fill="#fff"/><circle cx="220" cy="96" r="4" fill="#fff"/>`),
+        sea: () => svgWrap('#38bdf8', '#0284c7', `<circle cx="242" cy="34" r="20" fill="#facc15"/><path d="M-200 94c30-16 60 16 90 0s60 16 90 0 60 16 90 0 60 16 90 0 60 16 90 0 60 16 90 0 60 16 90 0v60h-720V94z" fill="#0369a1"/><path d="M-200 112c30-14 60 14 90 0s60 14 90 0 60 14 90 0 60 14 90 0 60 14 90 0 60 14 90 0 60 14 90 0v50h-720v-50z" fill="#bae6fd"/>`),
+        mountain: () => svgWrap('#bae6fd', '#dcfce7', `<polygon points="56,124 146,28 236,124" fill="#15803d" stroke="#14532d" stroke-width="3" stroke-linejoin="round"/><polygon points="122,54 146,28 170,54 156,48 146,56 136,48" fill="#fff"/><polygon points="148,124 218,52 288,124" fill="#22c55e" stroke="#14532d" stroke-width="3" stroke-linejoin="round"/>`)
+      };
+
+      /* ====================================================================
+         2. お題データ全20問（4ジャンル×5問・全漢字ルビ＆ベトナム解説＆質問ヒント）
+         ==================================================================== */
+      const QUESTIONS = [
+        /* --- 食・朝ごはん (5問) --- */
+        {
+          id: 'q1', cat: 'food',
+          titleHtml: '<ruby>朝<rt>あさ</rt></ruby>ごはんは どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: '朝ごはんはどっち派？',
+          titleVi: 'Bữa sáng bạn thích ăn món nào?',
+          a: { svg:'rice', jpHtml:'ごはん・みそ<ruby>汁<rt>しる</rt></ruby>', jpPlain:'ごはんとみそ汁', vi:'Cơm và canh Miso', kana:'コム ヴァ カイン ミソ', vnRead:'Gô han / Mi xô xi rư' },
+          b: { svg:'banhmi', jpHtml:'パン・めん（バインミー・フォー）', jpPlain:'パンやめん、バインミー、フォー', vi:'Bánh mì / Phở', kana:'バイン ミー / フォー', vnRead:'Pan / Mên' },
+          vnSide: 'b', vnBadge: 'ベトナムでは B派が ていばん！',
+          insightJp: 'ベトナムの <ruby>朝<rt>あさ</rt></ruby>ごはんは、お<ruby>店<rt>みせ</rt></ruby>で <ruby>買<rt>か</rt></ruby>う サクサクの「バインミー」や、あたたかい「フォー」「おこわ」が <ruby>大定番<rt>だいていばん</rt></ruby>！<ruby>家<rt>いえ</rt></ruby>の <ruby>外<rt>そと</rt></ruby>で サッと <ruby>食<rt>た</rt></ruby>べてから <ruby>登校<rt>とうこう</rt></ruby>することも <ruby>多<rt>おお</rt></ruby>いです。',
+          insightPlain: 'ベトナムの朝ごはんは、お店で買うサクサクのバインミーや、あたたかいフォー、おこわが大定番！家の外でサッと食べてから登校することも多いです。',
+          insightVi: 'Ở Việt Nam, bữa sáng quen thuộc là Bánh mì, Phở hoặc Xôi mua nhanh trước giờ đến trường!',
+          askJp: 'ベトナムの <ruby>朝<rt>あさ</rt></ruby>ごはんで <ruby>一番<rt>いちばん</rt></ruby> <ruby>好<rt>す</rt></ruby>きな メニューは なに？',
+          askVi: 'Ở Việt Nam bạn thích ăn sáng món gì nhất?'
+        },
+        {
+          id: 'q2', cat: 'food',
+          titleHtml: '<ruby>料理<rt>りょうり</rt></ruby>に かけるなら どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: '料理にかけるならどっち派？',
+          titleVi: 'Bạn thích chấm gia vị nào hơn?',
+          a: { svg:'soy', jpHtml:'しょうゆ・ソース', jpPlain:'しょうゆ、ソース', vi:'Nước tương / Sốt', kana:'ヌオック トゥオン', vnRead:'Xô du / Xô xư' },
+          b: { svg:'chili', jpHtml:'チリソース・ライム・ヌクマム', jpPlain:'チリソース、ライム、ヌクマム', vi:'Tương ớt / Chanh / Nước mắm', kana:'トゥオン オット / ヌクマム', vnRead:'Chi ri xô xư' },
+          vnSide: 'b', vnBadge: 'ベトナムでは B派が ていばん！',
+          insightJp: 'ベトナムの <ruby>食卓<rt>しょくたく</rt></ruby>には、お<ruby>魚<rt>さかな</rt></ruby>から <ruby>作<rt>つく</rt></ruby>る「ヌクマム」や ライム、チリソースが いつも ならんでいます。<ruby>自分<rt>じぶん</rt></ruby>の <ruby>好<rt>この</rt></ruby>みの <ruby>味<rt>あじ</rt></ruby>に <ruby>変<rt>か</rt></ruby>えて <ruby>食<rt>た</rt></ruby>べるのが <ruby>楽<rt>たの</rt></ruby>しいよ！',
+          insightPlain: 'ベトナムの食卓には、お魚から作るヌクマムやライム、チリソースがいつもならんでいます。自分の好みの味に変えて食べるのが楽しいよ！',
+          insightVi: 'Trên bàn ăn Việt Nam luôn có nước mắm, chanh và tương ớt để mọi người tự nêm theo khẩu vị.',
+          askJp: '<ruby>辛<rt>から</rt></ruby>い ソースは <ruby>好<rt>す</rt></ruby>き？それとも <ruby>苦手<rt>にがて</rt></ruby>？',
+          askVi: 'Bạn có thích ăn tương ớt cay không?'
+        },
+        {
+          id: 'q3', cat: 'food',
+          titleHtml: '<ruby>食<rt>た</rt></ruby>べてみたい めん<ruby>料理<rt>りょうり</rt></ruby>は どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: '食べてみたいめん料理はどっち派？',
+          titleVi: 'Bạn thích ăn món mì nào hơn?',
+          a: { svg:'ramen', jpHtml:'<ruby>日本<rt>にほん</rt></ruby>の ラーメン', jpPlain:'日本のラーメン', vi:'Mì Ramen Nhật Bản', kana:'ミー ラーメン', vnRead:'Ra mên' },
+          b: { svg:'pho', jpHtml:'ベトナムの フォー', jpPlain:'ベトナムのフォー', vi:'Phở Việt Nam', kana:'フォー ヴィエッ ナム', vnRead:'Phô' },
+          vnSide: 'both', vnBadge: 'ベトナムでは どっちも 大人気！',
+          insightJp: 'ベトナムでは お<ruby>米<rt>こめ</rt></ruby>の めん「フォー」や「ブン」が <ruby>毎日<rt>まいにち</rt></ruby> <ruby>食<rt>た</rt></ruby>べられるほど <ruby>人気<rt>にんき</rt></ruby>！<ruby>同時<rt>どうじ</rt></ruby>に、<ruby>日本<rt>にほん</rt></ruby>の ラーメン<ruby>屋<rt>や</rt></ruby>さんも ベトナムの <ruby>町<rt>まち</rt></ruby>で とても <ruby>人気<rt>にんき</rt></ruby>があります。',
+          insightPlain: 'ベトナムではお米のめん、フォーやブンが毎日食べられるほど人気！同時に、日本のラーメン屋さんもベトナムの町でとても人気があります。',
+          insightVi: 'Ở Việt Nam, Phở là món ăn quốc dân nhưng mì Ramen Nhật Bản cũng rất được các bạn nhỏ yêu thích!',
+          askJp: 'フォーには <ruby>牛肉<rt>ぎゅうにく</rt></ruby>と <ruby>鶏肉<rt>とりにく</rt></ruby>、どっちが <ruby>好<rt>す</rt></ruby>き？',
+          askVi: 'Bạn thích Phở bò hay Phở gà hơn?'
+        },
+        {
+          id: 'q4', cat: 'food',
+          titleHtml: '<ruby>暑<rt>あつ</rt></ruby>い<ruby>日<rt>ひ</rt></ruby>に <ruby>飲<rt>の</rt></ruby>みたいのは どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: '暑い日に飲みたいのはどっち派？',
+          titleVi: 'Trời nóng bạn muốn uống gì nhất?',
+          a: { svg:'tea', jpHtml:'つめたい <ruby>麦茶<rt>むぎちゃ</rt></ruby>・お<ruby>茶<rt>ちゃ</rt></ruby>', jpPlain:'つめたい麦茶、お茶', vi:'Trà lúa mạch / Trà lạnh', kana:'チャー ルア マイッ', vnRead:'Mư gi cha / Ô cha' },
+          b: { svg:'juice', jpHtml:'あまい フルーツジュース・サトウキビ', jpPlain:'あまいフルーツジュース、サトウキビ', vi:'Nước mía / Sinh tố trái cây', kana:'ヌオック ミア / シントー', vnRead:'Dư xư' },
+          vnSide: 'b', vnBadge: 'ベトナムでは B派が だいにんき！',
+          insightJp: 'ベトナムの <ruby>街角<rt>まちかど</rt></ruby>には、その<ruby>場<rt>ば</rt></ruby>で しぼってくれる「サトウキビジュース（ヌオック・ミア）」や マンゴースムージー（シントー）の <ruby>屋台<rt>やたい</rt></ruby>が たくさん あります！',
+          insightPlain: 'ベトナムの街角には、その場でしぼってくれるサトウキビジュースやマンゴースムージーの屋台がたくさんあります！',
+          insightVi: 'Ở Việt Nam có rất nhiều quán nước mía ép tươi và sinh tố trái cây ngọt mát giải nhiệt cực đã!',
+          askJp: 'ベトナムの ジュースで おすすめは なに？',
+          askVi: 'Ở Việt Nam có loại nước uống nào ngon nhất?'
+        },
+        {
+          id: 'q5', cat: 'food',
+          titleHtml: 'おやつは どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: 'おやつはどっち派？',
+          titleVi: 'Đồ ăn vặt bạn thích vị nào?',
+          a: { svg:'salty', jpHtml:'しょっぱい系（せんべい・ポテチ）', jpPlain:'しょっぱい系、せんべい、ポテチ', vi:'Đồ mặn giòn (Bánh gạo / Bim bim)', kana:'ドー マン ゾン', vnRead:'Xốp pai kêi' },
+          b: { svg:'sweet', jpHtml:'あまい系（チェー・ケーキ・フルーツ）', jpPlain:'あまい系、チェー、ケーキ、フルーツ', vi:'Đồ ngọt (Chè / Bánh / Trái cây)', kana:'ドー ゴット (チェー)', vnRead:'A mai kêi' },
+          vnSide: 'both', vnBadge: 'ベトナムでは チェーも ライスペーパーも！',
+          insightJp: 'ベトナムの <ruby>小学生<rt>しょうがくせい</rt></ruby>は、あまくて つめたい「チェー」も、ライスペーパーに <ruby>味<rt>あじ</rt></ruby>つけした「バインチャンチョン」も <ruby>大好<rt>だいす</rt></ruby>き！<ruby>学校<rt>がっこう</rt></ruby>の <ruby>帰<rt>かえ</rt></ruby>りに <ruby>食<rt>た</rt></ruby>べるのが <ruby>楽<rt>たの</rt></ruby>しみです。',
+          insightPlain: 'ベトナムの小学生は、あまくてつめたいチェーも、ライスペーパーに味付けしたバインチャンチョンも大好き！学校の帰りに食べるのが楽しみです。',
+          insightVi: 'Học sinh Việt Nam thích cả chè ngọt lẫn bánh tráng trộn mặn ngọt sau giờ tan trường!',
+          askJp: '<ruby>日本<rt>にほん</rt></ruby>の お<ruby>菓子<rt>かし</rt></ruby>で <ruby>食<rt>た</rt></ruby>べてみて おいしかったものは ある？',
+          askVi: 'Bạn thấy bánh kẹo Nhật Bản nào ngon nhất?'
+        },
+
+        /* --- 学校生活 (5問) --- */
+        {
+          id: 'q6', cat: 'school',
+          titleHtml: '<ruby>学校<rt>がっこう</rt></ruby>へ いくなら どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: '学校へいくならどっち派？',
+          titleVi: 'Bạn thích đi học bằng cách nào?',
+          a: { svg:'walk', jpHtml:'ランドセルで <ruby>歩<rt>ある</rt></ruby>いて <ruby>登校<rt>とうこう</rt></ruby>', jpPlain:'ランドセルで歩いて登校', vi:'Đeo Randoseru tự đi bộ', kana:'デオ ランドセル ディー ボー', vnRead:'A rư i tê tô cô' },
+          b: { svg:'bike', jpHtml:'リュックで バイク・<ruby>車<rt>くるま</rt></ruby>の <ruby>送<rt>おく</rt></ruby>り<ruby>迎<rt>むか</rt></ruby>え', jpPlain:'リュックでバイクや車の送り迎え', vi:'Đeo ba lô, bố mẹ chở xe máy', kana:'ボー メー チョー セー マイ', vnRead:'Bai cư đê tô cô' },
+          vnSide: 'b', vnBadge: 'ベトナムでは B派が ほとんど！',
+          insightJp: 'ベトナムは バイクが とても <ruby>多<rt>おお</rt></ruby>く、<ruby>小学生<rt>しょうがくせい</rt></ruby>は <ruby>安全<rt>あんぜん</rt></ruby>のために おうちの <ruby>人<rt>ひと</rt></ruby>と バイクや <ruby>車<rt>くるま</rt></ruby>で <ruby>登校<rt>とうこう</rt></ruby>します。<ruby>日本<rt>にほん</rt></ruby>の「<ruby>子ども<rt>こども</rt></ruby>だけで <ruby>歩<rt>ある</rt></ruby>く」のに びっくりする<ruby>子<rt>こ</rt></ruby>も 多いよ！',
+          insightPlain: 'ベトナムはバイクがとても多く、小学生は安全のためにおうちの人とバイクや車で登校します。日本の子どもだけで歩くのにびっくりする子も多いよ！',
+          insightVi: 'Ở Việt Nam, bố mẹ thường đưa đón con bằng xe máy để an toàn. Nhiều bạn mới sang Nhật rất bất ngờ khi thấy học sinh tự đi bộ!',
+          askJp: '<ruby>日本<rt>にほん</rt></ruby>で ランドセルを せおって <ruby>歩<rt>ある</rt></ruby>いてみて どうだった？',
+          askVi: 'Lần đầu đeo Randoseru đi bộ ở Nhật bạn thấy thế nào?'
+        },
+        {
+          id: 'q7', cat: 'school',
+          titleHtml: '<ruby>給食<rt>きゅうしょく</rt></ruby>の あとの <ruby>時間<rt>じかん</rt></ruby>は どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: '給食のあとの時間はどっち派？',
+          titleVi: 'Sau bữa trưa ở trường bạn thích làm gì?',
+          a: { svg:'recessOut', jpHtml:'<ruby>運動場<rt>うんどうじょう</rt></ruby>で おもいきり <ruby>遊<rt>あそ</rt></ruby>ぶ', jpPlain:'運動場でおもいきり遊ぶ', vi:'Ra sân trường chạy nhảy chơi đùa', kana:'ザー サン チュオン チョイ', vnRead:'Xô tô đê a xô bư' },
+          b: { svg:'nap', jpHtml:'<ruby>教室<rt>きょうしつ</rt></ruby>で ぐっすり お<ruby>昼寝<rt>ひるね</rt></ruby>タイム', jpPlain:'教室でぐっすりお昼寝タイム', vi:'Trải chiếu ngủ trưa trong lớp', kana:'グー チュア チョン ロップ', vnRead:'Ô hi rư nê tai mư' },
+          vnSide: 'b', vnBadge: 'ベトナムでは B派（お昼寝）が あたりまえ！',
+          insightJp: 'ベトナムの <ruby>小学校<rt>しょうがっこう</rt></ruby>では お<ruby>昼<rt>ひる</rt></ruby>ごろ とても <ruby>暑<rt>あつ</rt></ruby>いので、<ruby>給食<rt>きゅうしょく</rt></ruby>の あとに <ruby>教室<rt>きょうしつ</rt></ruby>の <ruby>電気<rt>でんき</rt></ruby>を <ruby>消<rt>け</rt></ruby>して 1<ruby>時間<rt>じかん</rt></ruby>ほど お<ruby>昼寝<rt>ひるね</rt></ruby>をします。<ruby>午後<rt>ごご</rt></ruby>も <ruby>元気<rt>げんき</rt></ruby>に <ruby>勉強<rt>べんきょう</rt></ruby>する <ruby>工夫<rt>くふう</rt></ruby>だよ！',
+          insightPlain: 'ベトナムの小学校ではお昼ごろとても暑いので、給食のあとに教室の電気を消して1時間ほどお昼寝をします。午後も元気に勉強する工夫だよ！',
+          insightVi: 'Ở Việt Nam, ngủ trưa khoảng 1 tiếng trong lớp giúp các bạn nạp năng lượng cho buổi học chiều.',
+          askJp: 'ベトナムの <ruby>学校<rt>がっこう</rt></ruby>の お<ruby>昼寝<rt>ひるね</rt></ruby>タイム、まくらは <ruby>自分<rt>じぶん</rt></ruby>で <ruby>持<rt>も</rt></ruby>っていった？',
+          askVi: 'Hồi ở Việt Nam, bạn có mang gối riêng đến lớp ngủ trưa không?'
+        },
+        {
+          id: 'q8', cat: 'school',
+          titleHtml: '<ruby>教室<rt>きょうしつ</rt></ruby>の <ruby>掃除<rt>そうじ</rt></ruby>は どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: '教室の掃除はどっち派？',
+          titleVi: 'Về việc dọn dẹp lớp học thì sao?',
+          a: { svg:'clean', jpHtml:'<ruby>毎日<rt>まいにち</rt></ruby> みんなで <ruby>自分<rt>じぶん</rt></ruby>たちで <ruby>掃除<rt>そうじ</rt></ruby>', jpPlain:'毎日みんなで自分たちで掃除', vi:'Học sinh tự dọn dẹp mỗi ngày', kana:'トゥー ゾン ゼップ モイ ガイ', vnRead:'Min na đê xô di' },
+          b: { svg:'study', jpHtml:'<ruby>掃除<rt>そうじ</rt></ruby>は <ruby>専門<rt>せんもん</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>におまかせ・<ruby>当番<rt>とうばん</rt></ruby>だけ', jpPlain:'掃除は専門の人におまかせ、当番だけ', vi:'Có cô lao công dọn / Chỉ trực nhật nhẹ', kana:'コー ラオ コン ゾン', vnRead:'Tô ban đa kê' },
+          vnSide: 'b', vnBadge: 'ベトナムでは 専門の人が 多いよ！',
+          insightJp: 'ベトナムでは <ruby>廊下<rt>ろうか</rt></ruby>や トイレの <ruby>掃除<rt>そうじ</rt></ruby>は <ruby>学校<rt>がっこう</rt></ruby>の <ruby>スタッフ<rt>すたっふ</rt></ruby>（ラオコンさん）が してくれます。<ruby>日本<rt>にほん</rt></ruby>の「みんなで <ruby>掃除<rt>そうじ</rt></ruby>する」<ruby>時間<rt>じかん</rt></ruby>は <ruby>世界<rt>せかい</rt></ruby>でも めずらしい <ruby>素敵<rt>すてき</rt></ruby>な <ruby>文化<rt>ぶんか</rt></ruby>だよ！',
+          insightPlain: 'ベトナムでは廊下やトイレの掃除は学校のスタッフがしてくれます。日本のみんなで掃除する時間は世界でもめずらしい素敵な文化だよ！',
+          insightVi: 'Ở Việt Nam thường có cô chú lao công dọn dẹp trường. Việc học sinh Nhật tự dọn lớp mỗi ngày rất nổi tiếng trên thế giới!',
+          askJp: '<ruby>日本<rt>にほん</rt></ruby>の <ruby>掃除<rt>そうじ</rt></ruby>で「ぞうきんがけ」やってみて どうだった？',
+          askVi: 'Lần đầu tự lau sàn lớp học ở Nhật bạn thấy thế nào?'
+        },
+        {
+          id: 'q9', cat: 'school',
+          titleHtml: '<ruby>学校<rt>がっこう</rt></ruby>に <ruby>着<rt>き</rt></ruby>ていく <ruby>服<rt>ふく</rt></ruby>は どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: '学校に着ていく服はどっち派？',
+          titleVi: 'Bạn thích mặc đồ gì đi học?',
+          a: { svg:'uniform', jpHtml:'おそろいの <ruby>制服<rt>せいふく</rt></ruby>（<ruby>赤<rt>あか</rt></ruby>いスカーフ）', jpPlain:'おそろいの制服、赤いスカーフ', vi:'Mặc đồng phục & Khăn quàng đỏ', kana:'ドン フック / カン クアン ドー', vnRead:'Xêi phư cư' },
+          b: { svg:'casual', jpHtml:'<ruby>毎日<rt>まいにち</rt></ruby> <ruby>自分<rt>じぶん</rt></ruby>で <ruby>選<rt>えら</rt></ruby>べる <ruby>私服<rt>しふく</rt></ruby>', jpPlain:'毎日自分で選べる私服', vi:'Mặc quần áo tự do hằng ngày', kana:'クアン アオ トゥー ゾー', vnRead:'Xi phư cư' },
+          vnSide: 'a', vnBadge: 'ベトナムでは A派（制服）が ていばん！',
+          insightJp: 'ベトナムの <ruby>小学校<rt>しょうがっこう</rt></ruby>は <ruby>白<rt>しろ</rt></ruby>いシャツの <ruby>制服<rt>せいふく</rt></ruby>が <ruby>定番<rt>ていばん</rt></ruby>！3<ruby>年生<rt>ねんせい</rt></ruby>ごろからは <ruby>首<rt>くび</rt></ruby>に <ruby>赤<rt>あか</rt></ruby>いスカーフを <ruby>巻<rt>ま</rt></ruby>くのが「おにいさん・おねえさん」の <ruby>証<rt>あかし</rt></ruby>です。',
+          insightPlain: 'ベトナムの小学校は白いシャツの制服が定番！3年生ごろからは首に赤いスカーフを巻くのがおにいさん、おねえさんの証です。',
+          insightVi: 'Ở Việt Nam, học sinh mặc đồng phục áo trắng và từ lớp 3 được đeo khăn quàng đỏ rất tự hào!',
+          askJp: '<ruby>赤<rt>あか</rt></ruby>いスカーフの <ruby>結<rt>むす</rt></ruby>びかた、おぼえてる？',
+          askVi: 'Bạn còn nhớ cách thắt khăn quàng đỏ không?'
+        },
+        {
+          id: 'q10', cat: 'school',
+          titleHtml: '<ruby>好<rt>す</rt></ruby>きな <ruby>授業<rt>じゅぎょう</rt></ruby>は どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: '好きな授業はどっち派？',
+          titleVi: 'Bạn thích môn học nào hơn?',
+          a: { svg:'math', jpHtml:'<ruby>算数<rt>さんすう</rt></ruby>・<ruby>理科<rt>りか</rt></ruby>（<ruby>計算<rt>けいさん</rt></ruby>・<ruby>実験<rt>じっけん</rt></ruby>）', jpPlain:'算数や理科、計算や実験', vi:'Toán / Khoa học', kana:'トアン / コア ホック', vnRead:'Xan xư / Ri ca' },
+          b: { svg:'pe', jpHtml:'<ruby>体育<rt>たいいく</rt></ruby>・<ruby>図工<rt>ずこう</rt></ruby>・<ruby>音楽<rt>おんがく</rt></ruby>', jpPlain:'体育、図工、音楽', vi:'Thể dục / Mỹ thuật / Âm nhạc', kana:'テー ズック / ミー トゥアット', vnRead:'Tai i cư / Dư cô' },
+          vnSide: 'both', vnBadge: 'ことばが ちがっても 算数と体育は すぐわかる！',
+          insightJp: '<ruby>算数<rt>さんすう</rt></ruby>の <ruby>数字<rt>すうじ</rt></ruby>や <ruby>体育<rt>たいいく</rt></ruby>・<ruby>図工<rt>ずこう</rt></ruby>は <ruby>世界共通<rt>せかいきょうつう</rt></ruby>！ベトナムの <ruby>算数<rt>さんすう</rt></ruby>は かけ<ruby>算<rt>ざん</rt></ruby>や わり<ruby>算<rt>ざん</rt></ruby>の <ruby>筆算<rt>ひっさん</rt></ruby>の <ruby>書<rt>か</rt></ruby>きかたが すこし <ruby>日本<rt>にほん</rt></ruby>と ちがうので <ruby>見<rt>み</rt></ruby>せあうと おもしろいよ！',
+          insightPlain: '算数の数字や体育、図工は世界共通！ベトナムの算数はかけ算やわり算の筆算の書きかたがすこし日本とちがうので見せあうとおもしろいよ！',
+          insightVi: 'Toán học và Thể dục là ngôn ngữ chung! Cách đặt tính chia ở Việt Nam hơi khác ở Nhật một chút, cùng xem thử nhé!',
+          askJp: 'ベトナムの <ruby>学校<rt>がっこう</rt></ruby>で <ruby>一番<rt>いちばん</rt></ruby> <ruby>好<rt>す</rt></ruby>きだった <ruby>教科<rt>きょうか</rt></ruby>は なに？',
+          askVi: 'Ở Việt Nam bạn thích học môn nào nhất?'
+        },
+
+        /* --- 遊び・休み時間 (5問) --- */
+        {
+          id: 'q11', cat: 'play',
+          titleHtml: '<ruby>休<rt>やす</rt></ruby>み<ruby>時間<rt>じかん</rt></ruby>の そと<ruby>遊<rt>あそ</rt></ruby>びは どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: '休み時間のそと遊びはどっち派？',
+          titleVi: 'Giờ ra chơi bạn thích trò nào ngoài sân?',
+          a: { svg:'recessOut', jpHtml:'ドッジボール・おにごっこ', jpPlain:'ドッジボール、おにごっこ', vi:'Bóng né / Đuổi bắt', kana:'ボン ネー / ドゥオイ バット', vnRead:'Đốt di bô rư' },
+          b: { svg:'dacau', jpHtml:'ダーカウ（<ruby>足<rt>あし</rt></ruby>でける<ruby>羽根<rt>はね</rt></ruby>）・サッカー', jpPlain:'ダーカウ、サッカー', vi:'Đá cầu / Đá bóng', kana:'ダー カウ / ダー ボン', vnRead:'Đa cau / Xắc ca' },
+          vnSide: 'b', vnBadge: 'ベトナムでは ダーカウと サッカーが No.1！',
+          insightJp: 'ベトナムの <ruby>校庭<rt>こうてい</rt></ruby>では、みんなで <ruby>輪<rt>わ</rt></ruby>になって <ruby>羽根<rt>はね</rt></ruby>を <ruby>足<rt>あし</rt></ruby>で ポンポン けりあう「ダーカウ」が <ruby>大人気<rt>だいにんき</rt></ruby>！<ruby>日本<rt>にほん</rt></ruby>の リフティングみたいで かっこいいよ。',
+          insightPlain: 'ベトナムの校庭では、みんなで輪になって羽根を足でポンポンけりあうダーカウが大人気！日本のリフティングみたいでかっこいいよ。',
+          insightVi: 'Ở sân trường Việt Nam, đá cầu bằng chân là trò chơi siêu vui và ai cũng có thể tham gia!',
+          askJp: 'ダーカウ、なん<ruby>回<rt>かい</rt></ruby>くらい つづけて けれる？',
+          askVi: 'Bạn đá cầu liên tục được khoảng mấy cái?'
+        },
+        {
+          id: 'q12', cat: 'play',
+          titleHtml: '<ruby>雨<rt>あめ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>の <ruby>室内<rt>しつない</rt></ruby><ruby>遊<rt>あそ</rt></ruby>びは どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: '雨の日の室内遊びはどっち派？',
+          titleVi: 'Trời mưa bạn thích chơi gì trong nhà?',
+          a: { svg:'draw', jpHtml:'お<ruby>絵<rt>え</rt></ruby>かき・<ruby>折<rt>お</rt></ruby>り<ruby>紙<rt>がみ</rt></ruby>・<ruby>読書<rt>どくしょ</rt></ruby>', jpPlain:'お絵かき、折り紙、読書', vi:'Vẽ tranh / Gấp giấy / Đọc sách', kana:'ヴェー チャン / ドック サイッ', vnRead:'Ô ê ca ki / Đô cư xô' },
+          b: { svg:'boardgame', jpHtml:'ボードゲーム（オアンクワン・トランプ）', jpPlain:'ボードゲーム、オアンクワン、トランプ', vi:'Ô ăn quan / Đánh bài Uno', kana:'オ アン クワン', vnRead:'Bô đô gê mư' },
+          vnSide: 'both', vnBadge: 'ベトナムでは オアンクワンが かんたん＆大人気！',
+          insightJp: 'ベトナムの「オアンクワン」は、<ruby>紙<rt>かみ</rt></ruby>に マスを かいて おはじきや <ruby>消<rt>け</rt></ruby>しゴムの かけらを つかえば <ruby>雨<rt>あめ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>の <ruby>教室<rt>きょうしつ</rt></ruby>でも すぐ <ruby>遊<rt>あそ</rt></ruby>べる <ruby>頭脳<rt>ずのう</rt></ruby>ゲームだよ！',
+          insightPlain: 'ベトナムのオアンクワンは、紙にマスをかいておはじきや消しゴムのかけらをつかえば雨の日の教室でもすぐ遊べる頭脳ゲームだよ！',
+          insightVi: 'Trò chơi dân gian Ô ăn quan chỉ cần vẽ ô trên giấy là cả lớp có thể chơi cùng nhau vào ngày mưa!',
+          askJp: '<ruby>雨<rt>あめ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>、クラスのみんなに オアンクワン <ruby>教<rt>おし</rt></ruby>えてくれる？',
+          askVi: 'Hôm nào trời mưa, bạn dạy cả lớp chơi Ô ăn quan nhé?'
+        },
+        {
+          id: 'q13', cat: 'play',
+          titleHtml: 'おうちでの エンタメは どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: 'おうちでのエンタメはどっち派？',
+          titleVi: 'Ở nhà bạn thích giải trí kiểu nào?',
+          a: { svg:'anime', jpHtml:'アニメ・まんがを <ruby>見<rt>み</rt></ruby>る', jpPlain:'アニメやまんがを見る', vi:'Xem Anime / Đọc truyện tranh', kana:'セム アニメ / ドック チュエン', vnRead:'A ni mê / Man ga' },
+          b: { svg:'game', jpHtml:'ゲーム（マイクラ・スマホ・スイッチ）', jpPlain:'ゲーム、マイクラ、スマホ、スイッチ', vi:'Chơi game (Minecraft / Roblox)', kana:'チョイ ゲーム', vnRead:'Gê mư' },
+          vnSide: 'both', vnBadge: 'ドラえもん・コナン・マイクラは 共通語！',
+          insightJp: 'ベトナムでも「ドラえもん」「コナン」「ポケモン」の アニメや、「マインクラフト」「ロブロックス」の ゲームは <ruby>小学生<rt>しょうがくせい</rt></ruby>に <ruby>大流行<rt>だいりゅうこう</rt></ruby>！<ruby>好<rt>す</rt></ruby>きな キャラの <ruby>話<rt>はなし</rt></ruby>で すぐ <ruby>盛<rt>も</rt></ruby>りあがるよ。',
+          insightPlain: 'ベトナムでもドラえもん、コナン、ポケモンのアニメや、マインクラフト、ロブロックスのゲームは小学生に大流行！好きなキャラの話ですぐ盛りあがるよ。',
+          insightVi: 'Doraemon, Conan, Pokémon, Minecraft và Roblox đều là những sở thích chung cực hot của cả hai nước!',
+          askJp: '<ruby>一番<rt>いちばん</rt></ruby> <ruby>好<rt>す</rt></ruby>きな アニメや ゲームは なに？',
+          askVi: 'Bạn thích nhất bộ phim hoạt hình hay trò chơi nào?'
+        },
+        {
+          id: 'q14', cat: 'play',
+          titleHtml: '<ruby>音楽<rt>おんがく</rt></ruby>を <ruby>楽<rt>たの</rt></ruby>しむなら どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: '音楽を楽しむならどっち派？',
+          titleVi: 'Khi nghe nhạc bạn thích kiểu nào?',
+          a: { svg:'music', jpHtml:'うたう・ダンスをおどる', jpPlain:'うたう、ダンスをおどる', vi:'Hát / Nhảy theo nhạc', kana:'ハット / ニャイ テオ ニャック', vnRead:'Ư ta ư / Đan xư' },
+          b: { svg:'draw', jpHtml:'しずかに <ruby>聞<rt>き</rt></ruby>く・<ruby>楽器<rt>がっき</rt></ruby>をひく', jpPlain:'しずかに聞く、楽器をひく', vi:'Nghe nhạc nhẹ / Chơi nhạc cụ', kana:'ゲー ニャック ニェ', vnRead:'Ki cư / Gắc ki' },
+          vnSide: 'a', vnBadge: 'ベトナムは うた＆カラオケが 大好き！',
+          insightJp: 'ベトナムは とても <ruby>歌<rt>うた</rt></ruby>が <ruby>好<rt>す</rt></ruby>きな <ruby>国<rt>くに</rt></ruby>！お<ruby>祝<rt>いわ</rt></ruby>いの <ruby>日<rt>ひ</rt></ruby>や <ruby>休日<rt>きゅうじつ</rt></ruby>には <ruby>家族<rt>かぞく</rt></ruby>みんなで マイクを <ruby>持<rt>も</rt></ruby>って カラオケを <ruby>楽<rt>たの</rt></ruby>しむことも <ruby>多<rt>おお</rt></ruby>いです。',
+          insightPlain: 'ベトナムはとても歌が好きな国！お祝いの日や休日には家族みんなでマイクを持ってカラオケを楽しむことも多いです。',
+          insightVi: 'Người Việt Nam rất yêu ca hát! Vào dịp lễ hay cuối tuần, cả gia đình hay cùng nhau hát karaoke rất vui.',
+          askJp: 'ベトナムで <ruby>流行<rt>はや</rt></ruby>っている <ruby>曲<rt>きょく</rt></ruby>や よくうたう <ruby>歌<rt>うた</rt></ruby>は ある？',
+          askVi: 'Ở Việt Nam có bài hát nào vui vui bạn thích không?'
+        },
+        {
+          id: 'q15', cat: 'play',
+          titleHtml: '<ruby>友<rt>とも</rt></ruby>だちと <ruby>遊<rt>あそ</rt></ruby>ぶなら どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: '友だちと遊ぶならどっち派？',
+          titleVi: 'Bạn thích chơi theo kiểu nào?',
+          a: { svg:'family', jpHtml:'みんなで わいわい <ruby>大人数<rt>おおにんずう</rt></ruby>', jpPlain:'みんなでわいわい大人数', vi:'Chơi đông người thật náo nhiệt', kana:'チョイ ドン グオイ', vnRead:'Min na đê wai wai' },
+          b: { svg:'home', jpHtml:'<ruby>仲<rt>なか</rt></ruby>よしの 2〜3<ruby>人<rt>にん</rt></ruby>で ゆっくり', jpPlain:'仲よしの2、3人でゆっくり', vi:'Chơi nhóm nhỏ 2-3 bạn thân', kana:'チョイ ニョム ニョー', vnRead:'Dức cư ri' },
+          vnSide: 'a', vnBadge: 'ベトナムは みんなで わいわいが 大好き！',
+          insightJp: 'ベトナムは <ruby>近所<rt>きんじょ</rt></ruby>の <ruby>子<rt>こ</rt></ruby>や いとこ同士が <ruby>集<rt>あつ</rt></ruby>まって <ruby>大人数<rt>おおにんずう</rt></ruby>で わいわい <ruby>過<rt>す</rt></ruby>ごす <ruby>文化<rt>ぶんか</rt></ruby>があります。「いっしょに やろう！」と <ruby>声<rt>こえ</rt></ruby>を かけてもらえると とても うれしいよ！',
+          insightPlain: 'ベトナムは近所の子やいとこ同士が集まって大人数でわいわい過ごす文化があります。いっしょにやろうと声をかけてもらえるととてもうれしいよ！',
+          insightVi: 'Ở Việt Nam mọi người rất thích tụ tập đông vui! Được bạn bè rủ "Cùng chơi nhé!" sẽ làm bạn thấy rất ấm áp.',
+          askJp: 'つぎの <ruby>休<rt>やす</rt></ruby>み<ruby>時間<rt>じかん</rt></ruby>、みんなで なにを して <ruby>遊<rt>あそ</rt></ruby>ぼうか？',
+          askVi: 'Giờ ra chơi tới, chúng mình cùng chơi trò gì nhé?'
+        },
+
+        /* --- 季節・くらし (5問) --- */
+        {
+          id: 'q16', cat: 'life',
+          titleHtml: '<ruby>季節<rt>きせつ</rt></ruby>は どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: '季節はどっち派？',
+          titleVi: 'Bạn thích mùa nào hơn?',
+          a: { svg:'summer', jpHtml:'あつい <ruby>夏<rt>なつ</rt></ruby>（プール・<ruby>海<rt>うみ</rt></ruby>・半そで）', jpPlain:'あつい夏、プール、海、半そで', vi:'Mùa hè nắng ấm (Đi bơi)', kana:'ムア ヘー ナン アム', vnRead:'Na tư' },
+          b: { svg:'winter', jpHtml:'さむい <ruby>冬<rt>ふゆ</rt></ruby>（<ruby>雪<rt>ゆき</rt></ruby>あそび・こたつ）', jpPlain:'さむい冬、雪あそび、こたつ', vi:'Mùa đông có tuyết rơi', kana:'ムア ドン コー トゥイエット', vnRead:'Phư du' },
+          vnSide: 'both', vnBadge: 'ベトナムの 子は「日本の雪」に わくわく！',
+          insightJp: 'ベトナムの <ruby>多<rt>おお</rt></ruby>くの <ruby>場所<rt>ばしょ</rt></ruby>では <ruby>雪<rt>ゆき</rt></ruby>が <ruby>降<rt>ふ</rt></ruby>りません。<ruby>日本<rt>にほん</rt></ruby>の <ruby>冬<rt>ふゆ</rt></ruby>は さむくて びっくりするけれど、<ruby>雪<rt>ゆき</rt></ruby>だるまを <ruby>作<rt>つく</rt></ruby>るのを <ruby>楽<rt>たの</rt></ruby>しみにしている <ruby>子<rt>こ</rt></ruby>も たくさん います！',
+          insightPlain: 'ベトナムの多くの場所では雪が降りません。日本の冬はさむくてびっくりするけれど、雪だるまを作るのを楽しみにしている子もたくさんいます！',
+          insightVi: 'Hầu hết Việt Nam không có tuyết nên nhiều bạn rất háo hức được thấy tuyết rơi và nặn người tuyết ở Nhật!',
+          askJp: '<ruby>本物<rt>ほんもの</rt></ruby>の <ruby>雪<rt>ゆき</rt></ruby>を <ruby>見<rt>み</rt></ruby>たことは ある？',
+          askVi: 'Bạn đã bao giờ nhìn thấy tuyết thật chưa?'
+        },
+        {
+          id: 'q17', cat: 'life',
+          titleHtml: 'お<ruby>正月<rt>しょうがつ</rt></ruby>の お<ruby>祝<rt>いわ</rt></ruby>いは どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: 'お正月のお祝いはどっち派？',
+          titleVi: 'Bạn thích Tết kiểu nào?',
+          a: { svg:'jan1', jpHtml:'1<ruby>月<rt>がつ</rt></ruby>1<ruby>日<rt>にち</rt></ruby>の <ruby>日本<rt>にほん</rt></ruby>のお<ruby>正月<rt>しょうがつ</rt></ruby>', jpPlain:'1月1日の日本のお正月', vi:'Tết Dương lịch 1/1 (Nhật Bản)', kana:'テット ズオン リッ', vnRead:'Ô xô ga tư' },
+          b: { svg:'tet', jpHtml:'2<ruby>月<rt>がつ</rt></ruby>ごろの <ruby>旧正月<rt>きゅうしょうがつ</rt></ruby>「テト」（リーシー）', jpPlain:'2月ごろの旧正月テト、リーシー', vi:'Tết Nguyên Đán & Lì xì đỏ (Việt Nam)', kana:'テット グエン ダン / リーシー', vnRead:'Têt tô' },
+          vnSide: 'b', vnBadge: 'ベトナムでは 2月ごろの「テト」が 一番大きなお祭り！',
+          insightJp: 'ベトナムで <ruby>一番<rt>いちばん</rt></ruby> 大きな お<ruby>正月<rt>しょうがつ</rt></ruby>は 1<ruby>月末<rt>がつまつ</rt></ruby>〜2<ruby>月<rt>がつ</rt></ruby>ごろの「テト」！<ruby>赤<rt>あか</rt></ruby>い<ruby>袋<rt>ふくろ</rt></ruby>に <ruby>入<rt>はい</rt></ruby>った お<ruby>年玉<rt>としだま</rt></ruby>「リーシー」をもらい、<ruby>親<rt>しん</rt></ruby>せきみんなで ごちそうを <ruby>食<rt>た</rt></ruby>べます。',
+          insightPlain: 'ベトナムで一番大きなお正月は1月末から2月ごろのテト！赤い袋に入ったお年玉リーシーをもらい、親せきみんなでごちそうを食べます。',
+          insightVi: 'Tết Nguyên Đán là lễ hội lớn nhất năm của Việt Nam, trẻ em mặc áo đẹp và nhận bao lì xì đỏ may mắn!',
+          askJp: 'テトのときに <ruby>食<rt>た</rt></ruby>べる とくべつな ごちそうは なに？',
+          askVi: 'Dịp Tết ở Việt Nam nhà bạn hay ăn món gì ngon?'
+        },
+        {
+          id: 'q18', cat: 'life',
+          titleHtml: '<ruby>休日<rt>きゅうじつ</rt></ruby>の <ruby>過<rt>す</rt></ruby>ごしかたは どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: '休日の過ごしかたはどっち派？',
+          titleVi: 'Cuối tuần bạn thích làm gì?',
+          a: { svg:'family', jpHtml:'<ruby>家族<rt>かぞく</rt></ruby>や <ruby>親<rt>しん</rt></ruby>せきと おでかけ・わいわい', jpPlain:'家族や親せきとおでかけ、わいわい', vi:'Đi chơi cùng gia đình và họ hàng', kana:'ディー チョイ クン ザー ディン', vnRead:'Ô đê ca kê' },
+          b: { svg:'home', jpHtml:'おうちで のんびり・<ruby>好<rt>す</rt></ruby>きなことをする', jpPlain:'おうちでのんびり、好きなことをする', vi:'Ở nhà thư giãn làm việc mình thích', kana:'オ ニャー トゥー ザン', vnRead:'Ô ư chi đê nôn bi ri' },
+          vnSide: 'a', vnBadge: 'ベトナムでは 夕方〜夜の おでかけも 定番！',
+          insightJp: 'ベトナムは お<ruby>昼<rt>ひる</rt></ruby>が <ruby>暑<rt>あつ</rt></ruby>いので、<ruby>涼<rt>すず</rt></ruby>しくなる <ruby>夕方<rt>ゆうがた</rt></ruby>から <ruby>家族<rt>かぞく</rt></ruby>で <ruby>公園<rt>こうえん</rt></ruby>や ナイトマーケット、モールへ <ruby>出<rt>で</rt></ruby>かけて わいわい <ruby>過<rt>す</rt></ruby>ごすのが <ruby>定番<rt>ていばん</rt></ruby>です！',
+          insightPlain: 'ベトナムはお昼が暑いので、涼しくなる夕方から家族で公園やナイトマーケット、モールへ出かけてわいわい過ごすのが定番です！',
+          insightVi: 'Ở Việt Nam, buổi tối trời mát nên cả gia đình thường đi dạo công viên hoặc trung tâm thương mại rất đông vui.',
+          askJp: 'お<ruby>休<rt>やす</rt></ruby>みの<ruby>日<rt>ひ</rt></ruby>に <ruby>行<rt>い</rt></ruby>ってみたい <ruby>日本<rt>にほん</rt></ruby>の <ruby>場所<rt>ばしょ</rt></ruby>は ある？',
+          askVi: 'Ngày nghỉ bạn muốn đi tham quan nơi nào ở Nhật?'
+        },
+        {
+          id: 'q19', cat: 'life',
+          titleHtml: '<ruby>得意<rt>とくい</rt></ruby>なのは どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: '得意なのはどっち派？',
+          titleVi: 'Bạn thuộc team nào hơn?',
+          a: { svg:'early', jpHtml:'<ruby>早起<rt>はやお</rt></ruby>き<ruby>得意<rt>とくい</rt></ruby>！<ruby>朝<rt>あさ</rt></ruby>に <ruby>元気<rt>げんき</rt></ruby>', jpPlain:'早起き得意！朝に元気', vi:'Team dậy sớm buổi sáng', kana:'ティム ザイ ソム', vnRead:'Ha da ô ki' },
+          b: { svg:'night', jpHtml:'<ruby>朝<rt>あさ</rt></ruby>は ねむい…<ruby>夜<rt>よる</rt></ruby>のほうが <ruby>元気<rt>げんき</rt></ruby>', jpPlain:'朝はねむい、夜のほうが元気', vi:'Team cú đêm (sáng hơi buồn ngủ)', kana:'ティム クー デム', vnRead:'Dô rư ga gên ki' },
+          vnSide: 'a', vnBadge: 'ベトナムの 朝は 6時ごろから 活動スタート！',
+          insightJp: 'ベトナムは <ruby>朝<rt>あさ</rt></ruby> 7<ruby>時<rt>じ</rt></ruby>すぎには <ruby>学校<rt>がっこう</rt></ruby>が はじまることが <ruby>多<rt>おお</rt></ruby>く、<ruby>公園<rt>こうえん</rt></ruby>でも <ruby>朝<rt>あさ</rt></ruby>6<ruby>時<rt>じ</rt></ruby>から <ruby>体操<rt>たいそう</rt></ruby>や バドミントンをする <ruby>人<rt>ひと</rt></ruby>で いっぱいの「<ruby>超<rt>ちょう</rt></ruby><ruby>朝型<rt>あさがた</rt></ruby>」の <ruby>国<rt>くに</rt></ruby>だよ！',
+          insightPlain: 'ベトナムは朝7時すぎには学校がはじまることが多く、公園でも朝6時から体操やバドミントンをする人でいっぱいの超朝型の国だよ！',
+          insightVi: 'Ở Việt Nam, mọi người dậy rất sớm, 6 giờ sáng công viên đã đông người tập thể dục và học sinh vào lớp từ 7 giờ hơn!',
+          askJp: 'ベトナムに いたとき、まい<ruby>朝<rt>あさ</rt></ruby> なん<ruby>時<rt>じ</rt></ruby>に <ruby>起<rt>お</rt></ruby>きていた？',
+          askVi: 'Hồi ở Việt Nam, sáng nào bạn cũng dậy lúc mấy giờ?'
+        },
+        {
+          id: 'q20', cat: 'life',
+          titleHtml: '<ruby>旅行<rt>りょこう</rt></ruby>に いくなら どっち<ruby>派<rt>は</rt></ruby>？',
+          titlePlain: '旅行にいくならどっち派？',
+          titleVi: 'Đi du lịch bạn thích đi đâu hơn?',
+          a: { svg:'sea', jpHtml:'きれいな <ruby>海<rt>うみ</rt></ruby>・ビーチ', jpPlain:'きれいな海、ビーチ', vi:'Đi biển xanh cát trắng', kana:'ディー ビエン サイン', vnRead:'Ư mi' },
+          b: { svg:'mountain', jpHtml:'すずしい <ruby>山<rt>やま</rt></ruby>・キャンプ', jpPlain:'すずしい山、キャンプ', vi:'Lên núi mát mẻ / Cắm trại', kana:'レン ヌイ マット メー', vnRead:'Da ma' },
+          vnSide: 'both', vnBadge: 'ベトナムは 海（ダナン・ハロン湾）も 山（ダラット）も 絶景！',
+          insightJp: 'ベトナムは <ruby>海<rt>うみ</rt></ruby>に <ruby>面<rt>めん</rt></ruby>していて、きれいな ビーチの「ダナン」や <ruby>世界遺産<rt>せかいいさん</rt></ruby>の「ハロン<ruby>湾<rt>わん</rt></ruby>」、すずしい <ruby>高原<rt>こうげん</rt></ruby>の「ダラット」など <ruby>素敵<rt>すてき</rt></ruby>な <ruby>場所<rt>ばしょ</rt></ruby>が いっぱい あります！',
+          insightPlain: 'ベトナムは海に面していて、きれいなビーチのダナンや世界遺産のハロン湾、すずしい高原のダラットなど素敵な場所がいっぱいあります！',
+          insightVi: 'Việt Nam có biển Đà Nẵng, Vịnh Hạ Long tuyệt đẹp và cả vùng núi Đà Lạt mát mẻ quanh năm!',
+          askJp: 'ベトナムで「ここが <ruby>一番<rt>いちばん</rt></ruby> きれい！」っていう おすすめの <ruby>場所<rt>ばしょ</rt></ruby>は？',
+          askVi: 'Ở Việt Nam có địa điểm du lịch nào đẹp nhất bạn muốn giới thiệu không?'
+        }
+      ];
+
+      /* ====================================================================
+         3. Web Audio 効果音 & 高耐久 Speech 音声エンジン
+         ==================================================================== */
+      const Sound = {
+        ctx: null,
+        ensure() {
+          if (!this.ctx) {
+            const Ctor = window.AudioContext || window.webkitAudioContext;
+            if (Ctor) this.ctx = new Ctor();
+          }
+          if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume().catch(function () {});
+          }
+          return this.ctx;
+        },
+        beep(freq, offset, dur, type, vol) {
+          const ctx = this.ensure();
+          if (!ctx) return;
+          try {
+            const t = ctx.currentTime + offset;
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = type || 'sine';
+            osc.frequency.setValueAtTime(freq, t);
+            gain.gain.setValueAtTime(0.001, t);
+            gain.gain.exponentialRampToValueAtTime(vol || 0.1, t + 0.015);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + dur);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(t);
+            osc.stop(t + dur + 0.02);
+          } catch (e) {}
+        },
+        tap() { this.beep(587.33, 0, 0.07, 'triangle', 0.09); },
+        voteA() { this.beep(523.25, 0, 0.08, 'sine', 0.11); this.beep(659.25, 0.06, 0.09, 'sine', 0.11); },
+        voteB() { this.beep(587.33, 0, 0.08, 'sine', 0.11); this.beep(783.99, 0.06, 0.09, 'sine', 0.11); },
+        reveal() {
+          this.beep(523.25, 0, 0.09, 'triangle', 0.11);
+          this.beep(659.25, 0.09, 0.09, 'triangle', 0.11);
+          this.beep(783.99, 0.18, 0.1, 'triangle', 0.12);
+          this.beep(1046.5, 0.28, 0.24, 'triangle', 0.13);
+        }
+      };
+
+      const Speech = {
+        voices: [],
+        slow: false,
+        speaking: false,
+        safetyTimer: null,
+        speakTimer: null,
+        voiceWaitTimer: null,
+        currentUtterance: null,
+        currentAudio: null,
+        playSeq: 0,
+
+        refreshVoices() {
+          if (!('speechSynthesis' in window)) return [];
+          try {
+            const list = window.speechSynthesis.getVoices() || [];
+            if (list.length > 0) this.voices = list;
+          } catch (e) {}
+          return this.voices;
+        },
+        init() {
+          if (!('speechSynthesis' in window)) return;
+          const load = () => { this.refreshVoices(); };
+          load();
+          if (typeof window.speechSynthesis.addEventListener === 'function') {
+            window.speechSynthesis.addEventListener('voiceschanged', load);
+          } else if ('onvoiceschanged' in window.speechSynthesis) {
+            window.speechSynthesis.onvoiceschanged = load;
+          }
+          setTimeout(load, 300);
+        },
+        findVoice(langCode) {
+          const list = this.refreshVoices();
+          if (!list || list.length === 0) return null;
+          const normTarget = String(langCode || 'ja-JP').toLowerCase().replace('_', '-');
+          const pref = normTarget.slice(0, 2);
+          const candidates = list.filter((v) => {
+            const vLang = String(v.lang || '').toLowerCase().replace('_', '-');
+            if (vLang === normTarget || vLang === pref || vLang.startsWith(pref + '-')) return true;
+            if (pref === 'vi' && /vietnam|tiếng việt|tieng viet|hoaimy|namminh/i.test(String(v.name || ''))) return true;
+            return false;
+          });
+          if (candidates.length === 0) return null;
+          const scoreVoice = (v) => {
+            let s = 0;
+            const vLang = String(v.lang || '').toLowerCase().replace('_', '-');
+            const name = String(v.name || '');
+            if (vLang === normTarget) s += 10;
+            if (/google/i.test(name)) s += 6;
+            if (/natural|neural|online/i.test(name)) s += 5;
+            if (v.default) s += 1;
+            return s;
+          };
+          candidates.sort((a, b) => scoreVoice(b) - scoreVoice(a));
+          return candidates[0];
+        },
+        stop() {
+          this.playSeq += 1;
+          clearTimeout(this.speakTimer);
+          clearTimeout(this.safetyTimer);
+          clearTimeout(this.voiceWaitTimer);
+          this.currentUtterance = null;
+          if (this.currentAudio) {
+            try {
+              this.currentAudio.onended = null;
+              this.currentAudio.onerror = null;
+              this.currentAudio.pause();
+              this.currentAudio.removeAttribute('src');
+              this.currentAudio.load();
+            } catch (e) {}
+            this.currentAudio = null;
+          }
+          if ('speechSynthesis' in window) {
+            try { window.speechSynthesis.cancel(); } catch (e) {}
+          }
+          this.speaking = false;
+        },
+        splitTextForTts(text, maxLen) {
+          const clean = String(text || '').replace(/\s+/g, ' ').trim();
+          if (!clean) return [];
+          const limit = maxLen || 160;
+          if (clean.length <= limit) return [clean];
+          const parts = clean.match(/[^。！？.!?\n、,]+[。！？.!?\n、,]*/g) || [clean];
+          const chunks = [];
+          let buf = '';
+          const pushSlice = (str) => {
+            let rest = str.trim();
+            while (rest.length > limit) {
+              let cut = rest.lastIndexOf(' ', limit);
+              if (cut < Math.floor(limit * 0.4)) cut = limit;
+              chunks.push(rest.slice(0, cut).trim());
+              rest = rest.slice(cut).trim();
+            }
+            if (rest) chunks.push(rest);
+          };
+          for (const part of parts) {
+            if (!part) continue;
+            if (buf && (buf.length + 1 + part.length) > limit) {
+              chunks.push(buf.trim());
+              buf = '';
+            }
+            if (part.length > limit) {
+              if (buf) { chunks.push(buf.trim()); buf = ''; }
+              pushSlice(part);
+            } else {
+              buf = buf ? (buf + ' ' + part) : part;
+            }
+          }
+          if (buf.trim()) chunks.push(buf.trim());
+          return chunks;
+        },
+        speakWithSynth(text, langCode, voice, seq) {
+          if (seq !== this.playSeq || !('speechSynthesis' in window)) return;
+          try {
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = (voice && voice.lang) ? voice.lang : langCode;
+            u.rate = this.slow ? 0.72 : 1.0;
+            if (voice) u.voice = voice;
+            this.currentUtterance = u;
+            this.speaking = true;
+            const release = () => {
+              if (seq !== this.playSeq) return;
+              this.speaking = false;
+              this.currentUtterance = null;
+              clearTimeout(this.safetyTimer);
+            };
+            u.onend = release;
+            u.onerror = release;
+            clearTimeout(this.safetyTimer);
+            this.safetyTimer = setTimeout(release, Math.min(30000, Math.max(4500, text.length * 280)));
+            if (window.speechSynthesis.paused) {
+              try { window.speechSynthesis.resume(); } catch (e) {}
+            }
+            window.speechSynthesis.speak(u);
+          } catch (e) {
+            if (seq === this.playSeq) { this.speaking = false; this.currentUtterance = null; }
+          }
+        },
+        speakWithAudioFallback(text, langCode, seq) {
+          if (seq !== this.playSeq) return;
+          const chunks = this.splitTextForTts(text, 160);
+          if (chunks.length === 0) { this.speaking = false; return; }
+          const tl = String(langCode || 'vi-VN').toLowerCase().slice(0, 2);
+          let idx = 0;
+          const finish = () => {
+            if (seq !== this.playSeq) return;
+            this.speaking = false;
+            this.currentAudio = null;
+            clearTimeout(this.safetyTimer);
+          };
+          const playNext = () => {
+            if (seq !== this.playSeq) return;
+            if (idx >= chunks.length) { finish(); return; }
+            const chunk = chunks[idx++];
+            const url = 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=' +
+              encodeURIComponent(tl) + '&q=' + encodeURIComponent(chunk);
+            const audio = new Audio();
+            audio.preload = 'auto';
+            audio.playbackRate = this.slow ? 0.78 : 1.0;
+            audio.src = url;
+            this.currentAudio = audio;
+            this.speaking = true;
+            clearTimeout(this.safetyTimer);
+            this.safetyTimer = setTimeout(finish, 20000);
+            audio.onended = () => { if (seq === this.playSeq) playNext(); };
+            audio.onerror = () => {
+              if (seq !== this.playSeq) return;
+              finish();
+              if (tl === 'ja') this.speakWithSynth(text, langCode, null, seq);
+              else showToast('この端末に音声がなく、オンライン音声も再生できませんでした');
+            };
+            const p = audio.play();
+            if (p && typeof p.catch === 'function') {
+              p.catch(() => {
+                if (seq !== this.playSeq) return;
+                finish();
+                if (tl === 'ja') this.speakWithSynth(text, langCode, null, seq);
+                else showToast('音声を再生できませんでした。もう一度押してください');
+              });
+            }
+          };
+          playNext();
+        },
+        speak(text, langCode) {
+          const clean = String(text || '').trim();
+          if (!clean) return;
+          this.stop();
+          const seq = this.playSeq;
+          const pref = String(langCode || 'ja-JP').toLowerCase().slice(0, 2);
+          const hasSynth = ('speechSynthesis' in window);
+          this.speaking = true;
+          if (!hasSynth) { this.speakWithAudioFallback(clean, langCode, seq); return; }
+          const dispatch = (delayMs) => {
+            if (seq !== this.playSeq) return;
+            const voice = this.findVoice(langCode);
+            if (voice) {
+              this.speakTimer = setTimeout(() => { this.speakWithSynth(clean, langCode, voice, seq); }, delayMs);
+              return;
+            }
+            if (pref !== 'ja') { this.speakWithAudioFallback(clean, langCode, seq); return; }
+            this.speakTimer = setTimeout(() => { this.speakWithSynth(clean, langCode, null, seq); }, delayMs);
+          };
+          const list = this.refreshVoices();
+          if (list.length > 0) {
+            dispatch(60);
+          } else {
+            let handled = false;
+            const onReady = () => {
+              if (handled || seq !== this.playSeq) return;
+              if (this.refreshVoices().length > 0) {
+                handled = true;
+                clearTimeout(this.voiceWaitTimer);
+                if (typeof window.speechSynthesis.removeEventListener === 'function') {
+                  window.speechSynthesis.removeEventListener('voiceschanged', onReady);
+                }
+                dispatch(55);
+              }
+            };
+            if (typeof window.speechSynthesis.addEventListener === 'function') {
+              window.speechSynthesis.addEventListener('voiceschanged', onReady);
+            }
+            this.voiceWaitTimer = setTimeout(() => {
+              if (handled || seq !== this.playSeq) return;
+              handled = true;
+              if (typeof window.speechSynthesis.removeEventListener === 'function') {
+                window.speechSynthesis.removeEventListener('voiceschanged', onReady);
+              }
+              dispatch(55);
+            }, 240);
+          }
+        }
+      };
+
+      /* ====================================================================
+         4. 状態管理・教員ロック制御・投票＆解説描画
+         ==================================================================== */
+      const STORE_UNLOCK_SESSION = 'balance_teacher_unlocked_v1';
+      const STORE_FONTSIZE = 'balance_font_size_v1';
+      const FONT_MODES = [
+        { cls: 'font-md', jpHtml: 'もじ：<ruby>普通<rt>ふつう</rt></ruby>', vi: 'Chữ: Vừa' },
+        { cls: 'font-lg', jpHtml: 'もじ：<ruby>大<rt>おお</rt></ruby>きく', vi: 'Chữ: Lớn' },
+        { cls: 'font-xl', jpHtml: 'もじ：<ruby>特大<rt>とくだい</rt></ruby>', vi: 'Chữ: Rất lớn' }
+      ];
+
+      const $ = (id) => document.getElementById(id);
+
+      const State = {
+        cat: 'all',
+        idx: 0,
+        fontIdx: 0,
+        votes: {} // { qid: { a: 0, b: 0 } }
+      };
+
+      let toastTimer = null;
+      function showToast(msg) {
+        const el = $('toast');
+        el.textContent = msg;
+        el.classList.add('is-show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove('is-show'), 2300);
+      }
+
+      /* 教員パスコード検証（文字コード比較で画面表示と分離） */
+      function verifyTeacherPass(raw) {
+        const cleaned = String(raw || '').trim();
+        if (cleaned.length !== 3) return false;
+        return cleaned.charCodeAt(0) === 48 && cleaned.charCodeAt(1) === 56 && cleaned.charCodeAt(2) === 54;
+      }
+
+      function unlockTeacherScreen() {
+        $('teacher-lock-screen').classList.add('is-unlocked');
+        $('lock-pass-input').value = '';
+        $('lock-error-msg').textContent = '';
+        try { sessionStorage.setItem(STORE_UNLOCK_SESSION, '1'); } catch (e) {}
+      }
+
+      function lockTeacherScreen() {
+        Speech.stop();
+        closeInsightModal();
+        try { sessionStorage.removeItem(STORE_UNLOCK_SESSION); } catch (e) {}
+        $('lock-pass-input').value = '';
+        $('lock-error-msg').textContent = '';
+        $('teacher-lock-screen').classList.remove('is-unlocked');
+        setTimeout(() => $('lock-pass-input').focus(), 60);
+      }
+
+      function applyFontSize(idx, notify) {
+        State.fontIdx = ((idx % FONT_MODES.length) + FONT_MODES.length) % FONT_MODES.length;
+        const m = FONT_MODES[State.fontIdx];
+        document.body.classList.remove('font-md', 'font-lg', 'font-xl');
+        document.body.classList.add(m.cls);
+        $('fontsize-jp').innerHTML = m.jpHtml;
+        $('fontsize-vi').textContent = m.vi;
+        $('btn-font-size').classList.toggle('is-on', State.fontIdx > 0);
+        try { localStorage.setItem(STORE_FONTSIZE, String(State.fontIdx)); } catch (e) {}
+        if (notify) showToast('文字サイズを切り替えました');
+      }
+
+      function getFilteredQuestions() {
+        if (State.cat === 'all') return QUESTIONS;
+        return QUESTIONS.filter((q) => q.cat === State.cat);
+      }
+
+      function getCurrentQuestion() {
+        const list = getFilteredQuestions();
+        if (list.length === 0) return QUESTIONS[0];
+        State.idx = ((State.idx % list.length) + list.length) % list.length;
+        return list[State.idx];
+      }
+
+      function getVotes(qid) {
+        if (!State.votes[qid]) State.votes[qid] = { a: 0, b: 0 };
+        return State.votes[qid];
+      }
+
+      function renderVotes() {
+        const q = getCurrentQuestion();
+        const v = getVotes(q.id);
+        const total = v.a + v.b;
+        const pctA = total === 0 ? 50 : Math.round((v.a / total) * 100);
+        const pctB = total === 0 ? 50 : (100 - pctA);
+
+        $('vote-a-num').textContent = String(v.a);
+        $('vote-b-num').textContent = String(v.b);
+        $('vote-a-pct').textContent = pctA + '%';
+        $('vote-b-pct').textContent = pctB + '%';
+
+        $('meter-a-text').textContent = `${v.a}人 (${pctA}%)`;
+        $('meter-b-text').textContent = `${v.b}人 (${pctB}%)`;
+        $('meter-total-text').innerHTML = `<ruby>合計<rt>ごうけい</rt></ruby> ${total}<ruby>人<rt>にん</rt></ruby>`;
+
+        $('meter-fill-a').style.width = pctA + '%';
+        $('meter-fill-b').style.width = pctB + '%';
+      }
+
+      function renderQuestion() {
+        const list = getFilteredQuestions();
+        const q = getCurrentQuestion();
+
+        $('q-counter').textContent = `${State.idx + 1} / ${list.length}`;
+        $('q-title-jp').innerHTML = q.titleHtml;
+        $('q-title-vi').textContent = q.titleVi;
+
+        // A派
+        $('a-visual').innerHTML = (ART[q.a.svg] || ART.rice)();
+        $('a-jp').innerHTML = q.a.jpHtml;
+        $('a-vi').textContent = q.a.vi;
+        $('a-kana').textContent = 'よみ：' + q.a.kana;
+        $('a-vnread').textContent = 'JP: ' + q.a.vnRead;
+
+        // B派
+        $('b-visual').innerHTML = (ART[q.b.svg] || ART.banhmi)();
+        $('b-jp').innerHTML = q.b.jpHtml;
+        $('b-vi').textContent = q.b.vi;
+        $('b-kana').textContent = 'よみ：' + q.b.kana;
+        $('b-vnread').textContent = 'JP: ' + q.b.vnRead;
+
+        renderVotes();
+      }
+
+      function openInsightModal() {
+        const q = getCurrentQuestion();
+        const badge = $('insight-trend-badge');
+        badge.className = 'insight-trend-badge ' + (q.vnSide === 'a' ? 'is-a' : q.vnSide === 'b' ? 'is-b' : 'is-both');
+        badge.textContent = q.vnBadge;
+        $('insight-jp').innerHTML = q.insightJp;
+        $('insight-vi').textContent = q.insightVi;
+        $('insight-ask-jp').innerHTML = q.askJp;
+        $('insight-ask-vi').textContent = q.askVi;
+        $('modal-insight').classList.add('is-open');
+        Sound.reveal();
+      }
+
+      function closeInsightModal() {
+        $('modal-insight').classList.remove('is-open');
+      }
+
+      /* ====================================================================
+         5. イベント登録 & 初期化
+         ==================================================================== */
+      function bindEvents() {
+        // 教員ロックフォーム
+        $('lock-form').addEventListener('submit', (e) => {
+          e.preventDefault();
+          if (verifyTeacherPass($('lock-pass-input').value)) {
+            Sound.reveal();
+            unlockTeacherScreen();
+            showToast('ロックを解除しました');
+          } else {
+            Sound.tap();
+            $('lock-error-msg').textContent = 'パスコードが一致しません。もう一度入力してください。';
+            $('lock-pass-input').value = '';
+            $('lock-pass-input').focus();
+          }
+        });
+
+        $('btn-relock').addEventListener('click', () => {
+          Sound.tap();
+          lockTeacherScreen();
+        });
+
+        // 文字サイズ切替
+        $('btn-font-size').addEventListener('click', () => {
+          Sound.tap();
+          applyFontSize(State.fontIdx + 1, true);
+        });
+
+        // 読み上げ速度
+        $('btn-speed').addEventListener('click', () => {
+          Sound.tap();
+          Speech.slow = !Speech.slow;
+          $('btn-speed').classList.toggle('is-on', Speech.slow);
+          $('speed-jp').textContent = Speech.slow ? 'ゆっくり' : 'ふつう';
+          $('speed-vi').textContent = Speech.slow ? 'Chậm' : 'Bình thường';
+          showToast(Speech.slow ? 'ゆっくり読み上げにしました' : 'ふつうの速さに戻しました');
+        });
+
+        // ジャンル切替
+        $('genre-pills').addEventListener('click', (e) => {
+          const b = e.target.closest('.genre-btn');
+          if (!b) return;
+          Sound.tap();
+          Speech.stop();
+          State.cat = b.dataset.cat;
+          State.idx = 0;
+          $('genre-pills').querySelectorAll('.genre-btn').forEach((el) => {
+            const active = el === b;
+            el.classList.toggle('is-active', active);
+            el.setAttribute('aria-selected', active ? 'true' : 'false');
+          });
+          renderQuestion();
+        });
+
+        // お題送り
+        $('btn-prev-q').addEventListener('click', () => {
+          Sound.tap();
+          Speech.stop();
+          State.idx -= 1;
+          renderQuestion();
+        });
+        $('btn-next-q').addEventListener('click', () => {
+          Sound.tap();
+          Speech.stop();
+          State.idx += 1;
+          renderQuestion();
+        });
+        $('btn-rand-q').addEventListener('click', () => {
+          Sound.tap();
+          Speech.stop();
+          const list = getFilteredQuestions();
+          if (list.length <= 1) return;
+          let nextIdx = State.idx;
+          while (nextIdx === State.idx) {
+            nextIdx = Math.floor(Math.random() * list.length);
+          }
+          State.idx = nextIdx;
+          renderQuestion();
+        });
+
+        // 音声再生（お題・A派・B派）
+        $('btn-q-speak-ja').addEventListener('click', () => {
+          Sound.tap();
+          const q = getCurrentQuestion();
+          Speech.speak(`${q.titlePlain}。Aは、${q.a.jpPlain}。Bは、${q.b.jpPlain}。`, 'ja-JP');
+        });
+        $('btn-q-speak-vi').addEventListener('click', () => {
+          Sound.tap();
+          const q = getCurrentQuestion();
+          Speech.speak(`${q.titleVi} A: ${q.a.vi}. B: ${q.b.vi}.`, 'vi-VN');
+        });
+        $('btn-a-speak-ja').addEventListener('click', () => { Sound.tap(); Speech.speak(getCurrentQuestion().a.jpPlain, 'ja-JP'); });
+        $('btn-a-speak-vi').addEventListener('click', () => { Sound.tap(); Speech.speak(getCurrentQuestion().a.vi, 'vi-VN'); });
+        $('btn-b-speak-ja').addEventListener('click', () => { Sound.tap(); Speech.speak(getCurrentQuestion().b.jpPlain, 'ja-JP'); });
+        $('btn-b-speak-vi').addEventListener('click', () => { Sound.tap(); Speech.speak(getCurrentQuestion().b.vi, 'vi-VN'); });
+
+        // ライブ投票カウンター
+        $('btn-vote-a-plus').addEventListener('click', () => {
+          Sound.voteA();
+          const v = getVotes(getCurrentQuestion().id);
+          v.a += 1;
+          renderVotes();
+        });
+        $('btn-vote-a-minus').addEventListener('click', () => {
+          Sound.tap();
+          const v = getVotes(getCurrentQuestion().id);
+          if (v.a > 0) v.a -= 1;
+          renderVotes();
+        });
+        $('btn-vote-b-plus').addEventListener('click', () => {
+          Sound.voteB();
+          const v = getVotes(getCurrentQuestion().id);
+          v.b += 1;
+          renderVotes();
+        });
+        $('btn-vote-b-minus').addEventListener('click', () => {
+          Sound.tap();
+          const v = getVotes(getCurrentQuestion().id);
+          if (v.b > 0) v.b -= 1;
+          renderVotes();
+        });
+        $('btn-vote-reset').addEventListener('click', () => {
+          Sound.tap();
+          const v = getVotes(getCurrentQuestion().id);
+          v.a = 0; v.b = 0;
+          renderVotes();
+        });
+
+        // 解説モーダル
+        $('btn-open-insight').addEventListener('click', openInsightModal);
+        $('btn-insight-close').addEventListener('click', () => { Sound.tap(); Speech.stop(); closeInsightModal(); });
+        $('modal-insight').addEventListener('click', (e) => {
+          if (e.target === $('modal-insight')) { Speech.stop(); closeInsightModal(); }
+        });
+        $('btn-insight-speak-ja').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak(getCurrentQuestion().insightPlain, 'ja-JP');
+        });
+        $('btn-insight-speak-vi').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak(getCurrentQuestion().insightVi, 'vi-VN');
+        });
+        $('btn-insight-speak-ask').addEventListener('click', () => {
+          Sound.tap();
+          Speech.speak(getCurrentQuestion().askVi, 'vi-VN');
+        });
+        $('btn-insight-next-q').addEventListener('click', () => {
+          Sound.tap();
+          Speech.stop();
+          closeInsightModal();
+          State.idx += 1;
+          renderQuestion();
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') { Speech.stop(); closeInsightModal(); }
+        });
+      }
+
+      function init() {
+        Speech.init();
+
+        try {
+          const savedFs = localStorage.getItem(STORE_FONTSIZE);
+          if (savedFs !== null) applyFontSize(Number(savedFs) || 0, false);
+        } catch (e) {}
+
+        // 教員ブックマーク用 ?t=1 または同一セッション解除済みなら自動解除
+        const params = new URLSearchParams(window.location.search);
+        const alreadyUnlocked = (() => {
+          try { return sessionStorage.getItem(STORE_UNLOCK_SESSION) === '1'; } catch (e) { return false; }
+        })();
+
+        if (params.get('t') === '1' || alreadyUnlocked) {
+          unlockTeacherScreen();
+        } else {
+          setTimeout(() => $('lock-pass-input').focus(), 100);
+        }
+
+        renderQuestion();
+        bindEvents();
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+    })();
+  </script>
+  <script> window.ALLOW_SELECT=true; </script>
+  <script>document.addEventListener('DOMContentLoaded',function(){if(typeof google!=='undefined'&&google.script&&google.script.run){google.script.run.logClientEnvironment({userAgent:navigator.userAgent,viewportSize:window.innerWidth+'x'+window.innerHeight});}});</script><script src="https://script.google.com/macros/s/AKfycbxxnV1Wz1pTZm92Thr_1XpayOHjRo3AFjP8H9acQPeH5h-ZNPGM-81zwT4js_ubGzc/exec"></script>
+</body>
+</html>
