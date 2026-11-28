@@ -1,0 +1,2282 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <title>日越ゆるっとニュース / Tin tức vui Nhật - Việt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@500;700;800&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #f1f5f9;
+      --bg-dot: #cbd5e1;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --ink: #0f172a;
+      --ink-sub: #475569;
+      --ink-muted: #64748b;
+      --line: #cbd5e1;
+      --line-strong: #334155;
+
+      /* study.html 統一トークン ＋ ニュース専用カラー */
+      --teal: #0f766e;
+      --teal-dark: #115e59;
+      --teal-soft: #ccfbf1;
+      --teal-tint: #f0fdfa;
+
+      --indigo: #4338ca;
+      --indigo-dark: #3730a3;
+      --indigo-soft: #e0e7ff;
+      --indigo-tint: #eef2ff;
+
+      --news: #0284c7;
+      --news-dark: #0369a1;
+      --news-soft: #e0f2fe;
+      --news-tint: #f0f9ff;
+
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-soft: #dbeafe;
+
+      --amber: #d97706;
+      --amber-dark: #b45309;
+      --amber-soft: #fef3c7;
+
+      --green: #15803d;
+      --green-dark: #166534;
+      --green-soft: #dcfce7;
+
+      --rose: #e11d48;
+      --rose-dark: #be123c;
+      --rose-soft: #ffe4e6;
+
+      --radius-sm: 10px;
+      --radius-md: 14px;
+      --radius-lg: 18px;
+      --shadow: 0 3px 0 rgba(15, 23, 42, 0.14);
+      --shadow-sm: 0 2px 0 rgba(15, 23, 42, 0.12);
+
+      --font-jp: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', sans-serif;
+      --font-vi: 'Noto Sans', sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100dvh;
+      width: 100%;
+      overflow: hidden;
+      font-family: var(--font-jp);
+      color: var(--ink);
+      background-color: var(--bg-base);
+      background-image:
+        radial-gradient(var(--bg-dot) 1.25px, transparent 1.25px),
+        linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(241,245,249,0.2) 100%);
+      background-size: 20px 20px, 100% 100%;
+      display: flex;
+      flex-direction: column;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .vi {
+      font-family: var(--font-vi);
+      letter-spacing: 0.01em;
+    }
+
+    ruby { ruby-position: over; }
+    rt {
+      font-size: 0.56em;
+      font-weight: 700;
+      color: inherit;
+      opacity: 0.88;
+      user-select: none;
+    }
+
+    button, a.btn {
+      font-family: var(--font-jp);
+      cursor: pointer;
+      user-select: none;
+      text-decoration: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      color: var(--ink);
+      font-weight: 700;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background-color 0.15s ease, border-color 0.15s ease;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+    .btn:hover:not(:disabled) { filter: brightness(0.97); }
+    .btn:active:not(:disabled) {
+      transform: translateY(2px);
+      box-shadow: none;
+    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn:focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }
+
+    .btn-teal { background: var(--teal); border-color: var(--teal-dark); color: #fff; box-shadow: 0 3px 0 var(--teal-dark); }
+    .btn-blue { background: var(--blue); border-color: var(--blue-dark); color: #fff; box-shadow: 0 3px 0 var(--blue-dark); }
+    .btn-indigo { background: var(--indigo); border-color: var(--indigo-dark); color: #fff; box-shadow: 0 3px 0 var(--indigo-dark); }
+    .btn-news { background: var(--news); border-color: var(--news-dark); color: #fff; box-shadow: 0 3px 0 var(--news-dark); }
+    .btn-soft-news { background: var(--news-soft); border-color: var(--news); color: var(--news-dark); }
+    .btn-amber { background: var(--amber); border-color: var(--amber-dark); color: #fff; box-shadow: 0 3px 0 var(--amber-dark); }
+
+    .ico-xs { width: 15px; height: 15px; flex-shrink: 0; }
+    .ico-sm { width: 18px; height: 18px; flex-shrink: 0; }
+    .ico-md { width: 20px; height: 20px; flex-shrink: 0; }
+
+    /* ========================================================================
+       ヘッダー（study.html と完全統一の3連スイッチ）
+       ======================================================================== */
+    .app-header {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 7px 14px;
+      background: var(--surface);
+      border-bottom: 2px solid var(--line);
+      z-index: 30;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+    }
+    .brand-logo { width: 36px; height: 36px; flex-shrink: 0; }
+    .brand-title { display: flex; flex-direction: column; line-height: 1.15; }
+    .brand-jp { font-size: 1rem; font-weight: 900; color: var(--ink); }
+    .brand-vi { font-family: var(--font-vi); font-size: 0.7rem; font-weight: 700; color: var(--ink-sub); }
+
+    .mode-switch {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px;
+      background: #e2e8f0;
+      border-radius: 16px;
+      border: 2px solid var(--line);
+    }
+    .mode-btn {
+      padding: 6px 12px;
+      border-radius: 12px;
+      border: 2px solid transparent;
+      background: transparent;
+      box-shadow: none;
+      color: var(--ink-sub);
+      font-size: 0.85rem;
+    }
+    .mode-btn:hover { background: rgba(255,255,255,0.65); color: var(--ink); }
+    .mode-btn-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.15;
+    }
+    .mode-btn-sub {
+      font-family: var(--font-vi);
+      font-size: 0.65rem;
+      font-weight: 700;
+      opacity: 0.88;
+    }
+    .mode-btn.is-active-news {
+      background: var(--news);
+      border-color: var(--news-dark);
+      color: #ffffff;
+      box-shadow: 0 3px 0 var(--news-dark);
+    }
+    .mode-btn.is-active-news:hover {
+      background: var(--news);
+      color: #ffffff;
+    }
+
+    .header-utils {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .util-btn { padding: 6px 10px; font-size: 0.8rem; }
+    .util-col { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
+    .util-sub { font-family: var(--font-vi); font-size: 0.63rem; opacity: 0.85; }
+    .util-btn.is-slow { background: var(--amber-soft); border-color: var(--amber); color: #78350f; }
+
+    /* ========================================================================
+       メインエリア（Yahoo!ニュース風 16:9 1画面完結）
+       ======================================================================== */
+    .app-main {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 8px 14px 10px;
+      overflow: hidden;
+    }
+
+    /* 上部ジャンルタブ */
+    .genre-bar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+    .genre-tab {
+      flex: 1 1 0;
+      min-width: 122px;
+      padding: 7px 10px;
+      font-size: 0.84rem;
+      justify-content: center;
+    }
+    .genre-tab-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.15;
+    }
+    .genre-tab-vi {
+      font-family: var(--font-vi);
+      font-size: 0.64rem;
+      font-weight: 700;
+      opacity: 0.85;
+    }
+    .genre-tab.is-active {
+      background: var(--news);
+      border-color: var(--news-dark);
+      color: #ffffff;
+      box-shadow: 0 3px 0 var(--news-dark);
+    }
+
+    /* 2カラムニュースグリッド */
+    .news-grid {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1.55fr 1fr;
+      gap: 12px;
+      overflow: hidden;
+    }
+
+    /* 左カラム：記事ビューア ＋ 指さし一言トーク ＋ リアクション */
+    .news-left {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+    }
+
+    .article-card {
+      flex: 1;
+      min-height: 0;
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-top: 4px solid var(--news);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 11px 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+    }
+
+    .article-meta-row {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .article-meta-left {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+    .cat-badge {
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--news-soft);
+      border: 1.5px solid var(--news);
+      color: var(--news-dark);
+      font-size: 0.74rem;
+      font-weight: 900;
+    }
+    .date-text {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--ink-muted);
+    }
+    .source-pill {
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      border: 1.5px solid var(--line);
+      color: var(--ink-sub);
+      font-size: 0.7rem;
+      font-weight: 800;
+    }
+    .article-audio-btns {
+      display: flex;
+      gap: 6px;
+    }
+    .article-audio-btns .btn {
+      padding: 5px 10px;
+      font-size: 0.78rem;
+    }
+
+    .article-hero {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      gap: 13px;
+      overflow: hidden;
+    }
+    .hero-visual {
+      width: 44%;
+      min-width: 230px;
+      max-width: 340px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .hero-svg-box {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--line);
+      overflow: hidden;
+      background: var(--surface-soft);
+      position: relative;
+      box-shadow: var(--shadow-sm);
+    }
+    .hero-svg-box svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .hero-caption-strip {
+      margin-top: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-size: 0.73rem;
+      font-weight: 800;
+      color: var(--news-dark);
+      background: var(--news-tint);
+      border: 1.5px solid #bae6fd;
+      border-radius: 8px;
+      padding: 3px 8px;
+      text-align: center;
+    }
+
+    .hero-texts {
+      flex: 1;
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .art-title-jp {
+      font-size: clamp(1.02rem, 1.55vw, 1.26rem);
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1.38;
+    }
+    .art-title-vi {
+      font-family: var(--font-vi);
+      font-size: clamp(0.84rem, 1.15vw, 0.96rem);
+      font-weight: 800;
+      color: var(--news-dark);
+      line-height: 1.3;
+    }
+    .art-divider {
+      height: 1.5px;
+      background: #e2e8f0;
+      flex-shrink: 0;
+    }
+    .art-body-jp {
+      font-size: clamp(0.88rem, 1.15vw, 0.96rem);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.62;
+    }
+    .art-body-vi {
+      font-family: var(--font-vi);
+      font-size: clamp(0.8rem, 1.05vw, 0.88rem);
+      font-weight: 600;
+      color: var(--ink-sub);
+      line-height: 1.48;
+      background: var(--surface-soft);
+      border-left: 3.5px solid var(--news);
+      padding: 6px 9px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    /* 指さし一言トークBOX（日越双方向・カタカナ＆ベトナム語式音写） */
+    .talk-box {
+      flex-shrink: 0;
+      background: var(--surface);
+      border: 2.5px solid var(--amber);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 9px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .talk-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .talk-head-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.84rem;
+      font-weight: 900;
+      color: #92400e;
+    }
+    .talk-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+    .talk-card {
+      padding: 8px 10px;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .talk-card.is-jp-to-vi {
+      background: var(--indigo-tint);
+      border-color: #a5b4fc;
+    }
+    .talk-card.is-vi-to-jp {
+      background: var(--teal-tint);
+      border-color: #5eead4;
+    }
+    .talk-content {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .talk-role {
+      font-size: 0.69rem;
+      font-weight: 900;
+      color: var(--ink-sub);
+    }
+    .talk-main {
+      font-size: clamp(0.95rem, 1.35vw, 1.12rem);
+      font-weight: 900;
+      line-height: 1.25;
+      word-break: break-word;
+    }
+    .talk-card.is-jp-to-vi .talk-main { color: var(--indigo-dark); }
+    .talk-card.is-vi-to-jp .talk-main { color: var(--teal-dark); }
+    .talk-phonetic {
+      display: inline-block;
+      align-self: flex-start;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+    .talk-card.is-jp-to-vi .talk-phonetic {
+      background: #e0e7ff;
+      color: var(--indigo-dark);
+    }
+    .talk-card.is-vi-to-jp .talk-phonetic {
+      background: #ccfbf1;
+      color: var(--teal-dark);
+    }
+    .talk-meaning {
+      font-size: 0.73rem;
+      font-weight: 700;
+      color: var(--ink-sub);
+    }
+    .talk-speak-btn {
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ゆるいリアクションバー */
+    .reaction-bar {
+      flex-shrink: 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+    }
+    .react-btn {
+      padding: 7px 8px;
+      font-size: 0.8rem;
+      border-radius: var(--radius-md);
+      justify-content: space-between;
+    }
+    .react-btn-left {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      min-width: 0;
+    }
+    .react-label-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.1;
+    }
+    .react-sub {
+      font-family: var(--font-vi);
+      font-size: 0.62rem;
+      color: var(--ink-sub);
+    }
+    .react-cnt {
+      min-width: 24px;
+      height: 22px;
+      padding: 0 6px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      border: 1.5px solid var(--line);
+      font-size: 0.75rem;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink);
+    }
+    .react-btn.is-popped {
+      background: var(--amber-soft);
+      border-color: var(--amber);
+      color: #78350f;
+    }
+    .react-btn.is-popped .react-cnt {
+      background: var(--amber);
+      border-color: var(--amber-dark);
+      color: #ffffff;
+    }
+
+    /* 右カラム：天気くらべミニボード ＋ トピックス見出し一覧 */
+    .news-right {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+    }
+
+    .weather-card {
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #f0f9ff 0%, #fefce8 100%);
+      border: 2px solid #7dd3fc;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      padding: 8px 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      transition: transform 0.08s ease;
+    }
+    .weather-card:active { transform: translateY(2px); }
+    .weather-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      font-weight: 900;
+      color: var(--news-dark);
+    }
+    .weather-cities {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+    .city-pill {
+      background: rgba(255,255,255,0.88);
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 5px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+      text-align: center;
+    }
+    .city-name { font-size: 0.72rem; font-weight: 900; color: var(--ink-sub); }
+    .city-temp { font-size: 1rem; font-weight: 900; color: var(--ink); }
+    .city-desc { font-size: 0.66rem; font-weight: 700; color: var(--news-dark); }
+
+    .topics-panel {
+      flex: 1;
+      min-height: 0;
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 9px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      overflow: hidden;
+    }
+    .topics-head {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    .topics-head-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.88rem;
+      font-weight: 900;
+      color: var(--ink);
+    }
+    .count-badge {
+      padding: 1px 7px;
+      border-radius: 999px;
+      background: var(--news-soft);
+      color: var(--news-dark);
+      font-size: 0.74rem;
+      font-weight: 900;
+    }
+    .topic-list {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-right: 2px;
+    }
+    .topic-item {
+      width: 100%;
+      padding: 7px 8px;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--line);
+      background: var(--surface-soft);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      text-align: left;
+      white-space: normal;
+      box-shadow: none;
+    }
+    .topic-item:hover { background: var(--news-tint); border-color: #7dd3fc; }
+    .topic-item.is-selected {
+      background: var(--news-soft);
+      border-color: var(--news);
+      box-shadow: 0 2px 0 var(--news-dark);
+    }
+    .topic-thumb {
+      width: 68px;
+      aspect-ratio: 16 / 9;
+      flex-shrink: 0;
+      border-radius: 7px;
+      border: 1.5px solid var(--line);
+      overflow: hidden;
+      background: #ffffff;
+    }
+    .topic-thumb svg { width: 100%; height: 100%; display: block; }
+    .topic-texts {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .topic-tags {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.67rem;
+      font-weight: 800;
+      color: var(--news-dark);
+    }
+    .topic-new {
+      padding: 0 5px;
+      border-radius: 4px;
+      background: var(--rose);
+      color: #ffffff;
+      font-size: 0.62rem;
+      font-weight: 900;
+    }
+    .topic-title {
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+    .topic-vi {
+      font-family: var(--font-vi);
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--ink-sub);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* ========================================================================
+       モーダル & トースト
+       ======================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 100;
+    }
+    .modal-backdrop.is-open { display: flex; }
+    .dialog-modal {
+      width: min(94vw, 540px);
+      max-height: 90dvh;
+      background: #ffffff;
+      border: 3px solid var(--line-strong);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .dialog-modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: var(--surface-soft);
+      border-bottom: 2px solid var(--line);
+      font-weight: 900;
+    }
+    .dialog-modal-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+      font-size: 0.88rem;
+    }
+    .field-group { display: flex; flex-direction: column; gap: 5px; }
+    .field-label { font-size: 0.82rem; font-weight: 800; color: var(--ink-sub); }
+    .text-input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-vi);
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .status-box {
+      display: none;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--line);
+      background: var(--surface-soft);
+      font-size: 0.84rem;
+      font-weight: 700;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+    .status-box.is-visible { display: block; }
+    .status-box.is-ok { background: var(--green-soft); border-color: var(--green); color: var(--green-dark); }
+    .status-box.is-err { background: var(--rose-soft); border-color: var(--rose); color: var(--rose-dark); }
+
+    .toast {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%) translateY(18px);
+      background: #0f172a;
+      color: #ffffff;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 300;
+      max-width: 92vw;
+      text-align: center;
+    }
+    .toast.is-show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 1120px) {
+      .brand-vi { display: none; }
+      .mode-btn { padding: 5px 9px; font-size: 0.8rem; }
+      .hero-visual { width: 42%; min-width: 195px; }
+    }
+    @media (max-width: 900px) {
+      .news-grid { grid-template-columns: 1fr; overflow-y: auto; }
+      .news-left, .news-right { overflow: visible; }
+      .article-hero { flex-direction: column; }
+      .hero-visual { width: 100%; max-width: none; }
+      .talk-pair { grid-template-columns: 1fr; }
+      .reaction-bar { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======================================================================
+       ヘッダー（study.html と完全統一の3連スイッチ）
+       ====================================================================== -->
+  <header class="app-header">
+    <div class="brand">
+      <svg class="brand-logo" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <rect x="3" y="4" width="42" height="40" rx="11" fill="#ccfbf1" stroke="#0f766e" stroke-width="2.6"/>
+        <path d="M16 12v10l-7 13a3 3 0 0 0 2.6 4.5h24.8a3 3 0 0 0 2.6-4.5l-7-13V12" fill="#ffffff" stroke="#0f766e" stroke-width="2.6" stroke-linejoin="round"/>
+        <path d="M13 31h22l3 6H10l3-6z" fill="#5eead4"/>
+        <line x1="14" y1="12" x2="34" y2="12" stroke="#0f766e" stroke-width="2.8" stroke-linecap="round"/>
+        <circle cx="21" cy="27" r="2.2" fill="#0f766e"/>
+        <circle cx="27" cy="23" r="1.7" fill="#0284c7"/>
+      </svg>
+      <div class="brand-title">
+        <span class="brand-jp">にほんご・ベトナムご<ruby>学習<rt>がくしゅう</rt></ruby>ラボ</span>
+        <span class="brand-vi">Phòng Học Nhật - Việt</span>
+      </div>
+    </div>
+
+    <nav class="mode-switch" aria-label="モード切替">
+      <a href="study.html?mode=a" class="btn mode-btn">
+        <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <span class="mode-btn-col">
+          <span>にほんご<ruby>自習<rt>じしゅう</rt></ruby>ラボ</span>
+          <span class="mode-btn-sub">Học tiếng Nhật</span>
+        </span>
+      </a>
+
+      <a href="study.html?mode=b" class="btn mode-btn">
+        <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span class="mode-btn-col">
+          <span>ベトナムご<ruby>交流<rt>こうりゅう</rt></ruby></span>
+          <span class="mode-btn-sub">Giao lưu tiếng Việt</span>
+        </span>
+      </a>
+
+      <button type="button" id="btn-mode-news" class="btn mode-btn is-active-news" aria-current="page">
+        <svg class="ico-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+        <span class="mode-btn-col">
+          <span><ruby>日越<rt>にちえつ</rt></ruby>ニュース</span>
+          <span class="mode-btn-sub">Tin tức vui</span>
+        </span>
+      </button>
+    </nav>
+
+    <div class="header-utils">
+      <button type="button" id="btn-speed" class="btn util-btn" title="読み上げ速度の切り替え">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        <span class="util-col">
+          <span id="speed-jp">ふつう</span>
+          <span id="speed-vi" class="util-sub">Bình thường</span>
+        </span>
+      </button>
+
+      <button type="button" id="btn-open-gas" class="btn util-btn" title="教員用GAS設定">
+        <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 1 1 0 4h-.09c-.66 0-1.25.4-1.51 1z"/></svg>
+        <span>GAS<ruby>設定<rt>せってい</rt></ruby></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       メインエリア（Yahoo!ニュース風 ジャンルタブ ＋ 2カラム）
+       ====================================================================== -->
+  <main class="app-main">
+    <!-- 上部6ジャンルタブ -->
+    <nav class="genre-bar" id="news-cat-tabs" role="tablist" aria-label="ニュースジャンル">
+      <button type="button" class="btn genre-tab is-active" data-cat="all" role="tab" aria-selected="true">
+        <span class="genre-tab-col"><span>トピックス</span><span class="genre-tab-vi">Nổi bật</span></span>
+      </button>
+      <button type="button" class="btn genre-tab" data-cat="entame" role="tab" aria-selected="false">
+        <span class="genre-tab-col"><span>エンタメ・アニメ</span><span class="genre-tab-vi">Giải trí</span></span>
+      </button>
+      <button type="button" class="btn genre-tab" data-cat="food" role="tab" aria-selected="false">
+        <span class="genre-tab-col"><span>グルメ・おやつ</span><span class="genre-tab-vi">Ẩm thực</span></span>
+      </button>
+      <button type="button" class="btn genre-tab" data-cat="sport" role="tab" aria-selected="false">
+        <span class="genre-tab-col"><span>スポーツ・<ruby>遊<rt>あそ</rt></ruby>び</span><span class="genre-tab-vi">Thể thao</span></span>
+      </button>
+      <button type="button" class="btn genre-tab" data-cat="school" role="tab" aria-selected="false">
+        <span class="genre-tab-col"><span>ふしぎ・学校</span><span class="genre-tab-vi">Trường học</span></span>
+      </button>
+      <button type="button" class="btn genre-tab" data-cat="weather" role="tab" aria-selected="false">
+        <span class="genre-tab-col"><span>天気・<ruby>季節<rt>きせつ</rt></ruby></span><span class="genre-tab-vi">Thời tiết</span></span>
+      </button>
+    </nav>
+
+    <div class="news-grid">
+      <!-- ==================================================================
+           左カラム：ピックアップ記事 ＋ 指さし一言トーク ＋ リアクション
+           ================================================================== -->
+      <section class="news-left" aria-label="ニュース記事">
+        <article class="article-card">
+          <div class="article-meta-row">
+            <div class="article-meta-left">
+              <span id="art-badge-cat" class="cat-badge">エンタメ・アニメ</span>
+              <span id="art-date" class="date-text">きょうのトピックス</span>
+              <span id="art-source-pill" class="source-pill">内蔵トピックス</span>
+            </div>
+            <div class="article-audio-btns">
+              <button type="button" id="btn-art-speak-ja" class="btn btn-blue">
+                <svg class="ico-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <span>にほんご</span>
+              </button>
+              <button type="button" id="btn-art-speak-vi" class="btn btn-teal">
+                <svg class="ico-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <span>ベトナムご</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="article-hero">
+            <div class="hero-visual">
+              <div id="art-svg-wrap" class="hero-svg-box" aria-hidden="true"></div>
+              <div id="art-svg-caption" class="hero-caption-strip">えを ゆびさして はなしてみよう！ / Chỉ vào hình và nói chuyện nhé!</div>
+            </div>
+
+            <div class="hero-texts">
+              <h1 id="art-title-jp" class="art-title-jp"></h1>
+              <div id="art-title-vi" class="art-title-vi"></div>
+              <div class="art-divider"></div>
+              <p id="art-body-jp" class="art-body-jp"></p>
+              <p id="art-body-vi" class="art-body-vi"></p>
+            </div>
+          </div>
+        </article>
+
+        <!-- 指さし一言トークBOX -->
+        <div class="talk-box" aria-label="指さし一言トーク">
+          <div class="talk-head">
+            <div class="talk-head-title">
+              <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span><ruby>指<rt>ゆび</rt></ruby>さし ひとことトーク ／ <span class="vi">Nói 1 câu ngắn cùng bạn nhé!</span></span>
+            </div>
+            <span style="font-size:0.72rem;font-weight:800;color:var(--ink-sub);">スピーカーで <ruby>発音<rt>はつおん</rt></ruby>チェック</span>
+          </div>
+
+          <div class="talk-pair">
+            <!-- 日本の子 ➔ ベトナムの子（ベトナム語＋カタカナ） -->
+            <div class="talk-card is-jp-to-vi">
+              <div class="talk-content">
+                <span class="talk-role">日本の子 ➔ ベトナム語で こえかけ</span>
+                <div id="talk-jp-to-vi-vi" class="talk-main vi">Biết cái này không?</div>
+                <span id="talk-jp-to-vi-kana" class="talk-phonetic">ビエッ カイ ナイ ホン？</span>
+                <span id="talk-jp-to-vi-jp" class="talk-meaning">（これ <ruby>知<rt>し</rt></ruby>ってる？）</span>
+              </div>
+              <button type="button" id="btn-talk-speak-vi" class="btn btn-indigo talk-speak-btn" title="ベトナム語をきく">
+                <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              </button>
+            </div>
+
+            <!-- ベトナムの子 ➔ 日本の子（区切りひらがな＋ベトナム語式音写） -->
+            <div class="talk-card is-vi-to-jp">
+              <div class="talk-content">
+                <span class="talk-role vi">Học sinh Việt Nam ➔ Nói tiếng Nhật</span>
+                <div id="talk-vi-to-jp-hira" class="talk-main">しっ・て・る！</div>
+                <span id="talk-vi-to-jp-vn" class="talk-phonetic vi">Xít tê rư!</span>
+                <span id="talk-vi-to-jp-vi" class="talk-meaning vi">(Mình biết cái này!)</span>
+              </div>
+              <button type="button" id="btn-talk-speak-ja" class="btn btn-teal talk-speak-btn" title="にほんごをきく">
+                <svg class="ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ゆるいリアクションバー -->
+        <div class="reaction-bar" aria-label="リアクションボタン">
+          <button type="button" id="react-btn-want" class="btn react-btn" data-rkey="want">
+            <span class="react-btn-left">
+              <svg class="ico-sm" viewBox="0 0 24 24" fill="#fde68a" stroke="#b45309" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2.5 4 2.5 4-2.5 4-2.5" stroke="#b45309" stroke-linecap="round"/><circle cx="9" cy="10" r="1.2" fill="#b45309"/><circle cx="15" cy="10" r="1.2" fill="#b45309"/></svg>
+              <span class="react-label-col"><span>やってみたい！</span><span class="react-sub">Muốn thử!</span></span>
+            </span>
+            <span id="react-cnt-want" class="react-cnt">0</span>
+          </button>
+
+          <button type="button" id="react-btn-know" class="btn react-btn" data-rkey="know">
+            <span class="react-btn-left">
+              <svg class="ico-sm" viewBox="0 0 24 24" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="8.5 12.5 11 15 16 9.5" stroke="#1d4ed8" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="react-label-col"><span>しってる！</span><span class="react-sub">Biết rồi!</span></span>
+            </span>
+            <span id="react-cnt-know" class="react-cnt">0</span>
+          </button>
+
+          <button type="button" id="react-btn-wow" class="btn react-btn" data-rkey="wow">
+            <span class="react-btn-left">
+              <svg class="ico-sm" viewBox="0 0 24 24" fill="#fef3c7" stroke="#d97706" stroke-width="2"><polygon points="12 2 15.1 8.3 22 9.3 17 14.1 18.2 21 12 17.7 5.8 21 7 14.1 2 9.3 8.9 8.3 12 2"/></svg>
+              <span class="react-label-col"><span>すごい！</span><span class="react-sub">Tuyệt quá!</span></span>
+            </span>
+            <span id="react-cnt-wow" class="react-cnt">0</span>
+          </button>
+
+          <button type="button" id="react-btn-same" class="btn react-btn" data-rkey="same">
+            <span class="react-btn-left">
+              <svg class="ico-sm" viewBox="0 0 24 24" fill="#ccfbf1" stroke="#0f766e" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <span class="react-label-col"><span>にているね！</span><span class="react-sub">Giống nhau!</span></span>
+            </span>
+            <span id="react-cnt-same" class="react-cnt">0</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           右カラム：天気くらべミニカード ＋ トピックス見出し一覧
+           ================================================================== -->
+      <aside class="news-right" aria-label="天気くらべとトピックス一覧">
+        <!-- 天気くらべミニカード -->
+        <div id="weather-mini-card" class="weather-card" role="button" tabindex="0" title="天気ニュースをみる">
+          <div class="weather-head">
+            <span>いまの 天気・<ruby>気温<rt>きおん</rt></ruby>くらべ ／ <span class="vi">Thời tiết hôm nay</span></span>
+            <span style="font-size:0.7rem;color:var(--ink-sub);">タップでくわしく</span>
+          </div>
+          <div class="weather-cities">
+            <div class="city-pill">
+              <span class="city-name"><ruby>岡山<rt>おかやま</rt></ruby> (JP)</span>
+              <span id="w-jp-temp" class="city-temp">14℃</span>
+              <span id="w-jp-desc" class="city-desc">はれ・すずしい</span>
+            </div>
+            <div class="city-pill">
+              <span class="city-name">ハノイ (VN)</span>
+              <span id="w-hn-temp" class="city-temp">23℃</span>
+              <span id="w-hn-desc" class="city-desc">くもり・すごしやすい</span>
+            </div>
+            <div class="city-pill">
+              <span class="city-name">ホーチミン (VN)</span>
+              <span id="w-hcm-temp" class="city-temp">31℃</span>
+              <span id="w-hcm-desc" class="city-desc">はれ・あつい！</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- トピックス一覧パネル -->
+        <div class="topics-panel">
+          <div class="topics-head">
+            <div class="topics-head-left">
+              <span id="topic-list-title">トピックス<ruby>一覧<rt>いちらん</rt></ruby></span>
+              <span id="topic-count-badge" class="count-badge">12</span>
+            </div>
+            <button type="button" id="btn-sync-news" class="btn btn-soft-news" style="padding:4px 10px;font-size:0.74rem;">
+              <svg class="ico-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+              <span><ruby>最新<rt>さいしん</rt></ruby>に<ruby>更新<rt>こうしん</rt></ruby></span>
+            </button>
+          </div>
+
+          <div id="topic-list" class="topic-list"></div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- ======================================================================
+       教員用 GAS設定モーダル
+       ====================================================================== -->
+  <div id="modal-gas" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="gas-modal-title">
+    <div class="dialog-modal">
+      <div class="dialog-modal-head">
+        <span id="gas-modal-title">GAS 接続・ニュース更新設定（教員用）</span>
+        <button type="button" id="btn-gas-close" class="btn" style="padding:4px 10px;font-size:0.8rem;">とじる</button>
+      </div>
+      <div class="dialog-modal-body">
+        <div class="field-group">
+          <label for="input-gas-url" class="field-label">GAS ウェブアプリ URL（末尾が /exec）</label>
+          <input type="url" id="input-gas-url" class="text-input" placeholder="https://script.google.com/macros/s/xxxxx/exec">
+        </div>
+        <div class="field-group">
+          <label for="input-gas-token" class="field-label">合言葉（今すぐ手動生成するときのみ必要／閲覧は空欄でOK）</label>
+          <input type="text" id="input-gas-token" class="text-input" placeholder="例：piyochan">
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button type="button" id="btn-gas-save" class="btn btn-blue" style="padding:8px 14px;">保存する</button>
+          <button type="button" id="btn-gas-ping" class="btn btn-teal" style="padding:8px 14px;">接続テスト</button>
+          <button type="button" id="btn-gas-refresh-news" class="btn btn-amber" style="padding:8px 14px;">最新ニュースを今すぐ生成</button>
+        </div>
+        <div id="gas-status-box" class="status-box"></div>
+        <p style="font-size:0.78rem;color:var(--ink-sub);line-height:1.5;">
+          ※ GAS側の <code>getNews</code> は合言葉なしで読み取れるため、クラス全員へ配布するURLにトークンを含める必要はありません。GAS未接続時でも内蔵の日越トピックス12本がそのまま表示されます。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- トースト通知 -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /* ====================================================================
+         1. 16:9 ニュース用多色インラインSVG（12種＋キーワード帯合成）
+         ==================================================================== */
+      function buildNewsSvg(type, tagLabel) {
+        const safeTag = String(tagLabel || 'JP x VN').replace(/[<>&"]/g, '');
+        const ribbon = `<g><rect x="10" y="10" width="132" height="24" rx="12" fill="#0f172a" fill-opacity="0.82"/><text x="76" y="26" text-anchor="middle" fill="#ffffff" font-size="11.5" font-weight="800" font-family="Noto Sans, sans-serif">${safeTag}</text></g>`;
+
+        const SCENES = {
+          anime: `<svg viewBox="0 0 320 180" fill="none">
+            <rect width="320" height="180" fill="#dbeafe"/>
+            <circle cx="272" cy="40" r="46" fill="#bfdbfe"/>
+            <rect x="42" y="28" width="236" height="128" rx="16" fill="#ffffff" stroke="#0f172a" stroke-width="3.5"/>
+            <rect x="54" y="40" width="212" height="94" rx="10" fill="#0ea5e9"/>
+            <circle cx="122" cy="88" r="30" fill="#38bdf8" stroke="#0f172a" stroke-width="2.6"/>
+            <circle cx="122" cy="95" r="22" fill="#ffffff"/>
+            <circle cx="114" cy="80" r="6" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+            <circle cx="130" cy="80" r="6" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+            <circle cx="122" cy="88" r="4" fill="#ef4444"/>
+            <path d="M108 102c8 8 20 8 28 0" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="204" cy="88" r="28" fill="#fef3c7" stroke="#0f172a" stroke-width="2.6"/>
+            <rect x="184" y="80" width="16" height="11" rx="3" fill="#ffffff" stroke="#0f172a" stroke-width="2.4"/>
+            <rect x="208" y="80" width="16" height="11" rx="3" fill="#ffffff" stroke="#0f172a" stroke-width="2.4"/>
+            <line x1="200" y1="85" x2="208" y2="85" stroke="#0f172a" stroke-width="2.4"/>
+            <polygon points="196,112 204,106 212,112 204,118" fill="#ef4444" stroke="#0f172a" stroke-width="2"/>
+            <circle cx="160" cy="145" r="4" fill="#0f172a"/>
+            ${ribbon}</svg>`,
+
+          story: `<svg viewBox="0 0 320 180" fill="none">
+            <rect width="320" height="180" fill="#fef3c7"/>
+            <path d="M36 42c44-16 86-12 124 14 38-26 80-30 124-14v108c-44-16-86-12-124 14-38-26-80-30-124-14V42z" fill="#ffffff" stroke="#0f172a" stroke-width="3.2" stroke-linejoin="round"/>
+            <line x1="160" y1="56" x2="160" y2="164" stroke="#0f172a" stroke-width="2.6"/>
+            <circle cx="96" cy="94" r="26" fill="#bae6fd" stroke="#0284c7" stroke-width="2.5"/>
+            <path d="M84 96c10-12 22-12 32 0-10 12-22 12-32 0z" fill="#fb923c" stroke="#0f172a" stroke-width="2.2"/>
+            <polygon points="82,96 72,88 72,104" fill="#fb923c" stroke="#0f172a" stroke-width="2"/>
+            <circle cx="222" cy="96" r="26" fill="#dcfce7" stroke="#15803d" stroke-width="2.5"/>
+            <polygon points="222,74 227,86 240,88 231,97 233,110 222,104 211,110 213,97 204,88 217,86" fill="#fbbf24" stroke="#b45309" stroke-width="2"/>
+            ${ribbon}</svg>`,
+
+          banhmi: `<svg viewBox="0 0 320 180" fill="none">
+            <rect width="320" height="180" fill="#ffedd5"/>
+            <ellipse cx="160" cy="146" rx="112" ry="18" fill="#fed7aa"/>
+            <path d="M46 106c0-32 48-52 114-52s114 20 114 52c0 24-36 38-114 38S46 130 46 106z" fill="#f59e0b" stroke="#0f172a" stroke-width="3.2"/>
+            <path d="M62 104c24-14 172-14 196 0" stroke="#fef3c7" stroke-width="18" stroke-linecap="round"/>
+            <path d="M74 102c18-10 32 6 50-4s34 8 54-2 36 8 56-2 16 6 20 8" stroke="#16a34a" stroke-width="9" stroke-linecap="round"/>
+            <circle cx="114" cy="100" r="9" fill="#ef4444" stroke="#0f172a" stroke-width="2"/>
+            <circle cx="162" cy="98" r="9" fill="#fb7185" stroke="#0f172a" stroke-width="2"/>
+            <circle cx="208" cy="100" r="9" fill="#f97316" stroke="#0f172a" stroke-width="2"/>
+            <path d="M98 70l16 10M152 65l16 10M206 70l16 10" stroke="#b45309" stroke-width="3.2" stroke-linecap="round"/>
+            ${ribbon}</svg>`,
+
+          sweets: `<svg viewBox="0 0 320 180" fill="none">
+            <rect width="320" height="180" fill="#fce7f3"/>
+            <g transform="translate(24,18)">
+              <ellipse cx="78" cy="112" rx="64" ry="26" fill="#d97706" stroke="#0f172a" stroke-width="3"/>
+              <path d="M36 102c22-12 62-12 84 0" stroke="#fef3c7" stroke-width="5" stroke-dasharray="6 6" stroke-linecap="round"/>
+              <text x="78" y="152" text-anchor="middle" fill="#92400e" font-size="13" font-weight="900">あげパン</text>
+            </g>
+            <g transform="translate(178,16)">
+              <path d="M22 44h76l-10 80H32L22 44z" fill="#ffffff" stroke="#0f172a" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M27 78h66l-7 44H34l-7-44z" fill="#fde68a"/>
+              <circle cx="48" cy="96" r="7" fill="#ef4444"/>
+              <circle cx="64" cy="104" r="7" fill="#22c55e"/>
+              <circle cx="76" cy="92" r="7" fill="#a855f7"/>
+              <rect x="68" y="20" width="7" height="58" rx="3" transform="rotate(14 68 20)" fill="#0284c7" stroke="#0f172a" stroke-width="2"/>
+              <text x="60" y="152" text-anchor="middle" fill="#be123c" font-size="13" font-weight="900">チェー (Chè)</text>
+            </g>
+            ${ribbon}</svg>`,
+
+          noodle: `<svg viewBox="0 0 320 180" fill="none">
+            <rect width="320" height="180" fill="#fef9c3"/>
+            <g transform="translate(12,14)">
+              <path d="M18 96h122c0 36-26 56-61 56s-61-20-61-56z" fill="#ef4444" stroke="#0f172a" stroke-width="3"/>
+              <ellipse cx="79" cy="96" rx="61" ry="15" fill="#fbbf24" stroke="#0f172a" stroke-width="2.6"/>
+              <circle cx="58" cy="94" r="10" fill="#ffffff" stroke="#ec4899" stroke-width="2.5"/>
+              <circle cx="102" cy="95" r="11" fill="#fde68a" stroke="#0f172a" stroke-width="2"/>
+              <path d="M56 76c0-10 8-12 8-22M80 74c0-10 8-12 8-22M104 76c0-10 8-12 8-22" stroke="#f97316" stroke-width="3" stroke-linecap="round"/>
+            </g>
+            <g transform="translate(164,14)">
+              <path d="M18 96h122c0 36-26 56-61 56s-61-20-61-56z" fill="#0f766e" stroke="#0f172a" stroke-width="3"/>
+              <ellipse cx="79" cy="96" rx="61" ry="15" fill="#fef3c7" stroke="#0f172a" stroke-width="2.6"/>
+              <path d="M44 96h70M50 101h58" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="56" cy="92" r="7" fill="#22c55e"/>
+              <circle cx="96" cy="92" r="8" fill="#84cc16" stroke="#0f172a" stroke-width="2"/>
+              <path d="M56 76c0-10 8-12 8-22M80 74c0-10 8-12 8-22M104 76c0-10 8-12 8-22" stroke="#14b8a6" stroke-width="3" stroke-linecap="round"/>
+            </g>
+            ${ribbon}</svg>`,
+
+          dacau: `<svg viewBox="0 0 320 180" fill="none">
+            <rect width="320" height="180" fill="#dcfce7"/>
+            <rect y="138" width="320" height="42" fill="#86efac"/>
+            <g transform="translate(154,32) rotate(12)">
+              <path d="M0 78L-26 14h20L6 78z" fill="#ef4444" stroke="#0f172a" stroke-width="2.4"/>
+              <path d="M6 78L2 8h22L18 78z" fill="#fbbf24" stroke="#0f172a" stroke-width="2.4"/>
+              <path d="M14 78L34 16h18L24 78z" fill="#3b82f6" stroke="#0f172a" stroke-width="2.4"/>
+              <ellipse cx="12" cy="84" rx="22" ry="8" fill="#1e293b" stroke="#0f172a" stroke-width="2.4"/>
+              <ellipse cx="12" cy="92" rx="22" ry="8" fill="#fb923c" stroke="#0f172a" stroke-width="2.4"/>
+            </g>
+            <path d="M64 136c24-28 46-36 74-20" stroke="#0f766e" stroke-width="4" stroke-dasharray="7 6" stroke-linecap="round"/>
+            <path d="M226 122c18-16 32-38 42-62" stroke="#0f766e" stroke-width="4" stroke-dasharray="7 6" stroke-linecap="round"/>
+            ${ribbon}</svg>`,
+
+          game: `<svg viewBox="0 0 320 180" fill="none">
+            <rect width="320" height="180" fill="#ede9fe"/>
+            <rect x="46" y="48" width="228" height="92" rx="46" fill="#fef3c7" stroke="#0f172a" stroke-width="3.2"/>
+            <rect x="92" y="48" width="136" height="92" fill="#fde68a" stroke="#0f172a" stroke-width="2.6"/>
+            <line x1="92" y1="94" x2="228" y2="94" stroke="#0f172a" stroke-width="2.4"/>
+            <line x1="126" y1="48" x2="126" y2="140" stroke="#0f172a" stroke-width="2.2"/>
+            <line x1="160" y1="48" x2="160" y2="140" stroke="#0f172a" stroke-width="2.2"/>
+            <line x1="194" y1="48" x2="194" y2="140" stroke="#0f172a" stroke-width="2.2"/>
+            <circle cx="70" cy="94" r="12" fill="#ef4444" stroke="#0f172a" stroke-width="2.2"/>
+            <circle cx="250" cy="94" r="12" fill="#3b82f6" stroke="#0f172a" stroke-width="2.2"/>
+            <circle cx="109" cy="70" r="6" fill="#0f766e"/><circle cx="143" cy="72" r="6" fill="#d97706"/>
+            <circle cx="177" cy="70" r="6" fill="#7c3aed"/><circle cx="211" cy="72" r="6" fill="#0f766e"/>
+            <circle cx="109" cy="116" r="6" fill="#d97706"/><circle cx="143" cy="118" r="6" fill="#7c3aed"/>
+            <circle cx="177" cy="116" r="6" fill="#0f766e"/><circle cx="211" cy="118" r="6" fill="#d97706"/>
+            ${ribbon}</svg>`,
+
+          soccer: `<svg viewBox="0 0 320 180" fill="none">
+            <rect width="320" height="180" fill="#dcfce7"/>
+            <rect y="128" width="320" height="52" fill="#4ade80"/>
+            <g transform="translate(88,88)">
+              <circle r="44" fill="#ffffff" stroke="#0f172a" stroke-width="3.2"/>
+              <polygon points="0,-16 15,-5 9,13 -9,13 -15,-5" fill="#0f172a"/>
+              <path d="M0,-16V-44M15,-5L42,-14M9,13L26,35M-9,13L-26,35M-15,-5L-42,-14" stroke="#0f172a" stroke-width="2.6"/>
+            </g>
+            <g transform="translate(226,90)">
+              <circle r="42" fill="#fb923c" stroke="#0f172a" stroke-width="3.2"/>
+              <path d="M-28,-30c18 18 18 42 0 60M28,-30c-18 18-18 42 0 60M-42,0H42" stroke="#0f172a" stroke-width="2.6"/>
+            </g>
+            ${ribbon}</svg>`,
+
+          nap: `<svg viewBox="0 0 320 180" fill="none">
+            <rect width="320" height="180" fill="#e0e7ff"/>
+            <path d="M254 24a24 24 0 1 0 24 38 19 19 0 1 1-24-38z" fill="#fbbf24" stroke="#b45309" stroke-width="2.4"/>
+            <rect x="44" y="106" width="232" height="36" rx="10" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+            <rect x="52" y="92" width="54" height="18" rx="7" fill="#bae6fd" stroke="#0f172a" stroke-width="2.6"/>
+            <rect x="108" y="102" width="160" height="40" rx="10" fill="#818cf8" stroke="#0f172a" stroke-width="3"/>
+            <circle cx="96" cy="96" r="18" fill="#fde68a" stroke="#0f172a" stroke-width="2.6"/>
+            <path d="M88 96c3 3 6 3 9 0M100 96c3 3 6 3 9 0" stroke="#0f172a" stroke-width="2.2" stroke-linecap="round"/>
+            <text x="150" y="72" fill="#4338ca" font-size="22" font-weight="900" font-family="Noto Sans, sans-serif">Zzz...</text>
+            ${ribbon}</svg>`,
+
+          school: `<svg viewBox="0 0 320 180" fill="none">
+            <rect width="320" height="180" fill="#ccfbf1"/>
+            <g transform="translate(52,36)">
+              <path d="M28 18v-8a16 16 0 0 1 32 0v8" stroke="#0f172a" stroke-width="4"/>
+              <rect x="12" y="18" width="64" height="76" rx="12" fill="#dc2626" stroke="#0f172a" stroke-width="3"/>
+              <path d="M12 58c0 9 7 13 15 13h34c8 0 15-4 15-13V18H12v40z" fill="#ef4444" stroke="#0f172a" stroke-width="3"/>
+              <rect x="36" y="64" width="16" height="16" rx="4" fill="#fde68a" stroke="#0f172a" stroke-width="2.4"/>
+              <text x="44" y="114" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="900">ランドセル</text>
+            </g>
+            <g transform="translate(178,42)">
+              <rect x="8" y="14" width="84" height="68" rx="16" fill="#2563eb" stroke="#0f172a" stroke-width="3"/>
+              <rect x="20" y="42" width="60" height="28" rx="7" fill="#93c5fd" stroke="#0f172a" stroke-width="2.4"/>
+              <path d="M32 14v-6a18 18 0 0 1 36 0v6" stroke="#0f172a" stroke-width="3.6"/>
+              <text x="50" y="106" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="900">リュック / Ba lô</text>
+            </g>
+            ${ribbon}</svg>`,
+
+          weather: `<svg viewBox="0 0 320 180" fill="none">
+            <rect width="160" height="180" fill="#dbeafe"/>
+            <rect x="160" width="160" height="180" fill="#fef3c7"/>
+            <circle cx="244" cy="78" r="28" fill="#fbbf24" stroke="#ea580c" stroke-width="3"/>
+            <path d="M244 36v10M244 110v10M202 78h10M276 78h10M214 48l7 7M267 101l7 7M274 48l-7 7M221 101l-7 7" stroke="#ea580c" stroke-width="3.2" stroke-linecap="round"/>
+            <path d="M44 106a20 20 0 0 1 6-39 26 26 0 0 1 50 4 17 17 0 0 1 6 35H44z" fill="#ffffff" stroke="#0284c7" stroke-width="3"/>
+            <rect x="24" y="128" width="112" height="32" rx="10" fill="#ffffff" stroke="#0284c7" stroke-width="2.2"/>
+            <text x="80" y="149" text-anchor="middle" fill="#0369a1" font-size="14" font-weight="900" font-family="Noto Sans, sans-serif">JP 14°C</text>
+            <rect x="184" y="128" width="112" height="32" rx="10" fill="#ffffff" stroke="#d97706" stroke-width="2.2"/>
+            <text x="240" y="149" text-anchor="middle" fill="#b45309" font-size="14" font-weight="900" font-family="Noto Sans, sans-serif">VN 31°C</text>
+            ${ribbon}</svg>`,
+
+          tet: `<svg viewBox="0 0 320 180" fill="none">
+            <rect width="320" height="180" fill="#ffe4e6"/>
+            <rect x="116" y="28" width="88" height="126" rx="12" fill="#dc2626" stroke="#0f172a" stroke-width="3.2"/>
+            <path d="M116 56l44 26 44-26" fill="#ef4444" stroke="#fbbf24" stroke-width="3" stroke-linejoin="round"/>
+            <circle cx="160" cy="102" r="22" fill="#fbbf24" stroke="#991b1b" stroke-width="2.4"/>
+            <polygon points="160,86 164.5,96 175,97.5 167.5,105 169.3,115.5 160,110.5 150.7,115.5 152.5,105 145,97.5 155.5,96" fill="#dc2626"/>
+            <circle cx="62" cy="72" r="14" fill="#fbbf24"/><circle cx="62" cy="72" r="5" fill="#dc2626"/>
+            <circle cx="258" cy="112" r="14" fill="#fb7185"/><circle cx="258" cy="112" r="5" fill="#fef3c7"/>
+            ${ribbon}</svg>`
+        };
+
+        return SCENES[type] || SCENES.anime;
+      }
+
+      /* ====================================================================
+         2. 内蔵ゆるっと日越交流ニュース（全12本・ルビ＆一言トーク完備）
+         ==================================================================== */
+      const CAT_LABELS = {
+        all: 'トピックス',
+        entame: 'エンタメ・アニメ',
+        food: 'グルメ・おやつ',
+        sport: 'スポーツ・遊び',
+        school: 'ふしぎ・学校',
+        weather: '天気・季節'
+      };
+
+      const BUILTIN_WEATHER = {
+        jp: { temp: '14℃', desc: 'はれ・すずしい' },
+        hn: { temp: '23℃', desc: 'くもり・すごしやすい' },
+        hcm: { temp: '31℃', desc: 'はれ・あつい！' }
+      };
+
+      const BUILTIN_NEWS = [
+        {
+          id: 'n1', cat: 'entame', isNew: true, date: 'ピックアップ', svg: 'anime', tag: 'ANIME JP x VN',
+          titleHtml: 'ドラえもんや <ruby>名探偵<rt>めいたんてい</rt></ruby>コナンは ベトナムでも <ruby>大人気<rt>だいにんき</rt></ruby>！',
+          titlePlain: 'ドラえもんや名探偵コナンはベトナムでも大人気！',
+          titleVi: 'Doraemon và Thám tử Conan cũng rất nổi tiếng ở Việt Nam!',
+          bodyHtml: '日本のアニメ「ドラえもん」や「<ruby>名探偵<rt>めいたんてい</rt></ruby>コナン」「ポケモン」は、ベトナムの子どもたちにも ものすごく <ruby>人気<rt>にんき</rt></ruby>があります。ベトナムの本屋さんでも まんがが ずらっと ならんでいますよ。すきな キャラクターを <ruby>話<rt>はな</rt></ruby>してみよう！',
+          bodyPlain: '日本のアニメ、ドラえもんや名探偵コナン、ポケモンは、ベトナムの子どもたちにもものすごく人気があります。ベトナムの本屋さんでもまんががずらっとならんでいますよ。すきなキャラクターを話してみよう！',
+          bodyVi: 'Hoạt hình Nhật Bản như Doraemon, Conan và Pokémon rất nổi tiếng với học sinh Việt Nam. Truyện tranh được bán ở khắp các hiệu sách. Hãy thử kể nhân vật yêu thích của nhau nhé!',
+          talkVi: 'Bạn thích Doraemon không?',
+          talkKana: 'バン ティッ ドラエモン ホン？',
+          talkJpMeaning: 'ドラえもん すき？',
+          talkHira: 'だ・い・す・き！',
+          talkVnPhonetic: 'Đai xư ki!',
+          talkViMeaning: 'Mình rất thích!'
+        },
+        {
+          id: 'n2', cat: 'food', isNew: true, date: 'グルメ<ruby>話題<rt>わだい</rt></ruby>', svg: 'banhmi', tag: 'BANH MI',
+          titleHtml: 'ベトナムの 朝ごはんの <ruby>定番<rt>ていばん</rt></ruby>「バインミー」って なに？',
+          titlePlain: 'ベトナムの朝ごはんの定番、バインミーってなに？',
+          titleVi: 'Bánh mì – Món ăn sáng quen thuộc của Việt Nam!',
+          bodyHtml: 'サクサクの フランスパンに、おにく・たまご・なます（だいこんと にんじん）や <ruby>野菜<rt>やさい</rt></ruby>を たっぷり はさんだ サンドイッチです。ベトナムの 町の あちこちに <ruby>お店<rt>おみせ</rt></ruby>があって、日本の コンビニみたいに みんなが 買っています。',
+          bodyPlain: 'サクサクのフランスパンに、おにく、たまご、なますや野菜をたっぷりはさんだサンドイッチです。ベトナムの町のあちこちにお店があって、日本のコンビニみたいにみんなが買っています。',
+          bodyVi: 'Bánh mì giòn kẹp thịt, trứng, đồ chua (củ cải, cà rốt) và rau thơm. Có bán ở khắp nơi tại Việt Nam giống như cửa hàng tiện lợi ở Nhật vậy.',
+          talkVi: 'Bánh mì ngon không?',
+          talkKana: 'バイン ミー ゴン ホン？',
+          talkJpMeaning: 'バインミー おいしい？',
+          talkHira: 'とっ・て・も お・い・し・い！',
+          talkVnPhonetic: 'Tốt tê mô ô i xi i!',
+          talkViMeaning: 'Rất là ngon!'
+        },
+        {
+          id: 'n3', cat: 'sport', isNew: true, date: '休み時間ヒント', svg: 'dacau', tag: 'DA CAU',
+          titleHtml: '<ruby>足<rt>あし</rt></ruby>で <ruby>羽根<rt>はね</rt></ruby>を けりあう！ベトナムの <ruby>遊<rt>あそ</rt></ruby>び「ダーカウ」',
+          titlePlain: '足で羽根をけりあう！ベトナムの遊び、ダーカウ',
+          titleVi: 'Đá cầu – Trò chơi đá quả cầu lông ở sân trường Việt Nam!',
+          bodyHtml: 'ベトナムの 小学校の 休み時間には、バドミントンの <ruby>羽根<rt>はね</rt></ruby>に にた「ダーカウ」を <ruby>足<rt>あし</rt></ruby>で ポンポン けりあう <ruby>遊<rt>あそ</rt></ruby>びが <ruby>大人気<rt>だいにんき</rt></ruby>！<ruby>落<rt>お</rt></ruby>とさずに 何回 つづけられるか、みんなで 輪になって ちょうせんします。',
+          bodyPlain: 'ベトナムの小学校の休み時間には、バドミントンの羽根ににたダーカウを足でポンポンけりあう遊びが大人気！落とさずに何回つづけられるか、みんなで輪になってちょうせんします。',
+          bodyVi: 'Giờ ra chơi ở Việt Nam, học sinh rất thích đứng thành vòng tròn đá cầu bằng chân để xem giữ cầu không rơi được bao nhiêu lần.',
+          talkVi: 'Chơi thử không?',
+          talkKana: 'チョイ トゥー ホン？',
+          talkJpMeaning: 'やってみる？',
+          talkHira: 'やっ・て み・よ・う！',
+          talkVnPhonetic: 'Dát tê mi dô!',
+          talkViMeaning: 'Cùng chơi thử nhé!'
+        },
+        {
+          id: 'n4', cat: 'school', isNew: true, date: '学校あるある', svg: 'nap', tag: 'SCHOOL LIFE',
+          titleHtml: 'ベトナムの 小学校には「お<ruby>昼寝<rt>ひるね</rt></ruby>の時間」があるって 本当？',
+          titlePlain: 'ベトナムの小学校にはお昼寝の時間があるって本当？',
+          titleVi: 'Trường tiểu học ở Việt Nam có giờ ngủ trưa thật sao?',
+          bodyHtml: '本当です！ベトナムは お<ruby>昼<rt>ひる</rt></ruby>ごろ とても <ruby>暑<rt>あつ</rt></ruby>くなるので、<ruby>給食<rt>きゅうしょく</rt></ruby>の あとに <ruby>教室<rt>きょうしつ</rt></ruby>で マットを しいて みんなで お<ruby>昼寝<rt>ひるね</rt></ruby>をする 学校が 多いです。日本の 昼休みとの ちがいに びっくりしますね！',
+          bodyPlain: '本当です！ベトナムはお昼ごろとても暑くなるので、給食のあとに教室でマットをしいてみんなでお昼寝をする学校が多いです。日本の昼休みとのちがいにびっくりしますね！',
+          bodyVi: 'Đúng rồi! Vì buổi trưa ở Việt Nam khá nóng nên sau bữa trưa, nhiều trường trải chiếu ngay trong lớp cho học sinh ngủ trưa trước khi học tiếp.',
+          talkVi: 'Thật không?',
+          talkKana: 'タット ホン？',
+          talkJpMeaning: 'ほんとう？',
+          talkHira: 'ほ・ん・と・う だ・よ！',
+          talkVnPhonetic: 'Hôn tô đa dô!',
+          talkViMeaning: 'Thật đấy!'
+        },
+        {
+          id: 'n5', cat: 'weather', isNew: false, date: '天気くらべ', svg: 'weather', tag: 'WEATHER JP x VN',
+          titleHtml: '日本と ベトナム、<ruby>同<rt>おな</rt></ruby>じ日でも <ruby>気温<rt>きおん</rt></ruby>が こんなに ちがう！',
+          titlePlain: '日本とベトナム、同じ日でも気温がこんなにちがう！',
+          titleVi: 'Cùng một ngày nhưng thời tiết Nhật Bản và Việt Nam khác nhau lắm!',
+          bodyHtml: 'ベトナムは 細長い 国なので、北の「ハノイ」と 南の「ホーチミン」でも <ruby>気温<rt>きおん</rt></ruby>が ずいぶん ちがいます。日本が <ruby>寒<rt>さむ</rt></ruby>い 日でも、ホーチミンは 30℃こえで 半そでの 日が 多いんですよ。',
+          bodyPlain: 'ベトナムは細長い国なので、北のハノイと南のホーチミンでも気温がずいぶんちがいます。日本が寒い日でも、ホーチミンは30度こえで半そでの日が多いんですよ。',
+          bodyVi: 'Việt Nam có hình chữ S kéo dài nên Hà Nội (miền Bắc) và TP.HCM (miền Nam) có nhiệt độ rất khác nhau. Khi Nhật Bản lạnh thì miền Nam Việt Nam vẫn mặc áo ngắn tay.',
+          talkVi: 'Hôm nay lạnh nhỉ!',
+          talkKana: 'ホム ナイ ライン ニィ！',
+          talkJpMeaning: 'きょうは さむいね！',
+          talkHira: 'す・こ・し さ・む・い ね！',
+          talkVnPhonetic: 'Xư cô xi xa mư i nê!',
+          talkViMeaning: 'Hơi lạnh nhỉ!'
+        },
+        {
+          id: 'n6', cat: 'food', isNew: false, date: 'おやつくらべ', svg: 'sweets', tag: 'SWEETS',
+          titleHtml: '日本の「あげパン」と ベトナムの つめたい おやつ「チェー」',
+          titlePlain: '日本のあげパンとベトナムのつめたいおやつ、チェー',
+          titleVi: 'Bánh mì chiên Agepan của Nhật và món Chè mát lạnh của Việt Nam!',
+          bodyHtml: '日本の <ruby>給食<rt>きゅうしょく</rt></ruby>で <ruby>人気<rt>にんき</rt></ruby>の「あげパン」。ベトナムの 子どもたちに 大人気のおやつは、まめ・ゼリー・くだものに ココナッツミルクと こおりを かけた「チェー」です。カラフルで とても あまいですよ！',
+          bodyPlain: '日本の給食で人気のあげパン。ベトナムの子どもたちに大人気のおやつは、まめ、ゼリー、くだものにココナッツミルクとこおりをかけたチェーです。カラフルでとてもあまいですよ！',
+          bodyVi: 'Bữa trưa ở Nhật có món Agepan rất ngon. Còn ở Việt Nam có món Chè nhiều màu sắc làm từ đậu, thạch, trái cây và nước cốt dừa ngọt mát.',
+          talkVi: 'Mình muốn ăn thử!',
+          talkKana: 'ミン ムオン アン トゥー！',
+          talkJpMeaning: 'たべてみたい！',
+          talkHira: 'た・べ・て み・た・い！',
+          talkVnPhonetic: 'Ta bê tê mi tai!',
+          talkViMeaning: 'Mình cũng muốn ăn thử!'
+        },
+        {
+          id: 'n7', cat: 'food', isNew: false, date: 'めん<ruby>料理<rt>りょうり</rt></ruby>', svg: 'noodle', tag: 'RAMEN vs PHO',
+          titleHtml: '日本の ラーメンと ベトナムの フォー！ちがいは なに？',
+          titlePlain: '日本のラーメンとベトナムのフォー！ちがいはなに？',
+          titleVi: 'Mì Ramen của Nhật và Phở của Việt Nam khác nhau thế nào?',
+          bodyHtml: '日本の ラーメンは こむぎこから 作る きいろい めん。ベトナムの「フォー」は おこめから 作る 白くて つるつるの めんです。ライムを しぼって 食べると さっぱりして おいしいですよ！',
+          bodyPlain: '日本のラーメンはこむぎこから作るきいろいめん。ベトナムのフォーはおこめから作る白くてつるつるのめんです。ライムをしぼって食べるとさっぱりしておいしいですよ！',
+          bodyVi: 'Ramen làm từ bột mì có sợi vàng. Phở Việt Nam làm từ gạo có sợi trắng mềm mượt, vắt thêm chút chanh ăn rất thơm ngon.',
+          talkVi: 'Bạn thích món nào?',
+          talkKana: 'バン ティッ モン ナオ？',
+          talkJpMeaning: 'どっちが すき？',
+          talkHira: 'どっ・ち も す・き！',
+          talkVnPhonetic: 'Đốt chi mô xư ki!',
+          talkViMeaning: 'Mình thích cả hai!'
+        },
+        {
+          id: 'n8', cat: 'sport', isNew: false, date: 'ゲーム<ruby>紹介<rt>しょうかい</rt></ruby>', svg: 'game', tag: 'O AN QUAN',
+          titleHtml: '石や まめで じんとり！ベトナムの ゲーム「オアンクワン」',
+          titlePlain: '石やまめでじんとり！ベトナムのゲーム、オアンクワン',
+          titleVi: 'Ô ăn quan – Trò chơi dân gian siêu vui của Việt Nam!',
+          bodyHtml: 'マスの中に 小さな 石を ならべて、1つずつ となりの マスに まきながら 石を たくさん <ruby>集<rt>あつ</rt></ruby>める ボードゲームです。紙に マスを 書けば、おはじきや けしごむでも すぐ できますよ！',
+          bodyPlain: 'マスの中に小さな石をならべて、1つずつとなりのマスにまきながら石をたくさん集めるボードゲームです。紙にマスを書けば、おはじきやけしごむでもすぐできますよ！',
+          bodyVi: 'Chỉ cần vẽ các ô trên giấy và dùng viên đá nhỏ hoặc nắp chai rải lần lượt qua các ô để ăn thật nhiều quân. Rất vui khi chơi cùng bạn!',
+          talkVi: 'Dạy mình chơi nhé!',
+          talkKana: 'ザイ ミン チョイ ニェ！',
+          talkJpMeaning: 'あそびかた おしえて！',
+          talkHira: 'いっ・しょ に や・ろ・う！',
+          talkVnPhonetic: 'Ít xô ni da rô!',
+          talkViMeaning: 'Cùng chơi với nhau nhé!'
+        },
+        {
+          id: 'n9', cat: 'sport', isNew: false, date: 'スポーツ', svg: 'soccer', tag: 'SPORTS',
+          titleHtml: '日本の ドッジボールと ベトナムの サッカー<ruby>熱<rt>ねつ</rt></ruby>！',
+          titlePlain: '日本のドッジボールとベトナムのサッカー熱！',
+          titleVi: 'Bóng né ở Nhật và niềm đam mê bóng đá ở Việt Nam!',
+          bodyHtml: '日本の 小学校の 休み時間といえば ドッジボール！ベトナムでは サッカーが ものすごく <ruby>人気<rt>にんき</rt></ruby>で、<ruby>試合<rt>しあい</rt></ruby>に 勝つと 町じゅうで お<ruby>祝<rt>いわ</rt></ruby>いするほどです。ボール<ruby>遊<rt>あそ</rt></ruby>びなら ことばが ちがっても すぐ なかよし！',
+          bodyPlain: '日本の小学校の休み時間といえばドッジボール！ベトナムではサッカーがものすごく人気で、試合に勝つと町じゅうでお祝いするほどです。ボール遊びならことばがちがってもすぐなかよし！',
+          bodyVi: 'Học sinh Nhật rất thích bóng né, còn ở Việt Nam bóng đá là môn thể thao số 1. Chơi thể thao cùng nhau giúp kết bạn siêu nhanh!',
+          talkVi: 'Cùng đá bóng nhé!',
+          talkKana: 'クン ダー ボン ニェ！',
+          talkJpMeaning: 'いっしょに サッカー しよう！',
+          talkHira: 'い・い よ！あ・そ・ぼ・う！',
+          talkVnPhonetic: 'I i dô! A xô bô!',
+          talkViMeaning: 'Được đấy! Cùng chơi nào!'
+        },
+        {
+          id: 'n10', cat: 'school', isNew: false, date: '持ち物くらべ', svg: 'school', tag: 'SCHOOL BAG',
+          titleHtml: '日本の ランドセルと ベトナムの <ruby>通学<rt>つうがく</rt></ruby>リュック',
+          titlePlain: '日本のランドセルとベトナムの通学リュック',
+          titleVi: 'Cặp Randoseru của Nhật và ba lô đi học ở Việt Nam',
+          bodyHtml: '日本の 小学生は みんな 6年間 つかえる「ランドセル」を せおいます。ベトナムでは かるい リュックサックが 多く、<ruby>家族<rt>かぞく</rt></ruby>の バイクの うしろに のって 学校へ <ruby>通<rt>かよ</rt></ruby>う 子も たくさん います。',
+          bodyPlain: '日本の小学生はみんな6年間つかえるランドセルをせおいます。ベトナムではかるいリュックサックが多く、家族のバイクのうしろにのって学校へ通う子もたくさんいます。',
+          bodyVi: 'Ở Nhật, học sinh đeo cặp Randoseru bền suốt 6 năm. Ở Việt Nam, nhiều bạn đeo ba lô nhẹ và được bố mẹ chở đi học bằng xe máy.',
+          talkVi: 'Cặp này đẹp quá!',
+          talkKana: 'カップ ナイ デップ クアー！',
+          talkJpMeaning: 'その カバン かっこいいね！',
+          talkHira: 'あ・り・が・と・う！',
+          talkVnPhonetic: 'A ri ga tô!',
+          talkViMeaning: 'Cảm ơn bạn!'
+        },
+        {
+          id: 'n11', cat: 'entame', isNew: false, date: '<ruby>昔話<rt>むかしばなし</rt></ruby>', svg: 'story', tag: 'FOLK TALE',
+          titleHtml: 'シンデレラに そっくり？ベトナムの <ruby>昔話<rt>むかしばなし</rt></ruby>「タムとカム」',
+          titlePlain: 'シンデレラにそっくり？ベトナムの昔話、タムとカム',
+          titleVi: 'Chuyện cổ tích Việt Nam "Tấm Cám" có giống Lọ Lem không?',
+          bodyHtml: 'ベトナムで だれもが <ruby>知<rt>し</rt></ruby>っている 昔話「タムとカム」。やさしい タムが お<ruby>祭<rt>まつ</rt></ruby>りで くつを おとして 王子さまに 見つけられる お<ruby>話<rt>はなし</rt></ruby>です。日本の 昔話や シンデレラと くらべてみると おもしろいよ！',
+          bodyPlain: 'ベトナムでだれもが知っている昔話、タムとカム。やさしいタムがお祭りでくつをおとして王子さまに見つけられるお話です。日本の昔話やシンデレラとくらべてみるとおもしろいよ！',
+          bodyVi: 'Tấm Cám là chuyện cổ tích nổi tiếng ở Việt Nam, có chi tiết cô Tấm đánh rơi chiếc hài ở lễ hội rất giống chuyện Cô bé Lọ Lem.',
+          talkVi: 'Giống nhau nhỉ!',
+          talkKana: 'ゾン ニャウ ニィ！',
+          talkJpMeaning: 'にているね！',
+          talkHira: 'お・も・し・ろ・い ね！',
+          talkVnPhonetic: 'Ô mô xi rô i nê!',
+          talkViMeaning: 'Thú vị quá nhỉ!'
+        },
+        {
+          id: 'n12', cat: 'weather', isNew: false, date: '<ruby>季節<rt>きせつ</rt></ruby>の<ruby>行事<rt>ぎょうじ</rt></ruby>', svg: 'tet', tag: 'TET HOLIDAY',
+          titleHtml: 'ベトナムの <ruby>旧正月<rt>きゅうしょうがつ</rt></ruby>「テト」と 赤い <ruby>袋<rt>ふくろ</rt></ruby>の お年玉「リーシー」',
+          titlePlain: 'ベトナムの旧正月テトと赤い袋のお年玉、リーシー',
+          titleVi: 'Tết Nguyên Đán và bao lì xì đỏ may mắn của Việt Nam!',
+          bodyHtml: '日本の お正月は 1月1日ですが、ベトナムの 一番 大きな お正月は 1月末〜2月ごろの「テト」です。子どもたちは 幸運を よぶ 赤い <ruby>袋<rt>ふくろ</rt></ruby>に 入った お年玉「リーシー」を もらいます！',
+          bodyPlain: '日本のお正月は1月1日ですが、ベトナムの一番大きなお正月は1月末から2月ごろのテトです。子どもたちは幸運をよぶ赤い袋に入ったお年玉リーシーをもらいます！',
+          bodyVi: 'Ở Nhật đón Tết ngày 1/1, còn ở Việt Nam đón Tết Nguyên Đán vào khoảng cuối tháng 1 hoặc tháng 2. Trẻ em được nhận tiền lì xì trong phong bao màu đỏ may mắn.',
+          talkVi: 'Chúc mừng năm mới!',
+          talkKana: 'チュック ムン ナム モイ！',
+          talkJpMeaning: 'あけまして おめでとう！',
+          talkHira: 'あ・け・ま・し・て お・め・で・と・う！',
+          talkVnPhonetic: 'A kê ma xi tê ô mê đê tô!',
+          talkViMeaning: 'Chúc mừng năm mới!'
+        }
+      ];
+
+      /* ====================================================================
+         3. Web Audio 効果音 & 高耐久 Speech 音声エンジン（study.html 同一仕様）
+         ==================================================================== */
+      const Sound = {
+        ctx: null,
+        ensure() {
+          if (!this.ctx) {
+            const Ctor = window.AudioContext || window.webkitAudioContext;
+            if (Ctor) this.ctx = new Ctor();
+          }
+          if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume().catch(function () {});
+          }
+          return this.ctx;
+        },
+        beep(freq, offset, dur, type, vol) {
+          const ctx = this.ensure();
+          if (!ctx) return;
+          try {
+            const t = ctx.currentTime + offset;
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = type || 'sine';
+            osc.frequency.setValueAtTime(freq, t);
+            gain.gain.setValueAtTime(0.001, t);
+            gain.gain.exponentialRampToValueAtTime(vol || 0.1, t + 0.015);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + dur);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(t);
+            osc.stop(t + dur + 0.02);
+          } catch (e) {}
+        },
+        tap() { this.beep(587.33, 0, 0.07, 'triangle', 0.09); },
+        pop() {
+          this.beep(659.25, 0, 0.07, 'sine', 0.1);
+          this.beep(880.00, 0.06, 0.11, 'sine', 0.11);
+        }
+      };
+
+      const Speech = {
+        voices: [],
+        slow: false,
+        speaking: false,
+        safetyTimer: null,
+        speakTimer: null,
+        voiceWaitTimer: null,
+        currentUtterance: null,
+        currentAudio: null,
+        playSeq: 0,
+
+        refreshVoices() {
+          if (!('speechSynthesis' in window)) return [];
+          try {
+            const list = window.speechSynthesis.getVoices() || [];
+            if (list.length > 0) this.voices = list;
+          } catch (e) {}
+          return this.voices;
+        },
+        init() {
+          if (!('speechSynthesis' in window)) return;
+          const load = () => { this.refreshVoices(); };
+          load();
+          if (typeof window.speechSynthesis.addEventListener === 'function') {
+            window.speechSynthesis.addEventListener('voiceschanged', load);
+          } else if ('onvoiceschanged' in window.speechSynthesis) {
+            window.speechSynthesis.onvoiceschanged = load;
+          }
+          setTimeout(load, 300);
+        },
+        findVoice(langCode) {
+          const list = this.refreshVoices();
+          if (!list || list.length === 0) return null;
+          const normTarget = String(langCode || 'ja-JP').toLowerCase().replace('_', '-');
+          const pref = normTarget.slice(0, 2);
+
+          const candidates = list.filter((v) => {
+            const vLang = String(v.lang || '').toLowerCase().replace('_', '-');
+            if (vLang === normTarget || vLang === pref || vLang.startsWith(pref + '-')) return true;
+            if (pref === 'vi' && /vietnam|tiếng việt|tieng viet|hoaimy|namminh/i.test(String(v.name || ''))) return true;
+            return false;
+          });
+          if (candidates.length === 0) return null;
+
+          const scoreVoice = (v) => {
+            let s = 0;
+            const vLang = String(v.lang || '').toLowerCase().replace('_', '-');
+            const name = String(v.name || '');
+            if (vLang === normTarget) s += 10;
+            if (/google/i.test(name)) s += 6;
+            if (/natural|neural|online/i.test(name)) s += 5;
+            if (v.default) s += 1;
+            return s;
+          };
+          candidates.sort((a, b) => scoreVoice(b) - scoreVoice(a));
+          return candidates[0];
+        },
+        stop() {
+          this.playSeq += 1;
+          clearTimeout(this.speakTimer);
+          clearTimeout(this.safetyTimer);
+          clearTimeout(this.voiceWaitTimer);
+          this.currentUtterance = null;
+          if (this.currentAudio) {
+            try {
+              this.currentAudio.onended = null;
+              this.currentAudio.onerror = null;
+              this.currentAudio.pause();
+              this.currentAudio.removeAttribute('src');
+              this.currentAudio.load();
+            } catch (e) {}
+            this.currentAudio = null;
+          }
+          if ('speechSynthesis' in window) {
+            try { window.speechSynthesis.cancel(); } catch (e) {}
+          }
+          this.speaking = false;
+        },
+        splitTextForTts(text, maxLen) {
+          const clean = String(text || '').replace(/\s+/g, ' ').trim();
+          if (!clean) return [];
+          const limit = maxLen || 160;
+          if (clean.length <= limit) return [clean];
+          const parts = clean.match(/[^。！？.!?\n、,]+[。！？.!?\n、,]*/g) || [clean];
+          const chunks = [];
+          let buf = '';
+          const pushSlice = (str) => {
+            let rest = str.trim();
+            while (rest.length > limit) {
+              let cut = rest.lastIndexOf(' ', limit);
+              if (cut < Math.floor(limit * 0.4)) cut = limit;
+              chunks.push(rest.slice(0, cut).trim());
+              rest = rest.slice(cut).trim();
+            }
+            if (rest) chunks.push(rest);
+          };
+          for (const part of parts) {
+            if (!part) continue;
+            if (buf && (buf.length + 1 + part.length) > limit) {
+              chunks.push(buf.trim());
+              buf = '';
+            }
+            if (part.length > limit) {
+              if (buf) { chunks.push(buf.trim()); buf = ''; }
+              pushSlice(part);
+            } else {
+              buf = buf ? (buf + ' ' + part) : part;
+            }
+          }
+          if (buf.trim()) chunks.push(buf.trim());
+          return chunks;
+        },
+        speakWithSynth(text, langCode, voice, seq) {
+          if (seq !== this.playSeq || !('speechSynthesis' in window)) return;
+          try {
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = (voice && voice.lang) ? voice.lang : langCode;
+            u.rate = this.slow ? 0.72 : 1.0;
+            if (voice) u.voice = voice;
+            this.currentUtterance = u;
+            this.speaking = true;
+
+            const release = () => {
+              if (seq !== this.playSeq) return;
+              this.speaking = false;
+              this.currentUtterance = null;
+              clearTimeout(this.safetyTimer);
+            };
+            u.onend = release;
+            u.onerror = release;
+
+            clearTimeout(this.safetyTimer);
+            this.safetyTimer = setTimeout(release, Math.min(30000, Math.max(4500, text.length * 280)));
+
+            if (window.speechSynthesis.paused) {
+              try { window.speechSynthesis.resume(); } catch (e) {}
+            }
+            window.speechSynthesis.speak(u);
+          } catch (e) {
+            if (seq === this.playSeq) { this.speaking = false; this.currentUtterance = null; }
+          }
+        },
+        speakWithAudioFallback(text, langCode, seq) {
+          if (seq !== this.playSeq) return;
+          const chunks = this.splitTextForTts(text, 160);
+          if (chunks.length === 0) { this.speaking = false; return; }
+          const tl = String(langCode || 'vi-VN').toLowerCase().slice(0, 2);
+          let idx = 0;
+
+          const finish = () => {
+            if (seq !== this.playSeq) return;
+            this.speaking = false;
+            this.currentAudio = null;
+            clearTimeout(this.safetyTimer);
+          };
+
+          const playNext = () => {
+            if (seq !== this.playSeq) return;
+            if (idx >= chunks.length) { finish(); return; }
+            const chunk = chunks[idx++];
+            const url = 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=' +
+              encodeURIComponent(tl) + '&q=' + encodeURIComponent(chunk);
+
+            const audio = new Audio();
+            audio.preload = 'auto';
+            audio.playbackRate = this.slow ? 0.78 : 1.0;
+            audio.src = url;
+            this.currentAudio = audio;
+            this.speaking = true;
+
+            clearTimeout(this.safetyTimer);
+            this.safetyTimer = setTimeout(finish, 20000);
+
+            audio.onended = () => { if (seq === this.playSeq) playNext(); };
+            audio.onerror = () => {
+              if (seq !== this.playSeq) return;
+              finish();
+              if (tl === 'ja') this.speakWithSynth(text, langCode, null, seq);
+              else showToast('この端末に音声がなく、オンライン音声も再生できませんでした');
+            };
+            const p = audio.play();
+            if (p && typeof p.catch === 'function') {
+              p.catch(() => {
+                if (seq !== this.playSeq) return;
+                finish();
+                if (tl === 'ja') this.speakWithSynth(text, langCode, null, seq);
+                else showToast('音声を再生できませんでした。もう一度押してください');
+              });
+            }
+          };
+          playNext();
+        },
+        speak(text, langCode) {
+          const clean = String(text || '').trim();
+          if (!clean) return;
+          this.stop();
+          const seq = this.playSeq;
+          const pref = String(langCode || 'ja-JP').toLowerCase().slice(0, 2);
+          const hasSynth = ('speechSynthesis' in window);
+          this.speaking = true;
+
+          if (!hasSynth) {
+            this.speakWithAudioFallback(clean, langCode, seq);
+            return;
+          }
+
+          const dispatch = (delayMs) => {
+            if (seq !== this.playSeq) return;
+            const voice = this.findVoice(langCode);
+            if (voice) {
+              this.speakTimer = setTimeout(() => { this.speakWithSynth(clean, langCode, voice, seq); }, delayMs);
+              return;
+            }
+            if (pref !== 'ja') {
+              this.speakWithAudioFallback(clean, langCode, seq);
+              return;
+            }
+            this.speakTimer = setTimeout(() => { this.speakWithSynth(clean, langCode, null, seq); }, delayMs);
+          };
+
+          const list = this.refreshVoices();
+          if (list.length > 0) {
+            dispatch(60);
+          } else {
+            let handled = false;
+            const onReady = () => {
+              if (handled || seq !== this.playSeq) return;
+              if (this.refreshVoices().length > 0) {
+                handled = true;
+                clearTimeout(this.voiceWaitTimer);
+                if (typeof window.speechSynthesis.removeEventListener === 'function') {
+                  window.speechSynthesis.removeEventListener('voiceschanged', onReady);
+                }
+                dispatch(55);
+              }
+            };
+            if (typeof window.speechSynthesis.addEventListener === 'function') {
+              window.speechSynthesis.addEventListener('voiceschanged', onReady);
+            }
+            this.voiceWaitTimer = setTimeout(() => {
+              if (handled || seq !== this.playSeq) return;
+              handled = true;
+              if (typeof window.speechSynthesis.removeEventListener === 'function') {
+                window.speechSynthesis.removeEventListener('voiceschanged', onReady);
+              }
+              dispatch(55);
+            }, 240);
+          }
+        }
+      };
+
+      /* ====================================================================
+         4. 状態管理・GAS連携・リアクション永続化
+         ==================================================================== */
+      const STORE_URL = 'tsutawaru_v2_gas_url';
+      const STORE_TOKEN = 'tsutawaru_v2_token';
+      const STORE_NEWS_CACHE = 'news_lab_cache_v1';
+      const STORE_REACTIONS = 'news_lab_reactions_v1';
+
+      const $ = (id) => document.getElementById(id);
+
+      const State = {
+        gasUrl: '',
+        token: '',
+        activeCat: 'all',
+        articles: BUILTIN_NEWS.slice(),
+        selectedId: BUILTIN_NEWS[0].id,
+        usingGas: false,
+        weather: Object.assign({}, BUILTIN_WEATHER),
+        reactions: {} // { articleId: { want: 0, know: 0, wow: 0, same: 0 } }
+      };
+
+      let toastTimer = null;
+      function showToast(msg) {
+        const el = $('toast');
+        el.textContent = msg;
+        el.classList.add('is-show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove('is-show'), 2500);
+      }
+
+      function loadReactions() {
+        try {
+          const raw = localStorage.getItem(STORE_REACTIONS);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && typeof parsed === 'object') State.reactions = parsed;
+          }
+        } catch (e) {}
+      }
+
+      function saveReactions() {
+        try { localStorage.setItem(STORE_REACTIONS, JSON.stringify(State.reactions)); } catch (e) {}
+      }
+
+      function getReactionCounts(id) {
+        if (!State.reactions[id]) {
+          State.reactions[id] = { want: 0, know: 0, wow: 0, same: 0 };
+        }
+        return State.reactions[id];
+      }
+
+      async function callGas(payload) {
+        if (!State.gasUrl) {
+          throw new Error('GAS URLが未設定です。右上の「GAS設定」を確認してください。');
+        }
+        const body = Object.assign({ token: State.token }, payload);
+        const res = await fetch(State.gasUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(body)
+        });
+        if (!res.ok) throw new Error('HTTPエラー (' + res.status + ')');
+        const data = await res.json();
+        if (!data || data.ok === false) {
+          throw new Error((data && data.error) ? data.error : 'GAS応答エラー');
+        }
+        return data;
+      }
+
+      function normalizeGasArticle(raw, idx) {
+        const validCats = ['entame', 'food', 'sport', 'school', 'weather'];
+        const cat = validCats.includes(raw.cat) ? raw.cat : 'entame';
+        const titlePlain = String(raw.titlePlain || raw.title || '').replace(/<[^>]+>/g, '').trim();
+        const bodyPlain = String(raw.bodyPlain || raw.body || '').replace(/<[^>]+>/g, '').trim();
+        return {
+          id: raw.id || ('gas_n_' + idx),
+          cat: cat,
+          isNew: idx < 3,
+          date: raw.date || 'きょうのニュース',
+          svg: raw.svg || 'anime',
+          tag: raw.tag || 'NEW JP x VN',
+          titleHtml: raw.titleHtml || titlePlain,
+          titlePlain: titlePlain,
+          titleVi: raw.titleVi || titlePlain,
+          bodyHtml: raw.bodyHtml || bodyPlain,
+          bodyPlain: bodyPlain,
+          bodyVi: raw.bodyVi || '',
+          talkVi: raw.talkVi || 'Biết cái này không?',
+          talkKana: raw.talkKana || 'ビエッ カイ ナイ ホン？',
+          talkJpMeaning: raw.talkJpMeaning || 'これ 知ってる？',
+          talkHira: raw.talkHira || 'しっ・て・る！',
+          talkVnPhonetic: raw.talkVnPhonetic || 'Xít tê rư!',
+          talkViMeaning: raw.talkViMeaning || 'Mình biết rồi!',
+          fromGas: true
+        };
+      }
+
+      /* ====================================================================
+         5. 画面描画（天気・トピックス一覧・記事詳細・リアクション）
+         ==================================================================== */
+      function renderWeather() {
+        const w = State.weather || BUILTIN_WEATHER;
+        $('w-jp-temp').textContent = (w.jp && w.jp.temp) ? w.jp.temp : BUILTIN_WEATHER.jp.temp;
+        $('w-jp-desc').textContent = (w.jp && w.jp.desc) ? w.jp.desc : BUILTIN_WEATHER.jp.desc;
+        $('w-hn-temp').textContent = (w.hn && w.hn.temp) ? w.hn.temp : BUILTIN_WEATHER.hn.temp;
+        $('w-hn-desc').textContent = (w.hn && w.hn.desc) ? w.hn.desc : BUILTIN_WEATHER.hn.desc;
+        $('w-hcm-temp').textContent = (w.hcm && w.hcm.temp) ? w.hcm.temp : BUILTIN_WEATHER.hcm.temp;
+        $('w-hcm-desc').textContent = (w.hcm && w.hcm.desc) ? w.hcm.desc : BUILTIN_WEATHER.hcm.desc;
+      }
+
+      function getFilteredArticles() {
+        if (State.activeCat === 'all') return State.articles;
+        return State.articles.filter((a) => a.cat === State.activeCat);
+      }
+
+      function getSelectedArticle() {
+        return State.articles.find((a) => a.id === State.selectedId) || State.articles[0];
+      }
+
+      function renderReactions() {
+        const art = getSelectedArticle();
+        if (!art) return;
+        const cnt = getReactionCounts(art.id);
+        ['want', 'know', 'wow', 'same'].forEach((key) => {
+          $('react-cnt-' + key).textContent = String(cnt[key] || 0);
+          $('react-btn-' + key).classList.toggle('is-popped', (cnt[key] || 0) > 0);
+        });
+      }
+
+      function renderSelectedArticle() {
+        const art = getSelectedArticle();
+        if (!art) return;
+
+        $('art-badge-cat').textContent = CAT_LABELS[art.cat] || 'トピックス';
+        $('art-date').innerHTML = art.date || 'きょうのトピックス';
+        $('art-source-pill').textContent = art.fromGas ? 'まいにち更新(GAS)' : '内蔵トピックス';
+
+        $('art-svg-wrap').innerHTML = buildNewsSvg(art.svg, art.tag);
+        $('art-title-jp').innerHTML = art.titleHtml;
+        $('art-title-vi').textContent = art.titleVi;
+        $('art-body-jp').innerHTML = art.bodyHtml;
+        $('art-body-vi').textContent = art.bodyVi;
+
+        // 指さし一言トーク
+        $('talk-jp-to-vi-vi').textContent = art.talkVi;
+        $('talk-jp-to-vi-kana').textContent = art.talkKana;
+        $('talk-jp-to-vi-jp').textContent = '（' + art.talkJpMeaning + '）';
+
+        $('talk-vi-to-jp-hira').textContent = art.talkHira;
+        $('talk-vi-to-jp-vn').textContent = art.talkVnPhonetic;
+        $('talk-vi-to-jp-vi').textContent = '(' + art.talkViMeaning + ')';
+
+        renderReactions();
+      }
+
+      function renderTopicList() {
+        const list = getFilteredArticles();
+        $('topic-list-title').textContent = (CAT_LABELS[State.activeCat] || 'トピックス') + '一覧';
+        $('topic-count-badge').textContent = String(list.length);
+
+        const wrap = $('topic-list');
+        wrap.innerHTML = '';
+
+        if (list.length === 0) {
+          const empty = document.createElement('div');
+          empty.style.cssText = 'padding:20px;text-align:center;font-size:0.84rem;color:var(--ink-muted);font-weight:700;';
+          empty.textContent = 'このジャンルのニュースはまだありません';
+          wrap.appendChild(empty);
+          return;
+        }
+
+        if (!list.some((a) => a.id === State.selectedId)) {
+          State.selectedId = list[0].id;
+          renderSelectedArticle();
+        }
+
+        list.forEach((art) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'btn topic-item';
+          if (art.id === State.selectedId) btn.classList.add('is-selected');
+          btn.dataset.aid = art.id;
+
+          const newBadge = art.isNew ? '<span class="topic-new">NEW</span>' : '';
+          btn.innerHTML = `
+            <div class="topic-thumb" aria-hidden="true">${buildNewsSvg(art.svg, art.tag)}</div>
+            <div class="topic-texts">
+              <div class="topic-tags">${newBadge}<span>${CAT_LABELS[art.cat] || ''}</span></div>
+              <div class="topic-title">${art.titleHtml}</div>
+              <div class="topic-vi">${art.titleVi}</div>
+            </div>
+          `;
+          btn.addEventListener('click', () => {
+            Sound.tap();
+            Speech.stop();
+            State.selectedId = art.id;
+            renderSelectedArticle();
+            wrap.querySelectorAll('.topic-item').forEach((el) => {
+              el.classList.toggle('is-selected', el.dataset.aid === art.id);
+            });
+          });
+          wrap.appendChild(btn);
+        });
+      }
+
+      /* ====================================================================
+         6. GASニュース取得（合言葉なし読み取り対応・オフライン安全動作）
+         ==================================================================== */
+      async function syncNewsFromGas(force, silent) {
+        if (!State.gasUrl) {
+          if (!silent) showToast('GAS未設定のため内蔵トピックス12本を表示しています');
+          return;
+        }
+        $('btn-sync-news').disabled = true;
+        try {
+          const res = await callGas({ action: 'getNews', force: Boolean(force) });
+          const rawNews = Array.isArray(res.news) ? res.news : [];
+          if (rawNews.length > 0) {
+            const gasItems = rawNews.map(normalizeGasArticle).filter((x) => x.titlePlain);
+            // GASの最新記事を先頭に並べ、内蔵トピックスを後ろに残す
+            State.articles = gasItems.concat(BUILTIN_NEWS);
+            State.usingGas = true;
+            State.selectedId = State.articles[0].id;
+          }
+          if (res.weather && typeof res.weather === 'object') {
+            State.weather = Object.assign({}, BUILTIN_WEATHER, res.weather);
+          }
+          try {
+            localStorage.setItem(STORE_NEWS_CACHE, JSON.stringify({
+              news: rawNews,
+              weather: State.weather
+            }));
+          } catch (e) {}
+
+          renderWeather();
+          renderTopicList();
+          renderSelectedArticle();
+          if (!silent) {
+            showToast(rawNews.length > 0
+              ? '最新ニュースを読み込みました（' + rawNews.length + '本）'
+              : 'GAS接続OK（最新ニュース準備中のため内蔵トピックスを表示中）');
+          }
+        } catch (err) {
+          if (!silent) showToast('ニュース取得メモ：' + err.message);
+        } finally {
+          $('btn-sync-news').disabled = false;
+        }
+      }
+
+      /* ====================================================================
+         7. イベント登録 & 初期化
+         ==================================================================== */
+      function bindEvents() {
+        // 読み上げ速度
+        $('btn-speed').addEventListener('click', () => {
+          Sound.tap();
+          Speech.slow = !Speech.slow;
+          $('btn-speed').classList.toggle('is-slow', Speech.slow);
+          $('speed-jp').textContent = Speech.slow ? 'ゆっくり' : 'ふつう';
+          $('speed-vi').textContent = Speech.slow ? 'Chậm' : 'Bình thường';
+          showToast(Speech.slow ? 'ゆっくり読み上げにしました / Chế độ đọc chậm' : 'ふつうの速さに戻しました');
+        });
+
+        // ジャンルタブ切替
+        $('news-cat-tabs').addEventListener('click', (e) => {
+          const b = e.target.closest('.genre-tab');
+          if (!b) return;
+          Sound.tap();
+          State.activeCat = b.dataset.cat;
+          $('news-cat-tabs').querySelectorAll('.genre-tab').forEach((el) => {
+            const active = el === b;
+            el.classList.toggle('is-active', active);
+            el.setAttribute('aria-selected', active ? 'true' : 'false');
+          });
+          renderTopicList();
+        });
+
+        // 天気ミニカードタップで天気ジャンルへ
+        const openWeatherCat = () => {
+          Sound.tap();
+          const btn = $('news-cat-tabs').querySelector('[data-cat="weather"]');
+          if (btn) btn.click();
+        };
+        $('weather-mini-card').addEventListener('click', openWeatherCat);
+        $('weather-mini-card').addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openWeatherCat(); }
+        });
+
+        // 記事音声読み上げ
+        $('btn-art-speak-ja').addEventListener('click', () => {
+          Sound.tap();
+          const art = getSelectedArticle();
+          if (art) Speech.speak(art.titlePlain + '。' + art.bodyPlain, 'ja-JP');
+        });
+        $('btn-art-speak-vi').addEventListener('click', () => {
+          Sound.tap();
+          const art = getSelectedArticle();
+          if (art) Speech.speak(art.titleVi + '. ' + art.bodyVi, 'vi-VN');
+        });
+
+        // 指さし一言トーク音声
+        $('btn-talk-speak-vi').addEventListener('click', () => {
+          Sound.tap();
+          const art = getSelectedArticle();
+          if (art) Speech.speak(art.talkVi, 'vi-VN');
+        });
+        $('btn-talk-speak-ja').addEventListener('click', () => {
+          Sound.tap();
+          const art = getSelectedArticle();
+          if (art) Speech.speak(art.talkHira.replace(/・/g, ''), 'ja-JP');
+        });
+
+        // リアクションボタン
+        ['want', 'know', 'wow', 'same'].forEach((key) => {
+          $('react-btn-' + key).addEventListener('click', () => {
+            const art = getSelectedArticle();
+            if (!art) return;
+            const cnt = getReactionCounts(art.id);
+            cnt[key] = (cnt[key] || 0) + 1;
+            saveReactions();
+            Sound.pop();
+            renderReactions();
+          });
+        });
+
+        // 最新に更新ボタン
+        $('btn-sync-news').addEventListener('click', () => {
+          Sound.tap();
+          syncNewsFromGas(true, false);
+        });
+
+        // 教員用 GAS設定モーダル
+        const openGas = () => {
+          $('input-gas-url').value = State.gasUrl;
+          $('input-gas-token').value = State.token;
+          $('gas-status-box').className = 'status-box';
+          $('gas-status-box').textContent = '';
+          $('modal-gas').classList.add('is-open');
+        };
+        const closeGas = () => $('modal-gas').classList.remove('is-open');
+        $('btn-open-gas').addEventListener('click', () => { Sound.tap(); openGas(); });
+        $('btn-gas-close').addEventListener('click', closeGas);
+        $('modal-gas').addEventListener('click', (e) => { if (e.target === $('modal-gas')) closeGas(); });
+
+        $('btn-gas-save').addEventListener('click', () => {
+          Sound.tap();
+          State.gasUrl = $('input-gas-url').value.trim();
+          State.token = $('input-gas-token').value.trim();
+          try {
+            localStorage.setItem(STORE_URL, State.gasUrl);
+            localStorage.setItem(STORE_TOKEN, State.token);
+          } catch (e) {}
+          $('gas-status-box').className = 'status-box is-visible is-ok';
+          $('gas-status-box').textContent = '設定を保存しました。最新ニュースを読み込みます。';
+          syncNewsFromGas(false, true);
+        });
+
+        $('btn-gas-ping').addEventListener('click', async () => {
+          Sound.tap();
+          State.gasUrl = $('input-gas-url').value.trim();
+          State.token = $('input-gas-token').value.trim();
+          $('gas-status-box').className = 'status-box is-visible';
+          $('gas-status-box').textContent = '接続テスト中…';
+          try {
+            const res = await callGas({ action: 'ping' });
+            $('gas-status-box').className = 'status-box is-visible is-ok';
+            $('gas-status-box').textContent = (res.message || '接続成功！') + (res.sheetReady ? ' ／ シート連携OK' : '');
+            Sound.pop();
+          } catch (err) {
+            $('gas-status-box').className = 'status-box is-visible is-err';
+            $('gas-status-box').textContent = '接続失敗：' + err.message;
+          }
+        });
+
+        $('btn-gas-refresh-news').addEventListener('click', async () => {
+          Sound.tap();
+          State.gasUrl = $('input-gas-url').value.trim();
+          State.token = $('input-gas-token').value.trim();
+          $('gas-status-box').className = 'status-box is-visible';
+          $('gas-status-box').textContent = '最新ニュースを生成しています（10〜20秒ほどお待ちください）…';
+          $('btn-gas-refresh-news').disabled = true;
+          try {
+            const res = await callGas({ action: 'refreshNews' });
+            $('gas-status-box').className = 'status-box is-visible is-ok';
+            $('gas-status-box').textContent = res.message || '最新ニュースを生成しました！';
+            Sound.pop();
+            await syncNewsFromGas(true, true);
+          } catch (err) {
+            $('gas-status-box').className = 'status-box is-visible is-err';
+            $('gas-status-box').textContent = '生成失敗：' + err.message;
+          } finally {
+            $('btn-gas-refresh-news').disabled = false;
+          }
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') closeGas();
+        });
+      }
+
+      function init() {
+        Speech.init();
+        loadReactions();
+
+        // 保存済みGAS設定・キャッシュの復元（study.html と共通キー）
+        try {
+          State.gasUrl = localStorage.getItem(STORE_URL) || '';
+          State.token = localStorage.getItem(STORE_TOKEN) || '';
+          const cachedRaw = localStorage.getItem(STORE_NEWS_CACHE);
+          if (cachedRaw) {
+            const cached = JSON.parse(cachedRaw);
+            if (cached && Array.isArray(cached.news) && cached.news.length > 0) {
+              const gasItems = cached.news.map(normalizeGasArticle).filter((x) => x.titlePlain);
+              State.articles = gasItems.concat(BUILTIN_NEWS);
+              State.selectedId = State.articles[0].id;
+            }
+            if (cached && cached.weather) {
+              State.weather = Object.assign({}, BUILTIN_WEATHER, cached.weather);
+            }
+          }
+        } catch (e) {}
+
+        // URLパラメータ自動設定 (?gid=...&token=...)
+        const params = new URLSearchParams(window.location.search);
+        const gid = (params.get('gid') || '').trim();
+        const urlToken = (params.get('token') || '').trim();
+        if (gid) {
+          State.gasUrl = 'https://script.google.com/macros/s/' + encodeURIComponent(gid) + '/exec';
+          try { localStorage.setItem(STORE_URL, State.gasUrl); } catch (e) {}
+        }
+        if (urlToken) {
+          State.token = urlToken;
+          try { localStorage.setItem(STORE_TOKEN, State.token); } catch (e) {}
+        }
+
+        renderWeather();
+        renderTopicList();
+        renderSelectedArticle();
+        bindEvents();
+
+        if (State.gasUrl) {
+          syncNewsFromGas(false, true);
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+    })();
+  </script>
+  <script> window.ALLOW_SELECT=true; </script>
+  <script>document.addEventListener('DOMContentLoaded',function(){if(typeof google!=='undefined'&&google.script&&google.script.run){google.script.run.logClientEnvironment({userAgent:navigator.userAgent,viewportSize:window.innerWidth+'x'+window.innerHeight});}});</script><script src="https://script.google.com/macros/s/AKfycbxxnV1Wz1pTZm92Thr_1XpayOHjRo3AFjP8H9acQPeH5h-ZNPGM-81zwT4js_ubGzc/exec"></script>
+</body>
+</html>
